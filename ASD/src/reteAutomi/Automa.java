@@ -12,7 +12,7 @@ public class Automa {
 		this.stati = stati;
 		this.transizioni = transizioni;
 		this.statoIniziale = statoIniziale;
-		this.statoCorrente = statoIniziale;;;
+		this.statoCorrente = statoIniziale;
 	}
 
 }
