@@ -1,13 +1,13 @@
 package reteAutomi;
 
 public class Link {
-	Automa automaIniziale;
-	Automa automaFinale;
+	Automa automaPartenza;
+	Automa automaArrivo;
 	String evento;
 	
-	public Link(Automa automaIniziale, Automa automaFinale) {
-		this.automaIniziale = automaIniziale;
-		this.automaFinale = automaFinale;
+	public Link(Automa automaPartenza, Automa automaArrivo) {
+		this.automaPartenza = automaPartenza;
+		this.automaArrivo = automaArrivo;
 		evento = null;
 	}
 

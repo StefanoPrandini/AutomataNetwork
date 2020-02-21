@@ -1,10 +1,10 @@
 package reteAutomi;
 
-public class Stato {
+public class StatoAutoma {
 
 	String value;
 	
-	public Stato(String value) {
+	public StatoAutoma(String value) {
 		this.value = value;
 	}
 }

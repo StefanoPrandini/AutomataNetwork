@@ -2,17 +2,22 @@ package reteAutomi;
 import java.util.ArrayList;
 
 public class Automa {
-	
-	Stato statoIniziale;
-	ArrayList<Stato> stati;
+	String id;
+	StatoAutoma statoIniziale;
+	ArrayList<StatoAutoma> stati;
 	ArrayList<Transizione> transizioni;
-	Stato statoCorrente;
+	StatoAutoma statoCorrente;
 	
-	public Automa(ArrayList<Stato> stati, ArrayList<Transizione> transizioni, Stato statoIniziale) {
+	public Automa(String id, ArrayList<StatoAutoma> stati, ArrayList<Transizione> transizioni, StatoAutoma statoIniziale) {
+		this.id = id;
 		this.stati = stati;
 		this.transizioni = transizioni;
 		this.statoIniziale = statoIniziale;
 		this.statoCorrente = statoIniziale;
+	}
+	
+	public void aggiungiStato() {
+		
 	}
 
 }
