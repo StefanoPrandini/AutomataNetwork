@@ -3,12 +3,12 @@ package reteAutomi;
 import java.util.ArrayList;
 
 public class Etichette {
-	ArrayList<String> etichetteRilevanza;
-	ArrayList<String> etichetteOsservabilità;
+	private ArrayList<String> etichetteRilevanza;
+	private ArrayList<String> etichetteOsservabilita;
 	
-	public Etichette(ArrayList<String> etichetteRilevanza, ArrayList<String> etichetteOsservabilità) {
+	public Etichette(ArrayList<String> etichetteRilevanza, ArrayList<String> etichetteOsservabilita) {
 		this.etichetteRilevanza = etichetteRilevanza;
-		this.etichetteOsservabilità = etichetteOsservabilità;
+		this.etichetteOsservabilita = etichetteOsservabilita;
 	}
 
 }

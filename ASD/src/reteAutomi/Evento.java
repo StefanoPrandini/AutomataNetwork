@@ -1,8 +1,8 @@
 package reteAutomi;
 
 public class Evento {
-	String id;
-	Link link;
+	private String id;
+	private Link link;
 	
 	public Evento(String id) {
 		this.id = id;

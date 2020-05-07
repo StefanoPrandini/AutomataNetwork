@@ -2,9 +2,15 @@ package reteAutomi;
 
 public class StatoAutoma {
 
-	String value;
+	private static int id;
 	
-	public StatoAutoma(String value) {
-		this.value = value;
+	public StatoAutoma(int value) {
+		this.id = value;
+	}
+
+
+	public int getId(){
+		return this.id;
+		
 	}
 }

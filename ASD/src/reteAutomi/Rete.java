@@ -3,8 +3,8 @@ package reteAutomi;
 import java.util.ArrayList;
 
 public class Rete {
-	ArrayList<Automa> automi;
-	ArrayList<Link> links;
+	private ArrayList<Automa> automi;
+	private ArrayList<Link> links;
 	
 	public Rete(ArrayList<Automa> automi, ArrayList<Link> links) {
 		this.automi = automi;

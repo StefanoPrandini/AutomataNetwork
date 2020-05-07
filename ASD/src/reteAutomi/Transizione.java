@@ -3,12 +3,14 @@ package reteAutomi;
 import java.util.ArrayList;
 
 public class Transizione {
-	StatoAutoma statoPartenza;
-	StatoAutoma statoArrivo;
-	Evento eventoIngresso;
-	ArrayList<Evento> eventiUscita;
-	String etichettaRilevanza;
-	String etichettaOsservabilità;
+	private StatoAutoma statoPartenza;
+	private StatoAutoma statoArrivo;
+	private Evento eventoIngresso;
+	private ArrayList<Evento> eventiUscita;
+
+	
+	private String etichettaRilevanza;
+	private String etichettaOsservabilita;
 	
 	public Transizione(StatoAutoma statoPartenza, StatoAutoma statoArrivo, Evento eventoIn, ArrayList<Evento> eventiOut, String etichettaR, String etichettaO) {
 		this.statoPartenza = statoPartenza;
@@ -16,7 +18,16 @@ public class Transizione {
 		this.eventoIngresso = eventoIn;
 		this.eventiUscita = eventiOut;
 		this.etichettaRilevanza = etichettaR;
-		this.etichettaOsservabilità = etichettaO;
+		this.etichettaOsservabilita = etichettaO;
 	}
 
+
+
+	public StatoAutoma getStatoPartenza(){
+		return this.statoPartenza;
+	}
+
+	public Evento getEventoIngresso(){
+		return this.eventoIngresso;
+	}
 }
