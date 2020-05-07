@@ -1,0 +1,40 @@
+Automa:
+    id
+    statoIniziale
+    stati
+    transizioni
+    statoCorrente
+
+Etichette:
+    etichetteRilevanza
+    etichetteOsservabilità
+
+Eventi ??
+
+Evento:
+    id
+    link
+
+Link:
+    automaPartenza
+    automaArrivo
+    evento
+
+Rete:
+    automi
+    links
+
+ReteAutomi:
+    automi
+    links
+
+StatoAutoma:
+    value
+
+Transizione:
+    statoPartenza
+    statoArrivo
+    eventoIngresso
+    eventiUscita
+    etichettaRilevanza
+    etichettaOsservabilita

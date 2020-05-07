@@ -3,10 +3,10 @@ import java.util.ArrayList;
 
 public class Automa {
 	private String id;
-	private StatoAutoma statoIniziale;
-	private ArrayList<StatoAutoma> stati;
+	private Stato statoIniziale;
+	private ArrayList<Stato> stati;
 	private ArrayList<Transizione> transizioni;
-	private StatoAutoma statoCorrente;
+	private Stato statoCorrente;
 	
 
 	/**
@@ -16,7 +16,7 @@ public class Automa {
 	 * @param transizioni
 	 * @param statoIniziale
 	 */
-	public Automa(String id, ArrayList<StatoAutoma> stati, ArrayList<Transizione> transizioni, StatoAutoma statoIniziale) {
+	public Automa(String id, ArrayList<Stato> stati, ArrayList<Transizione> transizioni, Stato statoIniziale) {
 		this.id = id;
 		this.stati = stati;
 		this.transizioni = transizioni;
@@ -25,18 +25,81 @@ public class Automa {
 	}
 
 
-	public boolean isTransizioneAbilitata(Transizione t, Evento e){
+	/**
+	 * Una transizione dotata di evento in ingresso è abilitata allo scatto solo se l'evento è disponibile sul link di provenienza
+	 * @param t
+	 * @param e
+	 * @return
+	 */
+	public boolean transizioneAbilitata(Transizione t, Evento e){
+
+		// se evento in ingresso della transizione è null, transizione è abilitata
+		if (t.getEventoIngresso() == null && t.getStatoPartenza().equals(this.statoCorrente)) return true;
+
 
 		if(t.getStatoPartenza().equals(this.statoCorrente) && t.getEventoIngresso().equals(e)) return true;
 
 		return false;
 	}
 
+
+	/**
+	 * riceve un evento da un link, trova transizioni adatte in base a stato corrente e ritorna eventi in uscita da mettere su links
+	 * @param evento
+	 * @return
+	 */
+	public ArrayList<Evento> riceviEvento(Evento evento){
+		ArrayList<Evento> eventiUscita = new ArrayList<>();
+		//Trova transizioni adatte
+
+		for (Transizione t : transizioniPartentiDaStatoCorrente()) {
+
+			if (t.getEventoIngresso().equals(evento)){
+				eventiUscita.addAll(t.getEventiUscita());
+			}
+		}
+
+		return eventiUscita;
+	}
+
+	public ArrayList<Transizione> transizioniPartentiDaStatoCorrente(){
+		ArrayList<Transizione> result = new ArrayList<>();
+		for (Transizione t : transizioni) {
+			if (t.getStatoPartenza().equals(statoCorrente)){
+				result.add(t);
+			}
+		}
+		return result;
+	}
+
+
+	/**
+	 * una transizione porta in un nuovo stato? non è chiaro dal testo, se sì, questo metodo esegue la transizione
+	 * @param transizione
+	 * @param evento
+	 * @return int result code
+	 */
+	public int eseguiTransizione(Transizione transizione, Evento evento){
+		if (transizioneAbilitata(transizione, evento)){
+			this.statoCorrente = transizione.getStatoArrivo();
+			//TODO
+		}
+
+		return 1;
+	}
+
+
+
+
+	public void inizializzaAutoma(){
+		this.statoCorrente = statoIniziale;
+	}
+
 	public ArrayList<Transizione> getTransizioni(){
 		return this.transizioni;
 	}
 
-	public StatoAutoma getStatoCorrente(){
+	public Stato getStatoCorrente(){
 		return this.statoCorrente;
 	}
 

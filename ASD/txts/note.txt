@@ -1,0 +1,4 @@
+AUTOMA:
+
+le due liste stati e transizioni potremmo unirle e fare una mappa,
+in modo da velocizzare la ricerca delle transizioni che partono da uno stato (tutto indicizzato)

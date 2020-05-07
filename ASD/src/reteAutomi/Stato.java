@@ -1,10 +1,10 @@
 package reteAutomi;
 
-public class StatoAutoma {
+public class Stato {
 
 	private static int id;
 	
-	public StatoAutoma(int value) {
+	public Stato(int value) {
 		this.id = value;
 	}
 
