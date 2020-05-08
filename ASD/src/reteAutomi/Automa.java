@@ -1,6 +1,8 @@
 package reteAutomi;
 import java.util.ArrayList;
 
+import static java.util.Objects.isNull;
+
 public class Automa {
 	private String id;
 	private Stato statoIniziale;
@@ -34,7 +36,7 @@ public class Automa {
 	public boolean transizioneAbilitata(Transizione t, Evento e){
 
 		// se evento in ingresso della transizione è null, transizione è abilitata
-		if (t.getEventoIngresso() == null && t.getStatoPartenza().equals(this.statoCorrente)) return true;
+		if (isNull(t.getEventoIngresso()) && t.getStatoPartenza().equals(this.statoCorrente)) return true;
 
 
 		if(t.getStatoPartenza().equals(this.statoCorrente) && t.getEventoIngresso().equals(e)) return true;
@@ -48,7 +50,7 @@ public class Automa {
 	 * @param evento
 	 * @return
 	 */
-	public ArrayList<Evento> riceviEvento(Evento evento){
+	public ArrayList<Evento> scattoTransizioneDaEvento(Evento evento){
 		ArrayList<Evento> eventiUscita = new ArrayList<>();
 		//Trova transizioni adatte
 
@@ -87,6 +89,8 @@ public class Automa {
 
 		return 1;
 	}
+
+
 
 
 
