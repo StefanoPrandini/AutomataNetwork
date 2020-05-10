@@ -24,17 +24,21 @@ public class Transizione {
 		this.statoPartenza = statoPartenza;
 		this.statoArrivo = statoArrivo;
 		this.eventoIngresso = eventoIn;
-		this.eventiUscita = eventiOut;
+		this.eventiUscita = new ArrayList<>();
+		if (!isNull(eventiOut)){
+			eventiUscita = eventiOut;
+		}
 		this.etichettaRilevanza = etichettaR;
 		this.etichettaOsservabilita = etichettaO;
 	}
+
 
 
 	/**
 	 * una transizione è sempre abilitata allo scatto se evento in ingresso ed eventi in uscita sono null
 	 * @return boolean flag
 	 */
-	public boolean transizioneSempreAbilitataAlloScatto(){
+	public boolean isSempreAbilitataAlloScatto(){
 
 		if (isNull(this.eventoIngresso) && isNull(this.eventiUscita)) return true;
 
@@ -57,5 +61,51 @@ public class Transizione {
 
 	public ArrayList<Evento> getEventiUscita() {
 		return eventiUscita;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setStatoPartenza(Stato statoPartenza) {
+		this.statoPartenza = statoPartenza;
+	}
+
+	public void setStatoArrivo(Stato statoArrivo) {
+		this.statoArrivo = statoArrivo;
+	}
+
+	public void setEventoIngresso(Evento eventoIngresso) {
+		this.eventoIngresso = eventoIngresso;
+	}
+
+	public void setEventiUscita(ArrayList<Evento> eventiUscita) {
+		this.eventiUscita = eventiUscita;
+	}
+
+	public void addEventoUscita(Evento e){
+		if (!this.eventiUscita.contains(e))
+			this.eventiUscita.add(e);
+	}
+
+	public void setEtichettaRilevanza(String etichettaRilevanza) {
+		this.etichettaRilevanza = etichettaRilevanza;
+	}
+
+	public void setEtichettaOsservabilita(String etichettaOsservabilita) {
+		this.etichettaOsservabilita = etichettaOsservabilita;
+	}
+
+	@Override
+	public String toString() {
+		return "Transizione{" +
+				"id=" + id +
+				", statoPartenza=" + statoPartenza +
+				", statoArrivo=" + statoArrivo +
+				", eventoIngresso=" + eventoIngresso +
+				", eventiUscita=" + eventiUscita +
+				", etichettaRilevanza='" + etichettaRilevanza + '\'' +
+				", etichettaOsservabilita='" + etichettaOsservabilita + '\'' +
+				'}'+ "\n";
 	}
 }

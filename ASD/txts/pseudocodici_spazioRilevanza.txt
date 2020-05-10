@@ -1,0 +1,9 @@
+Pseudocodici primo compito (pag 20)
+
+Produzione spazio rilevanza di rete finita di automi data
+
+creaSpazioRilevanza(rete, stato_iniziale)
+
+
+
+Ridenominazione stati spazio rilevanza ed etichettatura di osservabilità dello stesso

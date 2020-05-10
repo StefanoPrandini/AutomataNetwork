@@ -11,4 +11,14 @@ public class Etichette {
 		this.etichetteOsservabilita = etichetteOsservabilita;
 	}
 
+
+
+	public ArrayList<String> getEtichetteRilevanza() {
+		return etichetteRilevanza;
+	}
+
+	public ArrayList<String> getEtichetteOsservabilita() {
+		return etichetteOsservabilita;
+	}
+
 }
