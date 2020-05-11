@@ -108,4 +108,21 @@ public class Transizione {
 				", etichettaOsservabilita='" + etichettaOsservabilita + '\'' +
 				'}'+ "\n";
 	}
+
+
+	public boolean hasEtichettaRilevanza(){
+		return !isNull(this.etichettaRilevanza);
+	}
+
+	public boolean haEtichettaOsservabilità(){
+		return !isNull(this.etichettaOsservabilita);
+	}
+
+	public String getEtichettaRilevanza() {
+		return etichettaRilevanza;
+	}
+
+	public String getEtichettaOsservabilita() {
+		return etichettaOsservabilita;
+	}
 }

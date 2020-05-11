@@ -30,7 +30,7 @@ public class ReteAutomi {
 	 * genero una hashmap usando come chiave id dell'automa e con contenuto la lista delle transizioni eseguibili
 	 * @return
 	 */
-	public HashMap<Integer, List<Integer>> mappaAutomiTransizioniAbilitate(){
+	public HashMap<Integer, List<Integer>> mappaIdAutomiTransizioniAbilitate(){
 		HashMap<Integer, List<Integer>> result = new HashMap<>();
 		for (Automa automa : automi) {
 			//transizioni disponibili nello stato corrente
@@ -43,8 +43,8 @@ public class ReteAutomi {
 					idTransizioniConEventiAbilitati.add(transizione.getId());
 				}
 				//se l'evento in ingresso è null o corrisponde a quello presente sul link indicato dall'evento
-				else if (transizione.getEventoIngresso().equals(transizione.getEventoIngresso().getLink().getEvento())
-						|| isNull(transizione.getEventoIngresso())){
+				else if (isNull(transizione.getEventoIngresso()) ||
+						transizione.getEventoIngresso().equals(transizione.getEventoIngresso().getLink().getEvento())){
 					//controllo che i link di uscita siano vuoti
 					boolean linkUscitaDisponibili = true;
 					for (Evento e : transizione.getEventiUscita()) {
