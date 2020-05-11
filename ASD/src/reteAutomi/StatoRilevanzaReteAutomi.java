@@ -13,6 +13,18 @@ public class StatoRilevanzaReteAutomi {
     private ArrayList<String> etichetteRilevanzaIncontrate;
     private ArrayList<String> etichetteOsservabilitaIncontrate;
 
+    /*
+    traiettoria è insieme delle transizioni che portano dallo stato iniziale allo stato in questione
+    Qual è la soluzione migliore?
+    1) una lista con gli id delle transizioni attivate
+    2) una lista di transizioni vere e proprie
+    3) mettere la lista degli stati nello spazio di rilevanza, tenendo quindi una mappa stato-traiettoria
+    4) creare un oggetto traiettoria se servirà un ampliamento
+
+    qui uso soluzione super easy
+    */
+    private ArrayList<String> traiettoria;
+
 
 
     /**
@@ -30,6 +42,11 @@ public class StatoRilevanzaReteAutomi {
     }
 
 
+    public String getContenuto(){
+
+        //TODO
+        return null;
+    }
 
 
 
