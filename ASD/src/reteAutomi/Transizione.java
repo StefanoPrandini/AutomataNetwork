@@ -134,7 +134,7 @@ public class Transizione {
 		return !isNull(this.etichettaRilevanza);
 	}
 
-	public boolean haEtichettaOsservabilità(){
+	public boolean haEtichettaOsservabilita(){
 		return !isNull(this.etichettaOsservabilita);
 	}
 
