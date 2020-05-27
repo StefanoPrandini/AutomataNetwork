@@ -1,5 +1,6 @@
 package reteAutomi;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Objects.isNull;
@@ -52,13 +53,39 @@ public class Link {
 		this.evento = evento;
 	}
 
+
+	/**
+	 * non puo contenere una reference a evento, si genera una ricorsione infinita (stack overflow error)
+	 * @return
+	 */
 	@Override
 	public String toString() {
 		return "Link{" +
 				"id=" + id +
 				", automaPartenza=" + automaPartenza.getId() +
 				", automaArrivo=" + automaArrivo.getId() +
-				", evento=" + evento +
 				'}';
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Link)) return false;
+		Link link = (Link) o;
+		return getId() == link.getId() &&
+				automaPartenza.equals(link.automaPartenza) &&
+				automaArrivo.equals(link.automaArrivo);
+	}
+
+	public Automa getAutomaPartenza() {
+		return automaPartenza;
+	}
+
+	public Automa getAutomaArrivo() {
+		return automaArrivo;
 	}
 }

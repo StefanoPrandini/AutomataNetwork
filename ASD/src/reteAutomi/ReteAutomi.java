@@ -10,6 +10,7 @@ public class ReteAutomi {
 	
 	private ArrayList<Automa> automi;
 	private ArrayList<Link> links;
+	private HashMap<Automa, List<Transizione>> mappaAutomiTransizioniAbilitate = new HashMap<>();
 	
 	public ReteAutomi(ArrayList<Automa> automi,	ArrayList<Link> links) {
 		this.automi = automi;
@@ -24,52 +25,67 @@ public class ReteAutomi {
 	public void inizializzaRete(){
 		inizializzaAutomi();
 		inizializzaLinks();
+		aggiornaMappaIdAutomiTransizioniAbilitate();
 	}
 
 	/**
-	 * genero una hashmap usando come chiave id dell'automa e con contenuto la lista delle transizioni eseguibili
+	 *
+	 * aggiorno la hashmap usando come chiave id dell'automa e con contenuto la lista delle transizioni eseguibili
+	 *
 	 * @return
 	 */
-	public HashMap<Integer, List<Integer>> mappaIdAutomiTransizioniAbilitate(){
-		HashMap<Integer, List<Integer>> result = new HashMap<>();
+	public void aggiornaMappaIdAutomiTransizioniAbilitate(){
+		HashMap<Automa, List<Transizione>> result = new HashMap<>();
 		for (Automa automa : automi) {
 			//transizioni disponibili nello stato corrente
 			ArrayList<Transizione> transizioniAbilitate = automa.getTransizioniAbilitate();
+
 			//lista, da riempire, delle transizioni con eventi disponibili allo scatto
-			ArrayList<Integer> idTransizioniConEventiAbilitati = new ArrayList<>();
+			ArrayList<Transizione> transizioniConEventiAbilitati = new ArrayList<>();
 			for (Transizione transizione : transizioniAbilitate) {
 				//se la transizione è con eventi in entrata e in uscita null
 				if (transizione.isSempreAbilitataAlloScatto()){
-					idTransizioniConEventiAbilitati.add(transizione.getId());
+					transizioniConEventiAbilitati.add(transizione);
 				}
+
 				//se l'evento in ingresso è null o corrisponde a quello presente sul link indicato dall'evento
 				else if (isNull(transizione.getEventoIngresso()) ||
 						transizione.getEventoIngresso().equals(transizione.getEventoIngresso().getLink().getEvento())){
-					//controllo che i link di uscita siano vuoti
-					boolean linkUscitaDisponibili = true;
-					for (Evento e : transizione.getEventiUscita()) {
-						if (!e.getLink().isVuoto()){
-							linkUscitaDisponibili = false;
-							break;
-						}
-					}
+
+					//devo controllare anche che i link di uscita siano vuoti
+					boolean linkUscitaDisponibili = linkDestinazioneDisponibili(transizione.getEventiUscita());
+
 					//se i link di uscita degli eventi sono vuoti allora aggiungo alla lista delle transizioni che possono scattare
 					if (linkUscitaDisponibili){
-						idTransizioniConEventiAbilitati.add(transizione.getId());
+						transizioniConEventiAbilitati.add(transizione);
 					}
 				}
 			}
 			//aggiungo alla mappa l'automa e le rispettive transizioni che possono scattare
-			result.put(automa.getId(), idTransizioniConEventiAbilitati);
+			result.put(automa, transizioniConEventiAbilitati);
 		}
-		return result;
+
+		this.mappaAutomiTransizioniAbilitate = result;
+	}
+
+	public HashMap<Automa, List<Transizione>> getMappaAutomiTransizioniAbilitate() {
+		return mappaAutomiTransizioniAbilitate;
+	}
+
+	public boolean linkDestinazioneDisponibili(ArrayList<Evento> eventi){
+		for (Evento evento : eventi) {
+			if (!evento.getLink().isVuoto()){
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
 	 * precondizione: la transizione deve essere eseguibile
 	 * @param t
 	 */
-	public void svolgiTransizione(Automa a, Transizione t){
+	public void svolgiTransizione(Transizione t){
 		//se l'evento in ingresso non è null lo svolgo
 		if (!isNull(t.getEventoIngresso())){
 			t.getEventoIngresso().svolgiEvento();
@@ -81,7 +97,19 @@ public class ReteAutomi {
 			}
 		}
 		//eseguo il passaggio di stato sull'automa
-		a.eseguiTransizione(t);
+		for (Automa automa : automi) {
+			for (List<Transizione> listaTrans : automa.getMappaStatoTransizioni().values()) {
+				if (listaTrans.contains(t)){
+					automa.eseguiTransizione(t);
+					return;
+				}
+			}
+		}
+	}
+
+
+	public void svolgiTransizioneDaIds(int idAutoma, int idTransizione){
+		svolgiTransizione(trovaAutoma(idAutoma).trovaTransizioneDaId(idTransizione));
 	}
 
 	/**
@@ -102,6 +130,24 @@ public class ReteAutomi {
 		}
 	}
 
+
+	public Automa trovaAutoma(int id){
+		return automi.stream()
+				.filter(automa -> id == automa.getId())
+				.findAny()
+				.orElse(null);
+	}
+
+	public ArrayList<Transizione> transizioniAbilitateDaIdAutoma(int idAutoma){
+		ArrayList<Transizione> result = new ArrayList<>();
+		Automa a = automi.stream().filter(automa -> idAutoma == automa.getId()).findAny().orElse(null);
+		if (isNull(a)) return null;
+		result.addAll(mappaAutomiTransizioniAbilitate.get(a));
+		return result;
+	}
+
+
+
 	/**
 	 * alfabeto: insieme transizioni di tutti i componenti della rete
 	 * linguaggio: insieme delle traiettorie della rete
@@ -110,6 +156,8 @@ public class ReteAutomi {
 	 */
 	public Automa calcolaSpazioRilevanza() {
 
+
+		//TODO
 		//start: stato di rilevanza iniziale, ogni componente è in stato iniziale, link sono tutti vuoti e insieme etichette rilevanza incontrate è vuoto
 		//l'insieme delle etichette di rilevanza è anche detto decorazione
 		ArrayList<Transizione> transizioni = new ArrayList<>();
@@ -117,5 +165,51 @@ public class ReteAutomi {
 		//per ogni transizione che scatta, se è rilevante, si inserisce l'etichetta di t nella decorazione
 		return null;
 	}
-	
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Rete di automi: " + automi.size() + " automi | " + links.size() +" link\n");
+
+		for (Automa automa : automi) {
+			sb.append("  Automa " + automa.getId() + ": " +
+					automa.getMappaStatoTransizioni().keySet().size() + " stati, " +
+					automa.getMappaStatoTransizioni().values().size() + " transizioni \n");
+		}
+
+		for (Link link : links) {
+			sb.append("  Link " + link.getId() + ": " +
+					" connette " + link.getAutomaPartenza().getId() +
+					" --> " + link.getAutomaArrivo().getId() + "\n");
+		}
+
+		return sb.toString();
+
+	}
+
+	public ArrayList<Automa> getAutomi() {
+		return automi;
+	}
+
+	public ArrayList<Link> getLinks() {
+		return links;
+	}
+
+	public ArrayList<Transizione> getTutteTransizioniAbilitate(){
+		ArrayList<Transizione> result = new ArrayList<>();
+		for (List<Transizione> listaTransizioni : mappaAutomiTransizioniAbilitate.values()) {
+			result.addAll(listaTransizioni);
+		}
+		return result;
+
+	}
+
+	public Transizione trovaTransizioneDaId(int id){
+		for (Automa automa : automi) {
+			for (List<Transizione> listaTransizioniUscenti : automa.getMappaStatoTransizioni().values()) {
+
+			}
+		}
+		return null;
+	}
 }

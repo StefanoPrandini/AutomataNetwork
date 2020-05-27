@@ -7,3 +7,11 @@ creaSpazioRilevanza(rete, stato_iniziale)
 
 
 Ridenominazione stati spazio rilevanza ed etichettatura di osservabilità dello stesso
+
+
+
+
+Nota per subset construction: userà depth first search--> entra in loop -->
+ meglio breadth?
+ fare in modo che quando incontro stesso stato (quindi mi accorgo del loop) mi "fermo" e passo al successivo?
+

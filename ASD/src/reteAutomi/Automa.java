@@ -60,11 +60,13 @@ public class Automa {
 
 	public void creaMappaStatiTransizioni(ArrayList<Stato> stati, ArrayList<Transizione> transizioni) {
 		for (Stato stato : stati) {
+
 			ArrayList<Transizione> transizioniUscenti = new ArrayList<>();
 			for (Transizione transizione : transizioni) {
 				if (transizione.getStatoPartenza().equals(stato)){
 					transizioniUscenti.add(transizione);
 				}
+
 			}
 			this.mappaStatoTransizioni.put(stato, transizioniUscenti);
 		}
@@ -86,20 +88,28 @@ public class Automa {
 	public String toString() {
 		String s =  "Automa{" +
 				"id=" + id +
-				", statoIniziale=" + statoIniziale;
-		StringBuilder sb = new StringBuilder();
-
-		for (Stato stato : mappaStatoTransizioni.keySet()) {
-			sb.append("\n");
-			sb.append(stato.toString());
-			sb.append("    \n");
-			sb.append(mappaStatoTransizioni.get(stato));
-		}
-
+				", statoIniziale=" + statoIniziale.getId();
 
 		String ss =
-				", statoCorrente=" + statoCorrente +
-				'}';
+				", statoCorrente=" + statoCorrente.getId() +
+						'}';
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append( "\nStati: ");
+		sb.append(mappaStatoTransizioni.keySet());
+		sb.append( "\nTransizioni: ");
+		sb.append(mappaStatoTransizioni.values());
+
+
+		/**
+		 * for (Stato stato : mappaStatoTransizioni.keySet()) {
+		 * 			sb.append("\n");
+		 * 			sb.append(stato.toString());
+		 * 			sb.append("    \n");
+		 * 			sb.append(mappaStatoTransizioni.get(stato));
+		 * 			}
+		 */
 
 		return s + ss + sb.toString();
 	}
@@ -111,7 +121,23 @@ public class Automa {
 
 
 
+
 	public void setStatoCorrente(Stato statoCorrente) {
 		this.statoCorrente = statoCorrente;
+	}
+
+
+	/**
+	 * se non trova transizione ritorna null --> non sarebbe meglio lanciare eccezione ?
+	 * @param idTransizione
+	 * @return Transizione con id OR null
+	 */
+	public Transizione trovaTransizioneDaId(Integer idTransizione){
+		for (List<Transizione> transizioni : mappaStatoTransizioni.values()) {
+			for (Transizione transizione : transizioni) {
+				if (transizione.getId() == idTransizione) return transizione;
+			}
+		}
+		return null;
 	}
 }

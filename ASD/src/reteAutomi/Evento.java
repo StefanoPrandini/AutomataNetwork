@@ -46,14 +46,14 @@ public class Evento {
 		if (this == o) return true;
 		if (!(o instanceof Evento)) return false;
 		Evento evento = (Evento) o;
-		return getId() == evento.getId();
+		return getId() == evento.getId() && Objects.equals(getLink(), evento.getLink());
 	}
 
 	@Override
 	public String toString() {
 		return "Evento{" +
 				"id=" + id +
-				", link=" + link +
+				", link=" + link.getId() +
 				'}';
 	}
 }

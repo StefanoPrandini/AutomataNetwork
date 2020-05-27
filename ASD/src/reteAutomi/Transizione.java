@@ -98,6 +98,25 @@ public class Transizione {
 
 	@Override
 	public String toString() {
+
+		if (!isNull(eventoIngresso))
+			return "Transizione{" +
+					"id=" + id +
+					"(in " + statoPartenza.getId() +
+					", out " + statoArrivo.getId() +
+					", eIn " + eventoIngresso.getId() +
+					')'+ "\n";
+		else return "Transizione{" +
+				"id=" + id +
+				"(in " + statoPartenza.getId() +
+				", out " + statoArrivo.getId() +
+				", eIn " + null +
+				')'+ "\n";
+	}
+
+
+
+	public String toStringCompleto() {
 		return "Transizione{" +
 				"id=" + id +
 				", statoPartenza=" + statoPartenza +
@@ -108,6 +127,7 @@ public class Transizione {
 				", etichettaOsservabilita='" + etichettaOsservabilita + '\'' +
 				'}'+ "\n";
 	}
+
 
 
 	public boolean hasEtichettaRilevanza(){

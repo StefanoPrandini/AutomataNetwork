@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class SpazioRilevanza {
 
     private ArrayList<StatoRilevanzaReteAutomi> statiRete;
+    private StatoRilevanzaReteAutomi statoCorrente;
 
 
     //forse sono ridondanti ?
@@ -22,13 +23,27 @@ public class SpazioRilevanza {
     }
 
 
+    public void calcolaNuovoStato(){
+
+    }
+
+
     /**
      * teoricamente, eseguire ripetutamente questa funzione dovrebbe portare alla costruzione completa dello spazio di rilevanza della rete di automi
      */
     public void eseguiPassaggioStato(){
         //TODO
 
+
+
         //passa in stato destinazione, aggiorna stato corrente del singolo componente, controlla se ci sono etichette coinvolte
+    }
+
+
+    public void inizializzaSpazioRilevanza(){
+        this.insiemeEtichetteRilevanza = new ArrayList<>();
+        this.insiemeEtichetteOsservabilita = new ArrayList<>();
+        //this.statoCorrente;
     }
 
     /**
@@ -37,6 +52,8 @@ public class SpazioRilevanza {
      * in ogni caso serve far vedere all'utente la corrispondenza tra uno stato dello spazio di rilevanza e il contenuto (getContenuto di StatoSpazioRilevanza)
      */
     public void etichettaturaOsservabilitaSpazio(){
+
+        //TODO
 
     }
 

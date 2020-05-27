@@ -1,15 +1,20 @@
 package reteAutomi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static java.util.Objects.isNull;
 
 public class StatoRilevanzaReteAutomi {
 
     private static AtomicInteger ai =  new AtomicInteger(0);
     private int id;
 
-    private ArrayList<Evento> eventi;
-    private ArrayList<Stato> stati;
+    private Map<Link, Evento> mappaLinkEventi;
+    private Map<Automa, Stato> mappaAutomiStati;
     private ArrayList<String> etichetteRilevanzaIncontrate;
     private ArrayList<String> etichetteOsservabilitaIncontrate;
 
@@ -28,43 +33,59 @@ public class StatoRilevanzaReteAutomi {
 
 
     /**
-     * Uno StatoRilevanzaReteAutomi rappresenta lo stato di una rete di automi in un determinato momento
-     * Lo stato iniziale della rete è dato dallo stato dei componenti nello stato iniziale, tutti i link vuoti e la lista di etichette vuota
-     * @param eventi il contenuto dei link della rete, anche eventualmente vuoto
-     * @param stati gli stati correnti degli automi nella rete
+     * Crea uno stato partendo dalla rete di automi
+     * Inizializza la lista stati con gli stati correnti dei singoli automi
+     * Inizializza la lista eventi con il contenuto dei lnk (eventualmente null)
+     * @param ra la rete di automi di cui si vuole creare lo stato
      */
-    public StatoRilevanzaReteAutomi(ArrayList<Evento> eventi, ArrayList<Stato> stati, ArrayList<String> etichetteRilevanzaIncontrate, ArrayList<String> etichetteOsservabilitaIncontrate ) {
+    public StatoRilevanzaReteAutomi(ReteAutomi ra) {
         this.id = ai.incrementAndGet();
-        this.eventi = eventi;
-        this.stati = stati;
-        this.etichetteRilevanzaIncontrate = etichetteRilevanzaIncontrate;
-        this.etichetteOsservabilitaIncontrate = etichetteRilevanzaIncontrate;
+        for (Automa automa : ra.getAutomi()) {
+           mappaAutomiStati.put(automa, automa.getStatoCorrente());
+        }
+
+
+        for (Link link : ra.getLinks()) {
+            mappaLinkEventi.put(link, link.getEvento());
+        }
+    }
+
+    public String getInfoStato(){
+        StringBuilder sb = new StringBuilder();
+        for (Automa automa : mappaAutomiStati.keySet()) {
+            sb.append("Stato automa ").append(automa.getId()).append(" --> ").append(automa.getStatoCorrente().getId());
+        }
+        for (Link link : mappaLinkEventi.keySet()) {
+            if (!isNull(link.getEvento())){
+                sb.append("Evento su link ").append(link.getId()).append(" --> ").append(link.getEvento().getId());
+            }
+            else sb.append("Evento su link ").append(link.getId()).append(" --> null");
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StatoRilevanzaReteAutomi)) return false;
+        StatoRilevanzaReteAutomi that = (StatoRilevanzaReteAutomi) o;
+        return  Objects.equals(mappaLinkEventi, that.mappaLinkEventi) &&
+                Objects.equals(mappaAutomiStati, that.mappaAutomiStati) &&
+                Objects.equals(etichetteRilevanzaIncontrate, that.etichetteRilevanzaIncontrate) &&
+                Objects.equals(etichetteOsservabilitaIncontrate, that.etichetteOsservabilitaIncontrate) &&
+                Objects.equals(traiettoria, that.traiettoria);
     }
 
 
-    public String getContenuto(){
 
-        //TODO
-        return null;
+    public ArrayList<Evento> getAllEventi() {
+       return new ArrayList<>(mappaLinkEventi.values());
     }
 
 
-
-
-
-    public ArrayList<Evento> getEventi() {
-        return eventi;
+    public ArrayList<Stato> getAllStatiCorrenti() {
+        return new ArrayList<>(mappaAutomiStati.values());
     }
 
-    public void setEventi(ArrayList<Evento> eventi) {
-        this.eventi = eventi;
-    }
 
-    public ArrayList<Stato> getStati() {
-        return stati;
-    }
-
-    public void setStati(ArrayList<Stato> stati) {
-        this.stati = stati;
-    }
 }
