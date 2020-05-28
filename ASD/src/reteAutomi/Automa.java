@@ -19,7 +19,7 @@ public class Automa {
 	
 
 	/**
-	 * ATTENZIONE Lo stato iniziale è un doppione 
+	 * ATTENZIONE Lo stato iniziale e' un doppione 
 	 * @param stati
 	 * @param transizioni
 	 * @param statoIniziale
@@ -29,7 +29,7 @@ public class Automa {
 		this.statoIniziale = statoIniziale;
 		this.statoCorrente = statoIniziale;
 		this.mappaStatoTransizioni = new HashMap<>();
-		if (!(isNull(stati) && isNull(transizioni))) creaMappaStatiTransizioni(stati, transizioni);
+		if (!(isNull(stati) || isNull(transizioni))) creaMappaStatiTransizioni(stati, transizioni);
 	}
 
 

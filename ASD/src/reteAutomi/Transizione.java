@@ -35,7 +35,7 @@ public class Transizione {
 
 
 	/**
-	 * una transizione è sempre abilitata allo scatto se evento in ingresso ed eventi in uscita sono null
+	 * una transizione e' sempre abilitata allo scatto se evento in ingresso ed eventi in uscita sono null
 	 * @return boolean flag
 	 */
 	public boolean eventiEntrataEUscitaNull(){
@@ -107,7 +107,7 @@ public class Transizione {
 				"id=" + id +
 				"(in " + statoPartenza.getId() +
 				", out " + statoArrivo.getId() +
-				", eIn " + null +
+				", eIn Null" +
 				')'+ "\n";
 	}
 
