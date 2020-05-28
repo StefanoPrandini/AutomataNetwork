@@ -44,7 +44,7 @@ public class ReteAutomi {
 			ArrayList<Transizione> transizioniConEventiAbilitati = new ArrayList<>();
 			for (Transizione transizione : transizioniAbilitate) {
 				//se la transizione è con eventi in entrata e in uscita null
-				if (transizione.isSempreAbilitataAlloScatto()){
+				if (transizione.eventiEntrataEUscitaNull()){
 					transizioniConEventiAbilitati.add(transizione);
 				}
 

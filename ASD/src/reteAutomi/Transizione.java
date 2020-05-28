@@ -38,11 +38,8 @@ public class Transizione {
 	 * una transizione è sempre abilitata allo scatto se evento in ingresso ed eventi in uscita sono null
 	 * @return boolean flag
 	 */
-	public boolean isSempreAbilitataAlloScatto(){
-
-		if (isNull(this.eventoIngresso) && isNull(this.eventiUscita)) return true;
-
-		return false;
+	public boolean eventiEntrataEUscitaNull(){
+		return isNull(this.eventoIngresso) && isNull(this.eventiUscita);
 	}
 
 
