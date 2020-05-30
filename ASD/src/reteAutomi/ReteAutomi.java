@@ -52,8 +52,13 @@ public class ReteAutomi {
 				else if (isNull(transizione.getEventoIngresso()) ||
 						transizione.getEventoIngresso().equals(transizione.getEventoIngresso().getLink().getEvento())){
 
-					//devo controllare anche che i link di uscita siano vuoti
-					boolean linkUscitaDisponibili = linkDestinazioneDisponibili(transizione.getEventiUscita());
+					//devo controllare anche che i link di uscita siano vuoti, se la lista ne contiene e non è null
+					boolean linkUscitaDisponibili = false;
+					if (!isNull(transizione.getEventiUscita()) && !transizione.getEventiUscita().isEmpty() ){
+						linkUscitaDisponibili = linkDestinazioneDisponibili(transizione.getEventiUscita());
+					}
+
+
 
 					//se i link di uscita degli eventi sono vuoti allora aggiungo alla lista delle transizioni che possono scattare
 					if (linkUscitaDisponibili){
@@ -72,8 +77,15 @@ public class ReteAutomi {
 		return mappaAutomiTransizioniAbilitate;
 	}
 
+	/**
+	 * precondizione: eventi NOT null
+	 * controlla che i link di destinazione siano vuoti
+	 * @param eventi
+	 * @return true se link disponibili
+	 */
 	public boolean linkDestinazioneDisponibili(ArrayList<Evento> eventi){
 		for (Evento evento : eventi) {
+			if (isNull(evento)) return false;
 			if (!evento.getLink().isVuoto()){
 				return false;
 			}
