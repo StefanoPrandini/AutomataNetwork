@@ -125,9 +125,13 @@ public class Main {
 			Transizione nextTr = daSvolgere.get(0);
 			System.out.println("eseguo transizione " + nextTr);
 			ra.svolgiTransizione(nextTr);
-			System.out.println(2);
+
 			ra.aggiornaMappaIdAutomiTransizioniAbilitate();
 			System.out.println("nuove transizioni " + ra.getMappaAutomiTransizioniAbilitate());
+			if (ra.getMappaAutomiTransizioniAbilitate().values().isEmpty()){
+				System.out.println("STATO FINALE, NESSUNA TRANSIZIONE DISPONIBILE");
+				return;
+			}
 			daSvolgere.clear();
 			for (List<Transizione> listaTransizioni : ra.getMappaAutomiTransizioniAbilitate().values()) {
 				daSvolgere.addAll(listaTransizioni);

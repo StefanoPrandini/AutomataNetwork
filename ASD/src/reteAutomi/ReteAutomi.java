@@ -54,7 +54,7 @@ public class ReteAutomi {
 
 					//devo controllare anche che i link di uscita siano vuoti, se la lista ne contiene e non è null
 					boolean linkUscitaDisponibili = false;
-					if (!isNull(transizione.getEventiUscita()) && !transizione.getEventiUscita().isEmpty() ){
+					if (!transizione.getEventiUscita().isEmpty() ){
 						linkUscitaDisponibili = linkDestinazioneDisponibili(transizione.getEventiUscita());
 					}
 
@@ -78,9 +78,8 @@ public class ReteAutomi {
 	}
 
 	/**
-	 * precondizione: eventi NOT null
 	 * controlla che i link di destinazione siano vuoti
-	 * @param eventi
+	 * @param eventi, lista non null
 	 * @return true se link disponibili
 	 */
 	public boolean linkDestinazioneDisponibili(ArrayList<Evento> eventi){
