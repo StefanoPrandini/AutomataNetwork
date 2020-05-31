@@ -49,9 +49,9 @@ public class Main {
 
 		//l2.setEvento(e0);
 
-		Transizione t1 = new Transizione(s1, s2, null, evs1, null, null);
-		Transizione t2 = new Transizione(s2, s3, e3, evs2, null, null);
-		Transizione t3 = new Transizione(s2, s3, e7, evs3, null, null);
+		Transizione t1 = new Transizione(s1, s2, null, evs1, "rilevanza1", "oss1");
+		Transizione t2 = new Transizione(s2, s3, e3, evs2, "rilevanza2", "oss2");
+		Transizione t3 = new Transizione(s2, s3, e7, evs3, "rilevanza3", "oss3");
 
 		ArrayList<Transizione> ts1 = new ArrayList<>();
 		ArrayList<Stato> ss1 = new ArrayList<>();
@@ -70,8 +70,8 @@ public class Main {
 
 		c1.creaMappaStatiTransizioni(ss1, ts1);
 
-		Transizione t4 = new Transizione(s4, s5, e2, evs4, null, null);
-		Transizione t5 = new Transizione(s5, s5, e4, evs5, null, null);
+		Transizione t4 = new Transizione(s4, s5, e2, evs4, "rilevanza4", "oss4");
+		Transizione t5 = new Transizione(s5, s5, e4, evs5, "rilevanza5", "oss5");
 
 		ArrayList<Transizione> ts2 = new ArrayList<>();
 		ArrayList<Stato> ss2 = new ArrayList<>();
@@ -121,17 +121,23 @@ public class Main {
 			daSvolgere.addAll(listaTransizioni);
 		}
 
+		ArrayList<String> ril = new ArrayList<>();
+		ArrayList<String> oss = new ArrayList<>();
+
+
 		while (!daSvolgere.isEmpty()){
 			Transizione nextTr = daSvolgere.get(0);
 			System.out.println("eseguo transizione " + nextTr);
 			ra.svolgiTransizione(nextTr);
+			ril.add(nextTr.getEtichettaRilevanza());
+			oss.add(nextTr.getEtichettaOsservabilita());
+
+
+
 
 			ra.aggiornaMappaIdAutomiTransizioniAbilitate();
-			System.out.println("nuove transizioni " + ra.getMappaAutomiTransizioniAbilitate());
-			if (ra.getMappaAutomiTransizioniAbilitate().values().isEmpty()){
-				System.out.println("STATO FINALE, NESSUNA TRANSIZIONE DISPONIBILE");
-				return;
-			}
+
+
 			daSvolgere.clear();
 			for (List<Transizione> listaTransizioni : ra.getMappaAutomiTransizioniAbilitate().values()) {
 				daSvolgere.addAll(listaTransizioni);
@@ -140,10 +146,11 @@ public class Main {
 		}
 
 
-
+		System.out.println("stato finale");
 		System.out.println(ra.getAutomi().get(0).getStatoCorrente());
 		System.out.println(ra.getAutomi().get(1).getStatoCorrente());
-
+		System.out.println("rilevanza incontrata" + ril);
+		System.out.println("osservabilita incontrata" + oss);
 
 	}
 

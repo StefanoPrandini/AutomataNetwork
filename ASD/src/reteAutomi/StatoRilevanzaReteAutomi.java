@@ -18,17 +18,7 @@ public class StatoRilevanzaReteAutomi {
     private ArrayList<String> etichetteRilevanzaIncontrate;
     private ArrayList<String> etichetteOsservabilitaIncontrate;
 
-    /*
-    traiettoria è insieme delle transizioni che portano dallo stato iniziale allo stato in questione
-    Qual è la soluzione migliore?
-    1) una lista con gli id delle transizioni attivate
-    2) una lista di transizioni vere e proprie
-    3) mettere la lista degli stati nello spazio di rilevanza, tenendo quindi una mappa stato-traiettoria
-    4) creare un oggetto traiettoria se servirà un ampliamento
 
-    qui uso soluzione super easy
-    */
-    private ArrayList<String> traiettoria;
 
 
 
@@ -49,6 +39,25 @@ public class StatoRilevanzaReteAutomi {
             mappaLinkEventi.put(link, link.getEvento());
         }
     }
+
+    /**
+     * aggiungo anche se gia presente, non viene specificato nelle slide
+     * @param e
+     */
+    public void addEtichettaRilevanza(String e){
+        this.etichetteRilevanzaIncontrate.add(e);
+    }
+
+    /**
+     * aggiungo anche se gia presente, non viene specificato nelle slide
+     * @param e
+     */
+    public void addEtichettaOsservabilita(String e){
+        this.etichetteOsservabilitaIncontrate.add(e);
+    }
+
+
+
 
     public String getInfoStato(){
         StringBuilder sb = new StringBuilder();
@@ -72,8 +81,7 @@ public class StatoRilevanzaReteAutomi {
         return  Objects.equals(mappaLinkEventi, that.mappaLinkEventi) &&
                 Objects.equals(mappaAutomiStati, that.mappaAutomiStati) &&
                 Objects.equals(etichetteRilevanzaIncontrate, that.etichetteRilevanzaIncontrate) &&
-                Objects.equals(etichetteOsservabilitaIncontrate, that.etichetteOsservabilitaIncontrate) &&
-                Objects.equals(traiettoria, that.traiettoria);
+                Objects.equals(etichetteOsservabilitaIncontrate, that.etichetteOsservabilitaIncontrate);
     }
 
 

@@ -1,6 +1,7 @@
 package reteAutomi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SpazioRilevanza {
 
@@ -12,6 +13,17 @@ public class SpazioRilevanza {
     private ArrayList<String> insiemeEtichetteRilevanza;
     private ArrayList<String> insiemeEtichetteOsservabilita;
 
+    /*
+   traiettoria è insieme delle transizioni che portano dallo stato iniziale allo stato in questione
+   Qual è la soluzione migliore?
+   1) una lista con gli id delle transizioni attivate
+   2) una lista di transizioni vere e proprie
+   3) mettere la lista degli stati nello spazio di rilevanza, tenendo quindi una mappa stato-traiettoria
+   4) creare un oggetto traiettoria se servirà un ampliamento
+
+   qui uso soluzione super easy
+   */
+    private HashMap<Transizione, StatoRilevanzaReteAutomi> mappaTransizioniStatiRilevanza;
 
     /*
     costruzione iniziale dello spazio di rilevanza
@@ -20,7 +32,11 @@ public class SpazioRilevanza {
         this.statiRete = statiRete;
         this.insiemeEtichetteRilevanza = insiemeEtichetteRilevanza;
         this.insiemeEtichetteOsservabilita = insiemeEtichetteOsservabilita;
+        this.mappaTransizioniStatiRilevanza = new HashMap<>();
     }
+
+
+
 
 
     public void calcolaNuovoStato(){

@@ -47,14 +47,14 @@ public class Automa {
 		this.statoCorrente = transizione.getStatoArrivo();
 	}
 
-	public ArrayList<Transizione> getTransizioniUscentiDaStato(Stato s){
+	public ArrayList<Transizione> getTransizioniUscenti(Stato s){
 		ArrayList<Transizione> result = new ArrayList<>();
 		result.addAll(mappaStatoTransizioni.get(s));
 		return result;
 	}
 
-	public ArrayList<Transizione> getTransizioniAbilitate() {
-		return getTransizioniUscentiDaStato(statoCorrente);
+	public ArrayList<Transizione> getTransizioniUscentiDaStatoCorrenteAutoma() {
+		return getTransizioniUscenti(statoCorrente);
 	}
 
 	public void inizializzaAutoma(){
