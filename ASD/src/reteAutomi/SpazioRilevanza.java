@@ -2,6 +2,7 @@ package reteAutomi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class SpazioRilevanza {
 
@@ -23,7 +24,7 @@ public class SpazioRilevanza {
 
    qui uso soluzione super easy
    */
-    private HashMap<Transizione, StatoRilevanzaReteAutomi> mappaTransizioniStatiRilevanza;
+    private LinkedHashMap< StatoRilevanzaReteAutomi, Transizione> mappaTransizioniStatiRilevanza;
 
     /*
     costruzione iniziale dello spazio di rilevanza
@@ -32,7 +33,7 @@ public class SpazioRilevanza {
         this.statiRete = statiRete;
         this.insiemeEtichetteRilevanza = insiemeEtichetteRilevanza;
         this.insiemeEtichetteOsservabilita = insiemeEtichetteOsservabilita;
-        this.mappaTransizioniStatiRilevanza = new HashMap<>();
+        this.mappaTransizioniStatiRilevanza = new LinkedHashMap<>();
     }
 
 

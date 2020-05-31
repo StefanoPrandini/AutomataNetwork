@@ -9,6 +9,7 @@ public class StatoRilevanzaReteAutomi {
 
     private static AtomicInteger ai =  new AtomicInteger(0);
     private int id;
+    private String nome;
 
     private Map<Link, Evento> mappaLinkEventi;
     private Map<Automa, Stato> mappaAutomiStati;
@@ -25,8 +26,9 @@ public class StatoRilevanzaReteAutomi {
      * Inizializza la lista eventi con il contenuto dei lnk (eventualmente null)
      * @param ra la rete di automi di cui si vuole creare lo stato
      */
-    public StatoRilevanzaReteAutomi(ReteAutomi ra) {
+    public StatoRilevanzaReteAutomi(String nome, ReteAutomi ra) {
         this.id = ai.incrementAndGet();
+        this.nome = nome;
         this.mappaAutomiStati = new LinkedHashMap<>();
         this.mappaLinkEventi = new LinkedHashMap<>();
         for (Automa automa : ra.getAutomi()) {

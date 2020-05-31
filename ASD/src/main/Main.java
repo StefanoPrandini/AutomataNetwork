@@ -12,25 +12,25 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		Automa c1 = new Automa(null, null, null);
-		Automa c2 = new Automa(null, null, null);
+		Automa c1 = new Automa("c1", null, null, null);
+		Automa c2 = new Automa("c2",null, null, null);
 
-		Link l1 = new Link(c1, c2);
-		Link l2 = new Link(c2, c1);
+		Link l1 = new Link("l1", c1, c2);
+		Link l2 = new Link("l2", c2, c1);
 
 
 
-		Stato s1 = new Stato();
-		Stato s2 = new Stato();
-		Stato s3 = new Stato();
-		Stato s4 = new Stato();
-		Stato s5 = new Stato();
+		Stato s1 = new Stato("s1");
+		Stato s2 = new Stato("s2");
+		Stato s3 = new Stato("s3");
+		Stato s4 = new Stato("s4");
+		Stato s5 = new Stato("s5");
 
-		Evento e1 = new Evento(l2);
-		Evento e2 = new Evento(l1);
-		Evento e3 = new Evento(l2);
-		Evento e4 = new Evento(l1);
-		Evento e7 = new Evento(l2);
+		Evento e1 = new Evento("e1",l2);
+		Evento e2 = new Evento("e2",l1);
+		Evento e3 = new Evento("e3",l2);
+		Evento e4 = new Evento("e4",l1);
+		Evento e7 = new Evento("e5",l2);
 
 
 		ArrayList<Evento> evs1 = new ArrayList<>();
@@ -49,9 +49,9 @@ public class Main {
 
 		//l2.setEvento(e0);
 
-		Transizione t1 = new Transizione(s1, s2, null, evs1, "rilevanza1", "oss1");
-		Transizione t2 = new Transizione(s2, s3, e3, evs2, "rilevanza2", "oss2");
-		Transizione t3 = new Transizione(s2, s3, e7, evs3, "rilevanza3", "oss3");
+		Transizione t1 = new Transizione("t1",s1, s2, null, evs1, "rilevanza1", "oss1");
+		Transizione t2 = new Transizione("t2",s2, s3, e3, evs2, "rilevanza2", "oss2");
+		Transizione t3 = new Transizione("t3",s2, s3, e7, evs3, "rilevanza3", "oss3");
 
 		ArrayList<Transizione> ts1 = new ArrayList<>();
 		ArrayList<Stato> ss1 = new ArrayList<>();
@@ -70,8 +70,8 @@ public class Main {
 
 		c1.creaMappaStatiTransizioni(ss1, ts1);
 
-		Transizione t4 = new Transizione(s4, s5, e2, evs4, "rilevanza4", "oss4");
-		Transizione t5 = new Transizione(s5, s5, e4, evs5, "rilevanza5", "oss5");
+		Transizione t4 = new Transizione("t4",s4, s5, e2, evs4, "rilevanza4", "oss4");
+		Transizione t5 = new Transizione("t5",s5, s5, e4, evs5, "rilevanza5", "oss5");
 
 		ArrayList<Transizione> ts2 = new ArrayList<>();
 		ArrayList<Stato> ss2 = new ArrayList<>();
@@ -94,7 +94,7 @@ public class Main {
 		links.add(l1);
 		links.add(l2);
 
-		ReteAutomi ra = new ReteAutomi(automi, links);
+		ReteAutomi ra = new ReteAutomi("r1",automi, links);
 		//System.out.println(ra);
 		ra.aggiornaMappaIdAutomiTransizioniAbilitate();
 
@@ -134,7 +134,7 @@ public class Main {
 			ril.add(nextTr.getEtichettaRilevanza());
 			oss.add(nextTr.getEtichettaOsservabilita());
 
-			statiRilevanza.add(new StatoRilevanzaReteAutomi(ra));
+			statiRilevanza.add(new StatoRilevanzaReteAutomi("statoRilevanza",ra));
 
 
 

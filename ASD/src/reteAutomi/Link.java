@@ -6,6 +6,7 @@ import static java.util.Objects.isNull;
 public class Link {
 	private static AtomicInteger ai = new AtomicInteger(0);
 	private int id;
+	private String nome;
 
 	private Automa automaPartenza;
 	private Automa automaArrivo;
@@ -16,8 +17,9 @@ public class Link {
 	 * @param automaPartenza
 	 * @param automaArrivo
 	 */
-	public Link(Automa automaPartenza, Automa automaArrivo) {
+	public Link(String nome, Automa automaPartenza, Automa automaArrivo) {
 		this.id = ai.incrementAndGet();
+		this.nome = nome;
 		this.automaPartenza = automaPartenza;
 		this.automaArrivo = automaArrivo;
 		evento = null;

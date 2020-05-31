@@ -2,6 +2,7 @@ package reteAutomi;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static java.util.Objects.isNull;
@@ -10,9 +11,11 @@ public class ReteAutomi {
 	
 	private ArrayList<Automa> automi;
 	private ArrayList<Link> links;
-	private HashMap<Automa, List<Transizione>> mappaAutomiTransizioniAbilitate = new HashMap<>();
+	private LinkedHashMap<Automa, List<Transizione>> mappaAutomiTransizioniAbilitate = new LinkedHashMap<>();
+	private String nome;
 	
-	public ReteAutomi(ArrayList<Automa> automi,	ArrayList<Link> links) {
+	public ReteAutomi(String nome, ArrayList<Automa> automi,	ArrayList<Link> links) {
+		this.nome = nome;
 		this.automi = automi;
 		this.links = links;
 		inizializzaRete();
@@ -35,20 +38,20 @@ public class ReteAutomi {
 	 * @return
 	 */
 	public void aggiornaMappaIdAutomiTransizioniAbilitate(){
-		HashMap<Automa, List<Transizione>> result = new HashMap<>();
+		LinkedHashMap<Automa, List<Transizione>> result = new LinkedHashMap<>();
 		for (Automa automa : automi) {
 			//transizioni disponibili nello stato corrente
-			ArrayList<Transizione> transizioniAbilitate = automa.getTransizioniUscentiDaStatoCorrente();
+			ArrayList<Transizione> transizioniUscenti = automa.getTransizioniUscentiDaStatoCorrente();
 
 			//lista, da riempire, delle transizioni con eventi disponibili allo scatto
 			ArrayList<Transizione> transizioniConEventiAbilitati = new ArrayList<>();
-			for (Transizione transizione : transizioniAbilitate) {
-				//se la transizione è con eventi in entrata e in uscita null
+			for (Transizione transizione : transizioniUscenti) {
+				//se la transizione e' con eventi in entrata e in uscita null
 				if (transizione.eventiEntrataEUscitaNull()){
 					transizioniConEventiAbilitati.add(transizione);
 				}
 
-				//se l'evento in ingresso è null o corrisponde a quello presente sul link indicato dall'evento
+				//se l'evento in ingresso e' null o corrisponde a quello presente sul link indicato dall'evento
 				else if (isNull(transizione.getEventoIngresso()) ||
 						transizione.getEventoIngresso().equals(transizione.getEventoIngresso().getLink().getEvento())){
 

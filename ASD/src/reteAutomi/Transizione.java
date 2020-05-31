@@ -8,6 +8,7 @@ public class Transizione {
 
 	private static AtomicInteger ai = new AtomicInteger(0);
 	private int id;
+	private String nome;
 
 	private Stato statoPartenza;
 	private Stato statoArrivo;
@@ -18,8 +19,9 @@ public class Transizione {
 	private String etichettaRilevanza;
 	private String etichettaOsservabilita;
 	
-	public Transizione(Stato statoPartenza, Stato statoArrivo, Evento eventoIn, ArrayList<Evento> eventiOut, String etichettaR, String etichettaO) {
+	public Transizione(String nome, Stato statoPartenza, Stato statoArrivo, Evento eventoIn, ArrayList<Evento> eventiOut, String etichettaR, String etichettaO) {
 		this.id = ai.incrementAndGet();
+		this.nome = nome;
 		this.statoPartenza = statoPartenza;
 		this.statoArrivo = statoArrivo;
 		this.eventoIngresso = eventoIn;
@@ -34,7 +36,7 @@ public class Transizione {
 
 
 	/**
-	 * una transizione può scattare (se abilitata) se evento in ingresso ed eventi in uscita sono null
+	 * una transizione puo scattare (se abilitata) se evento in ingresso ed eventi in uscita sono null
 	 * @return boolean flag
 	 */
 	public boolean eventiEntrataEUscitaNull(){

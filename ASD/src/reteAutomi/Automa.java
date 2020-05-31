@@ -12,6 +12,7 @@ public class Automa {
 	//identificatori interi univoci
 	private static AtomicInteger ai = new AtomicInteger(0);
 	private int id;
+	private String nome;
 
 	private Stato statoIniziale;
 	/**
@@ -27,8 +28,9 @@ public class Automa {
 	 * @param transizioni
 	 * @param statoIniziale
 	 */
-	public Automa(ArrayList<Stato> stati, ArrayList<Transizione> transizioni, Stato statoIniziale) {
+	public Automa(String nome, ArrayList<Stato> stati, ArrayList<Transizione> transizioni, Stato statoIniziale) {
 		this.id = ai.incrementAndGet();
+		this.nome = nome;
 		this.statoIniziale = statoIniziale;
 		this.statoCorrente = statoIniziale;
 		this.mappaStatoTransizioni = new HashMap<>();

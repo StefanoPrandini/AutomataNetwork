@@ -7,12 +7,14 @@ public class Evento {
 
 	private static AtomicInteger ai = new AtomicInteger(0);
 	private int id;
+	private String nome;
 
 	private Link link;
 
 	
-	public Evento(Link link) {
+	public Evento(String nome, Link link) {
 		this.id = ai.incrementAndGet();
+		this.nome = nome;
 		this.link = link;
 	}
 

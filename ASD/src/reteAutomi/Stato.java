@@ -6,9 +6,11 @@ public class Stato {
 
 	private static AtomicInteger ai = new AtomicInteger(0);
 	private int id;
+	private String nome;
 	
-	public Stato() {
+	public Stato(String nome) {
 		this.id = ai.incrementAndGet();
+		this.nome = nome;
 	}
 
 
