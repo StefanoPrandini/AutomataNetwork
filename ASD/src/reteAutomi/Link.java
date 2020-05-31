@@ -67,18 +67,15 @@ public class Link {
 				'}';
 	}
 
+
+	//overload
 	public int getId() {
 		return id;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Link)) return false;
-		Link link = (Link) o;
-		return getId() == link.getId() &&
-				automaPartenza.equals(link.automaPartenza) &&
-				automaArrivo.equals(link.automaArrivo);
+
+	public boolean equals(Link link) {
+		return getId() == link.getId();
 	}
 
 	public Automa getAutomaPartenza() {

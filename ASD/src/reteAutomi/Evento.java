@@ -43,12 +43,10 @@ public class Evento {
 		link.aggiungiEvento(this);
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Evento)) return false;
-		Evento evento = (Evento) o;
-		return getId() == evento.getId() && Objects.equals(getLink(), evento.getLink());
+
+	//overload
+	public boolean equals(Evento o) {
+		return this.id == o.getId();
 	}
 
 	@Override

@@ -11,10 +11,10 @@ public class StatoRilevanzaReteAutomi {
     private int id;
     private String nome;
 
-    private Map<Link, Evento> mappaLinkEventi;
-    private Map<Automa, Stato> mappaAutomiStati;
+    private ArrayList<Link> links;
+    private ArrayList<Automa> automi;
     private ArrayList<String> etichetteRilevanzaIncontrate;
-    private ArrayList<String> etichetteOsservabilitaIncontrate;
+
 
 
 
@@ -29,16 +29,10 @@ public class StatoRilevanzaReteAutomi {
     public StatoRilevanzaReteAutomi(String nome, ReteAutomi ra) {
         this.id = ai.incrementAndGet();
         this.nome = nome;
-        this.mappaAutomiStati = new LinkedHashMap<>();
-        this.mappaLinkEventi = new LinkedHashMap<>();
-        for (Automa automa : ra.getAutomi()) {
-           mappaAutomiStati.put(automa, automa.getStatoCorrente());
-        }
-
-
-        for (Link link : ra.getLinks()) {
-            mappaLinkEventi.put(link, link.getEvento());
-        }
+        this.automi = new ArrayList<>();
+        this.links = new ArrayList<>();
+        automi.addAll(ra.getAutomi());
+        links.addAll(ra.getLinks());
     }
 
     /**
@@ -49,23 +43,16 @@ public class StatoRilevanzaReteAutomi {
         this.etichetteRilevanzaIncontrate.add(e);
     }
 
-    /**
-     * aggiungo anche se gia presente, non viene specificato nelle slide
-     * @param e
-     */
-    public void addEtichettaOsservabilita(String e){
-        this.etichetteOsservabilitaIncontrate.add(e);
-    }
 
 
 
 
     public String getInfoStato(){
         StringBuilder sb = new StringBuilder();
-        for (Automa automa : mappaAutomiStati.keySet()) {
+        for (Automa automa : automi) {
             sb.append("Stato corrente automa ").append(automa.getId()).append(": ").append(automa.getStatoCorrente().getId()).append("\n");
         }
-        for (Link link : mappaLinkEventi.keySet()) {
+        for (Link link : links) {
             if (!isNull(link.getEvento())){
                 sb.append("Evento su link ").append(link.getId()).append(": ").append(link.getEvento().getId()).append("\n");
             }
@@ -79,22 +66,14 @@ public class StatoRilevanzaReteAutomi {
         if (this == o) return true;
         if (!(o instanceof StatoRilevanzaReteAutomi)) return false;
         StatoRilevanzaReteAutomi that = (StatoRilevanzaReteAutomi) o;
-        return  Objects.equals(mappaLinkEventi, that.mappaLinkEventi) &&
-                Objects.equals(mappaAutomiStati, that.mappaAutomiStati) &&
-                Objects.equals(etichetteRilevanzaIncontrate, that.etichetteRilevanzaIncontrate) &&
-                Objects.equals(etichetteOsservabilitaIncontrate, that.etichetteOsservabilitaIncontrate);
+        return this.id == that.getId();
+    }
+
+    public int getId() {
+        return id;
     }
 
 
-
-    public ArrayList<Evento> getAllEventi() {
-       return new ArrayList<>(mappaLinkEventi.values());
-    }
-
-
-    public ArrayList<Stato> getAllStatiCorrenti() {
-        return new ArrayList<>(mappaAutomiStati.values());
-    }
 
 
 
