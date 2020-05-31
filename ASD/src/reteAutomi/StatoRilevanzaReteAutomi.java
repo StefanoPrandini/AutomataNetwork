@@ -1,9 +1,6 @@
 package reteAutomi;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Objects.isNull;
@@ -30,6 +27,8 @@ public class StatoRilevanzaReteAutomi {
      */
     public StatoRilevanzaReteAutomi(ReteAutomi ra) {
         this.id = ai.incrementAndGet();
+        this.mappaAutomiStati = new LinkedHashMap<>();
+        this.mappaLinkEventi = new LinkedHashMap<>();
         for (Automa automa : ra.getAutomi()) {
            mappaAutomiStati.put(automa, automa.getStatoCorrente());
         }
@@ -62,13 +61,13 @@ public class StatoRilevanzaReteAutomi {
     public String getInfoStato(){
         StringBuilder sb = new StringBuilder();
         for (Automa automa : mappaAutomiStati.keySet()) {
-            sb.append("Stato automa ").append(automa.getId()).append(" --> ").append(automa.getStatoCorrente().getId());
+            sb.append("Stato corrente automa ").append(automa.getId()).append(": ").append(automa.getStatoCorrente().getId()).append("\n");
         }
         for (Link link : mappaLinkEventi.keySet()) {
             if (!isNull(link.getEvento())){
-                sb.append("Evento su link ").append(link.getId()).append(" --> ").append(link.getEvento().getId());
+                sb.append("Evento su link ").append(link.getId()).append(": ").append(link.getEvento().getId()).append("\n");
             }
-            else sb.append("Evento su link ").append(link.getId()).append(" --> null");
+            else sb.append("Evento su link ").append(link.getId()).append(": null ").append("\n");
         }
         return sb.toString();
     }
@@ -94,6 +93,8 @@ public class StatoRilevanzaReteAutomi {
     public ArrayList<Stato> getAllStatiCorrenti() {
         return new ArrayList<>(mappaAutomiStati.values());
     }
+
+
 
 
 }

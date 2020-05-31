@@ -38,7 +38,7 @@ public class ReteAutomi {
 		HashMap<Automa, List<Transizione>> result = new HashMap<>();
 		for (Automa automa : automi) {
 			//transizioni disponibili nello stato corrente
-			ArrayList<Transizione> transizioniAbilitate = automa.getTransizioniUscentiDaStatoCorrenteAutoma();
+			ArrayList<Transizione> transizioniAbilitate = automa.getTransizioniUscentiDaStatoCorrente();
 
 			//lista, da riempire, delle transizioni con eventi disponibili allo scatto
 			ArrayList<Transizione> transizioniConEventiAbilitati = new ArrayList<>();

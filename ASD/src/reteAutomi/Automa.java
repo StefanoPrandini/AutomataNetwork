@@ -53,7 +53,7 @@ public class Automa {
 		return result;
 	}
 
-	public ArrayList<Transizione> getTransizioniUscentiDaStatoCorrenteAutoma() {
+	public ArrayList<Transizione> getTransizioniUscentiDaStatoCorrente() {
 		return getTransizioniUscenti(statoCorrente);
 	}
 

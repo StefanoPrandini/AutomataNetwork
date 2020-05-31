@@ -125,6 +125,8 @@ public class Main {
 		ArrayList<String> oss = new ArrayList<>();
 
 
+		ArrayList<StatoRilevanzaReteAutomi> statiRilevanza = new ArrayList<>();
+
 		while (!daSvolgere.isEmpty()){
 			Transizione nextTr = daSvolgere.get(0);
 			System.out.println("eseguo transizione " + nextTr);
@@ -132,6 +134,7 @@ public class Main {
 			ril.add(nextTr.getEtichettaRilevanza());
 			oss.add(nextTr.getEtichettaOsservabilita());
 
+			statiRilevanza.add(new StatoRilevanzaReteAutomi(ra));
 
 
 
@@ -149,8 +152,13 @@ public class Main {
 		System.out.println("stato finale");
 		System.out.println(ra.getAutomi().get(0).getStatoCorrente());
 		System.out.println(ra.getAutomi().get(1).getStatoCorrente());
-		System.out.println("rilevanza incontrata" + ril);
-		System.out.println("osservabilita incontrata" + oss);
+
+		System.out.println(statiRilevanza.get(0).getInfoStato());
+
+		SpazioRilevanza sr = new SpazioRilevanza(statiRilevanza, ril, oss);
+
+
+
 
 	}
 
