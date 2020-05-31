@@ -119,7 +119,7 @@ public class ReteAutomi {
 	}
 
 
-	public void svolgiTransizioneDaIds(int idAutoma, int idTransizione){
+	public void svolgiTransizioneDaId(int idAutoma, int idTransizione){
 		svolgiTransizione(trovaAutoma(idAutoma).trovaTransizioneDaId(idTransizione));
 	}
 
@@ -151,7 +151,7 @@ public class ReteAutomi {
 
 	public ArrayList<Transizione> transizioniAbilitateDaIdAutoma(int idAutoma){
 		ArrayList<Transizione> result = new ArrayList<>();
-		Automa a = automi.stream().filter(automa -> idAutoma == automa.getId()).findAny().orElse(null);
+		Automa a = trovaAutoma(idAutoma);
 		if (isNull(a)) return null;
 		result.addAll(mappaAutomiTransizioniAbilitate.get(a));
 		return result;

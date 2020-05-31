@@ -14,6 +14,9 @@ public class Automa {
 	private int id;
 
 	private Stato statoIniziale;
+	/**
+	 * Mappa gli Stati con le loro Transizioni uscenti
+	 */
 	private Map<Stato, List<Transizione>> mappaStatoTransizioni;
 	private Stato statoCorrente;
 	
@@ -36,7 +39,7 @@ public class Automa {
 
 
 	/**
-	 * precondizione: la transizione deve essere abilitata (automa nello stato corrente, evento in ingresso presente su link)
+	 * precondizione: la transizione deve essere abilitata (automa nello stato corrente, evento in ingresso presente su link e link liberi per eventi in uscita)
 	 * @param transizione da svolgere
 	 * @return int result code
 	 */

@@ -2,7 +2,6 @@ package reteAutomi;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import static java.util.Objects.isNull;
 
 public class Transizione {
@@ -35,7 +34,7 @@ public class Transizione {
 
 
 	/**
-	 * una transizione e' sempre abilitata allo scatto se evento in ingresso ed eventi in uscita sono null
+	 * una transizione può scattare (se abilitata) se evento in ingresso ed eventi in uscita sono null
 	 * @return boolean flag
 	 */
 	public boolean eventiEntrataEUscitaNull(){
@@ -102,13 +101,13 @@ public class Transizione {
 					"(in " + statoPartenza.getId() +
 					", out " + statoArrivo.getId() +
 					", eIn " + eventoIngresso.getId() +
-					')'+ "\n";
+					")}"+ "\n";
 		else return "Transizione{" +
 				"id=" + id +
 				"(in " + statoPartenza.getId() +
 				", out " + statoArrivo.getId() +
 				", eIn Null" +
-				')'+ "\n";
+				")}"+ "\n";
 	}
 
 

@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Evento {
 
-	private AtomicInteger ai = new AtomicInteger(0);
+	private static AtomicInteger ai = new AtomicInteger(0);
 	private int id;
 
 	private Link link;

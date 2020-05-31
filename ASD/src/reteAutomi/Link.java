@@ -1,8 +1,6 @@
 package reteAutomi;
 
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import static java.util.Objects.isNull;
 
 public class Link {
