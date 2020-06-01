@@ -1,0 +1,115 @@
+{
+    "idRete": "Rete1",
+
+    "link": [
+        {
+            "idLink": "L2",
+            "automaIniziale": "C3",
+            "automaFinale": "C2"
+        },
+        {
+            "idLink": "L3",
+            "automaIniziale": "C2",
+            "automaFinale": "C3"
+        }
+    ],
+
+    "automi": [
+        {
+            "idAutoma": "C2",
+            "stati": [
+                20,
+                21
+            ],
+            "statoIniziale": 20,
+            "transizioni": [
+                {
+                    "idTransizione": "t2a",
+                    "statoIniziale": 20,
+                    "statoFinale": 21,
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "o2",
+                    "eventoIngresso": {
+                        "idEvento": "e2",
+                        "link": "L2"
+                    },
+                    "eventiUscita": [
+                        {
+                            "idEvento": "e3",
+                            "link": "L3"
+                        }
+                    ]
+                },
+
+                {
+                    "idTransizione": "t2b",
+                    "statoIniziale": 21,
+                    "statoFinale": 20,
+                    "etichettaRilevanza": "r",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "null_event",
+                        "link": ""
+                    },
+                    "eventiUscita": [
+                        {
+                            "idEvento": "e3",
+                            "link": "L3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "idAutoma": "C3",
+            "stati": [
+                30,
+                31
+            ],
+            "statoIniziale": 30,
+            "transizioni": [
+                {
+                    "idTransizione": "t3a",
+                    "statoFinale": 31,
+                    "statoIniziale": 30,
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "o3",
+                    "eventoIngresso": {
+                        "idEvento": "null_event",
+                        "link": ""
+                    },
+                    "eventiUscita": [
+                        {
+                            "idEvento": "e2",
+                            "link": "L2"
+                        }
+                    ]
+                },
+                {
+                    "idTransizione": "t3b",
+                    "statoIniziale": 31,
+                    "statoFinale": 30,
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "e3",
+                        "link": "L3"
+                    },
+                    "eventiUscita": []
+                },
+                {
+                    "idTransizione": "t3c",
+                    "statoIniziale": 31,
+                    "statoFinale": 31,
+                    "etichettaRilevanza": "f",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "e3",
+                        "link": "L3"
+                    },
+                    "eventiUscita": []
+                }
+            ]
+        }
+    ]
+}

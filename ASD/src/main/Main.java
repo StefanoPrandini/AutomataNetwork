@@ -30,7 +30,7 @@ public class Main {
 		Evento e2 = new Evento("e2",l1);
 		Evento e3 = new Evento("e3",l2);
 		Evento e4 = new Evento("e4",l1);
-		Evento e7 = new Evento("e5",l2);
+		Evento e7 = new Evento("e7",l2);
 
 
 		ArrayList<Evento> evs1 = new ArrayList<>();

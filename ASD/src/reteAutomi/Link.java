@@ -85,4 +85,8 @@ public class Link {
 	public Automa getAutomaArrivo() {
 		return automaArrivo;
 	}
+
+	public String getNome() {
+		return nome;
+	}
 }

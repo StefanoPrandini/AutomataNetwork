@@ -145,4 +145,11 @@ public class Automa {
 		}
 		return null;
 	}
+
+
+
+
+	public String getNome() {
+		return nome;
+	}
 }
