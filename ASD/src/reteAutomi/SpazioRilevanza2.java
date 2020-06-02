@@ -23,6 +23,7 @@ public class SpazioRilevanza2 {
 		this.automi = ra.getAutomi();
 		this.links = ra.getLinks();
 		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>();
+
 	}
 	
 	public SpazioRilevanza2 creaSpazioRilevanza() {
