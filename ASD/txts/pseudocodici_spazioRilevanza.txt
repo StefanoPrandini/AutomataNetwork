@@ -11,7 +11,7 @@ initCreaSpazioRilevanza(rete, statoIniziale){
 
 //nota: uno stato deve contenere la decorazione incontrata fino ad esso
 creaSpazioRilevanza(mappaStatiTraiettorie, rete, stato, traiettoria){
-    if(esisteTransizioneDisponibile(rete, statoIniziale))
+    if(esisteTransizioneDisponibile(rete, stato))
     then
         ultimaTransizioneEseguita <- eseguiTransizioneDisponibile(rete)
         nuovoStato <- calcolaStato(rete)
