@@ -28,7 +28,7 @@ public class ReteAutomi {
 	public void inizializzaRete(){
 		inizializzaAutomi();
 		inizializzaLinks();
-		aggiornaMappaIdAutomiTransizioniAbilitate();
+		aggiornaMappaAutomiTransizioniAbilitate();
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class ReteAutomi {
 	 *
 	 * @return
 	 */
-	public void aggiornaMappaIdAutomiTransizioniAbilitate(){
+	public void aggiornaMappaAutomiTransizioniAbilitate(){
 		LinkedHashMap<Automa, List<Transizione>> result = new LinkedHashMap<>();
 		for (Automa automa : automi) {
 			//transizioni disponibili nello stato corrente

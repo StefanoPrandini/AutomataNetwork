@@ -68,6 +68,10 @@ public class StatoRilevanzaReteAutomi {
         StatoRilevanzaReteAutomi that = (StatoRilevanzaReteAutomi) o;
         return this.id == that.getId();
     }
+    
+    public boolean equals(StatoRilevanzaReteAutomi s) {
+    	return this.id == s.getId();
+    }
 
     public int getId() {
         return id;
