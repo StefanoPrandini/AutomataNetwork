@@ -120,6 +120,10 @@ public class Automa {
 	}
 
 
+	public Stato getStatoIniziale() {
+		return this.statoIniziale;
+	}
+	
 	public void setStatoIniziale(Stato statoIniziale) {
 		this.statoIniziale = statoIniziale;
 	}
