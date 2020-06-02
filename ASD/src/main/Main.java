@@ -96,7 +96,7 @@ public class Main {
 
 		ReteAutomi ra = new ReteAutomi("r1",automi, links);
 		//System.out.println(ra);
-		ra.aggiornaMappaIdAutomiTransizioniAbilitate();
+		ra.aggiornaMappaAutomiTransizioniAbilitate();
 
 
 
@@ -138,7 +138,7 @@ public class Main {
 
 
 
-			ra.aggiornaMappaIdAutomiTransizioniAbilitate();
+			ra.aggiornaMappaAutomiTransizioniAbilitate();
 
 
 			daSvolgere.clear();
