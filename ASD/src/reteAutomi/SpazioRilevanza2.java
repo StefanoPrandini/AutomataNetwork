@@ -22,7 +22,11 @@ public class SpazioRilevanza2 {
 		this.ra = ra;
 		this.automi = ra.getAutomi();
 		this.links = ra.getLinks();
+<<<<<<< HEAD
 		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>();
+=======
+		this.mappaStatoRilevanzaTransizioni = new HashMap<>();
+>>>>>>> branch 'master' of https://github.com/StefanoPrandini/AutomataNetwork.git
 	}
 	
 	public SpazioRilevanza2 creaSpazioRilevanza() {
@@ -37,10 +41,14 @@ public class SpazioRilevanza2 {
 			
 			for(Transizione t : transizioniAbilitate) {
 				StatoRilevanzaReteAutomi nuovoStatoRilevanza = calcolaStatoRilevanza(statoRilevanza, t);
+<<<<<<< HEAD
 				// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
 				if(!mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
 					coda.add(statoRilevanza);
 				}
+=======
+				coda.add(statoRilevanza);
+>>>>>>> branch 'master' of https://github.com/StefanoPrandini/AutomataNetwork.git
 			}
 		}
 		
