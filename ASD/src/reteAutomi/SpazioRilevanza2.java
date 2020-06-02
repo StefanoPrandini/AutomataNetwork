@@ -31,6 +31,10 @@ public class SpazioRilevanza2 {
 			StatoRilevanzaReteAutomi stato = coda.remove();
 			ArrayList<Transizione>transizioniAbilitate = getTransizioniAbilitate(stato);
 			this.mappaStatoRilevanzaTransizioni.put(stato, transizioniAbilitate);
+			
+			while(transizioniAbilitate.size() > 0 ) {
+				ArrayList<StatoRilevanzaReteAutomi>statiRilevanzaSuccessivi = getStatiRilevanzaSuccessivi();
+			}
 
 			for(StatoRilevanzaReteAutomi s : getStatiRilevanzaSuccessivi(stato)) {
 				
@@ -40,9 +44,7 @@ public class SpazioRilevanza2 {
 		
 		ArrayList<Transizione>transizioniAbilitate = getTransizioniAbilitate(stato);
 
-		while(transizioniAbilitate.size() > 0 ) {
-			ArrayList<StatoRilevanzaReteAutomi>statiRilevanzaSuccessivi = getStatiRilevanzaSuccessivi();
-		}
+		
 		
 		
 		
