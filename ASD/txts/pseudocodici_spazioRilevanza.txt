@@ -1,8 +1,31 @@
 Pseudocodici primo compito (pag 20)
 
-Produzione spazio rilevanza di rete finita di automi data
 
-creaSpazioRilevanza(rete, stato_iniziale)
+
+initCreaSpazioRilevanza(rete, statoIniziale){
+    mappaStatiTraiettorie <- []
+    traiettoria <- []
+    creaSpazioRilevanza(mappaStatiTraiettorie, rete, statoIniziale, traiettoria)
+}
+
+
+//nota: uno stato deve contenere la decorazione incontrata fino ad esso
+creaSpazioRilevanza(mappaStatiTraiettorie, rete, stato, traiettoria){
+    if(esisteTransizioneDisponibile(rete, statoIniziale))
+    then
+        ultimaTransizioneEseguita <- eseguiTransizioneDisponibile(rete)
+        nuovoStato <- calcolaStato(rete)
+        add(traiettoria, ultimaTransizioneEseguita)
+        if(mappaStatiTraiettorie !contains nuovoStato)
+        then
+            add(mappaStatiTraiettorie, nuovoStato, traiettoria)
+        else
+            addTraiettoria(mappaStatiTraiettorie, trovaStatoCoincidente(nuovoStato), traiettoria)
+        endif
+        return creaSpazioRilevanza(mappaStatiTraiettorie, rete, statoAttuale, traiettoria)
+    else return
+}
+
 
 
 
