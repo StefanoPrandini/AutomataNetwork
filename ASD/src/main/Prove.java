@@ -24,6 +24,8 @@ public class Prove {
 		System.out.println(ra.getAutomi().get(1));
 		System.out.println();
 		System.out.println(ra);
+
+		System.out.println("TRANSIZIONI ABILITATE \n" + ra.getTutteTransizioniAbilitate());
 		
 		/**
 		Stato s1 = new Stato("s1");

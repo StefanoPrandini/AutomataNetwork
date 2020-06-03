@@ -1,5 +1,7 @@
 package reteAutomi;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -7,6 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+
+import static java.util.Objects.isNull;
+
 /**
  * Spazio di rilevanza e' un automa -> grafo: StatiRilevanza sono i vertici e transizioni sono gli archi
  */
@@ -49,6 +54,10 @@ public class SpazioRilevanza2 {
 	}
 	
 	private ArrayList<Transizione> getTransizioniAbilitate(StatoRilevanzaReteAutomi statoRilevanza) {
+		/*
+		//NOTA
+		//se si facesse ra.getTutteTransizioniAbilitate(); ?
+		*/
 		for(int i=0; i<statoRilevanza.getStatiCorrentiAutoma().size(); i++) {
 			int idAutoma = statoRilevanza.getStatiCorrentiAutoma().get(i).getKey();
 			int idStato = statoRilevanza.getStatiCorrentiAutoma().get(i).getValue();
@@ -64,7 +73,7 @@ public class SpazioRilevanza2 {
 			for(Transizione t : transizioniUscenti) {
 				Evento eIn = t.getEventoIngresso();
 				ArrayList<Evento>eOut = t.getEventiUscita();
-				// ... controlli già fatti in ReteAutomi
+				// ... controlli gia' fatti in ReteAutomi
 				
 			}
 
@@ -73,10 +82,83 @@ public class SpazioRilevanza2 {
 	}
 
 	private StatoRilevanzaReteAutomi calcolaStatoRilevanza(StatoRilevanzaReteAutomi statoRilevanza, Transizione t) {
-		// link pieni, stati dell'automa
+		// link pieni ed eventi, stati dell'automa, decorazione
 
-		
+
+		//valuta esecuzione rispetto a statoRilevanza --> link liberi, automa nello stato giusto, eventi necessari presenti su link
+
+		ArrayList<Pair<Integer, Evento>> contenutoLinks = new ArrayList<>();
+		ArrayList<Pair<Integer, Integer>> statiAutomi = new ArrayList<>();
+		ArrayList<String> decorazione = statoRilevanza.getDecorazione();
+		if (isEseguibile(t)){
+			//svuoto links in entrata
+			Evento inEntrata = t.getEventoIngresso();
+			contenutoLinks.add(svolgiEventoInEntrata(inEntrata));
+
+			//riempio links in uscita
+			ArrayList<Evento> inUscita = t.getEventiUscita();
+			contenutoLinks.addAll(linkUscitaAggiornati(inUscita));
+
+			//aggiungo eventuale etichetta di rilevanza
+			if (t.hasEtichettaRilevanza() && !decorazione.contains(t.getEtichettaRilevanza())){
+				decorazione.add(t.getEtichettaRilevanza());
+			}
+
+
+			//aggiorno automa
+			//ATTENZIONE, SIMULA
+			ra.simulaPassaggioDiStato(t);
+			for (Automa automa : ra.getAutomi()) {
+				statiAutomi.add(new Pair<>(automa.getId(), automa.getStatoCorrente().getId()));
+			}
+
+			return new StatoRilevanzaReteAutomi(contenutoLinks, statiAutomi , decorazione);
+		}
+
 		return null;
+	}
+
+
+	private boolean isEseguibile(Transizione t){
+
+		//TODO valutare esecuzione rispetto a stato di rilevanza o ripsetto a stato attuale della rete di automi?
+		return false;
+	}
+
+	/**
+	 * precondizione: gli eventi sono destinati a link effettivamente liberi
+	 * @param eventi
+	 * @return
+	 */
+	private ArrayList<Pair<Integer, Evento>> linkUscitaAggiornati(ArrayList<Evento> eventi){
+		ArrayList<Pair<Integer, Evento>> linkAggiornati = new ArrayList<>();
+
+		for (Evento evento : eventi) {
+
+			//se vogliamo effettivmanete svolgere le transizioni
+			evento.getLink().aggiungiEvento(evento);
+
+			//se vogliamo una cosa teorica, senza svolgere le transizioni
+			linkAggiornati.add(new Pair<>(evento.getLink().getId(), evento));
+		}
+		return linkAggiornati;
+	}
+
+
+	private Pair<Integer, Evento> svolgiEventoInEntrata(Evento evento){
+		Link daSvuotare = evento.getLink();
+		if (!isNull(evento)){
+
+
+			//se vogliamo eseguire effetivamente la transizione
+			daSvuotare.svuota();
+
+
+			//se invece vogliamo fare una cosa teorica
+
+			return (new Pair<>(daSvuotare.getId(), null));
+		}
+		return new Pair<>(daSvuotare.getId(), null);
 	}
 
 

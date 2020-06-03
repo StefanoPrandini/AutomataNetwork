@@ -23,15 +23,15 @@ public class StatoRilevanzaReteAutomi {
 
 
 
+
     /**
      * Crea uno stato partendo dalla rete di automi
      * Inizializza la lista stati con gli stati correnti dei singoli automi
      * Inizializza la lista eventi con il contenuto dei lnk (eventualmente null)
      * @param ra la rete di automi di cui si vuole creare lo stato
      */
-    public StatoRilevanzaReteAutomi(String nome, ReteAutomi ra, ArrayList<String> decorazione) {
+    public StatoRilevanzaReteAutomi( ReteAutomi ra, ArrayList<String> decorazione) {
         this.id = ai.incrementAndGet();
-        this.nome = nome;
         this.contenutoLinks = new ArrayList<>();
         this.statiCorrentiAutomi = new ArrayList<>();
         this.aggiungiContenutiLinks(ra.getLinks());
@@ -39,7 +39,25 @@ public class StatoRilevanzaReteAutomi {
         this.decorazione = decorazione;
     }
 
+    /**
+     * costruttore preciso
 
+     * @param contenutoLinks
+     * @param statiAutomi
+     * @param decorazione
+     */
+    public StatoRilevanzaReteAutomi( ArrayList<Pair<Integer, Evento>> contenutoLinks, ArrayList<Pair<Integer, Integer>> statiAutomi, ArrayList<String> decorazione) {
+        this.id = ai.incrementAndGet();
+
+        this.contenutoLinks = contenutoLinks;
+        this.statiCorrentiAutomi = statiAutomi;
+        this.decorazione = decorazione;
+    }
+
+    public StatoRilevanzaReteAutomi() {
+        this.id = ai.incrementAndGet();
+
+    }
 
     private void aggiungiContenutiLinks(ArrayList<Link> links) {
         for (Link link : links) {
@@ -112,8 +130,7 @@ public class StatoRilevanzaReteAutomi {
     }
 
 
-
-
-
-
+    public ArrayList<String> getDecorazione() {
+        return this.decorazione;
+    }
 }

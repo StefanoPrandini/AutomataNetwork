@@ -163,23 +163,7 @@ public class ReteAutomi {
 
 
 
-	/**
-	 * alfabeto: insieme transizioni di tutti i componenti della rete
-	 * linguaggio: insieme delle traiettorie della rete
-	 * traiettoria della rete: sequenza di transizioni di componenti che porta dallo stato di rilevanza iniziale della rete a un altro stato
-	 * @return automa deterministico finito
-	 */
-	public Automa calcolaSpazioRilevanza() {
 
-
-		//TODO
-		//start: stato di rilevanza iniziale, ogni componente e' in stato iniziale, link sono tutti vuoti e insieme etichette rilevanza incontrate e' vuoto
-		//l'insieme delle etichette di rilevanza è anche detto decorazione
-		ArrayList<Transizione> transizioni = new ArrayList<>();
-		Etichette etichetteRilevanza = null;
-		//per ogni transizione che scatta, se e' rilevante, si inserisce l'etichetta di t nella decorazione
-		return null;
-	}
 
 	@Override
 	public String toString() {
@@ -237,4 +221,18 @@ public class ReteAutomi {
 		}
 		return null;
 	}
+
+
+	public void simulaPassaggioDiStato(Transizione transizione){
+		for (Automa automa : automi) {
+			for (List<Transizione> listaTrans : automa.getMappaStatoTransizioni().values()) {
+				if (listaTrans.contains(transizione)){
+					automa.setStatoCorrente(transizione.getStatoArrivo());
+					return;
+				}
+			}
+		}
+	}
+
+
 }
