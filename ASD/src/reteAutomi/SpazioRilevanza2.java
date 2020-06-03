@@ -170,7 +170,7 @@ public class SpazioRilevanza2 {
 		ArrayList<Evento>eventiLink = new ArrayList<>();
 		ArrayList<String>decorazione = new ArrayList<>();
 		
-		return new StatoRilevanzaReteAutomi("", ra, decorazione);
+		return new StatoRilevanzaReteAutomi( ra, decorazione);
 	}
 	
 }
