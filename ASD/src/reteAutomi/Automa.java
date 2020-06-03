@@ -28,17 +28,18 @@ public class Automa {
 	 * @param transizioni
 	 * @param statoIniziale
 	 */
-	public Automa(String nome, ArrayList<Stato> stati, ArrayList<Transizione> transizioni, Stato statoIniziale) {
+	public Automa(String nome, ArrayList<Stato> stati, ArrayList<Transizione> transizioni, String nomeStatoIniziale) {
 		this.id = ai.incrementAndGet();
 		this.nome = nome;
-		this.statoIniziale = statoIniziale;
-		this.statoCorrente = statoIniziale;
+		for(Stato s : stati) {
+			if (s.getNome().equals(nomeStatoIniziale)){
+				this.statoIniziale = s;
+				this.statoCorrente = s;
+			}
+		}
 		this.mappaStatoTransizioni = new HashMap<>();
 		if (!(isNull(stati) || isNull(transizioni))) creaMappaStatiTransizioni(stati, transizioni);
 	}
-
-
-
 
 	/**
 	 * precondizione: la transizione deve essere abilitata (automa nello stato corrente, evento in ingresso presente su link e link liberi per eventi in uscita)
@@ -63,9 +64,8 @@ public class Automa {
 		this.statoCorrente = statoIniziale;
 	}
 
-	public void creaMappaStatiTransizioni(ArrayList<Stato> stati, ArrayList<Transizione> transizioni) {
+	public void creaMappaStatiTransizioni(ArrayList<Stato> stati, ArrayList<Transizione> transizioni) {		
 		for (Stato stato : stati) {
-
 			ArrayList<Transizione> transizioniUscenti = new ArrayList<>();
 			for (Transizione transizione : transizioni) {
 				if (transizione.getStatoPartenza().equals(stato)){
@@ -93,17 +93,18 @@ public class Automa {
 	public String toString() {
 		String s =  "Automa{" +
 				"id=" + id +
-				", statoIniziale=" + statoIniziale.getId();
+				", nome=" + nome +
+				", statoIniziale=" + statoIniziale.getNome();
 
 		String ss =
-				", statoCorrente=" + statoCorrente.getId() +
+				", statoCorrente=" + statoCorrente.getNome() +
 						'}';
 
 		StringBuilder sb = new StringBuilder();
 
-		sb.append( "\nStati: ");
+		sb.append( "\n	Stati: ");
 		sb.append(mappaStatoTransizioni.keySet());
-		sb.append( "\nTransizioni: ");
+		sb.append( "\n	Transizioni: ");
 		sb.append(mappaStatoTransizioni.values());
 
 

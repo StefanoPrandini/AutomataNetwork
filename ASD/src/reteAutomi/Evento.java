@@ -25,6 +25,10 @@ public class Evento {
 	public Link getLink() {
 		return link;
 	}
+	
+	public String getNome() {
+		return nome;
+	}
 
 
 	public void setId(int id) {
@@ -46,6 +50,7 @@ public class Evento {
 
 	//overload
 	public boolean equals(Evento o) {
+		if(o == null) return false;
 		return this.id == o.getId();
 	}
 
@@ -53,7 +58,8 @@ public class Evento {
 	public String toString() {
 		return "Evento{" +
 				"id=" + id +
-				", link=" + link.getId() +
+				", nome=" + nome +
+				", link=" + link.getNome() +
 				'}';
 	}
 }

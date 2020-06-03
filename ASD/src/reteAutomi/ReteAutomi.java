@@ -46,6 +46,9 @@ public class ReteAutomi {
 			//lista, da riempire, delle transizioni con eventi disponibili allo scatto
 			ArrayList<Transizione> transizioniConEventiAbilitati = new ArrayList<>();
 			for (Transizione transizione : transizioniUscenti) {
+
+				boolean evNull = isNull(transizione.getEventoIngresso());
+				
 				//se la transizione e' con eventi in entrata e in uscita null
 				if (transizione.eventiEntrataEUscitaNull()){
 					transizioniConEventiAbilitati.add(transizione);
@@ -172,11 +175,11 @@ public class ReteAutomi {
 
 
 		//TODO
-		//start: stato di rilevanza iniziale, ogni componente è in stato iniziale, link sono tutti vuoti e insieme etichette rilevanza incontrate è vuoto
+		//start: stato di rilevanza iniziale, ogni componente e' in stato iniziale, link sono tutti vuoti e insieme etichette rilevanza incontrate e' vuoto
 		//l'insieme delle etichette di rilevanza è anche detto decorazione
 		ArrayList<Transizione> transizioni = new ArrayList<>();
 		Etichette etichetteRilevanza = null;
-		//per ogni transizione che scatta, se è rilevante, si inserisce l'etichetta di t nella decorazione
+		//per ogni transizione che scatta, se e' rilevante, si inserisce l'etichetta di t nella decorazione
 		return null;
 	}
 
@@ -186,15 +189,25 @@ public class ReteAutomi {
 		sb.append("Rete di automi: " + automi.size() + " automi | " + links.size() +" link\n");
 
 		for (Automa automa : automi) {
-			sb.append("  Automa " + automa.getId() + ": " +
-					automa.getMappaStatoTransizioni().keySet().size() + " stati, " +
-					automa.getMappaStatoTransizioni().values().size() + " transizioni \n");
+			ArrayList<String>nomiStati = new ArrayList<>();
+			for(Stato s : automa.getMappaStatoTransizioni().keySet()) {
+				nomiStati.add(s.getNome());
+			}
+			ArrayList<String>nomiTransizioni = new ArrayList<>();
+			for(List<Transizione> at : automa.getMappaStatoTransizioni().values()) {
+				for(Transizione t : at) {
+					nomiTransizioni.add(t.getNome());
+				}
+				
+			}
+			sb.append("  Automa " + automa.getNome() + ": " +
+					nomiStati.size() + " stati " + nomiStati + ", " +
+					nomiTransizioni.size() + " transizioni " + nomiTransizioni + "\n");
 		}
 
 		for (Link link : links) {
-			sb.append("  Link " + link.getId() + ": " +
-					" connette " + link.getAutomaPartenza().getId() +
-					" --> " + link.getAutomaArrivo().getId() + "\n");
+			sb.append("  Link " + link.getNome() + ": " +
+					link.getAutomaPartenza().getNome() + " -> " + link.getAutomaArrivo().getNome() + "\n");
 		}
 
 		return sb.toString();

@@ -1,7 +1,7 @@
 {
     "idRete": "Rete1",
 
-    "link": [
+    "links": [
         {
             "idLink": "L2",
             "automaIniziale": "C3",
@@ -25,8 +25,8 @@
             "transizioni": [
                 {
                     "idTransizione": "t2a",
-                    "statoIniziale": 20,
-                    "statoFinale": 21,
+                    "statoPartenza": 20,
+                    "statoArrivo": 21,
                     "etichettaRilevanza": "eps",
                     "etichettaOsservabilita": "o2",
                     "eventoIngresso": {
@@ -43,12 +43,12 @@
 
                 {
                     "idTransizione": "t2b",
-                    "statoIniziale": 21,
-                    "statoFinale": 20,
+                    "statoPartenza": 21,
+                    "statoArrivo": 20,
                     "etichettaRilevanza": "r",
                     "etichettaOsservabilita": "eps",
                     "eventoIngresso": {
-                        "idEvento": "null_event",
+                        "idEvento": "null",
                         "link": ""
                     },
                     "eventiUscita": [
@@ -70,12 +70,12 @@
             "transizioni": [
                 {
                     "idTransizione": "t3a",
-                    "statoFinale": 31,
-                    "statoIniziale": 30,
+                    "statoPartenza": 30,
+                    "statoArrivo": 31,
                     "etichettaRilevanza": "eps",
                     "etichettaOsservabilita": "o3",
                     "eventoIngresso": {
-                        "idEvento": "null_event",
+                        "idEvento": "null",
                         "link": ""
                     },
                     "eventiUscita": [
@@ -87,8 +87,8 @@
                 },
                 {
                     "idTransizione": "t3b",
-                    "statoIniziale": 31,
-                    "statoFinale": 30,
+                    "statoPartenza": 31,
+                    "statoArrivo": 30,
                     "etichettaRilevanza": "eps",
                     "etichettaOsservabilita": "eps",
                     "eventoIngresso": {
@@ -99,8 +99,8 @@
                 },
                 {
                     "idTransizione": "t3c",
-                    "statoIniziale": 31,
-                    "statoFinale": 31,
+                    "statoPartenza": 31,
+                    "statoArrivo": 31,
                     "etichettaRilevanza": "f",
                     "etichettaOsservabilita": "eps",
                     "eventoIngresso": {

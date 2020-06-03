@@ -16,13 +16,30 @@ public class Stato {
 
 	public int getId(){
 		return this.id;
-		
+	}
+	
+	public String getNome() {
+		return this.nome;
 	}
 
 	@Override
 	public String toString() {
 		return "Stato{" +
 				"id=" + id +
+				", nome=" + nome +
 				'}';
 	}
+	
+	public boolean equals(Stato s) {
+		return this.nome.equals(s.nome);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		System.out.println("bbb");
+        if (this == o) return true;
+        if (!(o instanceof Stato)) return false;
+        Stato that = (Stato) o;
+        return this.nome == that.getNome();
+    }
 }

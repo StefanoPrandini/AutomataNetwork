@@ -62,8 +62,9 @@ public class Link {
 	public String toString() {
 		return "Link{" +
 				"id=" + id +
-				", automaPartenza=" + automaPartenza.getId() +
-				", automaArrivo=" + automaArrivo.getId() +
+				", nome=" + nome +
+				", automaPartenza=" + automaPartenza.getNome() +
+				", automaArrivo=" + automaArrivo.getNome() +
 				'}';
 	}
 

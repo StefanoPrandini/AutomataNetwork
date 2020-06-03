@@ -12,23 +12,21 @@ import reteAutomi.Stato;
 import reteAutomi.Transizione;
 
 public class Prove {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		String JSONPath = "C:\\Users\\Stefano\\git\\AutomataNetwork\\ASD\\JSON\\ReteIniziale.json";
 		
 		InputParser parser = new InputParser(JSONPath);
-		parser.parseRete();
-		ArrayList<Link> links = parser.getLinks();
-		ArrayList<Automa> automi = parser.getAutomi();
+
+		ReteAutomi ra = parser.parseRete();
 		
-		System.out.println("nomi link da JSON:");
-		for(Link l : links) {
-			System.out.println(l.getNome());
-		}
-		System.out.println("\nnomi automi da JSON:");
-		for(Automa a : automi) {
-			System.out.println(a);
-		}
+		ra.inizializzaRete();
+		
+		System.out.println(ra.getAutomi().get(0));
+		System.out.println();
+		System.out.println(ra.getAutomi().get(1));
+		System.out.println();
+		System.out.println(ra);
 		
 		/**
 		Stato s1 = new Stato("s1");

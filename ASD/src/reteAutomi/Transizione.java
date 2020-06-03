@@ -64,6 +64,10 @@ public class Transizione {
 	public int getId() {
 		return id;
 	}
+	
+	public String getNome() {
+		return nome;
+	}
 
 	public void setStatoPartenza(Stato statoPartenza) {
 		this.statoPartenza = statoPartenza;
@@ -100,14 +104,16 @@ public class Transizione {
 		if (!isNull(eventoIngresso))
 			return "Transizione{" +
 					"id=" + id +
-					"(in " + statoPartenza.getId() +
-					", out " + statoArrivo.getId() +
-					", eIn " + eventoIngresso.getId() +
+					", nome=" + nome +
+					", (sIn " + statoPartenza.getNome() +
+					", sOut " + statoArrivo.getNome() +
+					", eIn " + eventoIngresso.getNome() +
 					")}"+ "\n";
 		else return "Transizione{" +
 				"id=" + id +
-				"(in " + statoPartenza.getId() +
-				", out " + statoArrivo.getId() +
+				", nome=" + nome +
+				", (sIn " + statoPartenza.getNome() +
+				", sOut " + statoArrivo.getNome() +
 				", eIn Null" +
 				")}"+ "\n";
 	}

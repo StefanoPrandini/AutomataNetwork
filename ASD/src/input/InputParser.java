@@ -6,8 +6,11 @@ import java.util.ArrayList;
 // In order to use Gson to parse JSON in Java, you need to add the library as a dependency. You can get the latest version from Maven repository
 import com.google.gson.*;
 import reteAutomi.Automa;
+import reteAutomi.Evento;
 import reteAutomi.Link;
+import reteAutomi.ReteAutomi;
 import reteAutomi.Stato;
+import reteAutomi.Transizione;
 
 
 public class InputParser {
@@ -21,33 +24,34 @@ public class InputParser {
 	 * creo rete
 	 */
 	
-	public String filePath;
-	public ArrayList<Link> links;
-	public ArrayList<Automa> automi;
+	private String filePath;
+	private JsonObject json;
+	private ArrayList<Link> links;
+	private ArrayList<Automa> automi;
 	
 	public InputParser(String filePath) {
 		this.filePath = filePath;
+		try {
+			this.json = JsonParser.parseReader(new FileReader(filePath)).getAsJsonObject();
+		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		this.links = new ArrayList<>();
 		this.automi = new ArrayList<>();
 	}
 
-	public void parseRete() {
+	public ReteAutomi parseRete() throws Exception {
 		getLinksFromJson();
 		getAutomiFromJson();
+		addAutomiToLinks();
+		
+		return new ReteAutomi("", this.automi, this.links);
+		
 	}
-	
+
 	private void getLinksFromJson(){
 		JsonArray jLinks = null;
-		try {
-			JsonElement content = JsonParser.parseReader(new FileReader(filePath));
-			JsonObject jObject = content.getAsJsonObject();
-			jLinks = jObject.getAsJsonArray("link");
-		} 
-		catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		jLinks = json.getAsJsonArray("links");
 		
 		for(int i=0; i < jLinks.size(); i++) {
 			String nome = jLinks.get(i).getAsJsonObject().get("idLink").getAsString();
@@ -55,25 +59,19 @@ public class InputParser {
 		}
 	}
 	
-	private void getAutomiFromJson(){
+	private void getAutomiFromJson() throws Exception{
 		JsonArray jAutomi = null;
-		try {
-			JsonElement content = JsonParser.parseReader(new FileReader(filePath));
-			JsonObject jObject = content.getAsJsonObject();
-			jAutomi = jObject.getAsJsonArray("automi");
-		} 
-		catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		jAutomi = json.getAsJsonArray("automi");
 		
 		for(int i=0; i < jAutomi.size(); i++) {
 			String nome = jAutomi.get(i).getAsJsonObject().get("idAutoma").getAsString();
-			String staatoIniziale = jAutomi.get(i).getAsJsonObject().get("statoIniziale").getAsString();
+			String nomeStatoIniziale = jAutomi.get(i).getAsJsonObject().get("statoIniziale").getAsString();
 			ArrayList<Stato> stati = getStatiFromJSON(jAutomi.get(i));
-
+			ArrayList<Transizione> transizioni = getTransizioniFromJSON(jAutomi.get(i), stati);
 			
-			this.automi.add(new Automa(nome, stati, null, new Stato(staatoIniziale)));
+			Automa automa = new Automa(nome, stati, transizioni, nomeStatoIniziale);
+			this.automi.add(automa);
+			
 		}
 	}
 	
@@ -86,6 +84,81 @@ public class InputParser {
 		return stati;
 	}
 	
+	private ArrayList<Transizione> getTransizioniFromJSON(JsonElement automa, ArrayList<Stato> stati) throws Exception{
+		JsonArray jTransizioni = automa.getAsJsonObject().getAsJsonArray("transizioni");
+		ArrayList<Transizione> transizioni = new ArrayList<>();
+		for(int i=0; i<jTransizioni.size(); i++) {
+			JsonObject jTrans = jTransizioni.get(i).getAsJsonObject();
+			String nome = jTrans.get("idTransizione").getAsString();
+			//non devo creare stati nuovi: li cerco tra gli stati dell'automa in considerazione e se non ci sono -> restano null, vedere cosa fare
+			Stato statoPartenza = null;
+			Stato statoArrivo = null;
+			for(Stato s : stati) {
+				if(s.getNome().equals(jTrans.get("statoPartenza").getAsString())) {
+					statoPartenza = s;
+				}
+				if(s.getNome().equals(jTrans.get("statoArrivo").getAsString())) {
+					statoArrivo = s;
+				}
+			}
+			if (statoPartenza == null) {
+				throw new Exception("Stato di partenza " + jTrans.get("statoPartenza").getAsString() + " non trovato!");	
+			}
+			if (statoArrivo == null) {
+				throw new Exception("Stato di arrivo " + jTrans.get("statoArrivo").getAsString() + " non trovato!");	
+			}
+			
+			String idEventoIn = jTrans.getAsJsonObject("eventoIngresso").get("idEvento").getAsString();
+			// se nel json "idEvento" == "null", non c'e' l'evento in ingresso
+			Evento eventoIn = null;
+			if(!idEventoIn.equals("null")) {
+				eventoIn = new Evento(idEventoIn, findLink(jTrans.getAsJsonObject("eventoIngresso").get("link").getAsString()));
+			}
+			JsonArray jEventiOut = jTrans.getAsJsonArray("eventiUscita");
+			ArrayList<Evento> eventiOut = new ArrayList<>();
+			for(int j=0; j<jEventiOut.size(); j++) {
+				JsonObject jEvento = jEventiOut.get(j).getAsJsonObject();
+				Evento eventoOut = new Evento(jEvento.get("idEvento").getAsString(), findLink(jEvento.get("link").getAsString()));
+				eventiOut.add(eventoOut);
+			}
+			String etichettaR = jTrans.get("etichettaRilevanza").getAsString();
+			String etichettaO = jTrans.get("etichettaOsservabilita").getAsString();
+
+			transizioni.add(new Transizione(nome, statoPartenza, statoArrivo, eventoIn, eventiOut, etichettaR, etichettaO));
+		}
+		return transizioni;
+	}
+	
+	private Link findLink(String nomeLink) {
+		for(Link link : this.links) {
+			if(link.getNome().equals(nomeLink)) {
+				return link;
+			}
+		}
+		return null;
+	}
+	
+	private Automa findAutoma(String nomeAutoma) {
+		for(Automa automa : this.automi) {
+			if(automa.getNome().equals(nomeAutoma)) {
+				return automa;
+			}
+		}
+		return null;
+	}
+	
+	private void addAutomiToLinks() {
+		for(Link link : this.links) {
+			JsonArray jLinks = json.getAsJsonArray("links");
+			for(int i=0; i<jLinks.size(); i++) {
+				if(jLinks.get(i).getAsJsonObject().get("idLink").getAsString() == link.getNome()) {
+					link.setAutomaPartenza(findAutoma(jLinks.get(i).getAsJsonObject().get("automaIniziale").getAsString()));
+					link.setAutomaArrivo(findAutoma(jLinks.get(i).getAsJsonObject().get("automaFinale").getAsString()));
+				}
+			}
+		}
+	}
+
 	public ArrayList<Link> getLinks(){
 		return this.links;
 	}	
