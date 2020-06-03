@@ -56,11 +56,14 @@ public class StatoRilevanzaReteAutomi {
     }
 
     /**
-     * aggiungo anche se gia presente, non viene specificato nelle slide
-     * @param e
+     * se gia' presente viene ignorato -almeno cosi sembra nella slide 16, f viene incontrata piu' volte ma aggiunta solo la prima-
+     * @param  etichetta String
      */
-    public void addEtichettaRilevanzaToDecorazione(String e){
-        this.decorazione.add(e);
+    public void addEtichettaRilevanzaToDecorazione(String etichetta){
+        if (!this.decorazione.contains(etichetta)){
+            this.decorazione.add(etichetta);
+        }
+
     }
 
 

@@ -15,6 +15,7 @@ public class Prove {
 	public static void main(String[] args) throws Exception {
 		
 		String JSONPath = "C:\\Users\\Stefano\\git\\AutomataNetwork\\ASD\\JSON\\ReteIniziale.json";
+		// JSONPath = "/Users/Livio/Desktop/ASD/ASD/JSON/ReteIniziale.json"; /* percorso livio */
 		
 		InputParser parser = new InputParser(JSONPath);
 
