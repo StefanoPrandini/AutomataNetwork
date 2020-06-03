@@ -1,5 +1,7 @@
 package reteAutomi;
 
+import javafx.util.Pair;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -11,9 +13,9 @@ public class StatoRilevanzaReteAutomi {
     private int id;
     private String nome;
 
-    private ArrayList<Link> links;
-    private ArrayList<Automa> automi;
-    private ArrayList<String> etichetteRilevanzaIncontrate;
+    private ArrayList<Pair<Integer, Evento>> contenutoLinks;
+    private ArrayList<Pair<Integer, Integer>> statiCorrentiAutomi;
+    private ArrayList<String> decorazione;
 
 
 
@@ -26,37 +28,57 @@ public class StatoRilevanzaReteAutomi {
      * Inizializza la lista eventi con il contenuto dei lnk (eventualmente null)
      * @param ra la rete di automi di cui si vuole creare lo stato
      */
-    public StatoRilevanzaReteAutomi(String nome, ReteAutomi ra) {
+    public StatoRilevanzaReteAutomi(String nome, ReteAutomi ra, ArrayList<String> decorazione) {
         this.id = ai.incrementAndGet();
         this.nome = nome;
-        this.automi = new ArrayList<>();
-        this.links = new ArrayList<>();
-        automi.addAll(ra.getAutomi());
-        links.addAll(ra.getLinks());
+        this.contenutoLinks = new ArrayList<>();
+        this.statiCorrentiAutomi = new ArrayList<>();
+        this.aggiungiContenuti(ra.getLinks());
+        this.aggiungiStatiCorrenti(ra.getAutomi());
+        this.decorazione = decorazione;
+    }
+
+
+
+    private void aggiungiContenuti(ArrayList<Link> links) {
+        for (Link link : links) {
+            if (!link.isVuoto()){
+                this.contenutoLinks.add(new Pair<>(link.getId(), link.getEvento()));
+            }
+            else contenutoLinks.add(new Pair<>(link.getId(), null));
+        }
+    }
+
+    private void aggiungiStatiCorrenti(ArrayList<Automa> automi) {
+        for (Automa automa : automi) {
+            statiCorrentiAutomi.add(new Pair<>(automa.getId(), automa.getStatoCorrente().getId()));
+        }
     }
 
     /**
      * aggiungo anche se gia presente, non viene specificato nelle slide
      * @param e
      */
-    public void addEtichettaRilevanza(String e){
-        this.etichetteRilevanzaIncontrate.add(e);
+    public void addEtichettaRilevanzaToDecorazione(String e){
+        this.decorazione.add(e);
     }
 
 
 
 
 
-    public String getInfoStato(){
+    public String getInfoStatoToString(){
         StringBuilder sb = new StringBuilder();
-        for (Automa automa : automi) {
-            sb.append("Stato corrente automa ").append(automa.getId()).append(": ").append(automa.getStatoCorrente().getId()).append("\n");
+
+        for (Pair<Integer, Integer> coppiaAutomaStato : statiCorrentiAutomi) {
+            sb.append("Stato dell'automa " + coppiaAutomaStato.getKey() + ": " + coppiaAutomaStato.getValue() + "\n");
         }
-        for (Link link : links) {
-            if (!isNull(link.getEvento())){
-                sb.append("Evento su link ").append(link.getId()).append(": ").append(link.getEvento().getId()).append("\n");
+
+        for (Pair<Integer, Evento> contenutoLink : contenutoLinks) {
+            if (!isNull(contenutoLink.getValue())) {
+                sb.append("Contenuto del link " + contenutoLink.getKey() + ": " + contenutoLink.getValue() + "\n");
             }
-            else sb.append("Evento su link ").append(link.getId()).append(": null ").append("\n");
+            else sb.append("Contenuto del link " + contenutoLink.getKey() + ": " + null + "\n");
         }
         return sb.toString();
     }

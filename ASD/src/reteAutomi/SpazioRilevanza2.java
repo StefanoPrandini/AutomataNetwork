@@ -54,9 +54,12 @@ public class SpazioRilevanza2 {
 	}
 
 	private StatoRilevanzaReteAutomi calcolaStatoRilevanza(StatoRilevanzaReteAutomi statoRilevanza, Transizione t) {
+		// link pieni, stati dell'automa
+
 		
 		return null;
 	}
+
 
 	private StatoRilevanzaReteAutomi calcolaStatoRilevanzaIniziale() {
 		ArrayList<Stato>statiIniziali = new ArrayList<>();
@@ -66,7 +69,7 @@ public class SpazioRilevanza2 {
 		ArrayList<Evento>eventiLink = new ArrayList<>();
 		ArrayList<String>decorazione = new ArrayList<>();
 		
-		return new StatoRilevanzaReteAutomi("", statiIniziali, new ArrayList<Evento>(), decorazione);
+		return new StatoRilevanzaReteAutomi("", ra, decorazione);
 	}
 	
 }

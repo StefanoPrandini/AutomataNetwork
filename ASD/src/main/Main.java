@@ -134,7 +134,7 @@ public class Main {
 			ril.add(nextTr.getEtichettaRilevanza());
 			oss.add(nextTr.getEtichettaOsservabilita());
 
-			statiRilevanza.add(new StatoRilevanzaReteAutomi("statoRilevanza",ra));
+			statiRilevanza.add(new StatoRilevanzaReteAutomi("statoRilevanza",ra, new ArrayList<>()));
 
 
 
@@ -153,7 +153,7 @@ public class Main {
 		System.out.println(ra.getAutomi().get(0).getStatoCorrente());
 		System.out.println(ra.getAutomi().get(1).getStatoCorrente());
 
-		System.out.println(statiRilevanza.get(0).getInfoStato());
+		System.out.println(statiRilevanza.get(0).getInfoStatoToString());
 
 		SpazioRilevanza sr = new SpazioRilevanza(statiRilevanza, ril, oss);
 
