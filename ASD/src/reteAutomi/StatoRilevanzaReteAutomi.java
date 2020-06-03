@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Objects.isNull;
 
+@SuppressWarnings("restriction")
 public class StatoRilevanzaReteAutomi {
 
     private static AtomicInteger ai =  new AtomicInteger(0);
@@ -33,14 +34,14 @@ public class StatoRilevanzaReteAutomi {
         this.nome = nome;
         this.contenutoLinks = new ArrayList<>();
         this.statiCorrentiAutomi = new ArrayList<>();
-        this.aggiungiContenuti(ra.getLinks());
+        this.aggiungiContenutiLinks(ra.getLinks());
         this.aggiungiStatiCorrenti(ra.getAutomi());
         this.decorazione = decorazione;
     }
 
 
 
-    private void aggiungiContenuti(ArrayList<Link> links) {
+    private void aggiungiContenutiLinks(ArrayList<Link> links) {
         for (Link link : links) {
             if (!link.isVuoto()){
                 this.contenutoLinks.add(new Pair<>(link.getId(), link.getEvento()));
@@ -84,6 +85,14 @@ public class StatoRilevanzaReteAutomi {
             else sb.append("Contenuto del link " + contenutoLink.getKey() + ": " + null + "\n");
         }
         return sb.toString();
+    }
+    
+    public ArrayList<Pair<Integer, Evento>> getContenutoLinks(){
+    	return this.contenutoLinks;
+    }
+    
+    public ArrayList<Pair<Integer, Integer>> getStatiCorrentiAutoma(){
+    	return this.statiCorrentiAutomi;
     }
 
     @Override

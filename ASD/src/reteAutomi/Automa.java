@@ -38,7 +38,8 @@ public class Automa {
 			}
 		}
 		this.mappaStatoTransizioni = new HashMap<>();
-		if (!(isNull(stati) || isNull(transizioni))) creaMappaStatiTransizioni(stati, transizioni);
+		if (!(isNull(stati) || isNull(
+				transizioni))) creaMappaStatiTransizioni(stati, transizioni);
 	}
 
 	/**
@@ -53,6 +54,16 @@ public class Automa {
 	public ArrayList<Transizione> getTransizioniUscenti(Stato s){
 		ArrayList<Transizione> result = new ArrayList<>();
 		result.addAll(mappaStatoTransizioni.get(s));
+		return result;
+	}
+	
+	public ArrayList<Transizione> getTransizioniUscenti(int idStato){
+		ArrayList<Transizione> result = new ArrayList<>();
+		for(Stato s : mappaStatoTransizioni.keySet()) {
+			if(s.getId() == idStato) {
+				result.addAll(mappaStatoTransizioni.get(s));
+			}
+		}
 		return result;
 	}
 

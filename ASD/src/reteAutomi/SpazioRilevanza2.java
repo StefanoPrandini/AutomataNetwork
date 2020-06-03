@@ -40,7 +40,7 @@ public class SpazioRilevanza2 {
 				StatoRilevanzaReteAutomi nuovoStatoRilevanza = calcolaStatoRilevanza(statoRilevanza, t);
 				// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
 				if(!mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
-					coda.add(statoRilevanza);
+					coda.add(nuovoStatoRilevanza);
 				}
 			}
 		}
@@ -49,7 +49,26 @@ public class SpazioRilevanza2 {
 	}
 	
 	private ArrayList<Transizione> getTransizioniAbilitate(StatoRilevanzaReteAutomi statoRilevanza) {
-		
+		for(int i=0; i<statoRilevanza.getStatiCorrentiAutoma().size(); i++) {
+			int idAutoma = statoRilevanza.getStatiCorrentiAutoma().get(i).getKey();
+			int idStato = statoRilevanza.getStatiCorrentiAutoma().get(i).getValue();
+			Automa automa = null;
+			for(Automa a : this.automi) {
+				if(a.getNome().equals(idAutoma)) {
+					automa = a;
+				}
+			}
+			ArrayList<Transizione>transizioniUscenti = automa.getTransizioniUscenti(idStato);
+			
+			ArrayList<Transizione>transizioniAbilitate = new ArrayList<>();
+			for(Transizione t : transizioniUscenti) {
+				Evento eIn = t.getEventoIngresso();
+				ArrayList<Evento>eOut = t.getEventiUscita();
+				// ... controlli già fatti in ReteAutomi
+				
+			}
+
+		}
 		return null;
 	}
 
