@@ -46,8 +46,6 @@ public class ReteAutomi {
 			//lista, da riempire, delle transizioni con eventi disponibili allo scatto
 			ArrayList<Transizione> transizioniConEventiAbilitati = new ArrayList<>();
 			for (Transizione transizione : transizioniUscenti) {
-
-				boolean evNull = isNull(transizione.getEventoIngresso());
 				
 				//se la transizione e' con eventi in entrata e in uscita null
 				if (transizione.eventiEntrataEUscitaNull()){

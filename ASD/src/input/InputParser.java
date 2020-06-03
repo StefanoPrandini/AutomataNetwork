@@ -24,13 +24,11 @@ public class InputParser {
 	 * creo rete
 	 */
 	
-	private String filePath;
 	private JsonObject json;
 	private ArrayList<Link> links;
 	private ArrayList<Automa> automi;
 	
 	public InputParser(String filePath) {
-		this.filePath = filePath;
 		try {
 			this.json = JsonParser.parseReader(new FileReader(filePath)).getAsJsonObject();
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
