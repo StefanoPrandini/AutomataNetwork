@@ -19,9 +19,7 @@ public class Prove {
 		InputParser parser = new InputParser(JSONPath);
 
 		ReteAutomi ra = parser.parseRete();
-		
-		ra.inizializzaRete();
-		
+				
 		System.out.println(ra.getAutomi().get(0));
 		System.out.println();
 		System.out.println(ra.getAutomi().get(1));
