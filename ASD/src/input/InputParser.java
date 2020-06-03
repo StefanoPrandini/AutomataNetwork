@@ -119,8 +119,14 @@ public class InputParser {
 				Evento eventoOut = new Evento(jEvento.get("idEvento").getAsString(), findLink(jEvento.get("link").getAsString()));
 				eventiOut.add(eventoOut);
 			}
-			String etichettaR = jTrans.get("etichettaRilevanza").getAsString();
-			String etichettaO = jTrans.get("etichettaOsservabilita").getAsString();
+			String etichettaR = null;
+			if(!jTrans.get("etichettaRilevanza").getAsString().equals("eps")) {
+				etichettaR = jTrans.get("etichettaRilevanza").getAsString();
+			}
+			String etichettaO = null;
+			if(!jTrans.get("etichettaOsservabilita").getAsString().equals("eps")) {
+				etichettaO = jTrans.get("etichettaOsservabilita").getAsString();
+			}
 
 			transizioni.add(new Transizione(nome, statoPartenza, statoArrivo, eventoIn, eventiOut, etichettaR, etichettaO));
 		}
