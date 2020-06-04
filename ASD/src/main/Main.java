@@ -125,7 +125,7 @@ public class Main {
 		ArrayList<String> oss = new ArrayList<>();
 
 
-		ArrayList<StatoRilevanzaReteAutomi> statiRilevanza = new ArrayList<>();
+		ArrayList<StatoRilevanzaRete> statiRilevanza = new ArrayList<>();
 
 		while (!daSvolgere.isEmpty()){
 			Transizione nextTr = daSvolgere.get(0);
@@ -134,7 +134,7 @@ public class Main {
 			ril.add(nextTr.getEtichettaRilevanza());
 			oss.add(nextTr.getEtichettaOsservabilita());
 
-			statiRilevanza.add(new StatoRilevanzaReteAutomi("statoRilevanza",ra, new ArrayList<>()));
+			statiRilevanza.add(new StatoRilevanzaRete(ra, new ArrayList<>()));
 
 
 

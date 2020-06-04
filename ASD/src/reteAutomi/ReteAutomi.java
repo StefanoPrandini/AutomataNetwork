@@ -95,13 +95,14 @@ public class ReteAutomi {
 		}
 		return true;
 	}
+	
 
 	/**
 	 * precondizione: la transizione deve essere eseguibile
 	 * @param t
 	 */
 	public void svolgiTransizione(Transizione t){
-		//se l'evento in ingresso non è null lo svolgo
+		//se l'evento in ingresso non e' null lo svolgo
 		if (!isNull(t.getEventoIngresso())){
 			t.getEventoIngresso().svolgiEvento();
 		}
@@ -153,6 +154,7 @@ public class ReteAutomi {
 				.orElse(null);
 	}
 
+	
 	public ArrayList<Transizione> transizioniAbilitateDaIdAutoma(int idAutoma){
 		ArrayList<Transizione> result = new ArrayList<>();
 		Automa a = trovaAutoma(idAutoma);
@@ -160,9 +162,6 @@ public class ReteAutomi {
 		result.addAll(mappaAutomiTransizioniAbilitate.get(a));
 		return result;
 	}
-
-
-
 
 
 	@Override
@@ -176,8 +175,8 @@ public class ReteAutomi {
 				nomiStati.add(s.getNome());
 			}
 			ArrayList<String>nomiTransizioni = new ArrayList<>();
-			for(List<Transizione> at : automa.getMappaStatoTransizioni().values()) {
-				for(Transizione t : at) {
+			for(List<Transizione> listT : automa.getMappaStatoTransizioni().values()) {
+				for(Transizione t : listT) {
 					nomiTransizioni.add(t.getNome());
 				}
 				
@@ -191,18 +190,20 @@ public class ReteAutomi {
 			sb.append("  Link " + link.getNome() + ": " +
 					link.getAutomaPartenza().getNome() + " -> " + link.getAutomaArrivo().getNome() + "\n");
 		}
-
+		
 		return sb.toString();
-
 	}
 
+	
 	public ArrayList<Automa> getAutomi() {
 		return automi;
 	}
 
+	
 	public ArrayList<Link> getLinks() {
 		return links;
 	}
+	
 
 	public ArrayList<Transizione> getTutteTransizioniAbilitate(){
 		ArrayList<Transizione> result = new ArrayList<>();
@@ -213,6 +214,7 @@ public class ReteAutomi {
 
 	}
 
+	
 	public Transizione trovaTransizioneDaId(int id){
 		for (Automa automa : automi) {
 			for (List<Transizione> listaTransizioniUscenti : automa.getMappaStatoTransizioni().values()) {
@@ -232,6 +234,12 @@ public class ReteAutomi {
 				}
 			}
 		}
+	}
+
+
+	public void setReteAutomi(StatoRilevanzaRete statoRilevanza) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

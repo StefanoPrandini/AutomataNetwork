@@ -5,8 +5,8 @@ import java.util.LinkedHashMap;
 
 public class SpazioRilevanza {
 
-    private ArrayList<StatoRilevanzaReteAutomi> statiRete;
-    private StatoRilevanzaReteAutomi statoCorrente;
+    private ArrayList<StatoRilevanzaRete> statiRete;
+    private StatoRilevanzaRete statoCorrente;
 
 
     //forse sono ridondanti ?
@@ -23,12 +23,12 @@ public class SpazioRilevanza {
 
    qui uso soluzione super easy
    */
-    private LinkedHashMap< StatoRilevanzaReteAutomi, Transizione> mappaStatoRilevanzaTransizioni;
+    private LinkedHashMap< StatoRilevanzaRete, Transizione> mappaStatoRilevanzaTransizioni;
 
     /*
     costruzione iniziale dello spazio di rilevanza
     */
-    public SpazioRilevanza(ArrayList<StatoRilevanzaReteAutomi> statiRete, ArrayList<String> insiemeEtichetteRilevanza, ArrayList<String> insiemeEtichetteOsservabilita) {
+    public SpazioRilevanza(ArrayList<StatoRilevanzaRete> statiRete, ArrayList<String> insiemeEtichetteRilevanza, ArrayList<String> insiemeEtichetteOsservabilita) {
         this.statiRete = statiRete;
         this.insiemeEtichetteRilevanza = insiemeEtichetteRilevanza;
         this.insiemeEtichetteOsservabilita = insiemeEtichetteOsservabilita;

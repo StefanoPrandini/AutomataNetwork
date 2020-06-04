@@ -18,31 +18,33 @@ import static java.util.Objects.isNull;
 public class SpazioRilevanza2 {
 	private ReteAutomi ra;
 	
-	private List<Automa>automi;
-	private List<Link>links;
-	
-	private Map<StatoRilevanzaReteAutomi, List<Transizione>> mappaStatoRilevanzaTransizioni;
+	private Map<StatoRilevanzaRete, List<Transizione>> mappaStatoRilevanzaTransizioni;
 	
 	public SpazioRilevanza2(ReteAutomi ra) {
 		this.ra = ra;
-		this.automi = ra.getAutomi();
-		this.links = ra.getLinks();
 		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>();
-
 	}
 	
 	public SpazioRilevanza2 creaSpazioRilevanza() {
-		Queue<StatoRilevanzaReteAutomi> coda = new LinkedList<>();
-		StatoRilevanzaReteAutomi statoIniziale = calcolaStatoRilevanzaIniziale();
+		Queue<StatoRilevanzaRete> coda = new LinkedList<>();
+		ArrayList<String>decorazioneIniziale = new ArrayList<>();
+		//la rete deve essere nella condizione iniziale
+		StatoRilevanzaRete statoIniziale = new StatoRilevanzaRete(ra, decorazioneIniziale);
 		coda.add(statoIniziale);
 		
 		while(!coda.isEmpty()) {
-			StatoRilevanzaReteAutomi statoRilevanza = coda.remove();
-			ArrayList<Transizione>transizioniAbilitate = getTransizioniAbilitate(statoRilevanza);
+			StatoRilevanzaRete statoRilevanza = coda.remove();
+			
+			// faccio andare la rete nella condizione descritta dallo statoRilevanza appena estratto, cosi' poi posso usare i metodi di ReteAutomi 
+			// per cercare le transizioni abilitate e gli stati successivi
+			ra.setReteAutomi(statoRilevanza);
+			
+			// ArrayList<Transizione>transizioniAbilitate = getTransizioniAbilitate(statoRilevanza);
+			ArrayList<Transizione>transizioniAbilitate = ra.getTutteTransizioniAbilitate();
 			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, transizioniAbilitate);
 			
 			for(Transizione t : transizioniAbilitate) {
-				StatoRilevanzaReteAutomi nuovoStatoRilevanza = calcolaStatoRilevanza(statoRilevanza, t);
+				StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(t, statoRilevanza.getDecorazione());
 				// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
 				if(!mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
 					coda.add(nuovoStatoRilevanza);
@@ -53,16 +55,13 @@ public class SpazioRilevanza2 {
 		return this;
 	}
 	
-	private ArrayList<Transizione> getTransizioniAbilitate(StatoRilevanzaReteAutomi statoRilevanza) {
-		/*
-		//NOTA
-		//se si facesse ra.getTutteTransizioniAbilitate(); ?
-		*/
+	/**
+	private ArrayList<Transizione> getTransizioniAbilitate(StatoRilevanzaRete statoRilevanza) {
 		for(int i=0; i<statoRilevanza.getStatiCorrentiAutoma().size(); i++) {
 			int idAutoma = statoRilevanza.getStatiCorrentiAutoma().get(i).getKey();
 			int idStato = statoRilevanza.getStatiCorrentiAutoma().get(i).getValue();
 			Automa automa = null;
-			for(Automa a : this.automi) {
+			for(Automa a : ra.getAutomi()) {
 				if(a.getNome().equals(idAutoma)) {
 					automa = a;
 				}
@@ -80,16 +79,34 @@ public class SpazioRilevanza2 {
 		}
 		return null;
 	}
+	*/
 
-	private StatoRilevanzaReteAutomi calcolaStatoRilevanza(StatoRilevanzaReteAutomi statoRilevanza, Transizione t) {
+	private StatoRilevanzaRete calcolaStatoRilevanzaSucc(Transizione t, ArrayList<String> decorazione) {		
+		
+		ArrayList<Pair<Integer, Evento>> contenutoLinks = new ArrayList<>();
+		ArrayList<Pair<Integer, Integer>> statiAutomi = new ArrayList<>();
+		
+		ra.svolgiTransizione(t);
+		
+		for(Link l : ra.getLinks()) {
+			contenutoLinks.add(new Pair<>(l.getId(), l.getEvento()));
+		}
+		for(Automa a : ra.getAutomi()) {
+			statiAutomi.add(new Pair<>(a.getId(), a.getStatoCorrente().getId()));
+		}
+		//aggiungo eventuale etichetta di rilevanza
+		if (t.hasEtichettaRilevanza() && !decorazione.contains(t.getEtichettaRilevanza())){
+			decorazione.add(t.getEtichettaRilevanza());
+		}
+		return new StatoRilevanzaRete(contenutoLinks, statiAutomi , decorazione);
+		
+		/**
+
 		// link pieni ed eventi, stati dell'automa, decorazione
 
 
 		//valuta esecuzione rispetto a statoRilevanza --> link liberi, automa nello stato giusto, eventi necessari presenti su link
 
-		ArrayList<Pair<Integer, Evento>> contenutoLinks = new ArrayList<>();
-		ArrayList<Pair<Integer, Integer>> statiAutomi = new ArrayList<>();
-		ArrayList<String> decorazione = statoRilevanza.getDecorazione();
 		if (isEseguibile(t)){
 			//svuoto links in entrata
 			Evento inEntrata = t.getEventoIngresso();
@@ -99,12 +116,6 @@ public class SpazioRilevanza2 {
 			ArrayList<Evento> inUscita = t.getEventiUscita();
 			contenutoLinks.addAll(linkUscitaAggiornati(inUscita));
 
-			//aggiungo eventuale etichetta di rilevanza
-			if (t.hasEtichettaRilevanza() && !decorazione.contains(t.getEtichettaRilevanza())){
-				decorazione.add(t.getEtichettaRilevanza());
-			}
-
-
 			//aggiorno automa
 			//ATTENZIONE, SIMULA
 			ra.simulaPassaggioDiStato(t);
@@ -112,24 +123,19 @@ public class SpazioRilevanza2 {
 				statiAutomi.add(new Pair<>(automa.getId(), automa.getStatoCorrente().getId()));
 			}
 
-			return new StatoRilevanzaReteAutomi(contenutoLinks, statiAutomi , decorazione);
+			return new StatoRilevanzaRete(contenutoLinks, statiAutomi , decorazione);
 		}
 
 		return null;
+		*/
 	}
 
-
-	private boolean isEseguibile(Transizione t){
-
-		//TODO valutare esecuzione rispetto a stato di rilevanza o ripsetto a stato attuale della rete di automi?
-		return false;
-	}
 
 	/**
 	 * precondizione: gli eventi sono destinati a link effettivamente liberi
 	 * @param eventi
 	 * @return
-	 */
+
 	private ArrayList<Pair<Integer, Evento>> linkUscitaAggiornati(ArrayList<Evento> eventi){
 		ArrayList<Pair<Integer, Evento>> linkAggiornati = new ArrayList<>();
 
@@ -160,17 +166,6 @@ public class SpazioRilevanza2 {
 		}
 		return new Pair<>(daSvuotare.getId(), null);
 	}
-
-
-	private StatoRilevanzaReteAutomi calcolaStatoRilevanzaIniziale() {
-		ArrayList<Stato>statiIniziali = new ArrayList<>();
-		for(Automa a : this.automi) {
-			statiIniziali.add(a.getStatoIniziale());
-		}
-		ArrayList<Evento>eventiLink = new ArrayList<>();
-		ArrayList<String>decorazione = new ArrayList<>();
-		
-		return new StatoRilevanzaReteAutomi( ra, decorazione);
-	}
+	 */
 	
 }

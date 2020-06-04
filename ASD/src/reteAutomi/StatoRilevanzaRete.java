@@ -8,21 +8,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static java.util.Objects.isNull;
 
 @SuppressWarnings("restriction")
-public class StatoRilevanzaReteAutomi {
+public class StatoRilevanzaRete {
 
     private static AtomicInteger ai =  new AtomicInteger(0);
     private int id;
-    private String nome;
 
     private ArrayList<Pair<Integer, Evento>> contenutoLinks;
     private ArrayList<Pair<Integer, Integer>> statiCorrentiAutomi;
     private ArrayList<String> decorazione;
-
-
-
-
-
-
 
     /**
      * Crea uno stato partendo dalla rete di automi
@@ -30,7 +23,7 @@ public class StatoRilevanzaReteAutomi {
      * Inizializza la lista eventi con il contenuto dei lnk (eventualmente null)
      * @param ra la rete di automi di cui si vuole creare lo stato
      */
-    public StatoRilevanzaReteAutomi( ReteAutomi ra, ArrayList<String> decorazione) {
+    public StatoRilevanzaRete(ReteAutomi ra, ArrayList<String> decorazione) {
         this.id = ai.incrementAndGet();
         this.contenutoLinks = new ArrayList<>();
         this.statiCorrentiAutomi = new ArrayList<>();
@@ -46,7 +39,7 @@ public class StatoRilevanzaReteAutomi {
      * @param statiAutomi
      * @param decorazione
      */
-    public StatoRilevanzaReteAutomi( ArrayList<Pair<Integer, Evento>> contenutoLinks, ArrayList<Pair<Integer, Integer>> statiAutomi, ArrayList<String> decorazione) {
+    public StatoRilevanzaRete( ArrayList<Pair<Integer, Evento>> contenutoLinks, ArrayList<Pair<Integer, Integer>> statiAutomi, ArrayList<String> decorazione) {
         this.id = ai.incrementAndGet();
 
         this.contenutoLinks = contenutoLinks;
@@ -54,7 +47,7 @@ public class StatoRilevanzaReteAutomi {
         this.decorazione = decorazione;
     }
 
-    public StatoRilevanzaReteAutomi() {
+    public StatoRilevanzaRete() {
         this.id = ai.incrementAndGet();
 
     }
@@ -116,12 +109,12 @@ public class StatoRilevanzaReteAutomi {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof StatoRilevanzaReteAutomi)) return false;
-        StatoRilevanzaReteAutomi that = (StatoRilevanzaReteAutomi) o;
+        if (!(o instanceof StatoRilevanzaRete)) return false;
+        StatoRilevanzaRete that = (StatoRilevanzaRete) o;
         return this.id == that.getId();
     }
     
-    public boolean equals(StatoRilevanzaReteAutomi s) {
+    public boolean equals(StatoRilevanzaRete s) {
     	return this.id == s.getId();
     }
 

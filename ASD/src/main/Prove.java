@@ -8,10 +8,6 @@ import javafx.util.Pair;
 public class Prove {
 	public static void main(String[] args) throws Exception {
 		
-		Pair<String, String> copppia = new Pair<>("merda", "merda");
-
-		System.out.println(copppia);
-		
 		String JSONPath = "C:\\Users\\Stefano\\git\\AutomataNetwork\\ASD\\JSON\\ReteIniziale.json";
 		// JSONPath = "/Users/Livio/Desktop/ASD/ASD/JSON/ReteIniziale.json"; /* percorso livio */
 		
