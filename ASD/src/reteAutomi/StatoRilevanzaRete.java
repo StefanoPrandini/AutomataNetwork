@@ -10,8 +10,6 @@ import static java.util.Objects.isNull;
 @SuppressWarnings("restriction")
 public class StatoRilevanzaRete {
 
-    private static AtomicInteger ai =  new AtomicInteger(0);
-    private int id;
     // <nomeLink, Evento>
     private ArrayList<Pair<String, Evento>> contenutoLinks;
     // <nomeAutoma, nomeStato>
@@ -25,7 +23,6 @@ public class StatoRilevanzaRete {
      * @param ra la rete di automi di cui si vuole creare lo stato
      */
     public StatoRilevanzaRete(ReteAutomi ra, ArrayList<String> decorazione) {
-        this.id = ai.incrementAndGet();
         this.contenutoLinks = new ArrayList<>();
         this.statiCorrentiAutomi = new ArrayList<>();
         this.aggiungiContenutiLinks(ra.getLinks());
@@ -41,16 +38,9 @@ public class StatoRilevanzaRete {
      * @param decorazione
      */
     public StatoRilevanzaRete( ArrayList<Pair<String, Evento>> contenutoLinks, ArrayList<Pair<String, String>> statiAutomi, ArrayList<String> decorazione) {
-        this.id = ai.incrementAndGet();
-
         this.contenutoLinks = contenutoLinks;
         this.statiCorrentiAutomi = statiAutomi;
         this.decorazione = decorazione;
-    }
-
-    public StatoRilevanzaRete() {
-        this.id = ai.incrementAndGet();
-
     }
 
     private void aggiungiContenutiLinks(ArrayList<Link> links) {
@@ -79,23 +69,34 @@ public class StatoRilevanzaRete {
 
     }
 
+    @Override
+	public int hashCode() {
+		int prime = 31;
+		int result = 1;
+		result = prime * result + ((contenutoLinks == null) ? 0 : contenutoLinks.hashCode());
+		result = prime * result + ((statiCorrentiAutomi == null) ? 0 : statiCorrentiAutomi.hashCode());
+		result = prime * result + ((decorazione == null) ? 0 : decorazione.hashCode());
+
+		return result;
+	}
 
     @Override
     public String toString() {
     	StringBuilder sb = new StringBuilder();
-    	sb.append("( ");
+    	sb.append("(");
     	
     	for(Pair<String, String> statiCorrenti : statiCorrentiAutomi) {
-    		sb.append(statiCorrenti.getKey() + ":" + statiCorrenti.getValue() + " ");
+    		sb.append(statiCorrenti.getKey() + ":" + statiCorrenti.getValue() + ", ");
     	}
     	for(Pair<String, Evento> eventiLink : contenutoLinks) {
     		if(eventiLink.getValue()==null) {
-    			sb.append(eventiLink.getKey() + ":null ");
+    			sb.append(eventiLink.getKey() + ":null, ");
     		}
     		else {
-        		sb.append(eventiLink.getKey() + ":" + eventiLink.getValue().getNome() + " ");
+        		sb.append(eventiLink.getKey() + ":" + eventiLink.getValue().getNome() + ", ");
     		}
     	}
+    	sb.append("decorazione: " + decorazione);
     	sb.append(")");
     	return sb.toString();
     }
@@ -131,15 +132,11 @@ public class StatoRilevanzaRete {
         if (this == o) return true;
         if (!(o instanceof StatoRilevanzaRete)) return false;
         StatoRilevanzaRete that = (StatoRilevanzaRete) o;
-        return this.id == that.getId();
+        return this.contenutoLinks.equals(that.getContenutoLinks()) && this.statiCorrentiAutomi.equals(that.statiCorrentiAutomi) && this.decorazione.equals(that.decorazione);
     }
     
     public boolean equals(StatoRilevanzaRete s) {
-    	return this.id == s.getId();
-    }
-
-    public int getId() {
-        return id;
+    	return this.contenutoLinks.equals(s.getContenutoLinks()) && this.statiCorrentiAutomi.equals(s.statiCorrentiAutomi) && this.decorazione.equals(s.decorazione);
     }
 
 

@@ -108,14 +108,14 @@ public class Transizione {
 					", (sIn " + statoPartenza.getNome() +
 					", sOut " + statoArrivo.getNome() +
 					", eIn " + eventoIngresso.getNome() +
-					")}"+ "\n";
+					")}";
 		else return "Transizione{" +
 				"id=" + id +
 				", nome=" + nome +
 				", (sIn " + statoPartenza.getNome() +
 				", sOut " + statoArrivo.getNome() +
 				", eIn Null" +
-				")}"+ "\n";
+				")}";
 	}
 
 
@@ -129,7 +129,7 @@ public class Transizione {
 				", eventiUscita=" + eventiUscita +
 				", etichettaRilevanza='" + etichettaRilevanza + '\'' +
 				", etichettaOsservabilita='" + etichettaOsservabilita + '\'' +
-				'}'+ "\n";
+				'}';
 	}
 
 

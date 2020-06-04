@@ -45,23 +45,36 @@ public class ReteAutomi {
 
 			//lista, da riempire, delle transizioni con eventi disponibili allo scatto
 			ArrayList<Transizione> transizioniConEventiAbilitati = new ArrayList<>();
+			
+//			System.out.println("TRANS USCENTI S CORRENTE (automa " + automa.getNome() + " in " + automa.getStatoCorrente() + "): " + transizioniUscenti);
+			
 			for (Transizione transizione : transizioniUscenti) {
+				
+//				System.out.println("	transizione: " + transizione);
+//				System.out.println("	eventi uscita: " + transizione.getEventiUscita());
 				
 				//se la transizione e' con eventi in entrata e in uscita null
 				if (transizione.eventiEntrataEUscitaNull()){
 					transizioniConEventiAbilitati.add(transizione);
+//					System.out.println("	in e out null");
 				}
 
 				//se l'evento in ingresso e' null o corrisponde a quello presente sul link indicato dall'evento
 				else if (isNull(transizione.getEventoIngresso()) ||
 						transizione.getEventoIngresso().equals(transizione.getEventoIngresso().getLink().getEvento())){
-
-					//devo controllare anche che i link di uscita siano vuoti, se la lista ne contiene e non è null
-					boolean linkUscitaDisponibili = false;
+					
+//					System.out.println("	evIn null or on link");	
+					
+					//devo controllare anche che i link di uscita siano vuoti, se la lista ne contiene e non e' null
+					// se eventiUscita is empty i link uscita sono disponibili -> va true, non false
+					boolean linkUscitaDisponibili = true;
 					if (!transizione.getEventiUscita().isEmpty() ){
 						linkUscitaDisponibili = linkDestinazioneDisponibili(transizione.getEventiUscita());
+//						System.out.println("	ev uscita not empty -> link uscita liberi: " + linkUscitaDisponibili);
 					}
 
+//					System.out.println("	link uscita liberi: " + linkUscitaDisponibili);
+					
 					//se i link di uscita degli eventi sono vuoti allora aggiungo alla lista delle transizioni che possono scattare
 					if (linkUscitaDisponibili){
 						transizioniConEventiAbilitati.add(transizione);

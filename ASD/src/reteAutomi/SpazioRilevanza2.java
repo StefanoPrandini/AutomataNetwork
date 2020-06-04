@@ -26,22 +26,25 @@ public class SpazioRilevanza2 {
 		ArrayList<String>decorazioneIniziale = new ArrayList<>();
 		//la rete deve essere nella condizione iniziale
 		StatoRilevanzaRete statoIniziale = new StatoRilevanzaRete(ra, decorazioneIniziale);
+		
+		System.out.println("STATO INIZIALE: " + statoIniziale);
+		
 		coda.add(statoIniziale);
 		
 		while(!coda.isEmpty()) {
 			StatoRilevanzaRete statoRilevanza = coda.remove();
-			
-//			System.out.println(statoRilevanza.getInfoStatoToString());
-			
+						
+//			System.out.println("\nstato rilevanza: " + statoRilevanza);
+//			System.out.println("coda size: " + coda.size());
+						
 			// faccio andare la rete nella condizione descritta dallo statoRilevanza appena estratto, cosi' poi posso usare i metodi di ReteAutomi 
 			// per cercare le transizioni abilitate e gli stati successivi
 			setReteAutomi(statoRilevanza);
 						
 			ArrayList<Transizione>transizioniAbilitate = ra.getTutteTransizioniAbilitate();
 			
-			System.out.println("\nstato rilevanza: " + statoRilevanza);
-			System.out.println("mappa automi trans abilitate: " + ra.getMappaAutomiTransizioniAbilitate());
-			System.out.println("trans abilitate: " + transizioniAbilitate);
+//			System.out.println("mappa automi trans abilitate: " + ra.getMappaAutomiTransizioniAbilitate());
+//			System.out.println("trans abilitate: " + transizioniAbilitate + "\n");
 
 			
 			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, transizioniAbilitate);
@@ -74,7 +77,7 @@ public class SpazioRilevanza2 {
 		if (t.hasEtichettaRilevanza() && !decorazione.contains(t.getEtichettaRilevanza())){
 			decorazione.add(t.getEtichettaRilevanza());
 		}
-		return new StatoRilevanzaRete(contenutoLinks, statiAutomi , decorazione);
+		return new StatoRilevanzaRete(contenutoLinks, statiAutomi, decorazione);
 		
 		/**
 
@@ -155,12 +158,18 @@ public class SpazioRilevanza2 {
 		for(Pair<String, Evento> eventiSuLink : statoRilevanza.getContenutoLinks()) {
 			ra.trovaLink(eventiSuLink.getKey()).setEvento(eventiSuLink.getValue());
 		}
+		
 		ra.aggiornaMappaAutomiTransizioniAbilitate();
 	}
 	
 	
 	@Override
 	public String toString() {
-		return mappaStatoRilevanzaTransizioni.toString();
+		StringBuilder sb = new StringBuilder();
+		for(StatoRilevanzaRete statoR : mappaStatoRilevanzaTransizioni.keySet()) {
+			sb.append("Stato rilevanza: " + statoR +":\n");
+			sb.append("Transizioni uscenti: " + mappaStatoRilevanzaTransizioni.get(statoR) + "\n\n");
+		}
+		return sb.toString();
 	}
 }
