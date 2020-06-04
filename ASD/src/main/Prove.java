@@ -1,12 +1,14 @@
 package main;
 
+import java.util.ArrayList;
+
 import input.InputParser;
 import reteAutomi.ReteAutomi;
 import reteAutomi.SpazioRilevanza2;
 
 
 public class Prove {
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {		
 		
 		String JSONPath = "C:\\Users\\Stefano\\git\\AutomataNetwork\\ASD\\JSON\\ReteIniziale.json";
 		// JSONPath = "/Users/Livio/Desktop/ASD/ASD/JSON/ReteIniziale.json"; /* percorso livio */
@@ -71,5 +73,4 @@ public class Prove {
 		System.out.println(ra.getMappaAutomiTransizioniAbilitate());
 		*/
 	}
-
 }

@@ -3,6 +3,7 @@ package main;
 import reteAutomi.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class Main {
@@ -134,7 +135,7 @@ public class Main {
 			ril.add(nextTr.getEtichettaRilevanza());
 			oss.add(nextTr.getEtichettaOsservabilita());
 
-			statiRilevanza.add(new StatoRilevanzaRete(ra, new ArrayList<>()));
+			statiRilevanza.add(new StatoRilevanzaRete(ra, new HashSet<>()));
 
 
 
@@ -153,7 +154,7 @@ public class Main {
 		System.out.println(ra.getAutomi().get(0).getStatoCorrente());
 		System.out.println(ra.getAutomi().get(1).getStatoCorrente());
 
-		System.out.println(statiRilevanza.get(0).getInfoStatoToString());
+		System.out.println(statiRilevanza.get(0).toString());
 
 		SpazioRilevanza sr = new SpazioRilevanza(statiRilevanza, ril, oss);
 
