@@ -1,6 +1,5 @@
 package reteAutomi;
 
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Evento {

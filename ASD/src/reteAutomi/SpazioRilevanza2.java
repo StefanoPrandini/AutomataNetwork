@@ -57,9 +57,6 @@ public class SpazioRilevanza2 {
 
 
 	private StatoRilevanzaRete calcolaStatoRilevanzaSucc(Transizione t, Set<String> decorazione) {		
-		
-		ArrayList<Pair<String, Evento>> contenutoLinks = new ArrayList<>();
-		ArrayList<Pair<String, String>> statiAutomi = new ArrayList<>();
 		Set<String>newDecorazione = new HashSet<>(decorazione);		
 		ra.svolgiTransizione(t);
 

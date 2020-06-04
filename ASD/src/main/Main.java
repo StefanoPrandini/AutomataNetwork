@@ -156,7 +156,7 @@ public class Main {
 
 		System.out.println(statiRilevanza.get(0).toString());
 
-		SpazioRilevanza sr = new SpazioRilevanza(statiRilevanza, ril, oss);
+		//SpazioRilevanza sr = new SpazioRilevanza(statiRilevanza, ril, oss);
 
 
 

@@ -1,11 +1,7 @@
 package reteAutomi;
 
 import javafx.util.Pair;
-
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static java.util.Objects.isNull;
 
 @SuppressWarnings("restriction")
 public class StatoRilevanzaRete {
