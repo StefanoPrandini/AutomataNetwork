@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-
 import static java.util.Objects.isNull;
 
 public class ReteAutomi {
@@ -153,6 +152,27 @@ public class ReteAutomi {
 				.findAny()
 				.orElse(null);
 	}
+	
+	public Automa trovaAutoma(String nome){
+		return automi.stream()
+				.filter(automa -> nome == automa.getNome())
+				.findAny()
+				.orElse(null);
+	}
+	
+	public Link trovaLink(int id) {
+		return links.stream()
+				.filter(link -> id == link.getId())
+				.findAny()
+				.orElse(null);
+	}
+	
+	public Link trovaLink(String nome) {
+		return links.stream()
+				.filter(link -> nome == link.getNome())
+				.findAny()
+				.orElse(null);
+	}
 
 	
 	public ArrayList<Transizione> transizioniAbilitateDaIdAutoma(int idAutoma){
@@ -204,6 +224,10 @@ public class ReteAutomi {
 		return links;
 	}
 	
+	public String getNome() {
+		return nome;
+	}
+	
 
 	public ArrayList<Transizione> getTutteTransizioniAbilitate(){
 		ArrayList<Transizione> result = new ArrayList<>();
@@ -212,16 +236,6 @@ public class ReteAutomi {
 		}
 		return result;
 
-	}
-
-	
-	public Transizione trovaTransizioneDaId(int id){
-		for (Automa automa : automi) {
-			for (List<Transizione> listaTransizioniUscenti : automa.getMappaStatoTransizioni().values()) {
-
-			}
-		}
-		return null;
 	}
 
 
@@ -235,12 +249,4 @@ public class ReteAutomi {
 			}
 		}
 	}
-
-
-	public void setReteAutomi(StatoRilevanzaRete statoRilevanza) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 }

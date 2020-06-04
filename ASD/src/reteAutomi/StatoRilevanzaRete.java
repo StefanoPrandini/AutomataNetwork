@@ -12,9 +12,10 @@ public class StatoRilevanzaRete {
 
     private static AtomicInteger ai =  new AtomicInteger(0);
     private int id;
-
-    private ArrayList<Pair<Integer, Evento>> contenutoLinks;
-    private ArrayList<Pair<Integer, Integer>> statiCorrentiAutomi;
+    // <nomeLink, Evento>
+    private ArrayList<Pair<String, Evento>> contenutoLinks;
+    // <nomeAutoma, nomeStato>
+    private ArrayList<Pair<String, String>> statiCorrentiAutomi;
     private ArrayList<String> decorazione;
 
     /**
@@ -39,7 +40,7 @@ public class StatoRilevanzaRete {
      * @param statiAutomi
      * @param decorazione
      */
-    public StatoRilevanzaRete( ArrayList<Pair<Integer, Evento>> contenutoLinks, ArrayList<Pair<Integer, Integer>> statiAutomi, ArrayList<String> decorazione) {
+    public StatoRilevanzaRete( ArrayList<Pair<String, Evento>> contenutoLinks, ArrayList<Pair<String, String>> statiAutomi, ArrayList<String> decorazione) {
         this.id = ai.incrementAndGet();
 
         this.contenutoLinks = contenutoLinks;
@@ -55,15 +56,15 @@ public class StatoRilevanzaRete {
     private void aggiungiContenutiLinks(ArrayList<Link> links) {
         for (Link link : links) {
             if (!link.isVuoto()){
-                this.contenutoLinks.add(new Pair<>(link.getId(), link.getEvento()));
+                this.contenutoLinks.add(new Pair<>(link.getNome(), link.getEvento()));
             }
-            else contenutoLinks.add(new Pair<>(link.getId(), null));
+            else contenutoLinks.add(new Pair<>(link.getNome(), null));
         }
     }
 
     private void aggiungiStatiCorrenti(ArrayList<Automa> automi) {
         for (Automa automa : automi) {
-            statiCorrentiAutomi.add(new Pair<>(automa.getId(), automa.getStatoCorrente().getId()));
+            statiCorrentiAutomi.add(new Pair<>(automa.getNome(), automa.getStatoCorrente().getNome()));
         }
     }
 
@@ -85,24 +86,25 @@ public class StatoRilevanzaRete {
     public String getInfoStatoToString(){
         StringBuilder sb = new StringBuilder();
 
-        for (Pair<Integer, Integer> coppiaAutomaStato : statiCorrentiAutomi) {
+        for (Pair<String, String> coppiaAutomaStato : statiCorrentiAutomi) {
             sb.append("Stato dell'automa " + coppiaAutomaStato.getKey() + ": " + coppiaAutomaStato.getValue() + "\n");
         }
 
-        for (Pair<Integer, Evento> contenutoLink : contenutoLinks) {
+        for (Pair<String, Evento> contenutoLink : contenutoLinks) {
             if (!isNull(contenutoLink.getValue())) {
                 sb.append("Contenuto del link " + contenutoLink.getKey() + ": " + contenutoLink.getValue() + "\n");
             }
-            else sb.append("Contenuto del link " + contenutoLink.getKey() + ": " + null + "\n");
+            else sb.append("Contenuto del link " + contenutoLink.getKey() + ": null\n");
         }
+        sb.append("Decorazione: " + decorazione + "\n");
         return sb.toString();
     }
     
-    public ArrayList<Pair<Integer, Evento>> getContenutoLinks(){
+    public ArrayList<Pair<String, Evento>> getContenutoLinks(){
     	return this.contenutoLinks;
     }
     
-    public ArrayList<Pair<Integer, Integer>> getStatiCorrentiAutoma(){
+    public ArrayList<Pair<String, String>> getStatiCorrentiAutoma(){
     	return this.statiCorrentiAutomi;
     }
 

@@ -146,6 +146,14 @@ public class Automa {
 	public void setStatoCorrente(Stato statoCorrente) {
 		this.statoCorrente = statoCorrente;
 	}
+	
+	public void setStatoCorrente(String nome) {
+		for(Stato s : getMappaStatoTransizioni().keySet()) {
+			if(s.getNome().equals(nome)) {
+				this.statoCorrente = s;
+			}
+		}
+	}
 
 
 	/**

@@ -1,16 +1,12 @@
 package reteAutomi;
 
 import javafx.util.Pair;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-
-import static java.util.Objects.isNull;
 
 /**
  * Spazio di rilevanza e' un automa -> grafo: StatiRilevanza sono i vertici e transizioni sono gli archi
@@ -25,7 +21,7 @@ public class SpazioRilevanza2 {
 		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>();
 	}
 	
-	public SpazioRilevanza2 creaSpazioRilevanza() {
+	public void creaSpazioRilevanza() {
 		Queue<StatoRilevanzaRete> coda = new LinkedList<>();
 		ArrayList<String>decorazioneIniziale = new ArrayList<>();
 		//la rete deve essere nella condizione iniziale
@@ -35,11 +31,12 @@ public class SpazioRilevanza2 {
 		while(!coda.isEmpty()) {
 			StatoRilevanzaRete statoRilevanza = coda.remove();
 			
+			System.out.println(statoRilevanza.getInfoStatoToString());
+			
 			// faccio andare la rete nella condizione descritta dallo statoRilevanza appena estratto, cosi' poi posso usare i metodi di ReteAutomi 
 			// per cercare le transizioni abilitate e gli stati successivi
-			ra.setReteAutomi(statoRilevanza);
+			setReteAutomi(statoRilevanza);
 			
-			// ArrayList<Transizione>transizioniAbilitate = getTransizioniAbilitate(statoRilevanza);
 			ArrayList<Transizione>transizioniAbilitate = ra.getTutteTransizioniAbilitate();
 			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, transizioniAbilitate);
 			
@@ -51,48 +48,21 @@ public class SpazioRilevanza2 {
 				}
 			}
 		}
-		
-		return this;
 	}
-	
-	/**
-	private ArrayList<Transizione> getTransizioniAbilitate(StatoRilevanzaRete statoRilevanza) {
-		for(int i=0; i<statoRilevanza.getStatiCorrentiAutoma().size(); i++) {
-			int idAutoma = statoRilevanza.getStatiCorrentiAutoma().get(i).getKey();
-			int idStato = statoRilevanza.getStatiCorrentiAutoma().get(i).getValue();
-			Automa automa = null;
-			for(Automa a : ra.getAutomi()) {
-				if(a.getNome().equals(idAutoma)) {
-					automa = a;
-				}
-			}
-			ArrayList<Transizione>transizioniUscenti = automa.getTransizioniUscenti(idStato);
-			
-			ArrayList<Transizione>transizioniAbilitate = new ArrayList<>();
-			for(Transizione t : transizioniUscenti) {
-				Evento eIn = t.getEventoIngresso();
-				ArrayList<Evento>eOut = t.getEventiUscita();
-				// ... controlli gia' fatti in ReteAutomi
-				
-			}
 
-		}
-		return null;
-	}
-	*/
 
 	private StatoRilevanzaRete calcolaStatoRilevanzaSucc(Transizione t, ArrayList<String> decorazione) {		
 		
-		ArrayList<Pair<Integer, Evento>> contenutoLinks = new ArrayList<>();
-		ArrayList<Pair<Integer, Integer>> statiAutomi = new ArrayList<>();
+		ArrayList<Pair<String, Evento>> contenutoLinks = new ArrayList<>();
+		ArrayList<Pair<String, String>> statiAutomi = new ArrayList<>();
 		
 		ra.svolgiTransizione(t);
 		
 		for(Link l : ra.getLinks()) {
-			contenutoLinks.add(new Pair<>(l.getId(), l.getEvento()));
+			contenutoLinks.add(new Pair<>(l.getNome(), l.getEvento()));
 		}
 		for(Automa a : ra.getAutomi()) {
-			statiAutomi.add(new Pair<>(a.getId(), a.getStatoCorrente().getId()));
+			statiAutomi.add(new Pair<>(a.getNome(), a.getStatoCorrente().getNome()));
 		}
 		//aggiungo eventuale etichetta di rilevanza
 		if (t.hasEtichettaRilevanza() && !decorazione.contains(t.getEtichettaRilevanza())){
@@ -168,4 +138,22 @@ public class SpazioRilevanza2 {
 	}
 	 */
 	
+	/**
+	 * Porta la rete di automi nella situazione descritta dallo stato di rilevanza (statiCorrenti degli automi ed eventi sui link)
+	 * @param statoRilevanza
+	 */
+	public void setReteAutomi(StatoRilevanzaRete statoRilevanza) {
+		for(Pair<String, String> statiCorrentiAutoma : statoRilevanza.getStatiCorrentiAutoma()) {
+			ra.trovaAutoma(statiCorrentiAutoma.getKey()).setStatoCorrente(statiCorrentiAutoma.getValue());
+		}
+		for(Pair<String, Evento> eventiSuLink : statoRilevanza.getContenutoLinks()) {
+			ra.trovaLink(eventiSuLink.getKey()).setEvento(eventiSuLink.getValue());
+		}
+	}
+	
+	
+	@Override
+	public String toString() {
+		return mappaStatoRilevanzaTransizioni.toString();
+	}
 }

@@ -2,7 +2,7 @@ package main;
 
 import input.InputParser;
 import reteAutomi.ReteAutomi;
-import javafx.util.Pair;
+import reteAutomi.SpazioRilevanza2;
 
 
 public class Prove {
@@ -10,7 +10,7 @@ public class Prove {
 		
 		String JSONPath = "C:\\Users\\Stefano\\git\\AutomataNetwork\\ASD\\JSON\\ReteIniziale.json";
 		// JSONPath = "/Users/Livio/Desktop/ASD/ASD/JSON/ReteIniziale.json"; /* percorso livio */
-		
+				
 		InputParser parser = new InputParser(JSONPath);
 
 		ReteAutomi ra = parser.parseRete();
@@ -22,6 +22,9 @@ public class Prove {
 		System.out.println(ra);
 
 		System.out.println("TRANSIZIONI ABILITATE \n" + ra.getTutteTransizioniAbilitate());
+		
+		SpazioRilevanza2 spazioRilevanzaRete = new SpazioRilevanza2(ra);
+		spazioRilevanzaRete.creaSpazioRilevanza();
 		
 		/**
 		Stato s1 = new Stato("s1");
