@@ -31,13 +31,19 @@ public class SpazioRilevanza2 {
 		while(!coda.isEmpty()) {
 			StatoRilevanzaRete statoRilevanza = coda.remove();
 			
-			System.out.println(statoRilevanza.getInfoStatoToString());
+//			System.out.println(statoRilevanza.getInfoStatoToString());
 			
 			// faccio andare la rete nella condizione descritta dallo statoRilevanza appena estratto, cosi' poi posso usare i metodi di ReteAutomi 
 			// per cercare le transizioni abilitate e gli stati successivi
 			setReteAutomi(statoRilevanza);
-			
+						
 			ArrayList<Transizione>transizioniAbilitate = ra.getTutteTransizioniAbilitate();
+			
+			System.out.println("\nstato rilevanza: " + statoRilevanza);
+			System.out.println("mappa automi trans abilitate: " + ra.getMappaAutomiTransizioniAbilitate());
+			System.out.println("trans abilitate: " + transizioniAbilitate);
+
+			
 			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, transizioniAbilitate);
 			
 			for(Transizione t : transizioniAbilitate) {
@@ -149,6 +155,7 @@ public class SpazioRilevanza2 {
 		for(Pair<String, Evento> eventiSuLink : statoRilevanza.getContenutoLinks()) {
 			ra.trovaLink(eventiSuLink.getKey()).setEvento(eventiSuLink.getValue());
 		}
+		ra.aggiornaMappaAutomiTransizioniAbilitate();
 	}
 	
 	

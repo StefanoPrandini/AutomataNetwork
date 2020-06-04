@@ -41,6 +41,7 @@ public class ReteAutomi {
 		for (Automa automa : automi) {
 			//transizioni disponibili nello stato corrente
 			ArrayList<Transizione> transizioniUscenti = automa.getTransizioniUscentiDaStatoCorrente();
+//			System.out.println("trans usc sCorrente: " + transizioniUscenti);
 
 			//lista, da riempire, delle transizioni con eventi disponibili allo scatto
 			ArrayList<Transizione> transizioniConEventiAbilitati = new ArrayList<>();
@@ -60,8 +61,6 @@ public class ReteAutomi {
 					if (!transizione.getEventiUscita().isEmpty() ){
 						linkUscitaDisponibili = linkDestinazioneDisponibili(transizione.getEventiUscita());
 					}
-
-
 
 					//se i link di uscita degli eventi sono vuoti allora aggiungo alla lista delle transizioni che possono scattare
 					if (linkUscitaDisponibili){
@@ -116,6 +115,9 @@ public class ReteAutomi {
 			for (List<Transizione> listaTrans : automa.getMappaStatoTransizioni().values()) {
 				if (listaTrans.contains(t)){
 					automa.eseguiTransizione(t);
+					
+					aggiornaMappaAutomiTransizioniAbilitate();
+					
 					return;
 				}
 			}
@@ -208,7 +210,7 @@ public class ReteAutomi {
 
 		for (Link link : links) {
 			sb.append("  Link " + link.getNome() + ": " +
-					link.getAutomaPartenza().getNome() + " -> " + link.getAutomaArrivo().getNome() + "\n");
+					link.getAutomaPartenza().getNome() + " -> " + link.getAutomaArrivo().getNome());
 		}
 		
 		return sb.toString();

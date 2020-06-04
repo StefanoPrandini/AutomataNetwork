@@ -51,7 +51,7 @@ public class Evento {
 	//overload
 	public boolean equals(Evento o) {
 		if(o == null) return false;
-		return this.id == o.getId();
+		return this.nome.equals(o.getNome());
 	}
 
 	@Override

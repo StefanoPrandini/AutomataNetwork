@@ -15,16 +15,15 @@ public class Prove {
 
 		ReteAutomi ra = parser.parseRete();
 				
-		System.out.println(ra.getAutomi().get(0));
-		System.out.println();
-		System.out.println(ra.getAutomi().get(1));
-		System.out.println();
-		System.out.println(ra);
+		System.out.println("Automa 0:\n" + ra.getAutomi().get(0) + "\n");
+		System.out.println("Automa 1:\n" + ra.getAutomi().get(1) + "\n");
+		System.out.println("Rete Automi:\n" + ra + "\n");
 
-		System.out.println("TRANSIZIONI ABILITATE \n" + ra.getTutteTransizioniAbilitate());
+		System.out.println("\nSPAZIO RILEVANZA:");
 		
 		SpazioRilevanza2 spazioRilevanzaRete = new SpazioRilevanza2(ra);
 		spazioRilevanzaRete.creaSpazioRilevanza();
+		System.out.println(spazioRilevanzaRete);
 		
 		/**
 		Stato s1 = new Stato("s1");
