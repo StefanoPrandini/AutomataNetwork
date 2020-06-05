@@ -1,9 +1,7 @@
 package reteAutomi;
 
 import javafx.util.Pair;
-
 import java.util.*;
-
 import static java.util.Objects.isNull;
 
 /**
@@ -12,11 +10,12 @@ import static java.util.Objects.isNull;
 public class SpazioRilevanza2 {
 	private ReteAutomi ra;
 	
-	private Map<StatoRilevanzaRete, ArrayList<Pair>> mappaStatoRilevanzaTransizioni;
+	// ogni stato di rilevanza della rete viene mappato con tutte le coppie <transizioneUscente, statoRilevanzaSuccessivo>
+	private Map<StatoRilevanzaRete, ArrayList<Pair<Transizione, StatoRilevanzaRete>>> mappaStatoRilevanzaTransizioni;
 	
 	public SpazioRilevanza2(ReteAutomi ra) {
 		this.ra = ra;
-		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<StatoRilevanzaRete, ArrayList<Pair>>();
+		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<StatoRilevanzaRete, ArrayList<Pair<Transizione, StatoRilevanzaRete>>>();
 	}
 	
 	
@@ -38,14 +37,14 @@ public class SpazioRilevanza2 {
 			ArrayList<Transizione>transizioniAbilitate = ra.getTutteTransizioniAbilitate();
 
 			//this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, transizioniAbilitate);
-			ArrayList<Pair> listaAdiacenza = new ArrayList<>();
+			ArrayList<Pair<Transizione, StatoRilevanzaRete>> listaAdiacenza = new ArrayList<>();
 			
 			for(Transizione t : transizioniAbilitate) {
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
 				setReteAutomi(statoRilevanza);
 				StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(t, statoRilevanza.getDecorazione());
 
-				listaAdiacenza.add(new Pair(t, nuovoStatoRilevanza));
+				listaAdiacenza.add(new Pair<Transizione, StatoRilevanzaRete>(t, nuovoStatoRilevanza));
 				// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
 				if(!mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
 					coda.add(nuovoStatoRilevanza);
@@ -144,7 +143,9 @@ public class SpazioRilevanza2 {
 	}
 
 
-
+	public Map<StatoRilevanzaRete, ArrayList<Pair<Transizione, StatoRilevanzaRete>>> getMappaStatoRilevanzaTransizioni(){
+		return this.mappaStatoRilevanzaTransizioni;
+	}
 
 
 	public ArrayList<StatoRilevanzaRete> getStatiRilevanza(){

@@ -4,15 +4,21 @@ import input.InputParser;
 import reteAutomi.ReteAutomi;
 import reteAutomi.SpazioRilevanza2;
 import reteAutomi.StatoRilevanzaRete;
+import reteAutomi.Transizione;
+import javafx.util.Pair;
 
 import java.io.File;
 
 
 public class Prove {
 	public static void main(String[] args)  {
-		
-		String JSONPath = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + "ReteIniziale.json";
-
+				
+		// percorso della rete iniziale, in formato JSON
+		String JSONPath;
+		if(System.getProperty("os.name").contains("mac os")) {
+			JSONPath = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + "ReteIniziale.json";
+		}
+		else JSONPath = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + "ReteIniziale.json";
 
 		/*
 		ClassLoader loader = Prove.class.getClassLoader();
@@ -26,7 +32,7 @@ public class Prove {
         	System.out.println("Ciao Livio!\n");
         	JSONPath = "/Users/Livio/Desktop/ASD/ASD/JSON/ReteIniziale.json";
         }
-*/
+		 */
 
 		InputParser parser = new InputParser(JSONPath);
 
@@ -53,6 +59,16 @@ public class Prove {
 		spazioRilevanzaRete.ridenominaStati();
 		for (StatoRilevanzaRete statoRilevanzaRete : spazioRilevanzaRete.getStatiRilevanza()) {
 			System.out.println(statoRilevanzaRete + " --> " + statoRilevanzaRete.getRidenominazione());
+		}
+		
+		//per vedere come prendere stato rilevanza successivo:
+		System.out.println("\n\n");
+		System.out.println("[(StatoRilvanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:");
+		for(StatoRilevanzaRete sr : spazioRilevanzaRete.getStatiRilevanza()) {
+			for(Pair<Transizione, StatoRilevanzaRete> srd : spazioRilevanzaRete.getMappaStatoRilevanzaTransizioni().get(sr)) {
+				System.out.println(sr + " -> " + srd.getKey().getNome() + " -> " + srd.getValue());
+				
+			}
 		}
 
 		

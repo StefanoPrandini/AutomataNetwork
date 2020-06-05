@@ -129,7 +129,7 @@ public class StatoRilevanzaRete {
         		sb.append(eventiLink.getKey() + ":" + eventiLink.getValue().getNome() + ", ");
     		}
     	}
-    	sb.append("decorazione: " + decorazione);
+    	sb.append("decorazione:" + decorazione);
     	sb.append(")");
     	return sb.toString();
     }

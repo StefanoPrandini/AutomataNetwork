@@ -223,7 +223,7 @@ public class ReteAutomi {
 
 		for (Link link : links) {
 			sb.append("  Link " + link.getNome() + ": " +
-					link.getAutomaPartenza().getNome() + " -> " + link.getAutomaArrivo().getNome());
+					link.getAutomaPartenza().getNome() + " -> " + link.getAutomaArrivo().getNome() + "\n");
 		}
 		
 		return sb.toString();
