@@ -3,7 +3,6 @@ package reteAutomi;
 import javafx.util.Pair;
 import java.util.*;
 
-@SuppressWarnings("restriction")
 public class StatoRilevanzaRete {
 
     // <nomeLink, Evento>
