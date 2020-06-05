@@ -3,6 +3,7 @@ package main;
 import input.InputParser;
 import reteAutomi.ReteAutomi;
 import reteAutomi.SpazioRilevanza2;
+import reteAutomi.StatoRilevanzaRete;
 
 import java.io.File;
 
@@ -47,6 +48,13 @@ public class Prove {
 // 		System.out.println(spazioRilevanzaRete); 
 		System.out.println(spazioRilevanzaRete.getStatiRilevanza().size() + " stati\n");
 		//System.out.println(spazioRilevanzaRete.getTransizioni().size() + " transizioni");
+		System.out.println(spazioRilevanzaRete);
+
+		spazioRilevanzaRete.ridenominaStati();
+		for (StatoRilevanzaRete statoRilevanzaRete : spazioRilevanzaRete.getStatiRilevanza()) {
+			System.out.println(statoRilevanzaRete + " --> " + statoRilevanzaRete.getRidenominazione());
+		}
+
 		
 		/**
 		Stato s1 = new Stato("s1");

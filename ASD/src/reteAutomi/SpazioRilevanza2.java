@@ -4,6 +4,8 @@ import javafx.util.Pair;
 
 import java.util.*;
 
+import static java.util.Objects.isNull;
+
 /**
  * Spazio di rilevanza e' un automa -> grafo: StatiRilevanza sono i vertici e transizioni sono gli archi
  */
@@ -128,6 +130,20 @@ public class SpazioRilevanza2 {
 		}
 		return sb.toString();
 	}
+
+	public void ridenominaStati(){
+		String nome = "a";
+		int i = 0;
+		for (StatoRilevanzaRete statoRilevanzaRete : mappaStatoRilevanzaTransizioni.keySet()) {
+			if (isNull(statoRilevanzaRete.getRidenominazione())){
+				statoRilevanzaRete.setRidenominazione(nome+i);
+				i++;
+			}
+
+		}
+	}
+
+
 
 
 
