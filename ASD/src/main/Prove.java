@@ -8,9 +8,19 @@ import reteAutomi.SpazioRilevanza2;
 public class Prove {
 	public static void main(String[] args) throws Exception {		
 		
-		String JSONPath = "C:\\Users\\Stefano\\git\\AutomataNetwork\\ASD\\JSON\\ReteIniziale.json";
-		/* percorso livio */
-		 JSONPath = "/Users/Livio/Desktop/ASD/ASD/JSON/ReteIniziale.json";
+		String JSONPath;
+		
+		ClassLoader loader = Prove.class.getClassLoader();
+        if(loader.getResource("main/Prove.class").toString().equals("file:/C:/Users/Stefano/git/AutomataNetwork/ASD/bin/main/Prove.class")) {
+        	//percorso Stefano
+        	System.out.println("Ciao Stefano!\n");
+        	JSONPath = "C:\\Users\\Stefano\\git\\AutomataNetwork\\ASD\\JSON\\ReteIniziale.json";
+    	}
+        else {
+        	//percorso Livio
+        	System.out.println("Ciao Livio!\n");
+        	JSONPath = "/Users/Livio/Desktop/ASD/ASD/JSON/ReteIniziale.json";
+        }
 				
 		InputParser parser = new InputParser(JSONPath);
 
@@ -24,6 +34,7 @@ public class Prove {
 		
 		SpazioRilevanza2 spazioRilevanzaRete = new SpazioRilevanza2(ra);
 		spazioRilevanzaRete.creaSpazioRilevanza();
+// 		System.out.println(spazioRilevanzaRete); 
 		System.out.println(spazioRilevanzaRete.getStatiRilevanza().size() + " stati\n");
 		System.out.println(spazioRilevanzaRete.getTransizioni().size() + " transizioni");
 		
