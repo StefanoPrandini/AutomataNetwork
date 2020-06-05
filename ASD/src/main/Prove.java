@@ -4,12 +4,16 @@ import input.InputParser;
 import reteAutomi.ReteAutomi;
 import reteAutomi.SpazioRilevanza2;
 
+import java.io.File;
+
 
 public class Prove {
 	public static void main(String[] args) throws Exception {		
 		
-		String JSONPath;
-		
+		String JSONPath = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + "ReteIniziale.json";
+
+
+		/*
 		ClassLoader loader = Prove.class.getClassLoader();
         if(loader.getResource("main/Prove.class").toString().equals("file:/C:/Users/Stefano/git/AutomataNetwork/ASD/bin/main/Prove.class")) {
         	//percorso Stefano
@@ -21,7 +25,8 @@ public class Prove {
         	System.out.println("Ciao Livio!\n");
         	JSONPath = "/Users/Livio/Desktop/ASD/ASD/JSON/ReteIniziale.json";
         }
-				
+*/
+
 		InputParser parser = new InputParser(JSONPath);
 
 		ReteAutomi ra = parser.parseRete();
