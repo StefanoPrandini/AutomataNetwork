@@ -9,7 +9,8 @@ public class Prove {
 	public static void main(String[] args) throws Exception {		
 		
 		String JSONPath = "C:\\Users\\Stefano\\git\\AutomataNetwork\\ASD\\JSON\\ReteIniziale.json";
-		// JSONPath = "/Users/Livio/Desktop/ASD/ASD/JSON/ReteIniziale.json"; /* percorso livio */
+		/* percorso livio */
+		 JSONPath = "/Users/Livio/Desktop/ASD/ASD/JSON/ReteIniziale.json";
 				
 		InputParser parser = new InputParser(JSONPath);
 
@@ -23,7 +24,8 @@ public class Prove {
 		
 		SpazioRilevanza2 spazioRilevanzaRete = new SpazioRilevanza2(ra);
 		spazioRilevanzaRete.creaSpazioRilevanza();
-		System.out.println(spazioRilevanzaRete);
+		System.out.println(spazioRilevanzaRete.getStatiRilevanza().size() + " stati\n");
+		System.out.println(spazioRilevanzaRete.getTransizioni().size() + " transizioni");
 		
 		/**
 		Stato s1 = new Stato("s1");

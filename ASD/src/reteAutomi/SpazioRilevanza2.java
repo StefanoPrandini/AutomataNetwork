@@ -1,14 +1,8 @@
 package reteAutomi;
 
 import javafx.util.Pair;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
+
+import java.util.*;
 
 /**
  * Spazio di rilevanza e' un automa -> grafo: StatiRilevanza sono i vertici e transizioni sono gli archi
@@ -129,5 +123,21 @@ public class SpazioRilevanza2 {
 			sb.append("Transizioni uscenti: " + mappaStatoRilevanzaTransizioni.get(statoR) + "\n\n");
 		}
 		return sb.toString();
+	}
+
+
+
+	public ArrayList<StatoRilevanzaRete> getStatiRilevanza(){
+		return new ArrayList<>(this.mappaStatoRilevanzaTransizioni.keySet());
+	}
+
+
+	public ArrayList<Transizione> getTransizioni(){
+		ArrayList< Transizione> result  = new ArrayList<>();
+
+		for (List<Transizione> transiziones : mappaStatoRilevanzaTransizioni.values()) {
+			result.addAll(transiziones);
+		}
+		return result;
 	}
 }
