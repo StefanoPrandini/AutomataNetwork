@@ -10,11 +10,11 @@ import java.util.*;
 public class SpazioRilevanza2 {
 	private ReteAutomi ra;
 	
-	private Map<StatoRilevanzaRete, List<Transizione>> mappaStatoRilevanzaTransizioni;
+	private Map<StatoRilevanzaRete, ArrayList<Pair>> mappaStatoRilevanzaTransizioni;
 	
 	public SpazioRilevanza2(ReteAutomi ra) {
 		this.ra = ra;
-		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>();
+		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<StatoRilevanzaRete, ArrayList<Pair>>();
 	}
 	
 	
@@ -34,18 +34,22 @@ public class SpazioRilevanza2 {
 			setReteAutomi(statoRilevanza);
 						
 			ArrayList<Transizione>transizioniAbilitate = ra.getTutteTransizioniAbilitate();
-			
-			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, transizioniAbilitate);
+
+			//this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, transizioniAbilitate);
+			ArrayList<Pair> listaAdiacenza = new ArrayList<>();
 			
 			for(Transizione t : transizioniAbilitate) {
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
 				setReteAutomi(statoRilevanza);
 				StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(t, statoRilevanza.getDecorazione());
+
+				listaAdiacenza.add(new Pair(t, nuovoStatoRilevanza));
 				// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
 				if(!mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
 					coda.add(nuovoStatoRilevanza);
 				}
 			}
+			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, listaAdiacenza);
 		}
 	}
 
@@ -131,7 +135,7 @@ public class SpazioRilevanza2 {
 		return new ArrayList<>(this.mappaStatoRilevanzaTransizioni.keySet());
 	}
 
-
+/*
 	public ArrayList<Transizione> getTransizioni(){
 		ArrayList< Transizione> result  = new ArrayList<>();
 
@@ -139,5 +143,5 @@ public class SpazioRilevanza2 {
 			result.addAll(transiziones);
 		}
 		return result;
-	}
+	}*/
 }

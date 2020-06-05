@@ -8,7 +8,7 @@ import java.io.File;
 
 
 public class Prove {
-	public static void main(String[] args) throws Exception {		
+	public static void main(String[] args)  {
 		
 		String JSONPath = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + "ReteIniziale.json";
 
@@ -29,8 +29,13 @@ public class Prove {
 
 		InputParser parser = new InputParser(JSONPath);
 
-		ReteAutomi ra = parser.parseRete();
-				
+		ReteAutomi ra = null;
+		try {
+			ra = parser.parseRete();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		System.out.println("Automa 0:\n" + ra.getAutomi().get(0) + "\n");
 		System.out.println("Automa 1:\n" + ra.getAutomi().get(1) + "\n");
 		System.out.println("Rete Automi:\n" + ra + "\n");
@@ -41,7 +46,7 @@ public class Prove {
 		spazioRilevanzaRete.creaSpazioRilevanza();
 // 		System.out.println(spazioRilevanzaRete); 
 		System.out.println(spazioRilevanzaRete.getStatiRilevanza().size() + " stati\n");
-		System.out.println(spazioRilevanzaRete.getTransizioni().size() + " transizioni");
+		//System.out.println(spazioRilevanzaRete.getTransizioni().size() + " transizioni");
 		
 		/**
 		Stato s1 = new Stato("s1");
