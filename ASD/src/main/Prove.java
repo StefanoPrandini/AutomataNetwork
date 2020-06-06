@@ -2,7 +2,7 @@ package main;
 
 import input.InputParser;
 import reteAutomi.ReteAutomi;
-import reteAutomi.SpazioRilevanza2;
+import reteAutomi.SpazioRilevanza;
 import reteAutomi.StatoRilevanzaRete;
 import reteAutomi.Transizione;
 import javafx.util.Pair;
@@ -49,7 +49,7 @@ public class Prove {
 
 		System.out.println("\nSPAZIO RILEVANZA:");
 		
-		SpazioRilevanza2 spazioRilevanzaRete = new SpazioRilevanza2(ra);
+		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(ra);
 		spazioRilevanzaRete.creaSpazioRilevanza();
 // 		System.out.println(spazioRilevanzaRete); 
 		System.out.println(spazioRilevanzaRete.getStatiRilevanza().size() + " stati\n");
