@@ -7,23 +7,21 @@ import static java.util.Objects.isNull;
 /**
  * Spazio di rilevanza e' un automa -> grafo: StatiRilevanza sono i vertici e transizioni sono gli archi
  */
-public class SpazioRilevanza {
-	private ReteAutomi ra;
-	
+public class SpazioRilevanza {	
 	// ogni stato di rilevanza della rete viene mappato con tutte le coppie <transizioneUscente, statoRilevanzaSuccessivo>
 	private Map<StatoRilevanzaRete, ArrayList<Pair<Transizione, StatoRilevanzaRete>>> mappaStatoRilevanzaTransizioni;
 	
-	public SpazioRilevanza(ReteAutomi ra) {
-		this.ra = ra;
+	public SpazioRilevanza(ReteAutomi rete) {
 		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<StatoRilevanzaRete, ArrayList<Pair<Transizione, StatoRilevanzaRete>>>();
+		creaSpazioRilevanza(rete);
 	}
 	
 	
-	public void creaSpazioRilevanza() {
+	public void creaSpazioRilevanza(ReteAutomi rete) {
 		Queue<StatoRilevanzaRete> coda = new LinkedList<>();
 		Set<String>decorazioneIniziale = new HashSet<>();
 		//la rete deve essere nella condizione iniziale
-		StatoRilevanzaRete statoIniziale = new StatoRilevanzaRete(ra, decorazioneIniziale);
+		StatoRilevanzaRete statoIniziale = new StatoRilevanzaRete(rete, decorazioneIniziale);
 				
 		coda.add(statoIniziale);
 		
@@ -32,17 +30,17 @@ public class SpazioRilevanza {
 															
 			// faccio andare la rete nella condizione descritta dallo statoRilevanza appena estratto, cosi' poi posso usare i metodi di ReteAutomi 
 			// per cercare le transizioni abilitate e gli stati successivi
-			setReteAutomi(statoRilevanza);
+			setReteAutomi(rete, statoRilevanza);
 						
-			ArrayList<Transizione>transizioniAbilitate = ra.getTutteTransizioniAbilitate();
+			ArrayList<Transizione>transizioniAbilitate = rete.getTutteTransizioniAbilitate();
 
 			//this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, transizioniAbilitate);
 			ArrayList<Pair<Transizione, StatoRilevanzaRete>> listaAdiacenza = new ArrayList<>();
 			
 			for(Transizione t : transizioniAbilitate) {
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
-				setReteAutomi(statoRilevanza);
-				StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(t, statoRilevanza.getDecorazione());
+				setReteAutomi(rete, statoRilevanza);
+				StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
 
 				listaAdiacenza.add(new Pair<Transizione, StatoRilevanzaRete>(t, nuovoStatoRilevanza));
 				// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
@@ -55,68 +53,31 @@ public class SpazioRilevanza {
 	}
 
 
-	private StatoRilevanzaRete calcolaStatoRilevanzaSucc(Transizione t, Set<String> decorazione) {		
+	private StatoRilevanzaRete calcolaStatoRilevanzaSucc(ReteAutomi rete, Transizione t, Set<String> decorazione) {		
 		Set<String>newDecorazione = new HashSet<>(decorazione);		
-		ra.svolgiTransizione(t);
+		rete.svolgiTransizione(t);
 
 		//aggiungo eventuale etichetta di rilevanza
 		if (t.hasEtichettaRilevanza() && !newDecorazione.contains(t.getEtichettaRilevanza())){
 			newDecorazione.add(t.getEtichettaRilevanza());
 		}
-		return new StatoRilevanzaRete(ra, newDecorazione);
+		return new StatoRilevanzaRete(rete, newDecorazione);
 	}
 
-
-	/**
-	 * precondizione: gli eventi sono destinati a link effettivamente liberi
-	 * @param eventi
-	 * @return
-
-	private ArrayList<Pair<Integer, Evento>> linkUscitaAggiornati(ArrayList<Evento> eventi){
-		ArrayList<Pair<Integer, Evento>> linkAggiornati = new ArrayList<>();
-
-		for (Evento evento : eventi) {
-
-			//se vogliamo effettivmanete svolgere le transizioni
-			evento.getLink().aggiungiEvento(evento);
-
-			//se vogliamo una cosa teorica, senza svolgere le transizioni
-			linkAggiornati.add(new Pair<>(evento.getLink().getId(), evento));
-		}
-		return linkAggiornati;
-	}
-
-
-	private Pair<Integer, Evento> svolgiEventoInEntrata(Evento evento){
-		Link daSvuotare = evento.getLink();
-		if (!isNull(evento)){
-
-
-			//se vogliamo eseguire effetivamente la transizione
-			daSvuotare.svuota();
-
-
-			//se invece vogliamo fare una cosa teorica
-
-			return (new Pair<>(daSvuotare.getId(), null));
-		}
-		return new Pair<>(daSvuotare.getId(), null);
-	}
-	 */
 	
 	/**
 	 * Porta la rete di automi nella situazione descritta dallo stato di rilevanza (statiCorrenti degli automi ed eventi sui link)
 	 * @param statoRilevanza
 	 */
-	public void setReteAutomi(StatoRilevanzaRete statoRilevanza) {
+	public void setReteAutomi(ReteAutomi rete, StatoRilevanzaRete statoRilevanza) {
 		for(Pair<String, String> statoCorrenteAutoma : statoRilevanza.getStatiCorrentiAutoma()) {
-			ra.trovaAutoma(statoCorrenteAutoma.getKey()).setStatoCorrente(statoCorrenteAutoma.getValue());
+			rete.trovaAutoma(statoCorrenteAutoma.getKey()).setStatoCorrente(statoCorrenteAutoma.getValue());
 		}
 		for(Pair<String, Evento> eventoSuLink : statoRilevanza.getContenutoLinks()) {
-			ra.trovaLink(eventoSuLink.getKey()).setEvento(eventoSuLink.getValue());
+			rete.trovaLink(eventoSuLink.getKey()).setEvento(eventoSuLink.getValue());
 		}
 		
-		ra.aggiornaMappaAutomiTransizioniAbilitate();
+		rete.aggiornaMappaAutomiTransizioniAbilitate();
 	}
 	
 	

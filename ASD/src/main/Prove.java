@@ -50,7 +50,7 @@ public class Prove {
 		System.out.println("\nSPAZIO RILEVANZA:");
 		
 		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(ra);
-		spazioRilevanzaRete.creaSpazioRilevanza();
+//		spazioRilevanzaRete.creaSpazioRilevanza();
 // 		System.out.println(spazioRilevanzaRete); 
 		System.out.println(spazioRilevanzaRete.getStatiRilevanza().size() + " stati\n");
 		//System.out.println(spazioRilevanzaRete.getTransizioni().size() + " transizioni");
