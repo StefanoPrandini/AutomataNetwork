@@ -87,11 +87,6 @@ public class StatoRilevanzaRete {
     */
     
     
-    public boolean equals(StatoRilevanzaRete s) {
-    	return this.contenutoLinks.equals(s.getContenutoLinks()) && this.statiCorrentiAutomi.equals(s.statiCorrentiAutomi) && this.decorazione.equals(s.decorazione);
-    }
-
-    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

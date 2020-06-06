@@ -75,7 +75,7 @@ public class Prove {
 		
 		DizionarioCompleto dizionario = new DizionarioCompleto(spazioRilevanzaRete);
 		System.out.println("\nDizionario:");
-		System.out.println(dizionario.getMappaStatoRilevanzaDetTransizione());
+		System.out.println(dizionario);
 
 		
 		/**

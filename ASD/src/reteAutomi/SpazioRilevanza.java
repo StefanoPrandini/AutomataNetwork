@@ -8,11 +8,14 @@ import static java.util.Objects.isNull;
  * Spazio di rilevanza e' un automa -> grafo: StatiRilevanza sono i vertici e transizioni sono gli archi
  */
 public class SpazioRilevanza {	
+	//tengo un insieme di tutti gli stati di rilevanza per evitare di riferirmi a stati uguali che sono oggetti diversi
+	private Set<StatoRilevanzaRete> statiRilevanza;
 	// ogni stato di rilevanza della rete viene mappato con tutte le coppie <transizioneUscente, statoRilevanzaSuccessivo>
-	private StatoRilevanzaRete statoRilevanzaIniziale;
 	private Map<StatoRilevanzaRete, List<Pair<Transizione, StatoRilevanzaRete>>> mappaStatoRilevanzaTransizioni;
+	private StatoRilevanzaRete statoRilevanzaIniziale;
 	
 	public SpazioRilevanza(ReteAutomi rete) {
+		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
 		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<StatoRilevanzaRete, List<Pair<Transizione, StatoRilevanzaRete>>>();
 		creaSpazioRilevanza(rete);
 	}
@@ -23,6 +26,7 @@ public class SpazioRilevanza {
 		Set<String>decorazioneIniziale = new HashSet<>();
 		//la rete deve essere nella condizione iniziale
 		StatoRilevanzaRete statoIniziale = new StatoRilevanzaRete(rete, decorazioneIniziale);
+		statiRilevanza.add(statoIniziale);
 		this.statoRilevanzaIniziale = statoIniziale;
 				
 		coda.add(statoIniziale);
@@ -43,6 +47,7 @@ public class SpazioRilevanza {
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
 				setReteAutomi(rete, statoRilevanza);
 				StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
+				statiRilevanza.add(nuovoStatoRilevanza);
 
 				listaAdiacenza.add(new Pair<Transizione, StatoRilevanzaRete>(t, nuovoStatoRilevanza));
 				// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
@@ -63,7 +68,15 @@ public class SpazioRilevanza {
 		if (t.hasEtichettaRilevanza() && !newDecorazione.contains(t.getEtichettaRilevanza())){
 			newDecorazione.add(t.getEtichettaRilevanza());
 		}
-		return new StatoRilevanzaRete(rete, newDecorazione);
+		StatoRilevanzaRete newStato = new StatoRilevanzaRete(rete, newDecorazione);
+		// se lo stato e' gia' presente come chiave nella mappa, lo cerco e ritorno quello: se ne restituissi uno nuovo non sarebbero lo stesso oggetto
+		// e avrei problemi quando faccio ridenominazione		
+		for(StatoRilevanzaRete statoGiaIncontrato : statiRilevanza) {
+			if(statoGiaIncontrato.equals(newStato)) {
+				return statoGiaIncontrato;
+			}
+		}
+		return newStato;
 	}
 
 	
@@ -123,9 +136,9 @@ public class SpazioRilevanza {
 	
 	public Set<Pair<Transizione, StatoRilevanzaRete>> getTransizioniOsservabili(StatoRilevanzaRete statoRilevanza){
 		Set<Pair<Transizione, StatoRilevanzaRete>> result = new HashSet<>();
-		for(Pair<Transizione, StatoRilevanzaRete> transizioni : mappaStatoRilevanzaTransizioni.get(statoRilevanza)) {
-			if(transizioni.getKey().hasEtichettaOsservabilita()) {
-				result.add(new Pair<>(transizioni.getKey(), transizioni.getValue()));
+		for(Pair<Transizione, StatoRilevanzaRete> transizione : mappaStatoRilevanzaTransizioni.get(statoRilevanza)) {
+			if(transizione.getKey().hasEtichettaOsservabilita()) {
+				result.add(new Pair<>(transizione.getKey(), transizione.getValue()));
 			}
 		}
 		return result;
