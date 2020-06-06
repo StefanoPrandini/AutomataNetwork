@@ -254,14 +254,5 @@ public class ReteAutomi {
 	}
 
 
-	public void simulaPassaggioDiStato(Transizione transizione){
-		for (Automa automa : automi) {
-			for (List<Transizione> listaTrans : automa.getMappaStatoTransizioni().values()) {
-				if (listaTrans.contains(transizione)){
-					automa.setStatoCorrente(transizione.getStatoArrivo());
-					return;
-				}
-			}
-		}
-	}
+
 }

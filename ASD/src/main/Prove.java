@@ -41,6 +41,7 @@ public class Prove {
 			ra = parser.parseRete();
 		} catch (Exception e) {
 			e.printStackTrace();
+			//TODO
 		}
 
 		System.out.println("Automa 0:\n" + ra.getAutomi().get(0) + "\n");

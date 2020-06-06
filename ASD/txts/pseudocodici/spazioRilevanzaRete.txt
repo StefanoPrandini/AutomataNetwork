@@ -1,4 +1,4 @@
-// lo spazio di rilevanza è un automa -> rappresentato tramite un grafo -> rappresentato tramite una Mappa <StatoRilevanzaRetePartenza, Pair<Transizione, StatoRilevanzaDestinazione>> 
+▷ LO SPAZIO DI RILEVANZA È UN AUTOMA -> RAPPRESENTATO TRAMITE UN GRAFO -> RAPPRESENTATO TRAMITE UNA MAPPA <STATORILEVANZARETEPARTENZA, PAIR<TRANSIZIONE, STATORILEVANZADESTINAZIONE>>
 
 creaSpazioRilevanza(reteAutomi){
     mappaStatoRilevenzaTransizioni <- new Map()
@@ -27,14 +27,68 @@ creaSpazioRilevanza(reteAutomi){
 setReteAutomi(reteAutomi, statoRilevanza){
     setStatiCorrentiAutomi(reteAutomi, statiCorrenti[statoRilevanza])
     setEventiSuLink(reteAutomi, contenutiLinks[statoRilevanza])
-    aggiornaTransizioniAbilitate(reteAutomi)
+    aggiornaMappaTransizioniAbilitate(reteAutomi)
 }
 
 calcolaStatoRilevanzaSucc(reteAutomi, transizione, decorazione){
     newDecorazione <- decorazione
-    svolgiTransizione(reteAutomi)
+    svolgiTransizione(reteAutomi, transizione)
     if hasEtichettaRilevanza(transizione) && etichettaRilevanza[transizione] not in newDecorazione
         then add(newDecorazione, etichettaRilevanza[t])
     return new StatoRilevanzaRete(reteAutomi, newDecorazione)
 }
 
+getTutteTransizioniAbilitate(reteAutomi){
+    transizioniAbilitate <- []
+    foreach elencoTransizioni in values[mappaAutomiTransizioniAbilitate]
+        do foreach transizione in elencoTransizioni
+            do add(transizioniAbilitate, transizione)
+    return transizioniAbilitate
+}
+
+svolgiTransizione(reteAutomi, transizione){
+    if eventoIngresso[transizione] is not null
+        then svolgiEvento(transizione.eventoIngresso)
+    if eventiUscita[transizione] is not null
+        then foreach evento in eventiUscita
+                do aggiungiEventoSuLink(evento)
+    foreach automa in reteAutomi
+        do foreach elencoTransizioni in values[mappaStatoTransizioni[automa]]
+                do if transizione is in elencoTransizioni
+                        then  eseguiTransizione(automa, transizione)
+                              aggiornaMappaAutomiTransizioniAbilitate(reteAutomi)
+                              return
+}
+
+
+aggiornaMappaAutomiTransizioniAbilitate(reteAutomi){
+    mappaAggiornata <- new Map()
+    foreach automa in reteAutomi
+        do transizioniUscenti <- transizioniUscentiDaStatoCorrente(automa)
+           transizioniConEventiAbilitati <- []
+           foreach transizione in transizioniUscenti
+               do if eventiUscita[transizione] is null AND eventoIngresso[transizione] is null
+                    then add(transizioniConEventiAbilitati, transizione)
+                  ▷ CONTROLLO CHE EVENTO SIA NULL O CHE CORRISPONDA A QUELLO SUL LINK INDICATO DALL'EVENTO STESSO
+                  elseif eventoIngresso[transizione] is null OR eventoIngresso[transizione] = evento[link[eventoIngresso[transizione]]]
+                        then linkUscitaDisponibili <- TRUE
+                             if eventiUscita[transizione] not isEmpty
+                                then linkUscitaDisponibili <- linkDestinazioneDisponibili(eventiUscita[transizione])
+                             if linkUscitaDisponibili
+                                then add(transizioniConEventiAbilitati, transizione)
+           put(mappaAggiornata, automa, transizioniConEventiAbilitati)
+    mappaAutomiTransizioniAbilitate[reteAutomi] <- mappaAggiornata
+}
+
+eseguiTransizione(automa, transizione){
+    statoCorrente[automa] <- statoDestinazione[transizione]
+}
+
+linkDestinazioneDisponibili(eventi){
+    foreach evento in eventi
+        do if evento is null
+             then return false
+            if link[evento] not isVuoto
+              then return false
+    return true
+}
