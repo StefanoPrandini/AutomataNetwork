@@ -6,9 +6,9 @@ import java.util.*;
 public class StatoRilevanzaRete {
 
     // <nomeLink, Evento>
-    private ArrayList<Pair<String, Evento>> contenutoLinks;
+    private List<Pair<String, Evento>> contenutoLinks;
     // <nomeAutoma, nomeStato>
-    private ArrayList<Pair<String, String>> statiCorrentiAutomi;
+    private List<Pair<String, String>> statiCorrentiAutomi;
     private Set<String> decorazione;
     private String ridenominazione;
 
@@ -27,12 +27,12 @@ public class StatoRilevanzaRete {
     }
     
     
-    public ArrayList<Pair<String, Evento>> getContenutoLinks(){
+    public List<Pair<String, Evento>> getContenutoLinks(){
     	return this.contenutoLinks;
     }
     
     
-    public ArrayList<Pair<String, String>> getStatiCorrentiAutoma(){
+    public List<Pair<String, String>> getStatiCorrentiAutoma(){
     	return this.statiCorrentiAutomi;
     }
     

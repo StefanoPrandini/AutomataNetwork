@@ -9,10 +9,11 @@ import static java.util.Objects.isNull;
  */
 public class SpazioRilevanza {	
 	// ogni stato di rilevanza della rete viene mappato con tutte le coppie <transizioneUscente, statoRilevanzaSuccessivo>
-	private Map<StatoRilevanzaRete, ArrayList<Pair<Transizione, StatoRilevanzaRete>>> mappaStatoRilevanzaTransizioni;
+	private StatoRilevanzaRete statoRilevanzaIniziale;
+	private Map<StatoRilevanzaRete, List<Pair<Transizione, StatoRilevanzaRete>>> mappaStatoRilevanzaTransizioni;
 	
 	public SpazioRilevanza(ReteAutomi rete) {
-		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<StatoRilevanzaRete, ArrayList<Pair<Transizione, StatoRilevanzaRete>>>();
+		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<StatoRilevanzaRete, List<Pair<Transizione, StatoRilevanzaRete>>>();
 		creaSpazioRilevanza(rete);
 	}
 	
@@ -22,6 +23,7 @@ public class SpazioRilevanza {
 		Set<String>decorazioneIniziale = new HashSet<>();
 		//la rete deve essere nella condizione iniziale
 		StatoRilevanzaRete statoIniziale = new StatoRilevanzaRete(rete, decorazioneIniziale);
+		this.statoRilevanzaIniziale = statoIniziale;
 				
 		coda.add(statoIniziale);
 		
@@ -104,7 +106,7 @@ public class SpazioRilevanza {
 	}
 
 
-	public Map<StatoRilevanzaRete, ArrayList<Pair<Transizione, StatoRilevanzaRete>>> getMappaStatoRilevanzaTransizioni(){
+	public Map<StatoRilevanzaRete, List<Pair<Transizione, StatoRilevanzaRete>>> getMappaStatoRilevanzaTransizioni(){
 		return this.mappaStatoRilevanzaTransizioni;
 	}
 
@@ -113,6 +115,21 @@ public class SpazioRilevanza {
 		return new ArrayList<>(this.mappaStatoRilevanzaTransizioni.keySet());
 	}
 
+
+	public StatoRilevanzaRete getStatoRilevanzaIniziale() {
+		return statoRilevanzaIniziale;
+	}
+
+	
+	public Set<Pair<Transizione, StatoRilevanzaRete>> getTransizioniOsservabili(StatoRilevanzaRete statoRilevanza){
+		Set<Pair<Transizione, StatoRilevanzaRete>> result = new HashSet<>();
+		for(Pair<Transizione, StatoRilevanzaRete> transizioni : mappaStatoRilevanzaTransizioni.get(statoRilevanza)) {
+			if(transizioni.getKey().hasEtichettaOsservabilita()) {
+				result.add(new Pair<>(transizioni.getKey(), transizioni.getValue()));
+			}
+		}
+		return result;
+	}
 /*
 	public ArrayList<Transizione> getTransizioni(){
 		ArrayList< Transizione> result  = new ArrayList<>();

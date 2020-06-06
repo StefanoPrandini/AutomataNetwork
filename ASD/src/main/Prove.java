@@ -1,6 +1,7 @@
 package main;
 
 import input.InputParser;
+import reteAutomi.DizionarioCompleto;
 import reteAutomi.ReteAutomi;
 import reteAutomi.SpazioRilevanza;
 import reteAutomi.StatoRilevanzaRete;
@@ -71,6 +72,10 @@ public class Prove {
 				
 			}
 		}
+		
+		DizionarioCompleto dizionario = new DizionarioCompleto(spazioRilevanzaRete);
+		System.out.println("\nDizionario:");
+		System.out.println(dizionario.getMappaStatoRilevanzaDetTransizione());
 
 		
 		/**
