@@ -1,0 +1,40 @@
+// lo spazio di rilevanza è un automa -> rappresentato tramite un grafo -> rappresentato tramite una Mappa <StatoRilevanzaRetePartenza, Pair<Transizione, StatoRilevanzaDestinazione>> 
+
+creaSpazioRilevanza(reteAutomi){
+    mappaStatoRilevenzaTransizioni <- new Map()
+    coda <- new Queue()
+    decorazioneIniziale <- new Set()
+
+    statoRilevanzaIniziale <- new StatoRilevanzaRete(reteAutomi, decorazioneIniziale) // reteAutomi è nella condizione iniziale
+    enqueue(coda, statoRilevanzaIniziale)
+    while not isEmpty(coda)
+        do  statoRilevanza <- dequeue(coda)
+            setReteAutomi(reteAutomi, statoRilevanza)
+            transizioniAbilitate <- getTutteTransizioniAbilitate(reteAutomi)
+            listaAdiacenza <- []
+            foreach transizione in transizioniAbilitate
+                do  setReteAutomi(reteAutomi, statoRilevanza)
+                    nuovoStatoRilevanza <- calcolaStatoRilevanzaSucc(reteAutomi, transizione, decorazione[statoRilevanza])
+                    add(listaAdiacenza, [transizione, nuovoStatoRilevanza]) // aggiunge alla lista di adiacenza dello statoRilevanza la coppia [transizione, statoDestinazione]
+                    if nuovoStatoRilevanza not in keys[mappaStatoRilevenzaTransizioni]
+                        then enqueue(coda, nuovoStatoRilevanza)
+
+            put(mappaStatoRilevenzaTransizioni, statoRilevanza, listaAdiacenza) // inserisce nella mappa lo statoRilevanza come chiave e la lista di adiacenza come valore
+            
+    return mappaStatoRilevenzaTransizioni
+}
+
+setReteAutomi(reteAutomi, statoRilevanza){
+    setStatiCorrentiAutomi(reteAutomi, statiCorrenti[statoRilevanza])
+    setEventiSuLink(reteAutomi, contenutiLinks[statoRilevanza])
+    aggiornaTransizioniAbilitate(reteAutomi)
+}
+
+calcolaStatoRilevanzaSucc(reteAutomi, transizione, decorazione){
+    newDecorazione <- decorazione
+    svolgiTransizione(reteAutomi)
+    if hasEtichettaRilevanza(transizione) && etichettaRilevanza[transizione] not in newDecorazione
+        then add(newDecorazione, etichettaRilevanza[t])
+    return new StatoRilevanzaRete(reteAutomi, newDecorazione)
+}
+

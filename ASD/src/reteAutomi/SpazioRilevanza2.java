@@ -109,11 +109,11 @@ public class SpazioRilevanza2 {
 	 * @param statoRilevanza
 	 */
 	public void setReteAutomi(StatoRilevanzaRete statoRilevanza) {
-		for(Pair<String, String> statiCorrentiAutoma : statoRilevanza.getStatiCorrentiAutoma()) {
-			ra.trovaAutoma(statiCorrentiAutoma.getKey()).setStatoCorrente(statiCorrentiAutoma.getValue());
+		for(Pair<String, String> statoCorrenteAutoma : statoRilevanza.getStatiCorrentiAutoma()) {
+			ra.trovaAutoma(statoCorrenteAutoma.getKey()).setStatoCorrente(statoCorrenteAutoma.getValue());
 		}
-		for(Pair<String, Evento> eventiSuLink : statoRilevanza.getContenutoLinks()) {
-			ra.trovaLink(eventiSuLink.getKey()).setEvento(eventiSuLink.getValue());
+		for(Pair<String, Evento> eventoSuLink : statoRilevanza.getContenutoLinks()) {
+			ra.trovaLink(eventoSuLink.getKey()).setEvento(eventoSuLink.getValue());
 		}
 		
 		ra.aggiornaMappaAutomiTransizioniAbilitate();
