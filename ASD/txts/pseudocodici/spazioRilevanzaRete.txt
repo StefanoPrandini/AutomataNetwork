@@ -7,7 +7,7 @@ creaSpazioRilevanza(reteAutomi){
 
     statoRilevanzaIniziale <- new StatoRilevanzaRete(reteAutomi, decorazioneIniziale) // reteAutomi è nella condizione iniziale
     enqueue(coda, statoRilevanzaIniziale)
-    while not isEmpty(coda)
+    while length[coda] > 0
         do  statoRilevanza <- dequeue(coda)
             setReteAutomi(reteAutomi, statoRilevanza)
             transizioniAbilitate <- getTutteTransizioniAbilitate(reteAutomi)
