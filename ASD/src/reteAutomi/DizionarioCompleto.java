@@ -17,13 +17,41 @@ public class DizionarioCompleto {
 	public DizionarioCompleto(SpazioRilevanza spazioRilevanza) {
 		//LinkedHashMap mantiene le chiavi in ordine di inserimento
 		mappaDizionario = new LinkedHashMap<>();
-		determinazioneSpazio(spazioRilevanza);
+		determinizzazioneSpazio(spazioRilevanza);
+	}
+
+	//WIP
+	public void ridenominaStati(){
+		String nome = "d";
+		int i =0;
+		for (StatoRilevanzaReteDeterminizzata statoRilevanzaReteDeterminizzata : mappaDizionario.keySet()) {
+			if (isNull(statoRilevanzaReteDeterminizzata.getRidenominazione())){
+				statoRilevanzaReteDeterminizzata.setRidenominazione(nome + i);
+				i++;
+			}
+		}
+	}
+
+
+	//lo stato destinazione dell'ultima transizione viene stampato null :|
+	public String toStringRidenominato(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("(Stato DFA rinominato): [etichetta osservabile -> stato DFA rinominato destinazione]\n");
+		for(StatoRilevanzaReteDeterminizzata s : mappaDizionario.keySet()) {
+			sb.append(s.getRidenominazione() + ": ");
+			for(Pair<String, StatoRilevanzaReteDeterminizzata> transizione : mappaDizionario.get(s)) {
+
+				sb.append("[" + transizione.getKey() + " -> " +transizione.getValue().getRidenominazione() + "] ");
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
 	}
 	
 
-	// Lo spazio di rilevanza etichettato e' un NFA (Automa a stati Finiti Nondeterministico) nell’alfabeto Omega (etichette di osservabilita').
-	// Esso puo' essere sottoposto all’operazione di determinizzazione per trasformarlo in un automa finito deterministico (DFA), tramite l'algoritmo SUBSET CONSTRUCTION
-	private void determinazioneSpazio(SpazioRilevanza spazioRilevanza) {
+	// Lo spazio di rilevanza etichettato e' un NFA (Automa a stati Finiti Nondeterministico) nell'alfabeto Omega (etichette di osservabilita').
+	// Esso puo' essere sottoposto all'operazione di determinizzazione per trasformarlo in un automa finito deterministico (DFA), tramite l'algoritmo SUBSET CONSTRUCTION
+	private void determinizzazioneSpazio(SpazioRilevanza spazioRilevanza) {
 		//StatoRilevanzaReteDeterminizzata contiene un insieme di StatoRilevanzaRete
 		Queue<StatoRilevanzaReteDeterminizzata>coda = new LinkedList<>();
 		// si parte dallo stato di rilevanza iniziale della rete

@@ -3,6 +3,7 @@ package main;
 import reteAutomi.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -13,7 +14,17 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		Automa c1 = new Automa("c1", null, null, null);
+		HashMap mappa = new HashMap();
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 5; j++) {
+				mappa.put(new Integer(i), ""+ j);
+
+			}
+		}
+		System.out.println(mappa);
+
+
+		/*Automa c1 = new Automa("c1", null, null, null);
 		Automa c2 = new Automa("c2",null, null, null);
 
 		Link l1 = new Link("l1", c1, c2);
@@ -44,7 +55,8 @@ public class Main {
 		evs4.add(e3);
 		ArrayList<Evento> evs5 = new ArrayList<>();
 		evs5.add(e1);
-
+*/
+		/*
 
 		//Evento e0 = new Evento(l2);
 
@@ -104,7 +116,8 @@ public class Main {
 		System.out.println(ra.getAutomi().get(0).getStatoCorrente());
 		System.out.println(ra.getAutomi().get(1).getStatoCorrente());
 
-		/**
+				*/
+/**
 		ra.svolgiTransizione(ra.getMappaAutomiTransizioniAbilitate().get(automi.get(0)).get(0));
 
 		System.out.println(ra.getAutomi().get(0).getStatoCorrente());
@@ -116,7 +129,8 @@ public class Main {
 
 		System.out.println(ra.getAutomi().get(1).getStatoCorrente());
 
-		 **/
+		 **/		/*
+
 		ArrayList<Transizione> daSvolgere = new ArrayList<>();
 		for (List<Transizione> listaTransizioni : ra.getMappaAutomiTransizioniAbilitate().values()) {
 			daSvolgere.addAll(listaTransizioni);
@@ -159,6 +173,7 @@ public class Main {
 		//SpazioRilevanza sr = new SpazioRilevanza(statiRilevanza, ril, oss);
 
 
+		*/
 
 
 	}

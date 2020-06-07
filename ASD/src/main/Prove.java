@@ -1,11 +1,7 @@
 package main;
 
 import input.InputParser;
-import reteAutomi.DizionarioCompleto;
-import reteAutomi.ReteAutomi;
-import reteAutomi.SpazioRilevanza;
-import reteAutomi.StatoRilevanzaRete;
-import reteAutomi.Transizione;
+import reteAutomi.*;
 import javafx.util.Pair;
 
 import java.io.File;
@@ -16,7 +12,7 @@ public class Prove {
 				
 		// percorso della rete iniziale, in formato JSON
 		String JSONPath;
-		if(System.getProperty("os.name").contains("mac os")) {
+		if(System.getProperty("os.name").equals("Mac OS X")) {
 			JSONPath = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + "ReteIniziale.json";
 		}
 		else JSONPath = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + "ReteIniziale.json";
@@ -74,8 +70,13 @@ public class Prove {
 		}
 		
 		DizionarioCompleto dizionario = new DizionarioCompleto(spazioRilevanzaRete);
+		dizionario.ridenominaStati();
 		System.out.println("\nDizionario:");
 		System.out.println(dizionario);
+		System.out.println(dizionario.toStringRidenominato());
+		for (StatoRilevanzaReteDeterminizzata statoRilevanzaReteDeterminizzata : dizionario.getMappaStatoRilevanzaDetTransizione().keySet()) {
+			System.out.println(statoRilevanzaReteDeterminizzata.getRidenominazione());
+		}
 
 		
 		/**
