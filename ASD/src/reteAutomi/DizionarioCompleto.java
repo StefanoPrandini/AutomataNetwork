@@ -41,8 +41,9 @@ public class DizionarioCompleto {
 			sb.append(s.getRidenominazione() + ": ");
 			for(Pair<String, StatoRilevanzaReteDeterminizzata> transizione : mappaDizionario.get(s)) {
 
-				sb.append("[" + transizione.getKey() + " -> " +transizione.getValue().getRidenominazione() + "] ");
+				sb.append("[" + transizione.getKey() + " -> " +transizione.getValue().getRidenominazione() + "], ");
 			}
+			sb.append("Diagnosi: " + s.getDiagnosi());
 			sb.append("\n");
 		}
 		return sb.toString();

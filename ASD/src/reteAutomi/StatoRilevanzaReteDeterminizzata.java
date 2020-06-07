@@ -1,5 +1,6 @@
 package reteAutomi;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -10,10 +11,13 @@ import java.util.Set;
 public class StatoRilevanzaReteDeterminizzata {
 	private Set<StatoRilevanzaRete> statiRilevanza;
 	private String ridenominazione;
-	private Set<Set<String>> diagnosi; // insieme delle decorazioni degli statiRilevanza contenuti
+	private Set<Set<String>> diagnosi = new HashSet<>(); // insieme delle decorazioni degli statiRilevanza contenuti
 	
 	public StatoRilevanzaReteDeterminizzata(Set<StatoRilevanzaRete> statiRilevanza) {
 		this.statiRilevanza = statiRilevanza;
+		for(StatoRilevanzaRete s : statiRilevanza) {
+			diagnosi.add(s.getDecorazione());
+		}
 	}
 
 
