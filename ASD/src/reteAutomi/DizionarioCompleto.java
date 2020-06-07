@@ -13,6 +13,7 @@ import static java.util.Objects.isNull;
 public class DizionarioCompleto {
 	//mappo stati Rilevanza del DFA con coppie<etichettaO, statoArrivo>
 	private Map<StatoRilevanzaReteDeterminizzata, Set<Pair<String, StatoRilevanzaReteDeterminizzata>>> mappaDizionario;
+	private StatoRilevanzaReteDeterminizzata statoIniziale;
 	
 	public DizionarioCompleto(SpazioRilevanza spazioRilevanza) {
 		//LinkedHashMap mantiene le chiavi in ordine di inserimento
@@ -61,6 +62,7 @@ public class DizionarioCompleto {
 		// la eps-closure iniziale e' l'insieme degli stati da mettere nello StatoRilevanzaReteDeterminizzata iniziale
 		Set<StatoRilevanzaRete>epsClosureIniziale = epsClosure(spazioRilevanza, insiemeIniziale);
 		StatoRilevanzaReteDeterminizzata statoIniziale = new StatoRilevanzaReteDeterminizzata(epsClosureIniziale);
+		this.statoIniziale = statoIniziale;
 		coda.add(statoIniziale);
 		
 		while(!coda.isEmpty()) {
@@ -136,6 +138,30 @@ public class DizionarioCompleto {
 	
 	public Map<StatoRilevanzaReteDeterminizzata, Set<Pair<String, StatoRilevanzaReteDeterminizzata>>> getMappaStatoRilevanzaDetTransizione(){
 		return this.mappaDizionario;
+	}
+	
+	/**
+	 * Un'operazione di ricerca nel dizionario acquisisce in ingresso un'osservazione lineare (sequenza di eventi osservabili associata a una traiettoria dello spazio di rilevanza)
+	 * e produce in uscita la diagnosi associata allo stato raggiunto nel DFA, a partire da quello iniziale, col cammino (unico) contraddistinto dall'osservazione lineare stessa
+	 * @param osservazioneLineare
+	 * @return
+	 * @throws Exception 
+	 */
+	public Set<Set<String>> ricerca(List<String> osservazioneLineare) throws Exception{
+		StatoRilevanzaReteDeterminizzata statoCorrente = this.statoIniziale;
+		for(String etichetta : osservazioneLineare) {
+			boolean found = false;
+			for(Pair<String, StatoRilevanzaReteDeterminizzata> transizioneOut : mappaDizionario.get(statoCorrente)) {
+				if(etichetta.equals(transizioneOut.getKey())) {
+					statoCorrente = transizioneOut.getValue();
+					found = true;
+				}
+			}
+			if(!found) {
+				throw new Exception("Osservazione " + osservazioneLineare + " lineare non corrisponde a nessuna traiettoria della rete!");
+			}
+		}
+		return statoCorrente.getDiagnosi();		
 	}
 	
 	

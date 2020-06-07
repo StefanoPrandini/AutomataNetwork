@@ -5,6 +5,10 @@ import reteAutomi.*;
 import javafx.util.Pair;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 
 public class Prove {
@@ -76,6 +80,25 @@ public class Prove {
 		System.out.println(dizionario.toStringRidenominato());
 		for (StatoRilevanzaReteDeterminizzata statoRilevanzaReteDeterminizzata : dizionario.getMappaStatoRilevanzaDetTransizione().keySet()) {
 			System.out.println(statoRilevanzaReteDeterminizzata.getRidenominazione());
+		}
+		
+		System.out.println("\nRicerca nel dizionario: ");
+		System.out.println("(Osservazione -> Decorazione stato di arrivo)");
+		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
+		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("o3","o3","o3","o2"));
+		
+		try {
+			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare);
+			System.out.println("Osservazione " + osservazioneLineare + " -> " + decorazione);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		try {
+			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare2);
+			System.out.println(decorazione);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 
 		
