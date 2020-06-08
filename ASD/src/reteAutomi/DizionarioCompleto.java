@@ -53,11 +53,11 @@ public class DizionarioCompleto {
 			// per ogni etichetta osservabile delle transizioni uscenti, calcolo la epsClosure degli stati destinazione di tali transizioni
 			for(String etichettaO : transizioniOsservabiliUscenti.keySet()) {
 				Set<StatoRilevanzaRete>epsClosure = epsClosure(spazioRilevanza, transizioniOsservabiliUscenti.get(etichettaO));
-				// se ho gi‡ incontrato questo stato del dizionario, ritorno quello e non ne aggiungo uno nuovo
+				// se ho giÔøΩ incontrato questo stato del dizionario, ritorno quello e non ne aggiungo uno nuovo
 				StatoRilevanzaReteDeterminizzata statoArrivo = new StatoRilevanzaReteDeterminizzata(epsClosure);
-				for(StatoRilevanzaReteDeterminizzata statoGi‡Incontrato : statiDizionario) {
-					if(statoGi‡Incontrato.equals(statoArrivo)) {
-						statoArrivo = statoGi‡Incontrato;
+				for(StatoRilevanzaReteDeterminizzata statoGiaIncontrato : statiDizionario) {
+					if(statoGiaIncontrato.equals(statoArrivo)) {
+						statoArrivo = statoGiaIncontrato;
 					}
 				}
 
