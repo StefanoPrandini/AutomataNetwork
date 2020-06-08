@@ -1,4 +1,4 @@
-▷ richiesta: produzione dizionario completo corrispondente a uno spazio di rilevanza dato
+▷ richiesta: pseudocodice di un algoritmo che produca il dizionario completo corrispondente a uno spazio di rilevanza dato
 
 creaDizionarioCompleto(spazioRilevanza){
     mappaDizionario <- new Map()
@@ -12,17 +12,17 @@ determinizzazioneSpazioRilevanza(spazioRilevanza, mappaDizionario){
     insiemeIniziale <- new Set()
     add(insiemeIniziale, statoIniziale[spazioRilevanza])
     epsClosureIniziale <- epsClosure(spazioRilevanza, insiemeIniziale)
-    statoRilevanzaReteDeterminizzataIniziale <- new statoRilevanzaReteDeterminizzata(epsClosureIniziale) // StatiRilevanzaReteDeterminizzata contengono un insieme di StatiRilevenzaRete
+    statoRilevanzaReteDeterminizzataIniziale <- new statoRilevanzaReteDeterminizzata(epsClosureIniziale)    ▷ StatiRilevanzaReteDeterminizzata contengono un insieme di StatiRilevenzaRete
     enqueue(coda, statoRilevanzaReteDeterminizzataIniziale)
 
     while length[coda] > 0
-        do  stato <- dequeue(coda)
-            transizioniOsservabiliUscenti <- cercaTransizioniOsservabiliUscenti(spazioRilevanza, stato) // è una mappa che associa alle etichette di osservabilità gli stati in cui portano
+        do  statoDizionario <- dequeue(coda)
+            transizioniOsservabiliUscenti <- cercaTransizioniOsservabiliUscenti(spazioRilevanza, statoDizionario)   ▷ è una mappa che associa alle etichette di osservabilità gli stati in cui portano
 
-            coppieTransizione_NuovoStato <- [] // array di coppie [etichetta, StatiRilevanzaReteDeterminizzata arrivo]
+            coppieTransizione_NuovoStato <- []  ▷ array di coppie [etichetta, StatiRilevanzaReteDeterminizzata arrivo]
 
             foreach etichetta in etichette[transizioniOsservabiliUscenti]
-                do  epsClosure <- epsClosure(spazioRilevanza, statiArrivo[get(transizioniOsservabiliUscenti, etichetta)]) // epsClosure degli stati in cui si arriva tramite transizioni con questa etichetta
+                do  epsClosure <- epsClosure(spazioRilevanza, statiArrivo[get(transizioniOsservabiliUscenti, etichetta)])   ▷ epsClosure degli stati in cui si arriva tramite transizioni con questa etichetta
                     statoArrivo <- new statoRilevanzaReteDeterminizzata(epsClosure)
                     if statoArrivo not in keys[mappaDizionario]
                         then enqueue(coda, statoArrivo)
@@ -32,15 +32,15 @@ determinizzazioneSpazioRilevanza(spazioRilevanza, mappaDizionario){
 }
 
 
-▷ ritorna insieme di stati di rilevanza raggiungibili da qualunque degli stati in ingresso, tramite una eps-transizione (transizione con etichetta di osservabilità = eps)
+▷ ritorna insieme di stati di rilevanza raggiungibili da qualunque degli stati in ingresso, tramite una eps-transizione (transizione con etichetta di osservabilità = eps = null)
 ▷ gli stati sono StatoRilevanzaRete (non determinizzata)
 epsClosure(spazioRilevanza, stati){
-    result <- stati // gli stati fanno parte della loro epsClosure
+    result <- stati ▷ gli stati fanno parte della loro epsClosure
     codaStati <- stati
 
     while length[codaStati] > 0
         do  stato <- dequeue(codaStati)
-        foreach transizione in get(spazioRilevanza, stato) // le transizioni che nello spazio di rilevanza escono da stato
+        foreach transizione in get(spazioRilevanza, stato)  ▷ le transizioni che nello spazio di rilevanza escono da stato
             do  if is null etichettaOsservabilità[transizione]
                     then    if stato not in codaStati
                                 then    enqueue(codaStati, statoArrivo[transizione])
@@ -49,7 +49,19 @@ epsClosure(spazioRilevanza, stati){
 }
 
 
-
-cercaTransizioniOsservabiliUscenti(spazioRilevanza, stato){
-
+▷ ritorna una mappa che associa ad ogni etichetta osservabile delle transizioni uscenti da uno stato del dizionario, gli stati di rilevanza di arrivo di tali transizioni
+cercaTransizioniOsservabiliUscenti(spazioRilevanza, statoDizionario){
+    mappa <- new Map()
+    foreach statoRilevanza in statiRilevanza[statoDizionario]
+        do  transizioniOsservabili <- transizioniOsservabili(spazioRilevanza, statoRilevanza)   ▷ le transizioni osservabili uscenti da uno stato di rilevanza nello spazio di rilevanza
+            foreach transizione in transizioniOsservabili
+                do  if etichettaOsservabilità[transizione] in keys[map]
+                        ▷ se l'etichetta è già tra le chiavi della mappa, aggiungo la transizione alla mappa
+                        then    statiArrivo <- get(mappa, etichettaOsservabilità[transizione])
+                                add(statiArrivo, statoArrivo[transizione])
+                        ▷ se l'etichetta non è già tra le chiavi della mappa, inserisco nella mappa la coppia chiave valore
+                        else    statiArrivo <- new Set()
+                                add(statiArrivo, statoArrivo[transizione])
+                                put(mappa, etichettaOsservabilità[transizione], statiArrivo)
+    return mappa
 }

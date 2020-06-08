@@ -68,10 +68,37 @@ public class DizionarioCompleto {
 				coppieTransizione_NuovoStato.add(new Pair<>(etichettaO, statoArrivo));
 			}
 			mappaDizionario.put(stato, coppieTransizione_NuovoStato);
-		}
-		
+		}	
 	}
 	
+	
+	// epsClosure(set<StatiRilevanza>) = set di stati di rilevanza raggiungibili da qualunque degli stati in ingresso, 
+		// tramite una eps-transizione (transizione con etichetta di osservabilita' = eps = null)
+		private Set<StatoRilevanzaRete> epsClosure(SpazioRilevanza spazioRilevanza, Set<StatoRilevanzaRete> stati){
+			//gli stati di partenza fanno parte della loro eps-closure
+			Set<StatoRilevanzaRete> result = new HashSet<>(stati);
+			//metto gli stati passati in una coda: dovro' aggiungere stati da verificare
+			Queue<StatoRilevanzaRete>codaStati = new LinkedList<>(stati);
+			
+			while(!codaStati.isEmpty()) {
+				StatoRilevanzaRete s = codaStati.remove();
+				// prendo le transizioni uscenti dallo statoRilevanza dalla mappa nello spazioRilevanza
+				for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
+					// se l'etichetta della transizione uscente e' eps (null)
+					if(isNull(transizione.getKey().getEtichettaOsservabilita())) {
+						// lo aggiungo alla coda per vedere se anche le sue transizioni uscenti hanno etichetta null: se si' le aggiungo alla eps-closure
+						if(!codaStati.contains(s)) {
+							codaStati.add(transizione.getValue());
+							result.add(transizione.getValue());
+						}
+					}
+				}
+			}
+			return result;
+		}
+	
+	
+	// ritorna una mappa che associa ad ogni etichetta osservabile delle transizioni uscenti da uno stato del dizionario, gli stati di rilevanza di arrivo di tali transizioni
 	private Map<String, Set<StatoRilevanzaRete>> cercaTransizioniOsservabiliUscenti(SpazioRilevanza spazioRilevanza, StatoRilevanzaReteDeterminizzata stato) {
 		// mappo etichette osservabili con gli stati in cui portano
 		Map<String, Set<StatoRilevanzaRete>> mappa = new HashMap<>();
@@ -96,31 +123,6 @@ public class DizionarioCompleto {
 		}
 		return mappa;
 	}
-
-	// epsClosure(set<StatiRilevanza>) = set di stati di rilevanza raggiungibili da qualunque degli stati in ingresso, 
-	// tramite una eps-transizione (transizione con etichetta di osservabilita' = eps = null)
-	private Set<StatoRilevanzaRete> epsClosure(SpazioRilevanza spazioRilevanza, Set<StatoRilevanzaRete> stati){
-		//gli stati di partenza fanno parte della loro eps-closure
-		Set<StatoRilevanzaRete> result = new HashSet<>(stati);
-		//metto gli stati passati in una coda: dovro' aggiungere stati da verificare
-		Queue<StatoRilevanzaRete>codaStati = new LinkedList<>(stati);
-		
-		while(!codaStati.isEmpty()) {
-			StatoRilevanzaRete s = codaStati.remove();
-			// prendo le transizioni uscenti dallo statoRilevanza dalla mappa nello spazioRilevanza
-			for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
-				// se l'etichetta della transizione uscente e' eps (null)
-				if(isNull(transizione.getKey().getEtichettaOsservabilita())) {
-					// lo aggiungo alla coda per vedere se anche le sue transizioni uscenti hanno etichetta null: se si' le aggiungo alla eps-closure
-					if(!codaStati.contains(s)) {
-						codaStati.add(transizione.getValue());
-						result.add(transizione.getValue());
-					}
-				}
-			}
-		}
-		return result;
-	}
 	
 	
 	/**
@@ -141,7 +143,7 @@ public class DizionarioCompleto {
 				}
 			}
 			if(!found) {
-				throw new Exception("Osservazione " + osservazioneLineare + " lineare non corrisponde a nessuna traiettoria della rete!");
+				throw new Exception("Osservazione lineare " + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
 			}
 		}
 		return statoCorrente.getDiagnosi();		

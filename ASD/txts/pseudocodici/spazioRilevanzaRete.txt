@@ -5,7 +5,7 @@ creaSpazioRilevanza(reteAutomi){
     coda <- new Queue()
     decorazioneIniziale <- new Set()
 
-    statoRilevanzaIniziale <- new StatoRilevanzaRete(reteAutomi, decorazioneIniziale) // reteAutomi è nella condizione iniziale
+    statoRilevanzaIniziale <- new StatoRilevanzaRete(reteAutomi, decorazioneIniziale)   ▷ reteAutomi è nella condizione iniziale
     enqueue(coda, statoRilevanzaIniziale)
     while length[coda] > 0
         do  statoRilevanza <- dequeue(coda)
@@ -15,11 +15,11 @@ creaSpazioRilevanza(reteAutomi){
             foreach transizione in transizioniAbilitate
                 do  setReteAutomi(reteAutomi, statoRilevanza)
                     nuovoStatoRilevanza <- calcolaStatoRilevanzaSucc(reteAutomi, transizione, decorazione[statoRilevanza])
-                    add(listaAdiacenza, [transizione, nuovoStatoRilevanza]) // aggiunge alla lista di adiacenza dello statoRilevanza la coppia [transizione, statoDestinazione]
+                    add(listaAdiacenza, [transizione, nuovoStatoRilevanza]) ▷ aggiunge alla lista di adiacenza dello statoRilevanza la coppia [transizione, statoDestinazione]
                     if nuovoStatoRilevanza not in keys[mappaStatoRilevenzaTransizioni]
                         then enqueue(coda, nuovoStatoRilevanza)
 
-            put(mappaStatoRilevenzaTransizioni, statoRilevanza, listaAdiacenza) // inserisce nella mappa lo statoRilevanza come chiave e la lista di adiacenza come valore
+            put(mappaStatoRilevenzaTransizioni, statoRilevanza, listaAdiacenza) ▷ inserisce nella mappa lo statoRilevanza come chiave e la lista di adiacenza come valore
             
     return mappaStatoRilevenzaTransizioni
 }

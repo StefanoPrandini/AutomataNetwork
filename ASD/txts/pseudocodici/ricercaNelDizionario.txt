@@ -1,0 +1,15 @@
+▷ pseudocodice di un algoritmo che effettui la ricerca entro un dizionario completo in base a un’osservazione lineare data
+
+ricerca(dizionario, osservazioneLineare){
+    statoCorrente <- statoIniziale[dizionario]
+    foreach etichetta in osservazioneLineare
+        do  found <- false
+            foreach transizioneUscente in transizioniUscenti[statoCorrente]
+                do  if etichetta[transizioneUscente] = etichetta
+                        then    statoCorrente <- statoArrivo[transizioneUscente]
+                                found <- true
+            if not found
+                then    ERROR "osservazione non corrispondente a nessuna traiettoria della rete"
+    
+    return diagnosi[statoCorrente]
+}
