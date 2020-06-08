@@ -87,7 +87,7 @@ public class Prove {
 		
 		try {
 			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare);
-			System.out.println("Osservazione " + osservazioneLineare + " -> " + decorazione);
+			System.out.println("Osservazione lineare " + osservazioneLineare + " -> " + decorazione);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
