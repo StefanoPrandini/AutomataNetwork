@@ -16,7 +16,7 @@ public class SpazioRilevanza {
 	
 	public SpazioRilevanza(ReteAutomi rete) {
 		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
-		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<StatoRilevanzaRete, List<Pair<Transizione, StatoRilevanzaRete>>>();
+		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
 		creaSpazioRilevanza(rete);
 	}
 	
@@ -47,11 +47,11 @@ public class SpazioRilevanza {
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
 				setReteAutomi(rete, statoRilevanza);
 				StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
-				statiRilevanza.add(nuovoStatoRilevanza);
 
 				listaAdiacenza.add(new Pair<Transizione, StatoRilevanzaRete>(t, nuovoStatoRilevanza));
 				// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
 				if(!mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
+					statiRilevanza.add(nuovoStatoRilevanza);
 					coda.add(nuovoStatoRilevanza);
 				}
 			}

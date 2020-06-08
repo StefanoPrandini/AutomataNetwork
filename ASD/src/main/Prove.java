@@ -68,19 +68,17 @@ public class Prove {
 		System.out.println("[(StatoRilvanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:");
 		for(StatoRilevanzaRete sr : spazioRilevanzaRete.getStatiRilevanza()) {
 			for(Pair<Transizione, StatoRilevanzaRete> srd : spazioRilevanzaRete.getMappaStatoRilevanzaTransizioni().get(sr)) {
-				System.out.println(sr + " -> " + srd.getKey().getNome() + " -> " + srd.getValue());
+				System.out.println(sr.getRidenominazione() + " -> " + srd.getKey().getNome() + " -> " + srd.getValue().getRidenominazione());
 				
 			}
 		}
 		
+		
 		DizionarioCompleto dizionario = new DizionarioCompleto(spazioRilevanzaRete);
 		dizionario.ridenominaStati();
-		System.out.println("\nDizionario:");
-		System.out.println(dizionario);
-		System.out.println(dizionario.toStringRidenominato());
-		for (StatoRilevanzaReteDeterminizzata statoRilevanzaReteDeterminizzata : dizionario.getMappaStatoRilevanzaDetTransizione().keySet()) {
-			System.out.println(statoRilevanzaReteDeterminizzata.getRidenominazione());
-		}
+		System.out.println("\nDizionario:\n" + dizionario);
+		System.out.println("\nDizionario ridenominato:\n" + dizionario.toStringRidenominato());
+		
 		
 		System.out.println("\nRicerca nel dizionario: ");
 		System.out.println("(Osservazione -> Decorazione stato di arrivo)");
