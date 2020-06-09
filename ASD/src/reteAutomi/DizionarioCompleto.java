@@ -140,6 +140,7 @@ public class DizionarioCompleto {
 				if(etichetta.equals(transizioneOut.getKey())) {
 					statoCorrente = transizioneOut.getValue();
 					found = true;
+					break;
 				}
 			}
 			if(!found) {
