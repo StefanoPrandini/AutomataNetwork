@@ -14,30 +14,15 @@ import java.util.Set;
 public class Prove {
 	public static void main(String[] args)  {
 			
-		String nomeJSON = "AltraRete.json";
+		String nomeJSON = "ReteIniziale.json";
 		// percorso della rete iniziale, in formato JSON
-		String JSONPath;
+		String pathJSON;
 		if(System.getProperty("os.name").equals("Mac OS X")) {
-			JSONPath = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + nomeJSON;
+			pathJSON = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + nomeJSON;
 		}
-		else JSONPath = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + nomeJSON;
+		else pathJSON = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + nomeJSON;
 
-		/*
-		ClassLoader loader = Prove.class.getClassLoader();
-        if(loader.getResource("main/Prove.class").toString().equals("file:/C:/Users/Stefano/git/AutomataNetwork/ASD/bin/main/Prove.class")) {
-        	//percorso Stefano
-        	System.out.println("Ciao Stefano!\n");
-        	JSONPath = "C:\\Users\\Stefano\\git\\AutomataNetwork\\ASD\\JSON\\ReteIniziale.json";
-    	}
-        else {
-        	//percorso Livio
-        	System.out.println("Ciao Livio!\n");
-        	JSONPath = "/Users/Livio/Desktop/ASD/ASD/JSON/ReteIniziale.json";
-        }
-		 */
-
-		InputParser parser = new InputParser(JSONPath);
-
+		InputParser parser = new InputParser(pathJSON);
 		ReteAutomi ra = null;
 		try {
 			ra = parser.parseRete();
@@ -101,6 +86,11 @@ public class Prove {
 			System.out.println(decorazione);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+		}
+		
+		System.out.println("\nInput e Output:");
+		for(StatoRilevanzaReteDeterminizzata s : dizionario.getMappaDizionario().keySet()) {
+			System.out.println("Stato: " + s.getRidenominazione() + ", Input: " + s.getInput() + ", Output: " + s.getOutput());
 		}
 
 

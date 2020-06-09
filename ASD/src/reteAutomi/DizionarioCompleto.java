@@ -24,7 +24,7 @@ public class DizionarioCompleto {
 	}
 	
 	
-	public Map<StatoRilevanzaReteDeterminizzata, Set<Pair<String, StatoRilevanzaReteDeterminizzata>>> getMappaStatoRilevanzaDetTransizione(){
+	public Map<StatoRilevanzaReteDeterminizzata, Set<Pair<String, StatoRilevanzaReteDeterminizzata>>> getMappaDizionario(){
 		return this.mappaDizionario;
 	}
 	
@@ -39,7 +39,13 @@ public class DizionarioCompleto {
 		insiemeIniziale.add(spazioRilevanza.getStatoRilevanzaIniziale());
 		// la eps-closure iniziale e' l'insieme degli stati da mettere nello StatoRilevanzaReteDeterminizzata iniziale
 		Set<StatoRilevanzaRete>epsClosureIniziale = epsClosure(spazioRilevanza, insiemeIniziale);
-		StatoRilevanzaReteDeterminizzata statoIniziale = new StatoRilevanzaReteDeterminizzata(epsClosureIniziale);
+		Set<StatoRilevanzaRete>outputIniziale = new HashSet<>();
+		for(StatoRilevanzaRete s : epsClosureIniziale) {
+			if(!spazioRilevanza.getTransizioniOsservabili(s).isEmpty()) {
+				outputIniziale.add(s);
+			}
+		}
+		StatoRilevanzaReteDeterminizzata statoIniziale = new StatoRilevanzaReteDeterminizzata(epsClosureIniziale, new HashSet<>(), outputIniziale);
 		this.statoIniziale = statoIniziale;
 		coda.add(statoIniziale);
 		
@@ -52,9 +58,20 @@ public class DizionarioCompleto {
 			Set<Pair<String, StatoRilevanzaReteDeterminizzata>>coppieTransizione_NuovoStato = new HashSet<>();
 			// per ogni etichetta osservabile delle transizioni uscenti, calcolo la epsClosure degli stati destinazione di tali transizioni
 			for(String etichettaO : transizioniOsservabiliUscenti.keySet()) {
-				Set<StatoRilevanzaRete>epsClosure = epsClosure(spazioRilevanza, transizioniOsservabiliUscenti.get(etichettaO));
+				// input del nuovo stato del dizionario = stati destinazione delle transizioni osservabili uscenti da stato dizionario precedente
+				Set<StatoRilevanzaRete>input = transizioniOsservabiliUscenti.get(etichettaO);
+				Set<StatoRilevanzaRete>epsClosure = epsClosure(spazioRilevanza, input);
+				// cerco stati output dello stato del dizionario tra gli stati di rilevanza che lo compongono
+				Set<StatoRilevanzaRete>output = new HashSet<>();
+				for(StatoRilevanzaRete s : epsClosure) {
+					if(!spazioRilevanza.getTransizioniOsservabili(s).isEmpty()) {
+						output.add(s);
+					}
+				}
 				// se ho gia' incontrato questo stato del dizionario, ritorno quello e non ne aggiungo uno nuovo
-				StatoRilevanzaReteDeterminizzata statoArrivo = new StatoRilevanzaReteDeterminizzata(epsClosure);
+				// stati destinazione delle transizioni osservabili uscenti dallo stato precedente del dizionario sono gli stati Input del nuovo stato del dizionario
+				// stati nella eps-closure che hanno transizioni osservabili uscenti sono gli stati Output del nuovo stato del dizionario
+				StatoRilevanzaReteDeterminizzata statoArrivo = new StatoRilevanzaReteDeterminizzata(epsClosure, input, output);
 				for(StatoRilevanzaReteDeterminizzata statoGiaIncontrato : statiDizionario) {
 					if(statoGiaIncontrato.equals(statoArrivo)) {
 						statoArrivo = statoGiaIncontrato;
