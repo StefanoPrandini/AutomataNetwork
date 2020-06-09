@@ -41,11 +41,11 @@ public class Terna<P, S, T> {
     * metodi per gestire eventualmente i toString in modo preciso in base al contenuto
     */
     private String toStringTerzo() {
-        return secondo.toString();
+        return terzo.toString();
     }
 
     private String toStringSecondo() {
-        return terzo.toString();
+        return secondo.toString();
     }
 
     private String toStringPrimo() {
