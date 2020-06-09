@@ -14,14 +14,10 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		HashMap mappa = new HashMap();
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 5; j++) {
-				mappa.put(new Integer(i), ""+ j);
+		Terna t = new Terna("p", "s", "t");
 
-			}
-		}
-		System.out.println(mappa);
+		Terna t2 = new Terna("p", "s", "t");
+		System.out.println(t.equals(t2));
 
 
 		/*Automa c1 = new Automa("c1", null, null, null);
