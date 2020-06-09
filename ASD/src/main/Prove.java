@@ -83,8 +83,11 @@ public class Prove {
 		
 		System.out.println("\nRicerca nel dizionario: ");
 		System.out.println("(Osservazione -> Decorazione stato di arrivo)");
-		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
+		//List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
 		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("o3","o3","o3","o2"));
+
+		//altra rete
+		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("act","opn","sby","act", "cls"));
 		
 		try {
 			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare);
@@ -100,7 +103,7 @@ public class Prove {
 			System.out.println(e.getMessage());
 		}
 
-		
+
 		/**
 		Stato s1 = new Stato("s1");
 		Stato s2 = new Stato("s2");
