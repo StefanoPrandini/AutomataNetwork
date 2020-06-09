@@ -40,7 +40,6 @@ public class SpazioRilevanza {
 						
 			ArrayList<Transizione>transizioniAbilitate = rete.getTutteTransizioniAbilitate();
 
-			//this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, transizioniAbilitate);
 			ArrayList<Pair<Transizione, StatoRilevanzaRete>> listaAdiacenza = new ArrayList<>();
 			
 			for(Transizione t : transizioniAbilitate) {

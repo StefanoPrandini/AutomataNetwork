@@ -45,7 +45,7 @@ public class DizionarioCompleto {
 				outputIniziale.add(s);
 			}
 		}
-		StatoRilevanzaReteDeterminizzata statoIniziale = new StatoRilevanzaReteDeterminizzata(epsClosureIniziale, new HashSet<>(), outputIniziale);
+		StatoRilevanzaReteDeterminizzata statoIniziale = new StatoRilevanzaReteDeterminizzata(epsClosureIniziale, outputIniziale);
 		this.statoIniziale = statoIniziale;
 		coda.add(statoIniziale);
 		
@@ -56,9 +56,10 @@ public class DizionarioCompleto {
 			// cosi' ho una associazione tra le etichette di osservabilita' e gli stati in cui portano (che dovranno essere raggruppati)
 			Map<String, Set<StatoRilevanzaRete>>transizioniOsservabiliUscenti = cercaTransizioniOsservabiliUscenti(spazioRilevanza, stato);
 			Set<Pair<String, StatoRilevanzaReteDeterminizzata>>coppieTransizione_NuovoStato = new HashSet<>();
+			
 			// per ogni etichetta osservabile delle transizioni uscenti, calcolo la epsClosure degli stati destinazione di tali transizioni
 			for(String etichettaO : transizioniOsservabiliUscenti.keySet()) {
-				// input del nuovo stato del dizionario = stati destinazione delle transizioni osservabili uscenti da stato dizionario precedente
+				// input del nuovo stato del dizionario = stati destinazione delle transizioni osservabili uscenti da un altro stato del dizionario
 				Set<StatoRilevanzaRete>input = transizioniOsservabiliUscenti.get(etichettaO);
 				Set<StatoRilevanzaRete>epsClosure = epsClosure(spazioRilevanza, input);
 				// cerco stati output dello stato del dizionario tra gli stati di rilevanza che lo compongono
@@ -71,10 +72,15 @@ public class DizionarioCompleto {
 				// se ho gia' incontrato questo stato del dizionario, ritorno quello e non ne aggiungo uno nuovo
 				// stati destinazione delle transizioni osservabili uscenti dallo stato precedente del dizionario sono gli stati Input del nuovo stato del dizionario
 				// stati nella eps-closure che hanno transizioni osservabili uscenti sono gli stati Output del nuovo stato del dizionario
-				StatoRilevanzaReteDeterminizzata statoArrivo = new StatoRilevanzaReteDeterminizzata(epsClosure, input, output);
+				StatoRilevanzaReteDeterminizzata statoArrivo = new StatoRilevanzaReteDeterminizzata(epsClosure, output);
 				for(StatoRilevanzaReteDeterminizzata statoGiaIncontrato : statiDizionario) {
 					if(statoGiaIncontrato.equals(statoArrivo)) {
 						statoArrivo = statoGiaIncontrato;
+						// creando nuovi stati del dizionario si possono aggiungere input a stati del dizionario già esistenti (es. a stato iniziale)
+						statoGiaIncontrato.aggiungiInput(input);
+					}
+					else {
+						statoArrivo.aggiungiInput(input);
 					}
 				}
 
@@ -85,35 +91,41 @@ public class DizionarioCompleto {
 				coppieTransizione_NuovoStato.add(new Pair<>(etichettaO, statoArrivo));
 			}
 			mappaDizionario.put(stato, coppieTransizione_NuovoStato);
-		}	
+		}
+		
+		for(StatoRilevanzaReteDeterminizzata s : this.mappaDizionario.keySet()) {
+			//collega I e O, ricerca BFS per vedere se esiste cammino (iniziata sotto)
+//			Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> IO = collegaIO(input, output);
+
+		}
 	}
 	
 	
 	// epsClosure(set<StatiRilevanza>) = set di stati di rilevanza raggiungibili da qualunque degli stati in ingresso, 
-		// tramite una eps-transizione (transizione con etichetta di osservabilita' = eps = null)
-		private Set<StatoRilevanzaRete> epsClosure(SpazioRilevanza spazioRilevanza, Set<StatoRilevanzaRete> stati){
-			//gli stati di partenza fanno parte della loro eps-closure
-			Set<StatoRilevanzaRete> result = new HashSet<>(stati);
-			//metto gli stati passati in una coda: dovro' aggiungere stati da verificare
-			Queue<StatoRilevanzaRete>codaStati = new LinkedList<>(stati);
-			
-			while(!codaStati.isEmpty()) {
-				StatoRilevanzaRete s = codaStati.remove();
-				// prendo le transizioni uscenti dallo statoRilevanza dalla mappa nello spazioRilevanza
-				for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
-					// se l'etichetta della transizione uscente e' eps (null)
-					if(isNull(transizione.getKey().getEtichettaOsservabilita())) {
-						// lo aggiungo alla coda per vedere se anche le sue transizioni uscenti hanno etichetta null: se si' le aggiungo alla eps-closure
-						if(!codaStati.contains(s)) {
-							codaStati.add(transizione.getValue());
-							result.add(transizione.getValue());
-						}
+	// tramite una eps-transizione (transizione con etichetta di osservabilita' = eps = null)
+	private Set<StatoRilevanzaRete> epsClosure(SpazioRilevanza spazioRilevanza, Set<StatoRilevanzaRete> stati){
+		//gli stati di partenza fanno parte della loro eps-closure
+		Set<StatoRilevanzaRete> result = new HashSet<>(stati);
+		//metto gli stati passati in una coda: dovro' aggiungere stati da verificare
+		Queue<StatoRilevanzaRete>codaStati = new LinkedList<>(stati);
+		
+		while(!codaStati.isEmpty()) {
+			StatoRilevanzaRete s = codaStati.remove();
+			// prendo le transizioni uscenti dallo statoRilevanza dalla mappa nello spazioRilevanza
+			for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
+				// se l'etichetta della transizione uscente e' eps (null)
+				if(isNull(transizione.getKey().getEtichettaOsservabilita())) {
+					// lo aggiungo alla coda per vedere se anche le sue transizioni uscenti hanno etichetta null: se si' le aggiungo alla eps-closure
+					if(!codaStati.contains(s)) {
+						codaStati.add(transizione.getValue());
+						result.add(transizione.getValue());
 					}
 				}
 			}
-			return result;
 		}
-	
+		return result;
+	}
+
 	
 	// ritorna una mappa che associa ad ogni etichetta osservabile delle transizioni uscenti da uno stato del dizionario, gli stati di rilevanza di arrivo di tali transizioni
 	private Map<String, Set<StatoRilevanzaRete>> cercaTransizioniOsservabiliUscenti(SpazioRilevanza spazioRilevanza, StatoRilevanzaReteDeterminizzata stato) {
@@ -140,6 +152,30 @@ public class DizionarioCompleto {
 		}
 		return mappa;
 	}
+	
+	
+	/**
+	// cerca se gli stati output sono raggiungibili partendo dagli stati input
+	// fa una ricerca BFS per ogni stato input
+	private Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> collegaIO() {
+		Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>>result = new LinkedHashSet<>();
+		for(StatoRilevanzaRete sIn : statiRilevanza) {
+			Map<StatoRilevanzaRete,Boolean>visitati = new HashMap<>();
+			Queue<StatoRilevanzaRete>coda = new LinkedList<>();
+			visitati.put(sIn, true);
+			coda.add(sIn);
+			
+			while(!coda.isEmpty()) {
+				StatoRilevanzaRete s = coda.remove();
+				for(StatoRilevanzaRete)
+				
+			}
+			
+			
+		}
+		return null;
+	}
+	*/
 	
 	
 	/**

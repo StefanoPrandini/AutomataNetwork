@@ -1,7 +1,6 @@
 package reteAutomi;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import javafx.util.Pair;
 
 /**
@@ -33,7 +32,7 @@ public class StatoRilevanzaReteDeterminizzata {
 	}
 	*/
 	
-	public StatoRilevanzaReteDeterminizzata(Set<StatoRilevanzaRete> statiRilevanza, Set<StatoRilevanzaRete> statiInput, Set<StatoRilevanzaRete> statiOutput) {
+	public StatoRilevanzaReteDeterminizzata(Set<StatoRilevanzaRete> statiRilevanza, Set<StatoRilevanzaRete> statiOutput) {
 		this.statiRilevanza = statiRilevanza;
 		
 		this.diagnosi = new HashSet<>();
@@ -41,10 +40,11 @@ public class StatoRilevanzaReteDeterminizzata {
 			this.diagnosi.add(s.getDecorazione());
 		}
 		
-		this.input = statiInput;
 		this.output = statiOutput;
+		this.input = new HashSet<>();
 		this.I_O = new HashSet<>();
 	}
+
 
 
 	public Set<StatoRilevanzaRete> getStatiRilevanza() {
@@ -102,6 +102,13 @@ public class StatoRilevanzaReteDeterminizzata {
 
 	public void setI_O(Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> i_O) {
 		I_O = i_O;
+	}
+	
+	
+	public void aggiungiInput(Set<StatoRilevanzaRete> nuoviInput) {
+		for(StatoRilevanzaRete s : nuoviInput) {
+			this.input.add(s);
+		}
 	}
 
 
