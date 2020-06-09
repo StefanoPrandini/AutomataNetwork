@@ -13,13 +13,14 @@ import java.util.Set;
 
 public class Prove {
 	public static void main(String[] args)  {
-				
+			
+		String nomeJSON = "AltraRete.json";
 		// percorso della rete iniziale, in formato JSON
 		String JSONPath;
 		if(System.getProperty("os.name").equals("Mac OS X")) {
-			JSONPath = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + "ReteIniziale.json";
+			JSONPath = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + nomeJSON;
 		}
-		else JSONPath = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + "ReteIniziale.json";
+		else JSONPath = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + nomeJSON;
 
 		/*
 		ClassLoader loader = Prove.class.getClassLoader();
