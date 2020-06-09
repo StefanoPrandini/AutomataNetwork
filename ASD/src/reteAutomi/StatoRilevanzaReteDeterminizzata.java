@@ -2,6 +2,7 @@ package reteAutomi;
 
 import java.util.HashSet;
 import java.util.Set;
+import javafx.util.Pair;
 
 /**
  * Stato dell'Automa a stati Finiti Deterministico (DFA): e' un insieme di stati dell'Automa a stati Finiti Non deterministico (NFA)
@@ -11,13 +12,38 @@ import java.util.Set;
 public class StatoRilevanzaReteDeterminizzata {
 	private Set<StatoRilevanzaRete> statiRilevanza;
 	private String ridenominazione;
-	private Set<Set<String>> diagnosi = new HashSet<>(); // insieme delle decorazioni degli statiRilevanza contenuti
+	private Set<Set<String>> diagnosi; // insieme delle decorazioni degli statiRilevanza contenuti
 	
+	private Set<StatoRilevanzaRete> input;
+	private Set<StatoRilevanzaRete> output;
+	private Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> I_O;
+	
+	/**
 	public StatoRilevanzaReteDeterminizzata(Set<StatoRilevanzaRete> statiRilevanza) {
 		this.statiRilevanza = statiRilevanza;
+		
+		this.diagnosi = new HashSet<>();
 		for(StatoRilevanzaRete s : statiRilevanza) {
-			diagnosi.add(s.getDecorazione());
+			this.diagnosi.add(s.getDecorazione());
 		}
+		
+		this.input = new HashSet<>();
+		this.output = new HashSet<>();
+		this.I_O = new HashSet<>();
+	}
+	*/
+	
+	public StatoRilevanzaReteDeterminizzata(Set<StatoRilevanzaRete> statiRilevanza, Set<StatoRilevanzaRete> statiInput, Set<StatoRilevanzaRete> statiOutput) {
+		this.statiRilevanza = statiRilevanza;
+		
+		this.diagnosi = new HashSet<>();
+		for(StatoRilevanzaRete s : statiRilevanza) {
+			this.diagnosi.add(s.getDecorazione());
+		}
+		
+		this.input = statiInput;
+		this.output = statiOutput;
+		this.I_O = new HashSet<>();
 	}
 
 
@@ -49,6 +75,39 @@ public class StatoRilevanzaReteDeterminizzata {
 		this.diagnosi = diagnosi;
 	}
 	
+	public Set<StatoRilevanzaRete> getInput() {
+		return input;
+	}
+
+
+	public void setInput(Set<StatoRilevanzaRete> input) {
+		this.input = input;
+	}
+
+
+	public Set<StatoRilevanzaRete> getOutput() {
+		return output;
+	}
+
+
+	public void setOutput(Set<StatoRilevanzaRete> output) {
+		this.output = output;
+	}
+
+
+	public Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> getI_O() {
+		return I_O;
+	}
+
+
+	public void setI_O(Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> i_O) {
+		I_O = i_O;
+	}
+
+
+	/**
+	 * Brutto
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
