@@ -160,7 +160,7 @@ public class DizionarioCompleto {
 		StatoDizionario statoCorrente = this.statoIniziale;
 		for(String etichetta : osservazioneLineare) {
 			boolean found = false;
-			for(Pair<String, StatoDizionario> transizioneOut : mappaDizionario.get(statoCorrente)) {
+			for(Pair<String, StatoDizionario> transizioneOut : this.mappaDizionario.get(statoCorrente)) {
 				if(etichetta.equals(transizioneOut.getKey())) {
 					statoCorrente = transizioneOut.getValue();
 					found = true;
@@ -176,50 +176,50 @@ public class DizionarioCompleto {
 	
 	
 	// cerca se gli stati output sono raggiungibili partendo dagli stati input
-		// fa una ricerca BFS tra gli stati dello statoDizionario, partendo da ogni stato input
-		private Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> coppieIO(StatoDizionario sDiz, SpazioRilevanza spazioRilevanza) {
-			Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>>coppie = new LinkedHashSet<>();
-			for(StatoRilevanzaRete sInput : sDiz.getInput()) {
-				Map<StatoRilevanzaRete,Boolean>visitati = new HashMap<>();
-				Queue<StatoRilevanzaRete>coda = new LinkedList<>();
-				// stato da cui parto e' stato visitato
-				visitati.put(sInput, true);
-				coda.add(sInput);
-				
-				while(!coda.isEmpty()) {
-					StatoRilevanzaRete s = coda.remove();
-					// se da stato input sInput riesco a raggiungere lo stato output s, aggiungo la coppia <in, out> a IO
-					if(sDiz.getOutput().contains(s)) {
-						coppie.add(new Pair<>(sInput, s));
-					}
-					// aggiungo alla coda gli stati successivi solo se fanno parte dello stato del dizionario corrente e se non li ho gia' visitati
-					for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
-						StatoRilevanzaRete sNext = transizione.getValue();
-						if(sDiz.getStatiRilevanza().contains(sNext) && !visitati.containsKey(sNext)) {
-							visitati.put(sNext, true);
-							coda.add(sNext);
-						}
+	// fa una ricerca BFS tra gli stati dello statoDizionario, partendo da ogni stato input
+	private Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> coppieIO(StatoDizionario sDiz, SpazioRilevanza spazioRilevanza) {
+		Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>>coppie = new LinkedHashSet<>();
+		for(StatoRilevanzaRete sInput : sDiz.getInput()) {
+			Map<StatoRilevanzaRete,Boolean>visitati = new HashMap<>();
+			Queue<StatoRilevanzaRete>coda = new LinkedList<>();
+			// stato da cui parto e' stato visitato
+			visitati.put(sInput, true);
+			coda.add(sInput);
+			
+			while(!coda.isEmpty()) {
+				StatoRilevanzaRete s = coda.remove();
+				// se da stato input sInput riesco a raggiungere lo stato output s, aggiungo la coppia <in, out> a IO
+				if(sDiz.getOutput().contains(s)) {
+					coppie.add(new Pair<>(sInput, s));
+				}
+				// aggiungo alla coda gli stati successivi solo se fanno parte dello stato del dizionario corrente e se non li ho gia' visitati
+				for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
+					StatoRilevanzaRete sNext = transizione.getValue();
+					if(sDiz.getStatiRilevanza().contains(sNext) && !visitati.containsKey(sNext)) {
+						visitati.put(sNext, true);
+						coda.add(sNext);
 					}
 				}
 			}
-			return coppie;
 		}
+		return coppie;
+	}
 		
 		
-		private Set<StatoRilevanzaRete>inputSubset(StatoDizionario sPrecedente, String etichetta, StatoDizionario statoCorrente, SpazioRilevanza spazioRilevanza){
-			Set<StatoRilevanzaRete>result = new HashSet<>();
-			for(StatoRilevanzaRete sOut : sPrecedente.getOutput()) {
-				for(Pair<Transizione, StatoRilevanzaRete>transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(sOut)) {
-					StatoRilevanzaRete sIn = transizione.getValue();
-					// se da output stato dizionario precedente esce transizione con etichetta oss. indicata ed entra in uno stato input dello stato dizionario corrente, allora quello stato input
-					// fara' parte del sottinsieme input relativo all'etichetta in ingresso dello stato del dizionario corrente
-					if(transizione.getKey().getEtichettaOsservabilita().equals(etichetta) && statoCorrente.getInput().contains(sIn)) {
-						result.add(sIn);
-					}
+	private Set<StatoRilevanzaRete>inputSubset(StatoDizionario sPrecedente, String etichetta, StatoDizionario statoCorrente, SpazioRilevanza spazioRilevanza){
+		Set<StatoRilevanzaRete>result = new HashSet<>();
+		for(StatoRilevanzaRete sOut : sPrecedente.getOutput()) {
+			for(Pair<Transizione, StatoRilevanzaRete>transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(sOut)) {
+				StatoRilevanzaRete sIn = transizione.getValue();
+				// se da output stato dizionario precedente esce transizione con etichetta oss. indicata ed entra in uno stato input dello stato dizionario corrente, allora quello stato input
+				// fara' parte del sottinsieme input relativo all'etichetta in ingresso dello stato del dizionario corrente
+				if(transizione.getKey().getEtichettaOsservabilita().equals(etichetta) && statoCorrente.getInput().contains(sIn)) {
+					result.add(sIn);
 				}
 			}
-			return result;
 		}
+		return result;
+	}
 	
 	
 	@Override
