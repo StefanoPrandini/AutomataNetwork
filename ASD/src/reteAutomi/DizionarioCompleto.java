@@ -76,7 +76,7 @@ public class DizionarioCompleto {
 				for(StatoRilevanzaReteDeterminizzata statoGiaIncontrato : statiDizionario) {
 					if(statoGiaIncontrato.equals(statoArrivo)) {
 						statoArrivo = statoGiaIncontrato;
-						// creando nuovi stati del dizionario si possono aggiungere input a stati del dizionario già esistenti (es. a stato iniziale)
+						// creando nuovi stati del dizionario si possono aggiungere input a stati del dizionario gia' esistenti (es. a stato iniziale)
 						statoGiaIncontrato.aggiungiInput(input);
 					}
 					else {
