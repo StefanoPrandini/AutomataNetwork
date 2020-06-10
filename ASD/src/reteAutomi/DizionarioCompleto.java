@@ -149,38 +149,6 @@ public class DizionarioCompleto {
 	}
 	
 	
-
-	// cerca se gli stati output sono raggiungibili partendo dagli stati input
-	// fa una ricerca BFS tra gli stati dello statoDizionario, partendo da ogni stato input
-	private Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> coppieIO(StatoDizionario sDiz, SpazioRilevanza spazioRilevanza) {
-		Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>>coppie = new LinkedHashSet<>();
-		for(StatoRilevanzaRete sInput : sDiz.getInput()) {
-			Map<StatoRilevanzaRete,Boolean>visitati = new HashMap<>();
-			Queue<StatoRilevanzaRete>coda = new LinkedList<>();
-			// stato da cui parto e' stato visitato
-			visitati.put(sInput, true);
-			coda.add(sInput);
-			
-			while(!coda.isEmpty()) {
-				StatoRilevanzaRete s = coda.remove();
-				// se da stato input sInput riesco a raggiungere lo stato output s, aggiungo la coppia <in, out> a IO
-				if(sDiz.getOutput().contains(s)) {
-					coppie.add(new Pair<>(sInput, s));
-				}
-				// aggiungo alla coda gli stati successivi solo se fanno parte dello stato del dizionario corrente e se non li ho gia' visitati
-				for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
-					StatoRilevanzaRete sNext = transizione.getValue();
-					if(sDiz.getStatiRilevanza().contains(sNext) && !visitati.containsKey(sNext)) {
-						visitati.put(sNext, true);
-						coda.add(sNext);
-					}
-				}
-			}
-		}
-		return coppie;
-	}
-	
-	
 	/**
 	 * Un'operazione di ricerca nel dizionario acquisisce in ingresso un'osservazione lineare (sequenza di eventi osservabili associata a una traiettoria dello spazio di rilevanza)
 	 * e produce in uscita la diagnosi associata allo stato raggiunto nel DFA, a partire da quello iniziale, col cammino (unico) contraddistinto dall'osservazione lineare stessa
@@ -205,6 +173,53 @@ public class DizionarioCompleto {
 		}
 		return statoCorrente.getDiagnosi();		
 	}
+	
+	
+	// cerca se gli stati output sono raggiungibili partendo dagli stati input
+		// fa una ricerca BFS tra gli stati dello statoDizionario, partendo da ogni stato input
+		private Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> coppieIO(StatoDizionario sDiz, SpazioRilevanza spazioRilevanza) {
+			Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>>coppie = new LinkedHashSet<>();
+			for(StatoRilevanzaRete sInput : sDiz.getInput()) {
+				Map<StatoRilevanzaRete,Boolean>visitati = new HashMap<>();
+				Queue<StatoRilevanzaRete>coda = new LinkedList<>();
+				// stato da cui parto e' stato visitato
+				visitati.put(sInput, true);
+				coda.add(sInput);
+				
+				while(!coda.isEmpty()) {
+					StatoRilevanzaRete s = coda.remove();
+					// se da stato input sInput riesco a raggiungere lo stato output s, aggiungo la coppia <in, out> a IO
+					if(sDiz.getOutput().contains(s)) {
+						coppie.add(new Pair<>(sInput, s));
+					}
+					// aggiungo alla coda gli stati successivi solo se fanno parte dello stato del dizionario corrente e se non li ho gia' visitati
+					for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
+						StatoRilevanzaRete sNext = transizione.getValue();
+						if(sDiz.getStatiRilevanza().contains(sNext) && !visitati.containsKey(sNext)) {
+							visitati.put(sNext, true);
+							coda.add(sNext);
+						}
+					}
+				}
+			}
+			return coppie;
+		}
+		
+		
+		private Set<StatoRilevanzaRete>inputSubset(StatoDizionario sPrecedente, String etichetta, StatoDizionario statoCorrente, SpazioRilevanza spazioRilevanza){
+			Set<StatoRilevanzaRete>result = new HashSet<>();
+			for(StatoRilevanzaRete sOut : sPrecedente.getOutput()) {
+				for(Pair<Transizione, StatoRilevanzaRete>transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(sOut)) {
+					StatoRilevanzaRete sIn = transizione.getValue();
+					// se da output stato dizionario precedente esce transizione con etichetta oss. indicata ed entra in uno stato input dello stato dizionario corrente, allora quello stato input
+					// fara' parte del sottinsieme input relativo all'etichetta in ingresso dello stato del dizionario corrente
+					if(transizione.getKey().getEtichettaOsservabilita().equals(etichetta) && statoCorrente.getInput().contains(sIn)) {
+						result.add(sIn);
+					}
+				}
+			}
+			return result;
+		}
 	
 	
 	@Override
