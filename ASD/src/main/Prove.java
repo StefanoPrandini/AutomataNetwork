@@ -14,6 +14,7 @@ import java.util.Set;
 public class Prove {
 	public static void main(String[] args)  {
 			
+//		String nomeJSON = "ReteIniziale.json";
 		String nomeJSON = "AltraRete.json";
 		// percorso della rete iniziale, in formato JSON
 		String pathJSON;
@@ -68,12 +69,11 @@ public class Prove {
 		
 		System.out.println("\nRicerca nel dizionario: ");
 		System.out.println("(Osservazione -> Decorazione stato di arrivo)");
-		//List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
-		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("o3","o3","o3","o2"));
 
+		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
 		//altra rete
-		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("act","opn","sby","act", "cls"));
-		
+		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","act", "cls"));
+
 		try {
 			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare);
 			System.out.println("Osservazione lineare " + osservazioneLineare + " -> " + decorazione);
@@ -90,9 +90,14 @@ public class Prove {
 		
 		System.out.println("\nInput e Output:");
 		for(StatoDizionario s : dizionario.getMappaDizionario().keySet()) {
-			System.out.println("Stato: " + s.getRidenominazione() + ", Input: " + s.getInput() + ", Output: " + s.getOutput());
+			System.out.println("Stato: " + s.getRidenominazione() + ", Input: " + s.getInputToString() + ", Output: " + s.getOutputToString());
 		}
-
+		
+		System.out.println("\nCoppie IO:");
+		for(StatoDizionario s : dizionario.getMappaDizionario().keySet()) {
+			System.out.println("Stato: " + s.getRidenominazione() + " - IO: " + s.getIOtoString());
+		}
+		
 
 		/**
 		Stato s1 = new Stato("s1");

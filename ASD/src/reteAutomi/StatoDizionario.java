@@ -15,7 +15,7 @@ public class StatoDizionario {
 	
 	private Set<StatoRilevanzaRete> input;
 	private Set<StatoRilevanzaRete> output;
-	private Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> I_O;
+	private Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> IO;
 	
 	/**
 	public StatoRilevanzaReteDeterminizzata(Set<StatoRilevanzaRete> statiRilevanza) {
@@ -42,7 +42,7 @@ public class StatoDizionario {
 		
 		this.output = statiOutput;
 		this.input = new HashSet<>();
-		this.I_O = new HashSet<>();
+		this.IO = new HashSet<>();
 	}
 
 
@@ -78,6 +78,20 @@ public class StatoDizionario {
 	public Set<StatoRilevanzaRete> getInput() {
 		return input;
 	}
+	
+	public String getInputToString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		for(StatoRilevanzaRete sIn : this.input) {
+			sb.append(sIn.getRidenominazione() + ", ");
+		}
+		// se c'e' solo la quadra iniziale non devo rimuovere caratteri alla fine
+		if(sb.length()>1) {
+			sb.delete(sb.length()-2, sb.length());
+		}
+		sb.append("]");
+		return sb.toString();
+	}
 
 
 	public void setInput(Set<StatoRilevanzaRete> input) {
@@ -88,6 +102,20 @@ public class StatoDizionario {
 	public Set<StatoRilevanzaRete> getOutput() {
 		return output;
 	}
+	
+	public String getOutputToString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		for(StatoRilevanzaRete sOut : this.output) {
+			sb.append(sOut.getRidenominazione() + ", ");
+		}
+		// se c'e' solo la quadra iniziale non devo rimuovere caratteri alla fine
+		if(sb.length()>1) {
+			sb.delete(sb.length()-2, sb.length());
+		}
+		sb.append("]");
+		return sb.toString();
+	}
 
 
 	public void setOutput(Set<StatoRilevanzaRete> output) {
@@ -95,13 +123,27 @@ public class StatoDizionario {
 	}
 
 
-	public Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> getI_O() {
-		return I_O;
+	public Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> getIO() {
+		return IO;
+	}
+	
+	public String getIOtoString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		for(Pair<StatoRilevanzaRete, StatoRilevanzaRete> coppia : this.IO) {
+			sb.append("<" + coppia.getKey().getRidenominazione() + ", " + coppia.getValue().getRidenominazione() + "> , ");
+		}
+		// se c'e' solo la quadra iniziale non devo rimuovere caratteri alla fine
+		if(sb.length()>1) {
+			sb.delete(sb.length()-3, sb.length());
+		}
+		sb.append("]");
+		return sb.toString();
 	}
 
 
-	public void setI_O(Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> i_O) {
-		I_O = i_O;
+	public void setIO(Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> IO) {
+		this.IO = IO;
 	}
 	
 	

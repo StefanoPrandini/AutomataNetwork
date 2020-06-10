@@ -88,10 +88,10 @@ public class DizionarioCompleto {
 			mappaDizionario.put(stato, coppieTransizione_NuovoStato);
 		}
 		
-		for(StatoDizionario s : this.mappaDizionario.keySet()) {
-			//collega I e O, ricerca BFS per vedere se esiste cammino (iniziata sotto)
-//			Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> IO = collegaIO(input, output);
-
+		for(StatoDizionario statoDizionario : this.mappaDizionario.keySet()) {
+			//collega I e O, ricerca BFS per vedere se esiste cammino
+			Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> IO = coppieIO(statoDizionario, spazioRilevanza);
+			statoDizionario.setIO(IO);
 		}
 	}
 	
@@ -149,28 +149,36 @@ public class DizionarioCompleto {
 	}
 	
 	
-	/**
+
 	// cerca se gli stati output sono raggiungibili partendo dagli stati input
 	// fa una ricerca BFS per ogni stato input
-	private Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> collegaIO() {
-		Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>>result = new LinkedHashSet<>();
-		for(StatoRilevanzaRete sIn : statiRilevanza) {
+	private Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> coppieIO(StatoDizionario sDiz, SpazioRilevanza spazioRilevanza) {
+		Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>>coppie = new LinkedHashSet<>();
+		for(StatoRilevanzaRete sInput : sDiz.getInput()) {
 			Map<StatoRilevanzaRete,Boolean>visitati = new HashMap<>();
 			Queue<StatoRilevanzaRete>coda = new LinkedList<>();
-			visitati.put(sIn, true);
-			coda.add(sIn);
+			// stato da cui parto e' stato visitato
+			visitati.put(sInput, true);
+			coda.add(sInput);
 			
 			while(!coda.isEmpty()) {
 				StatoRilevanzaRete s = coda.remove();
-				for(StatoRilevanzaRete)
-				
+				// se da stato input sInput riesco a raggiungere lo stato output s, aggiungo la coppia <in, out> a IO
+				if(sDiz.getOutput().contains(s)) {
+					coppie.add(new Pair<>(sInput, s));
+				}
+				// aggiungo alla coda gli stati successivi solo se fanno parte dello stato del dizionario corrente e se non li ho gia' visitati
+				for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
+					StatoRilevanzaRete sNext = transizione.getValue();
+					if(sDiz.getStatiRilevanza().contains(sNext) && !visitati.containsKey(sNext)) {
+						visitati.put(sNext, true);
+						coda.add(sNext);
+					}
+				}
 			}
-			
-			
 		}
-		return null;
+		return coppie;
 	}
-	*/
 	
 	
 	/**
