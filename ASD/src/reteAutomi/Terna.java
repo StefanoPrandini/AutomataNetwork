@@ -6,12 +6,12 @@ import java.util.Set;
 public class Terna {
 
     private Set<StatoRilevanzaRete> insiemeI;
-    private StatoRilevanzaReteDeterminizzata statoCorrenteDizionario;
+    private StatoDizionario statoCorrenteDizionario;
     private Set<Set<String>> diagnosi;
 
     private String nome;
 
-    public Terna(String nome, Set<StatoRilevanzaRete> insiemeI, StatoRilevanzaReteDeterminizzata statoCorrenteDizionario, Set<Set<String>> diagnosi) {
+    public Terna(String nome, Set<StatoRilevanzaRete> insiemeI, StatoDizionario statoCorrenteDizionario, Set<Set<String>> diagnosi) {
         this.insiemeI = insiemeI;
         this.statoCorrenteDizionario = statoCorrenteDizionario;
         this.diagnosi = diagnosi;
@@ -64,11 +64,11 @@ public class Terna {
         this.insiemeI = insiemeI;
     }
 
-    public StatoRilevanzaReteDeterminizzata getStatoCorrenteDizionario() {
+    public StatoDizionario getStatoCorrenteDizionario() {
         return statoCorrenteDizionario;
     }
 
-    public void setStatoCorrenteDizionario(StatoRilevanzaReteDeterminizzata statoCorrenteDizionario) {
+    public void setStatoCorrenteDizionario(StatoDizionario statoCorrenteDizionario) {
         this.statoCorrenteDizionario = statoCorrenteDizionario;
     }
 
@@ -88,7 +88,7 @@ public class Terna {
         this.nome = nome;
     }
 
-    public void aggiornaTerna(Set<StatoRilevanzaRete> insiemeI, StatoRilevanzaReteDeterminizzata statoCorrenteDizionario, Set<Set<String>> diagnosi){
+    public void aggiornaTerna(Set<StatoRilevanzaRete> insiemeI, StatoDizionario statoCorrenteDizionario, Set<Set<String>> diagnosi){
         this.setInsiemeI(insiemeI);
         this.setStatoCorrenteDizionario(statoCorrenteDizionario);
         this.setDiagnosi(diagnosi);

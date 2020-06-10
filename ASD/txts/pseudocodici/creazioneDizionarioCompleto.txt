@@ -12,7 +12,7 @@ determinizzazioneSpazioRilevanza(spazioRilevanza, mappaDizionario){
     insiemeIniziale <- new Set()
     add(insiemeIniziale, statoIniziale[spazioRilevanza])
     epsClosureIniziale <- epsClosure(spazioRilevanza, insiemeIniziale)
-    statoRilevanzaReteDeterminizzataIniziale <- new statoRilevanzaReteDeterminizzata(epsClosureIniziale)    ▷ StatiRilevanzaReteDeterminizzata contengono un insieme di StatiRilevenzaRete
+    statoRilevanzaReteDeterminizzataIniziale <- new statoDizionario(epsClosureIniziale)    ▷ StatiRilevanzaReteDeterminizzata contengono un insieme di StatiRilevenzaRete
     enqueue(coda, statoRilevanzaReteDeterminizzataIniziale)
 
     while length[coda] > 0
@@ -23,7 +23,7 @@ determinizzazioneSpazioRilevanza(spazioRilevanza, mappaDizionario){
 
             foreach etichetta in etichette[transizioniOsservabiliUscenti]
                 do  epsClosure <- epsClosure(spazioRilevanza, statiArrivo[get(transizioniOsservabiliUscenti, etichetta)])   ▷ epsClosure degli stati in cui si arriva tramite transizioni con questa etichetta
-                    statoArrivo <- new statoRilevanzaReteDeterminizzata(epsClosure)
+                    statoArrivo <- new statoDizionario(epsClosure)
                     if statoArrivo not in keys[mappaDizionario]
                         then enqueue(coda, statoArrivo)
                     add(coppieTransizione_NuovoStato, [etichetta, statoArrivo])

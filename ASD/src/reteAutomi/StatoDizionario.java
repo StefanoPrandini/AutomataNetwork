@@ -8,7 +8,7 @@ import javafx.util.Pair;
  * Il DFA si ottiene dalla determinazione tramite Subset Construction del NFA
  *
  */
-public class StatoRilevanzaReteDeterminizzata {
+public class StatoDizionario {
 	private Set<StatoRilevanzaRete> statiRilevanza;
 	private String ridenominazione;
 	private Set<Set<String>> diagnosi; // insieme delle decorazioni degli statiRilevanza contenuti
@@ -32,7 +32,7 @@ public class StatoRilevanzaReteDeterminizzata {
 	}
 	*/
 	
-	public StatoRilevanzaReteDeterminizzata(Set<StatoRilevanzaRete> statiRilevanza, Set<StatoRilevanzaRete> statiOutput) {
+	public StatoDizionario(Set<StatoRilevanzaRete> statiRilevanza, Set<StatoRilevanzaRete> statiOutput) {
 		this.statiRilevanza = statiRilevanza;
 		
 		this.diagnosi = new HashSet<>();
@@ -140,8 +140,8 @@ public class StatoRilevanzaReteDeterminizzata {
 	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof StatoRilevanzaReteDeterminizzata)) return false;
-        StatoRilevanzaReteDeterminizzata that = (StatoRilevanzaReteDeterminizzata) o;
+        if (!(o instanceof StatoDizionario)) return false;
+        StatoDizionario that = (StatoDizionario) o;
         return this.statiRilevanza.equals(that.getStatiRilevanza());
     }
 

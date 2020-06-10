@@ -12,28 +12,23 @@ import static java.util.Objects.isNull;
  */
 public class DizionarioCompleto {
 	//tengo un insieme di tutti gli stati di rilevanza della rete determinizzata per evitare di riferirmi a stati uguali che sono oggetti diversi
-	private Set<StatoRilevanzaReteDeterminizzata> statiDizionario;
+	private Set<StatoDizionario> statiDizionario;
 	//mappo stati Rilevanza del DFA con coppie<etichettaO, statoArrivo>
-	private Map<StatoRilevanzaReteDeterminizzata, Set<Pair<String, StatoRilevanzaReteDeterminizzata>>> mappaDizionario;
-	private StatoRilevanzaReteDeterminizzata statoIniziale;
+	private Map<StatoDizionario, Set<Pair<String, StatoDizionario>>> mappaDizionario;
+	private StatoDizionario statoIniziale;
 	
 	public DizionarioCompleto(SpazioRilevanza spazioRilevanza) {
 		this.statiDizionario = new LinkedHashSet<>(); // insieme con elementi in ordine di inserimento
 		this.mappaDizionario = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
 		determinizzazioneSpazio(spazioRilevanza);
 	}
-	
-	
-	public Map<StatoRilevanzaReteDeterminizzata, Set<Pair<String, StatoRilevanzaReteDeterminizzata>>> getMappaDizionario(){
-		return this.mappaDizionario;
-	}
-	
+
 
 	// Lo spazio di rilevanza etichettato e' un NFA (Automa a stati Finiti Nondeterministico) nell'alfabeto Omega (etichette di osservabilita').
 	// Esso puo' essere sottoposto all'operazione di determinizzazione per trasformarlo in un automa finito deterministico (DFA), tramite l'algoritmo SUBSET CONSTRUCTION
 	private void determinizzazioneSpazio(SpazioRilevanza spazioRilevanza) {
 		//StatoRilevanzaReteDeterminizzata contiene un insieme di StatoRilevanzaRete
-		Queue<StatoRilevanzaReteDeterminizzata>coda = new LinkedList<>();
+		Queue<StatoDizionario>coda = new LinkedList<>();
 		// si parte dallo stato di rilevanza iniziale della rete
 		Set<StatoRilevanzaRete>insiemeIniziale = new HashSet<>();
 		insiemeIniziale.add(spazioRilevanza.getStatoRilevanzaIniziale());
@@ -45,17 +40,17 @@ public class DizionarioCompleto {
 				outputIniziale.add(s);
 			}
 		}
-		StatoRilevanzaReteDeterminizzata statoIniziale = new StatoRilevanzaReteDeterminizzata(epsClosureIniziale, outputIniziale);
+		StatoDizionario statoIniziale = new StatoDizionario(epsClosureIniziale, outputIniziale);
 		this.statoIniziale = statoIniziale;
 		coda.add(statoIniziale);
 		
 		while(!coda.isEmpty()) {
-			StatoRilevanzaReteDeterminizzata stato = coda.remove();
+			StatoDizionario stato = coda.remove();
 			statiDizionario.add(stato);
 			// mappo le etichette di osservabilita' delle transizioni con gli stati di destinazione di tali transizioni (servono per calcolare eps-closure)
 			// cosi' ho una associazione tra le etichette di osservabilita' e gli stati in cui portano (che dovranno essere raggruppati)
 			Map<String, Set<StatoRilevanzaRete>>transizioniOsservabiliUscenti = cercaTransizioniOsservabiliUscenti(spazioRilevanza, stato);
-			Set<Pair<String, StatoRilevanzaReteDeterminizzata>>coppieTransizione_NuovoStato = new HashSet<>();
+			Set<Pair<String, StatoDizionario>>coppieTransizione_NuovoStato = new HashSet<>();
 			
 			// per ogni etichetta osservabile delle transizioni uscenti, calcolo la epsClosure degli stati destinazione di tali transizioni
 			for(String etichettaO : transizioniOsservabiliUscenti.keySet()) {
@@ -72,8 +67,8 @@ public class DizionarioCompleto {
 				// se ho gia' incontrato questo stato del dizionario, ritorno quello e non ne aggiungo uno nuovo
 				// stati destinazione delle transizioni osservabili uscenti dallo stato precedente del dizionario sono gli stati Input del nuovo stato del dizionario
 				// stati nella eps-closure che hanno transizioni osservabili uscenti sono gli stati Output del nuovo stato del dizionario
-				StatoRilevanzaReteDeterminizzata statoArrivo = new StatoRilevanzaReteDeterminizzata(epsClosure, output);
-				for(StatoRilevanzaReteDeterminizzata statoGiaIncontrato : statiDizionario) {
+				StatoDizionario statoArrivo = new StatoDizionario(epsClosure, output);
+				for(StatoDizionario statoGiaIncontrato : statiDizionario) {
 					if(statoGiaIncontrato.equals(statoArrivo)) {
 						statoArrivo = statoGiaIncontrato;
 						// creando nuovi stati del dizionario si possono aggiungere input a stati del dizionario gia' esistenti (es. a stato iniziale)
@@ -93,7 +88,7 @@ public class DizionarioCompleto {
 			mappaDizionario.put(stato, coppieTransizione_NuovoStato);
 		}
 		
-		for(StatoRilevanzaReteDeterminizzata s : this.mappaDizionario.keySet()) {
+		for(StatoDizionario s : this.mappaDizionario.keySet()) {
 			//collega I e O, ricerca BFS per vedere se esiste cammino (iniziata sotto)
 //			Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> IO = collegaIO(input, output);
 
@@ -128,7 +123,7 @@ public class DizionarioCompleto {
 
 	
 	// ritorna una mappa che associa ad ogni etichetta osservabile delle transizioni uscenti da uno stato del dizionario, gli stati di rilevanza di arrivo di tali transizioni
-	private Map<String, Set<StatoRilevanzaRete>> cercaTransizioniOsservabiliUscenti(SpazioRilevanza spazioRilevanza, StatoRilevanzaReteDeterminizzata stato) {
+	private Map<String, Set<StatoRilevanzaRete>> cercaTransizioniOsservabiliUscenti(SpazioRilevanza spazioRilevanza, StatoDizionario stato) {
 		// mappo etichette osservabili con gli stati in cui portano
 		Map<String, Set<StatoRilevanzaRete>> mappa = new HashMap<>();
 		// guardo tutte le transizioni osservabili uscenti da tutti gli StatiRilevanzaRete contenuti nello StatoRilevanzaReteDeterminizzata
@@ -186,10 +181,10 @@ public class DizionarioCompleto {
 	 * @throws Exception 
 	 */
 	public Set<Set<String>> ricerca(List<String> osservazioneLineare) throws Exception{
-		StatoRilevanzaReteDeterminizzata statoCorrente = this.statoIniziale;
+		StatoDizionario statoCorrente = this.statoIniziale;
 		for(String etichetta : osservazioneLineare) {
 			boolean found = false;
-			for(Pair<String, StatoRilevanzaReteDeterminizzata> transizioneOut : mappaDizionario.get(statoCorrente)) {
+			for(Pair<String, StatoDizionario> transizioneOut : mappaDizionario.get(statoCorrente)) {
 				if(etichetta.equals(transizioneOut.getKey())) {
 					statoCorrente = transizioneOut.getValue();
 					found = true;
@@ -208,9 +203,9 @@ public class DizionarioCompleto {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("(Stati NFA nello stato DFA): [etichetta osservabile -> stato DFA destinazione]\n");
-		for(StatoRilevanzaReteDeterminizzata s : mappaDizionario.keySet()) {
+		for(StatoDizionario s : mappaDizionario.keySet()) {
 			sb.append(s + ": ");
-			for(Pair<String, StatoRilevanzaReteDeterminizzata> transizione : mappaDizionario.get(s)) {
+			for(Pair<String, StatoDizionario> transizione : mappaDizionario.get(s)) {
 				sb.append("[" + transizione.getKey() + " -> " + transizione.getValue() + "] ");
 			}
 			sb.append("\n");
@@ -222,9 +217,9 @@ public class DizionarioCompleto {
 	public void ridenominaStati(){
 		String nome = "d";
 		int i =0;
-		for (StatoRilevanzaReteDeterminizzata statoRilevanzaReteDeterminizzata : mappaDizionario.keySet()) {
-			if (isNull(statoRilevanzaReteDeterminizzata.getRidenominazione())){
-				statoRilevanzaReteDeterminizzata.setRidenominazione(nome + i);
+		for (StatoDizionario statoDizionario : mappaDizionario.keySet()) {
+			if (isNull(statoDizionario.getRidenominazione())){
+				statoDizionario.setRidenominazione(nome + i);
 				i++;
 			}
 		}
@@ -235,9 +230,9 @@ public class DizionarioCompleto {
 	public String toStringRidenominato(){
 		StringBuilder sb = new StringBuilder();
 		sb.append("(Stato DFA rinominato): [etichetta osservabile -> stato DFA rinominato destinazione]\n");
-		for(StatoRilevanzaReteDeterminizzata s : mappaDizionario.keySet()) {
+		for(StatoDizionario s : mappaDizionario.keySet()) {
 			sb.append(s.getRidenominazione() + ": ");
-			for(Pair<String, StatoRilevanzaReteDeterminizzata> transizione : mappaDizionario.get(s)) {
+			for(Pair<String, StatoDizionario> transizione : mappaDizionario.get(s)) {
 
 				sb.append("[" + transizione.getKey() + " -> " +transizione.getValue().getRidenominazione() + "], ");
 			}
@@ -245,6 +240,11 @@ public class DizionarioCompleto {
 			sb.append("\n");
 		}
 		return sb.toString();
+	}
+
+
+	public Map<StatoDizionario, Set<Pair<String, StatoDizionario>>> getMappaDizionario(){
+		return this.mappaDizionario;
 	}
 	
 }

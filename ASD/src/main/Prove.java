@@ -89,7 +89,7 @@ public class Prove {
 		}
 		
 		System.out.println("\nInput e Output:");
-		for(StatoRilevanzaReteDeterminizzata s : dizionario.getMappaDizionario().keySet()) {
+		for(StatoDizionario s : dizionario.getMappaDizionario().keySet()) {
 			System.out.println("Stato: " + s.getRidenominazione() + ", Input: " + s.getInput() + ", Output: " + s.getOutput());
 		}
 

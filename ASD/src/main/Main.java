@@ -14,10 +14,6 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		Terna t = new Terna("p", 22, "t");
-
-		Terna t2 = new Terna("p", "s", "t");
-		System.out.println(t);
 
 
 		/*Automa c1 = new Automa("c1", null, null, null);
