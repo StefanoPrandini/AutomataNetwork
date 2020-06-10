@@ -151,7 +151,7 @@ public class DizionarioCompleto {
 	
 
 	// cerca se gli stati output sono raggiungibili partendo dagli stati input
-	// fa una ricerca BFS per ogni stato input
+	// fa una ricerca BFS tra gli stati dello statoDizionario, partendo da ogni stato input
 	private Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> coppieIO(StatoDizionario sDiz, SpazioRilevanza spazioRilevanza) {
 		Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>>coppie = new LinkedHashSet<>();
 		for(StatoRilevanzaRete sInput : sDiz.getInput()) {
