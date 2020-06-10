@@ -1,17 +1,21 @@
 package reteAutomi;
 
 import java.util.Objects;
+import java.util.Set;
 
-public class Terna<P, S, T> {
+public class Terna {
 
-    private P primo;
-    private S secondo;
-    private T terzo;
+    private Set<StatoRilevanzaRete> insiemeI;
+    private StatoRilevanzaReteDeterminizzata statoCorrenteDizionario;
+    private Set<Set<String>> diagnosi;
 
-    public Terna(P primo, S secondo, T terzo) {
-        this.primo = primo;
-        this.secondo = secondo;
-        this.terzo = terzo;
+    private String nome;
+
+    public Terna(String nome, Set<StatoRilevanzaRete> insiemeI, StatoRilevanzaReteDeterminizzata statoCorrenteDizionario, Set<Set<String>> diagnosi) {
+        this.insiemeI = insiemeI;
+        this.statoCorrenteDizionario = statoCorrenteDizionario;
+        this.diagnosi = diagnosi;
+        this.nome = nome;
     }
 
 
@@ -19,62 +23,74 @@ public class Terna<P, S, T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Terna)) return false;
-        Terna<?, ?, ?> terna = (Terna<?, ?, ?>) o;
-        return Objects.equals(getPrimo(), terna.getPrimo()) &&
-                Objects.equals(getSecondo(), terna.getSecondo()) &&
-                Objects.equals(getTerzo(), terna.getTerzo());
+        Terna terna = (Terna) o;
+        return insiemeI.equals(terna.insiemeI) &&
+                statoCorrenteDizionario.equals(terna.statoCorrenteDizionario) &&
+                diagnosi.equals(terna.diagnosi);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPrimo(), getSecondo(), getTerzo());
+        return Objects.hash(insiemeI, statoCorrenteDizionario, diagnosi);
     }
 
     @Override
     public String toString() {
-        return "Terna (" + toStringPrimo() + ", " + toStringSecondo() + ", " + toStringTerzo() +  ")";
+        return "Terna (" + toStringInsiemeI() + ", " + toStringStatoCorrenteDizionario() + ", " + toStringDiagnosi() +  ")";
     }
-
 
 
     /*
     * metodi per gestire eventualmente i toString in modo preciso in base al contenuto
     */
-    private String toStringTerzo() {
-        return terzo.toString();
+    private String toStringDiagnosi() {
+        return diagnosi.toString();
     }
 
-    private String toStringSecondo() {
-        return secondo.toString();
+    private String toStringStatoCorrenteDizionario() {
+        return statoCorrenteDizionario.toString();
     }
 
-    private String toStringPrimo() {
-        return primo.toString();
+    private String toStringInsiemeI() {
+        return insiemeI.toString();
     }
 
 
-
-    public P getPrimo() {
-        return primo;
+    public Set<StatoRilevanzaRete> getInsiemeI() {
+        return insiemeI;
     }
 
-    public void setPrimo(P primo) {
-        this.primo = primo;
+    public void setInsiemeI(Set<StatoRilevanzaRete> insiemeI) {
+        this.insiemeI = insiemeI;
     }
 
-    public S getSecondo() {
-        return secondo;
+    public StatoRilevanzaReteDeterminizzata getStatoCorrenteDizionario() {
+        return statoCorrenteDizionario;
     }
 
-    public void setSecondo(S secondo) {
-        this.secondo = secondo;
+    public void setStatoCorrenteDizionario(StatoRilevanzaReteDeterminizzata statoCorrenteDizionario) {
+        this.statoCorrenteDizionario = statoCorrenteDizionario;
     }
 
-    public T getTerzo() {
-        return terzo;
+    public Set<Set<String>> getDiagnosi() {
+        return diagnosi;
     }
 
-    public void setTerzo(T terzo) {
-        this.terzo = terzo;
+    public void setDiagnosi(Set<Set<String>> diagnosi) {
+        this.diagnosi = diagnosi;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void aggiornaTerna(Set<StatoRilevanzaRete> insiemeI, StatoRilevanzaReteDeterminizzata statoCorrenteDizionario, Set<Set<String>> diagnosi){
+        this.setInsiemeI(insiemeI);
+        this.setStatoCorrenteDizionario(statoCorrenteDizionario);
+        this.setDiagnosi(diagnosi);
     }
 }
