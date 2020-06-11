@@ -297,11 +297,11 @@ public class DizionarioCompleto {
 			ternaPrec.setDiagnosi(newDiagnosi);
 			
 			Set<StatoRilevanzaRete> inputEff = ternaPrec.getStatoDizionario().getIfromO(outputEff);
-			// Se l段nsieme Ieff coincide con l段nsieme I, la revisione termina
+			// Se l'insieme Ieff coincide con l'insieme I, la revisione termina
 			if(ternaPrec.getInsiemeI().equals(inputEff)) {
 				return;
 			}
-			// Altrimenti, l段nsieme degli stati I della terna viene sovrascritto dall段nsieme Ieff e la revisione continua 
+			// Altrimenti, l'insieme degli stati I della terna viene sovrascritto dall'insieme Ieff e la revisione continua
 			else {
 				ternaPrec.setInsiemeI(inputEff);
 			}
