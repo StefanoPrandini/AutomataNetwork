@@ -36,30 +36,23 @@ public class DizionarioCompleto {
 
 	//
 	public Terna produciTerna(SpazioRilevanza sr, Terna ternaCorrente, String etichettaOss, String nome) throws Exception{
-		Terna result =new Terna(nome, null, null, null);
-		if (etichettaOss.equals("start")){
-			//crea terna iniziale
-			// insieme I vuoto, stato iniziale dizionario, diagnosiStato iniziale
-			result.aggiornaTerna(new HashSet<>(), statoIniziale, statoIniziale.getDiagnosi());
-		}
-		else {
-			boolean esiste = false;
-			for (Pair<String, StatoDizionario> coppiaEtichettaStato : mappaDizionario.get(ternaCorrente.getStatoCorrenteDizionario())) {
-				if (coppiaEtichettaStato.getKey().equals(etichettaOss)){
-					esiste = true;
+		Terna result = null;
+		boolean esiste = false;
+		for (Pair<String, StatoDizionario> coppiaEtichettaStato : mappaDizionario.get(ternaCorrente.getStatoCorrenteDizionario())) {
+			if (coppiaEtichettaStato.getKey().equals(etichettaOss)){
+				esiste = true;
 
-					result.aggiornaTerna(
-							inputSubset(ternaCorrente.getStatoCorrenteDizionario(), etichettaOss, coppiaEtichettaStato.getValue(), sr),
-							coppiaEtichettaStato.getValue(),
-							coppiaEtichettaStato.getValue().getDiagnosi() );
-					break;
-				}
+				result =new Terna(nome,
+						inputSubset(ternaCorrente.getStatoCorrenteDizionario(), etichettaOss, coppiaEtichettaStato.getValue(), sr),
+						coppiaEtichettaStato.getValue(),
+						coppiaEtichettaStato.getValue().getDiagnosi() );
+				break;
 			}
-			if (!esiste){
-				throw new Exception("L'etichetta " + etichettaOss + " non produce nuove terne");
-			}
-			//stati del dizionario raggiungibili da stato corrente con una transizione omega-osservabile
 		}
+		if (!esiste){
+			throw new Exception("L'osservazione non corrisponde a nessuna traiettoria della rete!");
+		}
+
 
 		return result;
 
@@ -68,14 +61,12 @@ public class DizionarioCompleto {
 
 
 	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) throws Exception {
-
-		String etichettaStart ="start";
 		Queue<String> osservazioni = new LinkedList<>(osservazioneLineare);
 		Queue<Terna> coda = new LinkedList<>();
 		String nomeTerna = "alfa";
 		int indiceTerna =0;
 		String nomeCompleto = nomeTerna + indiceTerna;
-		Terna ternaIniziale = produciTerna(spazioRilevanza, null, etichettaStart, nomeCompleto);
+		Terna ternaIniziale = new Terna(nomeCompleto, new HashSet<>(), statoIniziale, statoIniziale.getDiagnosi());
 		terne.add(ternaIniziale);
 
 		coda.add(ternaIniziale);

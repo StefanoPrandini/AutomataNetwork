@@ -53,7 +53,7 @@ public class Terna {
 
 
     /**
-     * c'è una virgola in piu'
+     *
      * @return
      */
     private String toStringInsiemeI() {
