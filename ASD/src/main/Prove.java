@@ -95,26 +95,22 @@ public class Prove {
 		
 		System.out.println("\nCoppie IO:");
 		for(StatoDizionario s : dizionario.getMappaDizionario().keySet()) {
-			System.out.println("Stato: " + s.getRidenominazione() + " - IO: " + s.getIOtoString());
+			System.out.println("Stato " + s.getRidenominazione() + ": I-O = " + s.getIOtoString());
 		}
 
 
 
-
+		System.out.println("\nMonitoraggio + revisione:");
+		
 		try {
-
 			dizionario.monitoraggio(osservazioneLineare2, spazioRilevanzaRete);
-			for (Terna terna : dizionario.getTerne()) {
-				System.out.println("Terna: " + terna);
-			}
-
-		} catch (NullPointerException npe) {
-			npe.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		catch (Exception e){
-			System.out.println(e);
+		for (Terna terna : dizionario.getTerne()) {
+			System.out.println("Terna " + terna);
 		}
-
+		
 
 		/**
 		Stato s1 = new Stato("s1");

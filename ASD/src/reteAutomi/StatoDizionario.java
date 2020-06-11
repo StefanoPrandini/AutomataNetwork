@@ -152,6 +152,19 @@ public class StatoDizionario {
 			this.input.add(s);
 		}
 	}
+	
+	
+	public Set<StatoRilevanzaRete>getIfromO(Set<StatoRilevanzaRete> outputs) {
+		Set<StatoRilevanzaRete> inputs = new HashSet<>();
+		for(StatoRilevanzaRete output : outputs) {
+			for(Pair<StatoRilevanzaRete, StatoRilevanzaRete> IO : this.IO) {
+				if(IO.getValue().equals(output)) {
+					inputs.add(IO.getKey());
+				}
+			}
+		}
+		return inputs;
+	}
 
 
 	/**

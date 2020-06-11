@@ -6,14 +6,14 @@ import java.util.Set;
 public class Terna {
 
     private Set<StatoRilevanzaRete> insiemeI;
-    private StatoDizionario statoCorrenteDizionario;
+    private StatoDizionario statoDizionario;
     private Set<Set<String>> diagnosi;
 
     private String nome;
 
     public Terna(String nome, Set<StatoRilevanzaRete> insiemeI, StatoDizionario statoCorrenteDizionario, Set<Set<String>> diagnosi) {
         this.insiemeI = insiemeI;
-        this.statoCorrenteDizionario = statoCorrenteDizionario;
+        this.statoDizionario = statoCorrenteDizionario;
         this.diagnosi = diagnosi;
         this.nome = nome;
     }
@@ -25,18 +25,18 @@ public class Terna {
         if (!(o instanceof Terna)) return false;
         Terna terna = (Terna) o;
         return insiemeI.equals(terna.insiemeI) &&
-                statoCorrenteDizionario.equals(terna.statoCorrenteDizionario) &&
+                statoDizionario.equals(terna.statoDizionario) &&
                 diagnosi.equals(terna.diagnosi);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(insiemeI, statoCorrenteDizionario, diagnosi);
+        return Objects.hash(insiemeI, statoDizionario, diagnosi);
     }
 
     @Override
     public String toString() {
-        return nome + " (" + toStringInsiemeI() + ", " + toStringStatoCorrenteDizionario() + ", " + toStringDiagnosi() +  ")";
+        return nome + ": (" + toStringInsiemeI() + ", " + toStringStatoDizionario() + ", " + toStringDiagnosi() +  ")";
     }
 
 
@@ -47,8 +47,8 @@ public class Terna {
         return diagnosi.toString();
     }
 
-    private String toStringStatoCorrenteDizionario() {
-        return statoCorrenteDizionario.getRidenominazione();
+    private String toStringStatoDizionario() {
+        return statoDizionario.getRidenominazione();
     }
 
 
@@ -80,12 +80,12 @@ public class Terna {
         this.insiemeI = insiemeI;
     }
 
-    public StatoDizionario getStatoCorrenteDizionario() {
-        return statoCorrenteDizionario;
+    public StatoDizionario getStatoDizionario() {
+        return statoDizionario;
     }
 
-    public void setStatoCorrenteDizionario(StatoDizionario statoCorrenteDizionario) {
-        this.statoCorrenteDizionario = statoCorrenteDizionario;
+    public void setStatoDizionario(StatoDizionario statoCorrenteDizionario) {
+        this.statoDizionario = statoCorrenteDizionario;
     }
 
     public Set<Set<String>> getDiagnosi() {
@@ -106,7 +106,7 @@ public class Terna {
 
     public void aggiornaTerna(Set<StatoRilevanzaRete> insiemeI, StatoDizionario statoCorrenteDizionario, Set<Set<String>> diagnosi){
         this.setInsiemeI(insiemeI);
-        this.setStatoCorrenteDizionario(statoCorrenteDizionario);
+        this.setStatoDizionario(statoCorrenteDizionario);
         this.setDiagnosi(diagnosi);
     }
 }

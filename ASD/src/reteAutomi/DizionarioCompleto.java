@@ -26,60 +26,6 @@ public class DizionarioCompleto {
 	}
 
 
-	//viene ricevuto un'etichetta osservabile
-	//cerca in dizionario lo stato successivo raggiungibile dallo stato corrente (della terna) attraverso transizione con etichetta oemga
-	//stato corrente diventa stato precendente e stato raggiunto diventa stato corrente nuovo
-	//produci in uscita la terna
-	//
-	public Terna produciTerna(SpazioRilevanza sr, Terna ternaCorrente, String etichettaOss, String nome) throws Exception{
-		Terna result = null;
-		boolean esiste = false;
-		for (Pair<String, StatoDizionario> coppiaEtichettaStato : mappaDizionario.get(ternaCorrente.getStatoCorrenteDizionario())) {
-			if (coppiaEtichettaStato.getKey().equals(etichettaOss)){
-				esiste = true;
-				Set<StatoRilevanzaRete>inputSubset = inputSubset(ternaCorrente.getStatoCorrenteDizionario(), etichettaOss, coppiaEtichettaStato.getValue(), sr);
-				result = new Terna(nome, inputSubset, coppiaEtichettaStato.getValue(), coppiaEtichettaStato.getValue().getDiagnosi());
-				break;
-			}
-		}
-		if (!esiste){
-			throw new Exception("L'osservazione non corrisponde a nessuna traiettoria della rete!");
-		}
-		
-		return result;
-	}
-
-
-
-	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) throws Exception {
-		Queue<String> osservazioni = new LinkedList<>(osservazioneLineare);
-		String alfa = "alfa";
-		int indice =0;
-		String nomeCompleto = alfa + indice;
-		Terna ternaIniziale = new Terna(nomeCompleto, new HashSet<>(), statoIniziale, statoIniziale.getDiagnosi());
-		terne.add(ternaIniziale);
-
-		indice++;
-		nomeCompleto =alfa + indice;
-		while(!osservazioni.isEmpty()){
-
-			Terna corrente = terne.getLast();
-			String etichetta = osservazioni.remove();
-			Terna nuova = produciTerna(spazioRilevanza, corrente, etichetta,nomeCompleto);
-			terne.add(nuova);
-			// non dovrebbero esistere doppi --> check ?
-			indice++;
-			nomeCompleto = alfa + indice;
-
-		}
-
-		// revisione ?
-
-
-
-	}
-
-
 	// Lo spazio di rilevanza etichettato e' un NFA (Automa a stati Finiti Nondeterministico) nell'alfabeto Omega (etichette di osservabilita').
 	// Esso puo' essere sottoposto all'operazione di determinizzazione per trasformarlo in un automa finito deterministico (DFA), tramite l'algoritmo SUBSET CONSTRUCTION
 	private void determinizzazioneSpazio(SpazioRilevanza spazioRilevanza) {
@@ -205,7 +151,17 @@ public class DizionarioCompleto {
 	}
 
 
-
+	public void ridenominaStati(){
+		String nome = "d";
+		int i =0;
+		for (StatoDizionario statoDizionario : mappaDizionario.keySet()) {
+			if (isNull(statoDizionario.getRidenominazione())){
+				statoDizionario.setRidenominazione(nome + i);
+				i++;
+			}
+		}
+	}
+	
 	
 	/**
 	 * Un'operazione di ricerca nel dizionario acquisisce in ingresso un'osservazione lineare (sequenza di eventi osservabili associata a una traiettoria dello spazio di rilevanza)
@@ -264,14 +220,6 @@ public class DizionarioCompleto {
 	}
 
 
-	public StatoDizionario getStatoIniziale() {
-		return statoIniziale;
-	}
-
-	public Set<StatoDizionario> getStatiDizionario() {
-		return statiDizionario;
-	}
-
 	public Set<StatoRilevanzaRete>inputSubset(StatoDizionario sPrecedente, String etichetta, StatoDizionario statoCorrente, SpazioRilevanza spazioRilevanza){
 		Set<StatoRilevanzaRete>result = new HashSet<>();
 		for(StatoRilevanzaRete sOut : sPrecedente.getOutput()) {
@@ -305,7 +253,85 @@ public class DizionarioCompleto {
 		}
 		return result;
 	}		
+
+
+	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) throws Exception {
+		Queue<String> etichette = new LinkedList<>(osservazioneLineare);
+		String alfa = "alfa";
+		int indice =0;
+		String nomeCompleto = alfa + indice;
+		Terna ternaIniziale = new Terna(nomeCompleto, new HashSet<>(), statoIniziale, statoIniziale.getDiagnosi());
+		terne.add(ternaIniziale);
+
+		indice++;
+		nomeCompleto =alfa + indice;
+		while(!etichette.isEmpty()){
+
+			Terna corrente = terne.getLast();
+			String etichetta = etichette.remove();
+			Terna nuova = produciTerna(spazioRilevanza, corrente, etichetta, nomeCompleto);
+			terne.add(nuova);
+
+			revisione(terne, osservazioneLineare, spazioRilevanza);
+			
+			indice++;
+			nomeCompleto = alfa + indice;
+
+		}
+	}
 	
+	
+	private void revisione(LinkedList<Terna> terne, List<String> osservazione, SpazioRilevanza spazioRilevanza) {
+		// nuova lista per non modificare oggetto in input
+		List<String>etichette = new LinkedList<>(osservazione);
+		// i = 0 non viene fatto, si modifica sempre la terna precedente
+		for(int i = terne.size()-1; i > 0; i--) {
+			Terna terna = terne.get(i);
+			Terna ternaPrec = terne.get(i-1);
+			
+			Set<StatoRilevanzaRete> outputEff = outputSubset(ternaPrec.getStatoDizionario(), etichette.get(i-1), terna.getStatoDizionario(), spazioRilevanza);
+			Set<Set<String>>newDiagnosi = new HashSet<>();
+			for(StatoRilevanzaRete s : outputEff) {
+				newDiagnosi.add(s.getDecorazione());
+			}
+			ternaPrec.setDiagnosi(newDiagnosi);
+			
+			Set<StatoRilevanzaRete> inputEff = ternaPrec.getStatoDizionario().getIfromO(outputEff);
+			// Se l段nsieme Ieff coincide con l段nsieme I, la revisione termina
+			if(ternaPrec.getInsiemeI().equals(inputEff)) {
+				return;
+			}
+			// Altrimenti, l段nsieme degli stati I della terna viene sovrascritto dall段nsieme Ieff e la revisione continua 
+			else {
+				ternaPrec.setInsiemeI(inputEff);
+			}
+		}
+	}
+
+
+	//viene ricevuto un'etichetta osservabile
+	//cerca in dizionario lo stato successivo raggiungibile dallo stato corrente (della terna) attraverso transizione con etichetta oemga
+	//stato corrente diventa stato precendente e stato raggiunto diventa stato corrente nuovo
+	//produci in uscita la terna
+	//
+	public Terna produciTerna(SpazioRilevanza sr, Terna ternaCorrente, String etichettaOss, String nome) throws Exception{
+		Terna result = null;
+		boolean esiste = false;
+		for (Pair<String, StatoDizionario> coppiaEtichettaStato : mappaDizionario.get(ternaCorrente.getStatoDizionario())) {
+			if (coppiaEtichettaStato.getKey().equals(etichettaOss)){
+				esiste = true;
+				Set<StatoRilevanzaRete>inputSubset = inputSubset(ternaCorrente.getStatoDizionario(), etichettaOss, coppiaEtichettaStato.getValue(), sr);
+				result = new Terna(nome, inputSubset, coppiaEtichettaStato.getValue(), coppiaEtichettaStato.getValue().getDiagnosi());
+				break;
+			}
+		}
+		if (!esiste){
+			throw new Exception("L'osservazione non corrisponde a nessuna traiettoria della rete!");
+		}
+		
+		return result;
+	}
+
 	
 	@Override
 	public String toString() {
@@ -320,19 +346,7 @@ public class DizionarioCompleto {
 		}
 		return sb.toString();
 	}
-	
-	
-	public void ridenominaStati(){
-		String nome = "d";
-		int i =0;
-		for (StatoDizionario statoDizionario : mappaDizionario.keySet()) {
-			if (isNull(statoDizionario.getRidenominazione())){
-				statoDizionario.setRidenominazione(nome + i);
-				i++;
-			}
-		}
-	}
-	
+
 	
 	//lo stato destinazione dell'ultima transizione viene stampato null :|
 	public String toStringRidenominato(){
