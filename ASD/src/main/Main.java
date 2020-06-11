@@ -2,10 +2,7 @@ package main;
 
 import reteAutomi.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 
@@ -14,9 +11,19 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		ArrayList<String> s = new ArrayList<>();
 
+		for (int i = 0; i < 10; i++) {
+			s.add(i + "");
+		}
 
-		/*Automa c1 = new Automa("c1", null, null, null);
+		Queue<String> coda = new LinkedList<>(s);
+		System.out.println(s);
+		System.out.println(coda);
+		while (!coda.isEmpty()){
+			System.out.println(coda.remove());
+		}
+ 		/*Automa c1 = new Automa("c1", null, null, null);
 		Automa c2 = new Automa("c2",null, null, null);
 
 		Link l1 = new Link("l1", c1, c2);

@@ -1,6 +1,8 @@
 package reteAutomi;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 import javafx.util.Pair;
 import static java.util.Objects.isNull;
 
@@ -16,11 +18,89 @@ public class DizionarioCompleto {
 	//mappo stati Rilevanza del DFA con coppie<etichettaO, statoArrivo>
 	private Map<StatoDizionario, Set<Pair<String, StatoDizionario>>> mappaDizionario;
 	private StatoDizionario statoIniziale;
+	private Set<Terna> terne;
 	
 	public DizionarioCompleto(SpazioRilevanza spazioRilevanza) {
 		this.statiDizionario = new LinkedHashSet<>(); // insieme con elementi in ordine di inserimento
 		this.mappaDizionario = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
+		this.terne = new LinkedHashSet<>(); //insieme di terne in ordine di inserimento
 		determinizzazioneSpazio(spazioRilevanza);
+	}
+
+
+
+
+	//viene ricevuto un'etichetta osservabile
+	//cerca in dizionario lo stato successivo raggiungibile dallo stato corrente (della terna) attraverso transizione con etichetta oemga
+	//stato corrente diventa stato precendente e stato raggiunto diventa stato corrente nuovo
+	//produci in uscita la terna
+
+
+	//
+	public Terna produciTerna(SpazioRilevanza sr, Terna ternaCorrente, String etichettaOss, String nome) throws Exception{
+		Terna result =new Terna(nome, null, null, null);
+		if (etichettaOss.equals("start")){
+			//crea terna iniziale
+			// insieme I vuoto, stato iniziale dizionario, diagnosiStato iniziale
+			result.aggiornaTerna(new HashSet<>(), statoIniziale, statoIniziale.getDiagnosi());
+		}
+		else {
+			boolean esiste = false;
+			for (Pair<String, StatoDizionario> coppiaEtichettaStato : mappaDizionario.get(ternaCorrente.getStatoCorrenteDizionario())) {
+				if (coppiaEtichettaStato.getKey().equals(etichettaOss)){
+					esiste = true;
+
+					result.aggiornaTerna(
+							inputSubset(ternaCorrente.getStatoCorrenteDizionario(), etichettaOss, coppiaEtichettaStato.getValue(), sr),
+							coppiaEtichettaStato.getValue(),
+							coppiaEtichettaStato.getValue().getDiagnosi() );
+					break;
+				}
+			}
+			if (!esiste){
+				throw new Exception("L'etichetta " + etichettaOss + "non produce nuove terne");
+			}
+			//stati del dizionario raggiungibili da stato corrente con una transizione omega-osservabile
+		}
+
+		return result;
+
+	}
+
+
+
+	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) throws Exception {
+
+		String etichettaStart ="start";
+		Queue<String> osservazioni = new LinkedList<>(osservazioneLineare);
+		Queue<Terna> coda = new LinkedList<>();
+		String nomeTerna = "alfa";
+		int indiceTerna =0;
+		String nomeCompleto = nomeTerna + indiceTerna;
+		Terna ternaIniziale = produciTerna(spazioRilevanza, null, etichettaStart, nomeCompleto);
+		terne.add(ternaIniziale);
+
+		coda.add(ternaIniziale);
+		indiceTerna++;
+		nomeCompleto =nomeTerna + indiceTerna;
+		while(!osservazioni.isEmpty()){
+
+			Terna corrente = coda.remove();
+			String etichetta = osservazioni.remove();
+			Terna nuova = produciTerna(spazioRilevanza, corrente, etichetta,nomeCompleto);
+			terne.add(nuova);
+
+			// non dovrebbero esistere doppi --> check ?
+			coda.add(nuova);
+			indiceTerna++;
+			nomeCompleto = nomeTerna + indiceTerna;
+
+		}
+
+		// revisione ?
+
+
+
 	}
 
 
@@ -147,7 +227,9 @@ public class DizionarioCompleto {
 		}
 		return mappa;
 	}
-	
+
+
+
 	
 	/**
 	 * Un'operazione di ricerca nel dizionario acquisisce in ingresso un'osservazione lineare (sequenza di eventi osservabili associata a una traiettoria dello spazio di rilevanza)
@@ -204,16 +286,25 @@ public class DizionarioCompleto {
 		}
 		return coppie;
 	}
-		
-		
-	private Set<StatoRilevanzaRete>inputSubset(StatoDizionario sPrecedente, String etichetta, StatoDizionario statoCorrente, SpazioRilevanza spazioRilevanza){
+
+
+	public StatoDizionario getStatoIniziale() {
+		return statoIniziale;
+	}
+
+	public Set<StatoDizionario> getStatiDizionario() {
+		return statiDizionario;
+	}
+
+	public Set<StatoRilevanzaRete>inputSubset(StatoDizionario sPrecedente, String etichetta, StatoDizionario statoCorrente, SpazioRilevanza spazioRilevanza){
 		Set<StatoRilevanzaRete>result = new HashSet<>();
 		for(StatoRilevanzaRete sOut : sPrecedente.getOutput()) {
 			for(Pair<Transizione, StatoRilevanzaRete>transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(sOut)) {
 				StatoRilevanzaRete sIn = transizione.getValue();
 				// se da output stato dizionario precedente esce transizione con etichetta oss. indicata ed entra in uno stato input dello stato dizionario corrente, allora quello stato input
 				// fara' parte del sottinsieme input relativo all'etichetta in ingresso dello stato del dizionario corrente
-				if(transizione.getKey().getEtichettaOsservabilita().equals(etichetta) && statoCorrente.getInput().contains(sIn)) {
+
+				if(etichetta.equals(transizione.getKey().getEtichettaOsservabilita()) && statoCorrente.getInput().contains(sIn)) {
 					result.add(sIn);
 				}
 			}
@@ -269,5 +360,8 @@ public class DizionarioCompleto {
 	public Map<StatoDizionario, Set<Pair<String, StatoDizionario>>> getMappaDizionario(){
 		return this.mappaDizionario;
 	}
-	
+
+	public Set<Terna> getTerne() {
+		return terne;
+	}
 }

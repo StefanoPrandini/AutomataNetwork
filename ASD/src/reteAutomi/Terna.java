@@ -36,7 +36,7 @@ public class Terna {
 
     @Override
     public String toString() {
-        return "Terna (" + toStringInsiemeI() + ", " + toStringStatoCorrenteDizionario() + ", " + toStringDiagnosi() +  ")";
+        return nome + " (" + toStringInsiemeI() + ", " + toStringStatoCorrenteDizionario() + ", " + toStringDiagnosi() +  ")";
     }
 
 
@@ -48,11 +48,23 @@ public class Terna {
     }
 
     private String toStringStatoCorrenteDizionario() {
-        return statoCorrenteDizionario.toString();
+        return statoCorrenteDizionario.getRidenominazione();
     }
 
+
+    /**
+     * c'è una virgola in piu'
+     * @return
+     */
     private String toStringInsiemeI() {
-        return insiemeI.toString();
+        StringBuilder sb =new StringBuilder();
+        sb.append("{");
+        for (StatoRilevanzaRete statoRilevanzaRete : insiemeI) {
+            sb.append(statoRilevanzaRete.getRidenominazione() + ",");
+        }
+        sb.append("}");
+
+        return sb.toString();
     }
 
 

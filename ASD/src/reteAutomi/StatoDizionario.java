@@ -11,7 +11,7 @@ import javafx.util.Pair;
 public class StatoDizionario {
 	private Set<StatoRilevanzaRete> statiRilevanza;
 	private String ridenominazione;
-	private Set<Set<String>> diagnosi; // insieme delle decorazioni degli statiRilevanza contenuti
+	private Set<Set<String>> diagnosi; // insieme delle decorazioni di rilevanza degli statiRilevanza contenuti
 	
 	private Set<StatoRilevanzaRete> input;
 	private Set<StatoRilevanzaRete> output;
