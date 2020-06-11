@@ -289,6 +289,24 @@ public class DizionarioCompleto {
 	}
 	
 	
+	// sottinsieme O(etichetta) dello stato della terna precedente (transizioni con tale etichetta uscenti da statoPrecedente ed entranti in statoCorrente)
+	public Set<StatoRilevanzaRete>outputSubset(StatoDizionario sPrecedente, String etichetta, StatoDizionario statoCorrente, SpazioRilevanza spazioRilevanza){
+		Set<StatoRilevanzaRete>result = new HashSet<>();
+		for(StatoRilevanzaRete sOut : sPrecedente.getOutput()) {
+			for(Pair<Transizione, StatoRilevanzaRete>transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(sOut)) {
+				StatoRilevanzaRete sIn = transizione.getValue();
+				// se da output stato dizionario precedente esce transizione con etichetta oss. indicata ed entra in uno stato input dello stato dizionario corrente, allora quello stato output
+				// fara' parte del sottinsieme output relativo all'etichetta in ingresso dello stato del dizionario  precedente
+	
+				if(etichetta.equals(transizione.getKey().getEtichettaOsservabilita()) && statoCorrente.getInput().contains(sIn)) {
+					result.add(sOut);
+				}
+			}
+		}
+		return result;
+	}		
+	
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
