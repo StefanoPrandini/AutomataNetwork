@@ -63,7 +63,7 @@ public class DizionarioCompleto {
 	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) throws Exception {
 		Queue<String> osservazioni = new LinkedList<>(osservazioneLineare);
 		Queue<Terna> coda = new LinkedList<>();
-		String alfa = "α";
+		String alfa = "alfa";
 		int indice =0;
 		String nomeCompleto = alfa + indice;
 		Terna ternaIniziale = new Terna(nomeCompleto, new HashSet<>(), statoIniziale, statoIniziale.getDiagnosi());
