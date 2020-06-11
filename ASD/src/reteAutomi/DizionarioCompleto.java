@@ -16,24 +16,20 @@ public class DizionarioCompleto {
 	//mappo stati Rilevanza del DFA con coppie<etichettaO, statoArrivo>
 	private Map<StatoDizionario, Set<Pair<String, StatoDizionario>>> mappaDizionario;
 	private StatoDizionario statoIniziale;
-	private Set<Terna> terne;
+	private List<Terna> terne;
 	
 	public DizionarioCompleto(SpazioRilevanza spazioRilevanza) {
 		this.statiDizionario = new LinkedHashSet<>(); // insieme con elementi in ordine di inserimento
 		this.mappaDizionario = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
-		this.terne = new LinkedHashSet<>(); //insieme di terne in ordine di inserimento
+		this.terne = new LinkedList<>(); //insieme di terne in ordine di inserimento
 		determinizzazioneSpazio(spazioRilevanza);
 	}
-
-
 
 
 	//viene ricevuto un'etichetta osservabile
 	//cerca in dizionario lo stato successivo raggiungibile dallo stato corrente (della terna) attraverso transizione con etichetta oemga
 	//stato corrente diventa stato precendente e stato raggiunto diventa stato corrente nuovo
 	//produci in uscita la terna
-
-
 	//
 	public Terna produciTerna(SpazioRilevanza sr, Terna ternaCorrente, String etichettaOss, String nome) throws Exception{
 		Terna result = null;
@@ -41,46 +37,37 @@ public class DizionarioCompleto {
 		for (Pair<String, StatoDizionario> coppiaEtichettaStato : mappaDizionario.get(ternaCorrente.getStatoCorrenteDizionario())) {
 			if (coppiaEtichettaStato.getKey().equals(etichettaOss)){
 				esiste = true;
-
-				result =new Terna(nome,
-						inputSubset(ternaCorrente.getStatoCorrenteDizionario(), etichettaOss, coppiaEtichettaStato.getValue(), sr),
-						coppiaEtichettaStato.getValue(),
-						coppiaEtichettaStato.getValue().getDiagnosi() );
+				Set<StatoRilevanzaRete>inputSubset = inputSubset(ternaCorrente.getStatoCorrenteDizionario(), etichettaOss, coppiaEtichettaStato.getValue(), sr);
+				result = new Terna(nome, inputSubset, coppiaEtichettaStato.getValue(), coppiaEtichettaStato.getValue().getDiagnosi());
 				break;
 			}
 		}
 		if (!esiste){
 			throw new Exception("L'osservazione non corrisponde a nessuna traiettoria della rete!");
 		}
-
-
+		
 		return result;
-
 	}
 
 
 
 	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) throws Exception {
 		Queue<String> osservazioni = new LinkedList<>(osservazioneLineare);
-		Queue<Terna> coda = new LinkedList<>();
 		String alfa = "alfa";
 		int indice =0;
 		String nomeCompleto = alfa + indice;
 		Terna ternaIniziale = new Terna(nomeCompleto, new HashSet<>(), statoIniziale, statoIniziale.getDiagnosi());
 		terne.add(ternaIniziale);
 
-		coda.add(ternaIniziale);
 		indice++;
 		nomeCompleto =alfa + indice;
 		while(!osservazioni.isEmpty()){
 
-			Terna corrente = coda.remove();
+			Terna corrente = terne.get(terne.size()-1);
 			String etichetta = osservazioni.remove();
 			Terna nuova = produciTerna(spazioRilevanza, corrente, etichetta,nomeCompleto);
 			terne.add(nuova);
-
 			// non dovrebbero esistere doppi --> check ?
-			coda.add(nuova);
 			indice++;
 			nomeCompleto = alfa + indice;
 
@@ -350,7 +337,7 @@ public class DizionarioCompleto {
 		return this.mappaDizionario;
 	}
 
-	public Set<Terna> getTerne() {
+	public List<Terna> getTerne() {
 		return terne;
 	}
 }
