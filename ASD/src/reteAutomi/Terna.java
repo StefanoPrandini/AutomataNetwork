@@ -60,8 +60,12 @@ public class Terna {
         StringBuilder sb =new StringBuilder();
         sb.append("{");
         for (StatoRilevanzaRete statoRilevanzaRete : insiemeI) {
-            sb.append(statoRilevanzaRete.getRidenominazione() + ",");
+            sb.append(statoRilevanzaRete.getRidenominazione() + ", ");
         }
+        // se c'e' altro oltre alla prima graffa vuol dire che sono stati inseriti elementi e anche virgola alla fine
+        if(sb.length()>1) {
+			sb.delete(sb.length()-2, sb.length());
+		}
         sb.append("}");
 
         return sb.toString();

@@ -1,8 +1,6 @@
 package reteAutomi;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 import javafx.util.Pair;
 import static java.util.Objects.isNull;
 
@@ -58,7 +56,7 @@ public class DizionarioCompleto {
 				}
 			}
 			if (!esiste){
-				throw new Exception("L'etichetta " + etichettaOss + "non produce nuove terne");
+				throw new Exception("L'etichetta " + etichettaOss + " non produce nuove terne");
 			}
 			//stati del dizionario raggiungibili da stato corrente con una transizione omega-osservabile
 		}
