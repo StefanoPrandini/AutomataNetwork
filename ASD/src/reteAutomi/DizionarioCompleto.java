@@ -16,7 +16,7 @@ public class DizionarioCompleto {
 	//mappo stati Rilevanza del DFA con coppie<etichettaO, statoArrivo>
 	private Map<StatoDizionario, Set<Pair<String, StatoDizionario>>> mappaDizionario;
 	private StatoDizionario statoIniziale;
-	private List<Terna> terne;
+	private LinkedList<Terna> terne;
 	
 	public DizionarioCompleto(SpazioRilevanza spazioRilevanza) {
 		this.statiDizionario = new LinkedHashSet<>(); // insieme con elementi in ordine di inserimento
@@ -63,7 +63,7 @@ public class DizionarioCompleto {
 		nomeCompleto =alfa + indice;
 		while(!osservazioni.isEmpty()){
 
-			Terna corrente = terne.get(terne.size()-1);
+			Terna corrente = terne.getLast();
 			String etichetta = osservazioni.remove();
 			Terna nuova = produciTerna(spazioRilevanza, corrente, etichetta,nomeCompleto);
 			terne.add(nuova);
