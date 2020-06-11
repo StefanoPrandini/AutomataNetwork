@@ -63,15 +63,15 @@ public class DizionarioCompleto {
 	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) throws Exception {
 		Queue<String> osservazioni = new LinkedList<>(osservazioneLineare);
 		Queue<Terna> coda = new LinkedList<>();
-		String nomeTerna = "alfa";
-		int indiceTerna =0;
-		String nomeCompleto = nomeTerna + indiceTerna;
+		String alfa = "α";
+		int indice =0;
+		String nomeCompleto = alfa + indice;
 		Terna ternaIniziale = new Terna(nomeCompleto, new HashSet<>(), statoIniziale, statoIniziale.getDiagnosi());
 		terne.add(ternaIniziale);
 
 		coda.add(ternaIniziale);
-		indiceTerna++;
-		nomeCompleto =nomeTerna + indiceTerna;
+		indice++;
+		nomeCompleto =alfa + indice;
 		while(!osservazioni.isEmpty()){
 
 			Terna corrente = coda.remove();
@@ -81,8 +81,8 @@ public class DizionarioCompleto {
 
 			// non dovrebbero esistere doppi --> check ?
 			coda.add(nuova);
-			indiceTerna++;
-			nomeCompleto = nomeTerna + indiceTerna;
+			indice++;
+			nomeCompleto = alfa + indice;
 
 		}
 
