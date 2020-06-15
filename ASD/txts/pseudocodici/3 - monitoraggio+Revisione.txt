@@ -1,0 +1,95 @@
+▷ pseudocodice di un algoritmo per effettuare il monitoraggio con revisione della rete
+
+monitoraggio(osservazioneLineare, dizionarioCompleto){
+    terne <- []
+    ▷ Terna = (insieme I della terna, stato corrente del dizionario, diagnosi della terna)
+    ternaIniziale <- new Terna([], statoIniziale[dizionarioCompleto], diagnosi[statoIniziale[dizionarioCompleto]])
+    add(terne, ternaIniziale)
+
+    while   length[osservazioneLineare > 0]
+            do  ternaCorrente <- terne[length[terne]-1] ▷ ultimo elemento
+                etichettaOsservata <- dequeue(osservazioneLineare)
+                ternaSuccessiva <- produciTerna(ternaCorrente, etichettaOsservata)
+                add(terne, ternaSuccessiva)
+
+                revisione(terne, osservazioneLineare)
+
+    return terne
+}
+
+
+produciTerna(ternaCorrente, etichettaOsservata){
+    esiste <- false
+    foreach transizioneDizionario in transizioniUscenti[statoDizionario[ternaCorrente]]    ▷ transizioni uscenti (etichetta e stato destinazione) dallo stato del dizionario presente nella terna corrente
+            do  if  etichetta[transizioneDizionario] = etichettaOsservata
+                    then    esiste <- true
+                            inputSubset <- inputSubset(statoDizionario[ternaCorrente], etichettaOsservata, statoDestinazione[transizioneDizionario])
+                            result <- new Terna(inputSubset, statoDestinazione[transizioneDizionario], diagnosi[statoDestinazione[transizioneDizionario]])
+                            break
+    
+    if  not esiste
+        then    ERROR "Osservazione lineare non corrispondente a nessuna traiettoria della rete"
+    
+    return result
+}
+
+
+revisione(terne, osservazioneLineare){
+    ▷ rivedere, una per una in ordine inverso rispetto a quello di produzione, le terne prodotte dal monitoraggio
+    for i <- length[terne]-1 down to 1
+        do  terna <- terne[i]
+            ternaPrecedente <- terne[i-1]
+
+            outputEff <- outputSubset(statoDizionario[ternaPrecedente], etichette[i-1], statoDizionario[terna])
+            newDiagnosi <- []
+            foreach statoRilevanza in outputEff
+                    do  add(newDiagnosi, decorazione[statoRilevanza])
+            diagnosi[ternaPrecedente] <- newDiagnosi
+
+            inputEff <- getIfromO(statoDizionario[ternaPrecedente], outputEff)
+
+            ▷ Se l'insieme Ieff coincide con l'insieme I, la revisione termina
+            if  statiInput(ternaPrecedente) = inputEff
+                then return
+
+            else statiInput[ternaPrecedente] <- inputEff
+}
+
+
+▷ stati di rilevanza dello stato del dizionario corrente raggiungibili da transizione con etichetta osservabile indicata, dallo stato del dizionario precedente
+▷ statoPrecedente e statoCorrente sono stati del dizionario, statiOutput sono stati di rilevanza all'interno dello stato del dizionario
+inputSubset(statoPrecedente, etichetta, statoCorrente){
+    result <- []
+    foreach statoOut in statiOutput[statoPrecedente]
+            do  foreach transizione in transizioniUscenti[statoOut]
+                        do  statoIn <- statoDestinazione[transizione]
+
+                            if  etichetta[transizione] = etichetta && statoIn in statiInput[statoCorrente]
+                                then    add(result, statoIn)
+
+    return result
+}
+
+▷ stati di rilevanza dello stato del dizionario precedente da cui escono transizioni con etichetta osservabile indicata, che entrano in stati di rilevanza dello stato del dizionario corrente
+▷ statoPrecedente e statoCorrente sono stati del dizionario, statiInput sono stati di rilevanza all'interno dello stato del dizionario
+outputSubset(statoPrecedente, etichetta, statoCorrente){
+    result <- []
+    foreach statoOut in statiOutput[statoPrecedente]
+            do  foreach transizione in transizioniUscenti[statoOut]
+                        do  statoIn <- statoDestinazione[transizione]
+
+                            if  etichetta[transizione] = etichetta && statoIn in statiInput[statoCorrente]
+                                then    add(result, statoOut)
+
+    return result
+}
+
+
+getIfromO(statoDizionario, outputEff){
+    inputs <- []
+    foreach statoOutput in outputEff
+            do  foreach coppiaIO in coppieIO[statoDizionario]
+                        do  if  output[IO] = statoOutput
+                                then    add(inputs, input[coppiaIO])
+    return inputs
+}

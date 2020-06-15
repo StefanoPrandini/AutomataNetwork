@@ -219,7 +219,7 @@ public class DizionarioCompleto {
 		return coppie;
 	}
 
-
+	// stati di rilevanza dello stato del dizionario corrente raggiungibili da transizione con etichetta osservabile indicata, dallo stato del dizionario precedente
 	public Set<StatoRilevanzaRete>inputSubset(StatoDizionario sPrecedente, String etichetta, StatoDizionario statoCorrente, SpazioRilevanza spazioRilevanza){
 		Set<StatoRilevanzaRete>result = new HashSet<>();
 		for(StatoRilevanzaRete sOut : sPrecedente.getOutput()) {
@@ -237,7 +237,8 @@ public class DizionarioCompleto {
 	}
 	
 	
-	// sottinsieme O(etichetta) dello stato della terna precedente (transizioni con tale etichetta uscenti da statoPrecedente ed entranti in statoCorrente)
+	// stati di rilevanza dello stato del dizionario precedente da cui escono transizioni con etichetta osservabile indicata, 
+	// che entrano in stati di rilevanza dello stato del dizionario corrente
 	public Set<StatoRilevanzaRete>outputSubset(StatoDizionario sPrecedente, String etichetta, StatoDizionario statoCorrente, SpazioRilevanza spazioRilevanza){
 		Set<StatoRilevanzaRete>result = new HashSet<>();
 		for(StatoRilevanzaRete sOut : sPrecedente.getOutput()) {
