@@ -273,6 +273,9 @@ public class DizionarioCompleto {
 			Terna nuova = produciTerna(spazioRilevanza, corrente, etichetta, nomeCompleto);
 			terne.add(nuova);
 
+			// differenza tra revisione e monitoraggio
+			//System.out.println(nuova);
+
 			revisione(terne, osservazioneLineare, spazioRilevanza);
 			
 			indice++;

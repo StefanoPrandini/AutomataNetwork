@@ -6,7 +6,7 @@ monitoraggio(osservazioneLineare, dizionarioCompleto){
     ternaIniziale <- new Terna([], statoIniziale[dizionarioCompleto], diagnosi[statoIniziale[dizionarioCompleto]])
     add(terne, ternaIniziale)
 
-    while   length[osservazioneLineare > 0]
+    while   length[osservazioneLineare] > 0
             do  ternaCorrente <- terne[length[terne]-1] ▷ ultimo elemento
                 etichettaOsservata <- dequeue(osservazioneLineare)
                 ternaSuccessiva <- produciTerna(ternaCorrente, etichettaOsservata)
