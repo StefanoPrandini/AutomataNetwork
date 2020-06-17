@@ -11,6 +11,7 @@ public class StatoRilevanzaRete {
     private List<Pair<String, String>> statiCorrentiAutomi;
     private Set<String> decorazione;
     private String ridenominazione;
+    private int distanza;
 
     /**
      * Crea uno stato partendo dalla rete di automi
@@ -124,6 +125,7 @@ public class StatoRilevanzaRete {
     		}
     	}
     	sb.append("decorazione:" + decorazione);
+    	sb.append(", distanza:" + distanza);
     	sb.append(")");
     	return sb.toString();
     }
@@ -134,5 +136,13 @@ public class StatoRilevanzaRete {
 
     public void setRidenominazione(String ridenominazione) {
         this.ridenominazione = ridenominazione;
+    }
+
+    public int getDistanza() {
+        return distanza;
+    }
+
+    public void setDistanza(int distanza) {
+        this.distanza = distanza;
     }
 }

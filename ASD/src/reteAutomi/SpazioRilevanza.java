@@ -2,6 +2,9 @@ package reteAutomi;
 
 import javafx.util.Pair;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.Objects.compare;
 import static java.util.Objects.isNull;
 
 /**
@@ -19,6 +22,9 @@ public class SpazioRilevanza {
 		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
 		creaSpazioRilevanza(rete);
 	}
+
+
+
 	
 	
 	public void creaSpazioRilevanza(ReteAutomi rete) {
@@ -26,6 +32,7 @@ public class SpazioRilevanza {
 		Set<String>decorazioneIniziale = new HashSet<>();
 		//la rete deve essere nella condizione iniziale
 		StatoRilevanzaRete statoIniziale = new StatoRilevanzaRete(rete, decorazioneIniziale);
+		statoIniziale.setDistanza(0);
 		statiRilevanza.add(statoIniziale);
 		this.statoRilevanzaIniziale = statoIniziale;
 				
@@ -33,6 +40,7 @@ public class SpazioRilevanza {
 		
 		while(!coda.isEmpty()) {
 			StatoRilevanzaRete statoRilevanza = coda.remove();
+
 															
 			// faccio andare la rete nella condizione descritta dallo statoRilevanza appena estratto, cosi' poi posso usare i metodi di ReteAutomi 
 			// per cercare le transizioni abilitate e gli stati successivi
@@ -45,18 +53,41 @@ public class SpazioRilevanza {
 			for(Transizione t : transizioniAbilitate) {
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
 				setReteAutomi(rete, statoRilevanza);
+				int distanza = statoRilevanza.getDistanza();
 				StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
+				if (t.hasEtichettaOsservabilita()){
+					distanza++;
+				}
 
 				listaAdiacenza.add(new Pair<Transizione, StatoRilevanzaRete>(t, nuovoStatoRilevanza));
 				// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
 				if(!mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
+					nuovoStatoRilevanza.setDistanza(distanza);
 					statiRilevanza.add(nuovoStatoRilevanza);
 					coda.add(nuovoStatoRilevanza);
+				}
+				else {
+					//trovo lo stato nello spazio coincidente con quello appena generato
+					StatoRilevanzaRete statoGiaInSpazio = mappaStatoRilevanzaTransizioni.keySet()
+																				.stream()
+																				.filter(statoRilevanzaRete ->
+																						statoRilevanzaRete
+																								.equals(nuovoStatoRilevanza))
+																								.collect(Collectors.toList())
+																														.get(0);
+
+					if (statoGiaInSpazio.getDistanza() > distanza){
+
+						statoGiaInSpazio.setDistanza(distanza);
+					}
+
 				}
 			}
 			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, listaAdiacenza);
 		}
 	}
+
+
 
 
 	private StatoRilevanzaRete calcolaStatoRilevanzaSucc(ReteAutomi rete, Transizione t, Set<String> decorazione) {		
