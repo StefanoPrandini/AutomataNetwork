@@ -25,7 +25,6 @@ public class DizionarioCompleto {
 		determinizzazioneSpazio(spazioRilevanza);
 	}
 
-
 	// Lo spazio di rilevanza etichettato e' un NFA (Automa a stati Finiti Nondeterministico) nell'alfabeto Omega (etichette di osservabilita').
 	// Esso puo' essere sottoposto all'operazione di determinizzazione per trasformarlo in un automa finito deterministico (DFA), tramite l'algoritmo SUBSET CONSTRUCTION
 	private void determinizzazioneSpazio(SpazioRilevanza spazioRilevanza) {

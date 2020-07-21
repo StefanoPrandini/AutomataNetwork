@@ -14,8 +14,8 @@ import java.util.Set;
 public class Prove {
 	public static void main(String[] args)  {
 			
-//		String nomeJSON = "ReteIniziale.json";
-		String nomeJSON = "AltraRete.json";
+		String nomeJSON = "ReteIniziale.json";
+	//	String nomeJSON = "AltraRete.json";
 		// percorso della rete iniziale, in formato JSON
 		String pathJSON;
 		if(System.getProperty("os.name").equals("Mac OS X")) {
@@ -37,8 +37,13 @@ public class Prove {
 		System.out.println("Rete Automi:\n" + ra + "\n");
 
 		System.out.println("\nSPAZIO RILEVANZA:");
-		
-		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(ra);
+
+
+		//parametro per creazione sottospazi
+		int distanzaMax = 2;//SpazioRilevanza.ESPLORAZIONE_COMPLETA;
+
+		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(ra, distanzaMax);
+
 //		spazioRilevanzaRete.creaSpazioRilevanza();
 // 		System.out.println(spazioRilevanzaRete); 
 		System.out.println(spazioRilevanzaRete.getStatiRilevanza().size() + " stati\n");
