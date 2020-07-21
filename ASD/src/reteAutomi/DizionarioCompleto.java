@@ -104,7 +104,8 @@ public class DizionarioCompleto {
 		Set<StatoRilevanzaRete> result = new HashSet<>(stati);
 		//metto gli stati passati in una coda: dovro' aggiungere stati da verificare
 		Queue<StatoRilevanzaRete>codaStati = new LinkedList<>(stati);
-		
+		//prendo la distanza massima di ricerca
+		int distanzaMax = spazioRilevanza.getDistanzaMax();
 		while(!codaStati.isEmpty()) {
 			StatoRilevanzaRete s = codaStati.remove();
 			// prendo le transizioni uscenti dallo statoRilevanza dalla mappa nello spazioRilevanza
@@ -112,7 +113,7 @@ public class DizionarioCompleto {
 				// se l'etichetta della transizione uscente e' eps (null)
 				if(isNull(transizione.getKey().getEtichettaOsservabilita())) {
 					// lo aggiungo alla coda per vedere se anche le sue transizioni uscenti hanno etichetta null: se si' le aggiungo alla eps-closure
-					if(!codaStati.contains(s)) {
+					if(!codaStati.contains(s) && (distanzaMax == SpazioRilevanza.ESPLORAZIONE_COMPLETA || s.getDistanza() <= distanzaMax)) {
 						codaStati.add(transizione.getValue());
 						result.add(transizione.getValue());
 					}

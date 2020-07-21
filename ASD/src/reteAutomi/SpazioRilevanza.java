@@ -17,20 +17,23 @@ public class SpazioRilevanza {
 	private Map<StatoRilevanzaRete, List<Pair<Transizione, StatoRilevanzaRete>>> mappaStatoRilevanzaTransizioni;
 	private StatoRilevanzaRete statoRilevanzaIniziale;
 	public static final int ESPLORAZIONE_COMPLETA = -1;
-	
-	public SpazioRilevanza(ReteAutomi rete, int distanzaMax) {
-		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
-		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
-		creaSpazioRilevanza(rete, distanzaMax);
-	}
-
+	private int distanzaMax;
 
 	/**
 	 *
 	 * @param rete
-	 * @param distanzaMax intesa come la profondita' fino a cui si puo' scendere, -1 se si vuole fare un'esplorazione completa
+	 * @param distanzaMax intesa come la distanza massima a cui effettuare la ricerca, -1 se completa
 	 */
-	public void creaSpazioRilevanza(ReteAutomi rete, int distanzaMax) {
+	public SpazioRilevanza(ReteAutomi rete, int distanzaMax) {
+		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
+		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
+		this.distanzaMax = distanzaMax;
+		creaSpazioRilevanza(rete);
+	}
+
+
+
+	public void creaSpazioRilevanza(ReteAutomi rete) {
 		Queue<StatoRilevanzaRete> coda = new LinkedList<>();
 		Set<String>decorazioneIniziale = new HashSet<>();
 		//la rete deve essere nella condizione iniziale
@@ -62,10 +65,9 @@ public class SpazioRilevanza {
 					distanza++;
 				}
 
-				// se ricerca completa o distanza "attuale" e' <= del max andiamo avanti, altrimenti non aggiungiamo alla lista di adiacenza
+				listaAdiacenza.add(new Pair<Transizione, StatoRilevanzaRete>(t, nuovoStatoRilevanza));
+				// se ricerca completa o distanza "attuale" e' <= del max andiamo avanti
 				if (distanzaMax == ESPLORAZIONE_COMPLETA  || distanza <= distanzaMax){
-
-					listaAdiacenza.add(new Pair<Transizione, StatoRilevanzaRete>(t, nuovoStatoRilevanza));
 					// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
 					if(!mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
 						nuovoStatoRilevanza.setDistanza(distanza);
@@ -89,10 +91,6 @@ public class SpazioRilevanza {
 
 					}
 				}
-
-
-
-
 			}
 			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, listaAdiacenza);
 		}
@@ -193,4 +191,12 @@ public class SpazioRilevanza {
 		}
 		return result;
 	}*/
+
+	public int getDistanzaMax() {
+		return distanzaMax;
+	}
+
+	public void setDistanzaMax(int distanzaMax) {
+		this.distanzaMax = distanzaMax;
+	}
 }
