@@ -51,6 +51,7 @@ public class DizionarioCompleto {
 			// mappo le etichette di osservabilita' delle transizioni con gli stati di destinazione di tali transizioni (servono per calcolare eps-closure)
 			// cosi' ho una associazione tra le etichette di osservabilita' e gli stati in cui portano (che dovranno essere raggruppati)
 			Map<String, Set<StatoRilevanzaRete>>transizioniOsservabiliUscenti = cercaTransizioniOsservabiliUscenti(spazioRilevanza, stato);
+			System.out.println("\nTransiz. osservabili uscenti: " + transizioniOsservabiliUscenti);
 			Set<Pair<String, StatoDizionario>>coppieTransizione_NuovoStato = new HashSet<>();
 			
 			// per ogni etichetta osservabile delle transizioni uscenti, calcolo la epsClosure degli stati destinazione di tali transizioni
@@ -106,16 +107,22 @@ public class DizionarioCompleto {
 		Queue<StatoRilevanzaRete>codaStati = new LinkedList<>(stati);
 		//prendo la distanza massima di ricerca
 		int distanzaMax = spazioRilevanza.getDistanzaMax();
+		System.out.println("\ncoda stati:");
 		while(!codaStati.isEmpty()) {
+			System.out.println(codaStati);
 			StatoRilevanzaRete s = codaStati.remove();
 			// prendo le transizioni uscenti dallo statoRilevanza dalla mappa nello spazioRilevanza
 			for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
 				// se l'etichetta della transizione uscente e' eps (null)
 				if(isNull(transizione.getKey().getEtichettaOsservabilita())) {
 					// lo aggiungo alla coda per vedere se anche le sue transizioni uscenti hanno etichetta null: se si' le aggiungo alla eps-closure
-					if(!codaStati.contains(s) && (distanzaMax == SpazioRilevanza.ESPLORAZIONE_COMPLETA || s.getDistanza() <= distanzaMax)) {
-						codaStati.add(transizione.getValue());
-						result.add(transizione.getValue());
+					if(!codaStati.contains(s)) {
+						if(distanzaMax == SpazioRilevanza.ESPLORAZIONE_COMPLETA || s.getDistanza() <= distanzaMax)
+						{
+							codaStati.add(transizione.getValue());
+							result.add(transizione.getValue());
+
+						}
 					}
 				}
 			}
