@@ -25,6 +25,7 @@ public class StatoRilevanzaRete {
         this.aggiungiContenutiLinks(ra.getLinks());
         this.aggiungiStatiCorrenti(ra.getAutomi());
         this.decorazione = decorazione;
+        this.distanza = -1;
     }
     
     
@@ -145,4 +146,10 @@ public class StatoRilevanzaRete {
     public void setDistanza(int distanza) {
         this.distanza = distanza;
     }
+    
+    // stati che vengono generati come "stati rilevanza successivi" dell'ultimo livello non gli viene settata la distanza perchè non fanno parte del prefisso, resta -1
+    public boolean oltreDistanzaMax() {
+    	return this.distanza== -1;
+    }
+    
 }

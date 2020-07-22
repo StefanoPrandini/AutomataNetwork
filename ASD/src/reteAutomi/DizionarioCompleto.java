@@ -4,6 +4,8 @@ import java.util.*;
 import javafx.util.Pair;
 import static java.util.Objects.isNull;
 
+import java.io.IOException;
+
 /**
  * Dizionario Completo delle osservazioni:
  * DFA (Automa a stati Finiti Deterministico) risultante dalla determinazione dell'intero spazio di rilevanza (tramite Subset Construction), in cui gli stati sono corredati
@@ -51,41 +53,52 @@ public class DizionarioCompleto {
 			// mappo le etichette di osservabilita' delle transizioni con gli stati di destinazione di tali transizioni (servono per calcolare eps-closure)
 			// cosi' ho una associazione tra le etichette di osservabilita' e gli stati in cui portano (che dovranno essere raggruppati)
 			Map<String, Set<StatoRilevanzaRete>>transizioniOsservabiliUscenti = cercaTransizioniOsservabiliUscenti(spazioRilevanza, stato);
-			System.out.println("\nTransiz. osservabili uscenti: " + transizioniOsservabiliUscenti);
 			Set<Pair<String, StatoDizionario>>coppieTransizione_NuovoStato = new HashSet<>();
 			
 			// per ogni etichetta osservabile delle transizioni uscenti, calcolo la epsClosure degli stati destinazione di tali transizioni
 			for(String etichettaO : transizioniOsservabiliUscenti.keySet()) {
 				// input del nuovo stato del dizionario = stati destinazione delle transizioni osservabili uscenti da un altro stato del dizionario
 				Set<StatoRilevanzaRete>input = transizioniOsservabiliUscenti.get(etichettaO);
-				Set<StatoRilevanzaRete>epsClosure = epsClosure(spazioRilevanza, input);
-				// cerco stati output dello stato del dizionario tra gli stati di rilevanza che lo compongono
-				Set<StatoRilevanzaRete>output = new HashSet<>();
-				for(StatoRilevanzaRete s : epsClosure) {
-					if(!spazioRilevanza.getTransizioniOsservabili(s).isEmpty()) {
-						output.add(s);
+				
+				// se gli stati in "input" sono oltre la distanza massima mi fermo 
+				boolean stop = false;
+				for(StatoRilevanzaRete s : input) {
+					if(s.oltreDistanzaMax()) {
+						stop = true;
+						break; // stati in "input" sono tutti alla stessa distanza
 					}
 				}
-				// se ho gia' incontrato questo stato del dizionario, ritorno quello e non ne aggiungo uno nuovo
-				// stati destinazione delle transizioni osservabili uscenti dallo stato precedente del dizionario sono gli stati Input del nuovo stato del dizionario
-				// stati nella eps-closure che hanno transizioni osservabili uscenti sono gli stati Output del nuovo stato del dizionario
-				StatoDizionario statoArrivo = new StatoDizionario(epsClosure, output);
-				for(StatoDizionario statoGiaIncontrato : statiDizionario) {
-					if(statoGiaIncontrato.equals(statoArrivo)) {
-						statoArrivo = statoGiaIncontrato;
-						// creando nuovi stati del dizionario si possono aggiungere input a stati del dizionario gia' esistenti (es. a stato iniziale)
-						statoGiaIncontrato.aggiungiInput(input);
+				
+				if(!stop) {
+					Set<StatoRilevanzaRete>epsClosure = epsClosure(spazioRilevanza, input);
+					// cerco stati output dello stato del dizionario tra gli stati di rilevanza che lo compongono
+					Set<StatoRilevanzaRete>output = new HashSet<>();
+					for(StatoRilevanzaRete s : epsClosure) {
+						if(!spazioRilevanza.getTransizioniOsservabili(s).isEmpty()) {
+							output.add(s);
+						}
 					}
-					else {
-						statoArrivo.aggiungiInput(input);
+					// se ho gia' incontrato questo stato del dizionario, ritorno quello e non ne aggiungo uno nuovo
+					// stati destinazione delle transizioni osservabili uscenti dallo stato precedente del dizionario sono gli stati Input del nuovo stato del dizionario
+					// stati nella eps-closure che hanno transizioni osservabili uscenti sono gli stati Output del nuovo stato del dizionario
+					StatoDizionario statoArrivo = new StatoDizionario(epsClosure, output);
+					for(StatoDizionario statoGiaIncontrato : statiDizionario) {
+						if(statoGiaIncontrato.equals(statoArrivo)) {
+							statoArrivo = statoGiaIncontrato;
+							// creando nuovi stati del dizionario si possono aggiungere input a stati del dizionario gia' esistenti (es. a stato iniziale)
+							statoGiaIncontrato.aggiungiInput(input);
+						}
+						else {
+							statoArrivo.aggiungiInput(input);
+						}
 					}
-				}
 
-				if(!mappaDizionario.containsKey(statoArrivo)) {
-					statiDizionario.add(statoArrivo);
-					coda.add(statoArrivo);
+					if(!mappaDizionario.containsKey(statoArrivo)) {
+						statiDizionario.add(statoArrivo);
+						coda.add(statoArrivo);
+					}
+					coppieTransizione_NuovoStato.add(new Pair<>(etichettaO, statoArrivo));
 				}
-				coppieTransizione_NuovoStato.add(new Pair<>(etichettaO, statoArrivo));
 			}
 			mappaDizionario.put(stato, coppieTransizione_NuovoStato);
 		}
@@ -105,9 +118,7 @@ public class DizionarioCompleto {
 		Set<StatoRilevanzaRete> result = new HashSet<>(stati);
 		//metto gli stati passati in una coda: dovro' aggiungere stati da verificare
 		Queue<StatoRilevanzaRete>codaStati = new LinkedList<>(stati);
-		//prendo la distanza massima di ricerca
-		int distanzaMax = spazioRilevanza.getDistanzaMax();
-		System.out.println("\ncoda stati:");
+
 		while(!codaStati.isEmpty()) {
 			System.out.println(codaStati);
 			StatoRilevanzaRete s = codaStati.remove();
@@ -116,13 +127,9 @@ public class DizionarioCompleto {
 				// se l'etichetta della transizione uscente e' eps (null)
 				if(isNull(transizione.getKey().getEtichettaOsservabilita())) {
 					// lo aggiungo alla coda per vedere se anche le sue transizioni uscenti hanno etichetta null: se si' le aggiungo alla eps-closure
-					if(!codaStati.contains(s)) {
-						if(distanzaMax == SpazioRilevanza.ESPLORAZIONE_COMPLETA || s.getDistanza() <= distanzaMax)
-						{
-							codaStati.add(transizione.getValue());
-							result.add(transizione.getValue());
-
-						}
+					if(!codaStati.contains(s)) {						
+						codaStati.add(transizione.getValue());
+						result.add(transizione.getValue());					
 					}
 				}
 			}
@@ -263,7 +270,7 @@ public class DizionarioCompleto {
 	}		
 
 
-	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) throws Exception {
+	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) throws IOException {
 		Queue<String> etichette = new LinkedList<>(osservazioneLineare);
 		String alfa = "alfa";
 		int indice =0;
@@ -325,7 +332,7 @@ public class DizionarioCompleto {
 	//stato corrente diventa stato precendente e stato raggiunto diventa stato corrente nuovo
 	//produci in uscita la terna
 	//
-	public Terna produciTerna(SpazioRilevanza sr, Terna ternaCorrente, String etichettaOss, String nome) throws Exception{
+	public Terna produciTerna(SpazioRilevanza sr, Terna ternaCorrente, String etichettaOss, String nome) throws IOException{
 		Terna result = null;
 		boolean esiste = false;
 		for (Pair<String, StatoDizionario> coppiaEtichettaStato : mappaDizionario.get(ternaCorrente.getStatoDizionario())) {
@@ -337,7 +344,7 @@ public class DizionarioCompleto {
 			}
 		}
 		if (!esiste){
-			throw new Exception("L'osservazione non corrisponde a nessuna traiettoria della rete!");
+			throw new IOException();
 		}
 		
 		return result;

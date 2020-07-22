@@ -3,8 +3,8 @@ package main;
 import input.InputParser;
 import reteAutomi.*;
 import javafx.util.Pair;
-
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,7 +56,7 @@ public class Prove {
 		}
 		
 		//per vedere come prendere stato rilevanza successivo:
-		System.out.println("\n\n");
+		System.out.println("\n");
 		System.out.println("[(StatoRilvanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:");
 		for(StatoRilevanzaRete sr : spazioRilevanzaRete.getStatiRilevanza()) {
 			for(Pair<Transizione, StatoRilevanzaRete> srd : spazioRilevanzaRete.getMappaStatoRilevanzaTransizioni().get(sr)) {
@@ -75,7 +75,8 @@ public class Prove {
 		System.out.println("\nRicerca nel dizionario: ");
 		System.out.println("(Osservazione -> Decorazione stato di arrivo)");
 
-		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
+		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2"));
+//		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
 		//altra rete
 		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","act", "cls"));
 
@@ -88,7 +89,7 @@ public class Prove {
 		
 		try {
 			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare2);
-			System.out.println(decorazione);
+			System.out.println("Osservazione lineare " + osservazioneLineare2 + " -> " + decorazione);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -103,18 +104,16 @@ public class Prove {
 			System.out.println("Stato " + s.getRidenominazione() + ": I-O = " + s.getIOtoString());
 		}
 
-
-
 		System.out.println("\nMonitoraggio + revisione:");
-		
 		try {
-			dizionario.monitoraggio(osservazioneLineare2, spazioRilevanzaRete);
-		} catch (Exception e) {
-			e.printStackTrace();
+			dizionario.monitoraggio(osservazioneLineare, spazioRilevanzaRete);
+			for (Terna terna : dizionario.getTerne()) {
+				System.out.println("Terna " + terna);
+			}
+		} catch (IOException e) {
+			System.out.println("L'osservazione " + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
 		}
-		for (Terna terna : dizionario.getTerne()) {
-			System.out.println("Terna " + terna);
-		}
+		
 		
 
 		/**
