@@ -107,6 +107,7 @@ public class Prove {
 		System.out.println("\nMonitoraggio + revisione:");
 		try {
 			dizionario.monitoraggio(osservazioneLineare, spazioRilevanzaRete);
+			System.out.println("Osservazione: " + osservazioneLineare);
 			for (Terna terna : dizionario.getTerne()) {
 				System.out.println("Terna " + terna);
 			}
