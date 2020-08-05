@@ -14,7 +14,7 @@ import java.util.Set;
 public class Prove {
 	public static void main(String[] args)  {
 			
-		String nomeJSON = "ReteIniziale.json";
+		String nomeJSON = "Osservazione.json";
 //		String nomeJSON = "AltraRete.json";
 		// percorso della rete iniziale, in formato JSON
 		String pathJSON;
@@ -22,6 +22,7 @@ public class Prove {
 			pathJSON = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + nomeJSON;
 		}
 		else pathJSON = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + nomeJSON;
+
 
 		InputParser parser = new InputParser(pathJSON);
 		ReteAutomi ra = null;
@@ -40,7 +41,8 @@ public class Prove {
 
 
 		//parametro per creazione sottospazi
-		int distanzaMax = 2;//SpazioRilevanza.ESPLORAZIONE_COMPLETA;
+		//un sottospazio di fatto crea il prefisso del dizionario
+		int distanzaMax = 0;//SpazioRilevanza.ESPLORAZIONE_COMPLETA;
 
 		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(ra, distanzaMax);
 
