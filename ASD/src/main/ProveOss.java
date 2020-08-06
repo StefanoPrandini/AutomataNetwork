@@ -1,6 +1,7 @@
 package main;
 
 import input.InputParser;
+import input.OsservazioneParser;
 import reteAutomi.*;
 import javafx.util.Pair;
 import java.io.File;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class Prove {
+public class ProveOss {
 	public static void main(String[] args)  {
 			
 		String nomeJSON = "AltraRete.json";
@@ -37,36 +38,49 @@ public class Prove {
 		System.out.println("Automa 1:\n" + ra.getAutomi().get(1) + "\n");
 		System.out.println("Rete Automi:\n" + ra + "\n");
 
+		System.out.println("\n\n\nOSSERVAZIONE FROM JSON:\n");
+		// OSSERVAZIONE DA JSON:
+		String osservazioneJSON = "Osservazione.json";
+		// percorso dell'osservazione, in formato JSON
+		String pathOsservazioneJSON;
+		if(System.getProperty("os.name").equals("Mac OS X")) {
+			pathOsservazioneJSON = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + osservazioneJSON;
+		}
+		else pathOsservazioneJSON = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + osservazioneJSON;
+
+
+		OsservazioneParser OsservazioneParser = new OsservazioneParser(pathOsservazioneJSON);
+		Automa osservazione = null;
+		try {
+			osservazione = OsservazioneParser.getOsservazione();
+		} catch (Exception e) {
+			e.printStackTrace();
+			//TODO
+		}
+		
+		System.out.println(osservazione.toStringOss());
+		
 		System.out.println("\nSPAZIO RILEVANZA:");
+		SpazioRilevanza spazioRilevanzaDaOss = new SpazioRilevanza(ra, true, osservazione);
 
-
-		//parametro per creazione sottospazi
-		//un sottospazio di fatto crea il prefisso del dizionario
-		int distanzaMax = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
-
-		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(ra, distanzaMax);
-
-//		spazioRilevanzaRete.creaSpazioRilevanza();
-// 		System.out.println(spazioRilevanzaRete); 
-		System.out.println(spazioRilevanzaRete.getStatiRilevanza().size() + " stati\n");
-		//System.out.println(spazioRilevanzaRete.getTransizioni().size() + " transizioni");
-		System.out.println(spazioRilevanzaRete);
-
-		spazioRilevanzaRete.ridenominaStati();
-		for (StatoRilevanzaRete statoRilevanzaRete : spazioRilevanzaRete.getStatiRilevanza()) {
+		System.out.println(spazioRilevanzaDaOss.getStatiRilevanza().size() + " stati\n");
+		System.out.println(spazioRilevanzaDaOss);
+		
+		spazioRilevanzaDaOss.ridenominaStati();
+		for (StatoRilevanzaRete statoRilevanzaRete : spazioRilevanzaDaOss.getStatiRilevanza()) {
 			System.out.println(statoRilevanzaRete + " --> " + statoRilevanzaRete.getRidenominazione());
 		}
 		
 		//per vedere come prendere stato rilevanza successivo:
 		System.out.println("\n");
 		System.out.println("[(StatoRilvanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:");
-		for(StatoRilevanzaRete sr : spazioRilevanzaRete.getStatiRilevanza()) {
-			for(Pair<Transizione, StatoRilevanzaRete> srd : spazioRilevanzaRete.getMappaStatoRilevanzaTransizioni().get(sr)) {
+		for(StatoRilevanzaRete sr : spazioRilevanzaDaOss.getStatiRilevanza()) {
+			for(Pair<Transizione, StatoRilevanzaRete> srd : spazioRilevanzaDaOss.getMappaStatoRilevanzaTransizioni().get(sr)) {
 				System.out.println(sr.getRidenominazione() + " -> " + srd.getKey().getNome() + " -> " + srd.getValue().getRidenominazione());
 			}
-		}		
-		DizionarioCompleto dizionario = new DizionarioCompleto(spazioRilevanzaRete);
-
+		}
+		
+		DizionarioCompleto dizionario = new DizionarioCompleto(spazioRilevanzaDaOss);
 		dizionario.ridenominaStati();
 		System.out.println("\nDizionario:\n" + dizionario);
 		System.out.println("\nDizionario ridenominato:\n" + dizionario.toStringRidenominato());
@@ -105,7 +119,7 @@ public class Prove {
 
 		System.out.println("\nMonitoraggio + revisione:");
 		try {
-			dizionario.monitoraggio(osservazioneLineare, spazioRilevanzaRete);
+			dizionario.monitoraggio(osservazioneLineare, spazioRilevanzaDaOss);
 			System.out.println("Osservazione: " + osservazioneLineare);
 			for (Terna terna : dizionario.getTerne()) {
 				System.out.println("Terna " + terna);
@@ -113,6 +127,10 @@ public class Prove {
 		} catch (IOException e) {
 			System.out.println("L'osservazione " + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
 		}
+		
+//------------------------------------------------------------------------------------------------------------------------------
+		
+		
 		
 		
 		

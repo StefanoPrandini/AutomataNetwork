@@ -43,7 +43,8 @@ public class InputParser {
 		getAutomiFromJson();
 		addAutomiToLinks();
 		
-		return new ReteAutomi("rete1", this.automi, this.links);
+		String idRete = json.get("idRete").getAsString();
+		return new ReteAutomi(idRete, this.automi, this.links);
 		
 	}
 

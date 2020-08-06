@@ -53,6 +53,7 @@ public class DizionarioCompleto {
 			// mappo le etichette di osservabilita' delle transizioni con gli stati di destinazione di tali transizioni (servono per calcolare eps-closure)
 			// cosi' ho una associazione tra le etichette di osservabilita' e gli stati in cui portano (che dovranno essere raggruppati)
 			Map<String, Set<StatoRilevanzaRete>>transizioniOsservabiliUscenti = cercaTransizioniOsservabiliUscenti(spazioRilevanza, stato);
+			System.out.println("trans oss: " + transizioniOsservabiliUscenti);
 			Set<Pair<String, StatoDizionario>>coppieTransizione_NuovoStato = new HashSet<>();
 			
 			// per ogni etichetta osservabile delle transizioni uscenti, calcolo la epsClosure degli stati destinazione di tali transizioni
@@ -68,6 +69,7 @@ public class DizionarioCompleto {
 						break; // stati in "input" sono tutti alla stessa distanza
 					}
 				}
+				System.out.println(stop);
 				
 				if(!stop) {
 					Set<StatoRilevanzaRete>epsClosure = epsClosure(spazioRilevanza, input);
@@ -120,7 +122,6 @@ public class DizionarioCompleto {
 		Queue<StatoRilevanzaRete>codaStati = new LinkedList<>(stati);
 
 		while(!codaStati.isEmpty()) {
-			System.out.println(codaStati);
 			StatoRilevanzaRete s = codaStati.remove();
 			// prendo le transizioni uscenti dallo statoRilevanza dalla mappa nello spazioRilevanza
 			for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {

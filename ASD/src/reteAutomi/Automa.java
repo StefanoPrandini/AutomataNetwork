@@ -1,6 +1,6 @@
 package reteAutomi;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -37,9 +37,10 @@ public class Automa {
 				this.statoCorrente = s;
 			}
 		}
-		this.mappaStatoTransizioni = new HashMap<>();
-		if (!(isNull(stati) || isNull(
-				transizioni))) creaMappaStatiTransizioni(stati, transizioni);
+		this.mappaStatoTransizioni = new LinkedHashMap<>();
+		if (!(isNull(stati) || isNull(transizioni))) {
+			creaMappaStatiTransizioni(stati, transizioni);
+		}
 	}
 
 	/**
@@ -100,37 +101,6 @@ public class Automa {
 		return id;
 	}
 
-	@Override
-	public String toString() {
-		String s =  "Automa{" +
-				"id=" + id +
-				", nome=" + nome +
-				", statoIniziale=" + statoIniziale.getNome();
-
-		String ss =
-				", statoCorrente=" + statoCorrente.getNome() +
-						'}';
-
-		StringBuilder sb = new StringBuilder();
-
-		sb.append( "\n	Stati: ");
-		sb.append(mappaStatoTransizioni.keySet());
-		sb.append( "\n	Transizioni: ");
-		sb.append(mappaStatoTransizioni.values());
-
-
-		/**
-		 * for (Stato stato : mappaStatoTransizioni.keySet()) {
-		 * 			sb.append("\n");
-		 * 			sb.append(stato.toString());
-		 * 			sb.append("    \n");
-		 * 			sb.append(mappaStatoTransizioni.get(stato));
-		 * 			}
-		 */
-
-		return s + ss + sb.toString();
-	}
-
 
 	public Stato getStatoIniziale() {
 		return this.statoIniziale;
@@ -139,8 +109,6 @@ public class Automa {
 	public void setStatoIniziale(Stato statoIniziale) {
 		this.statoIniziale = statoIniziale;
 	}
-
-
 
 
 	public void setStatoCorrente(Stato statoCorrente) {
@@ -171,9 +139,57 @@ public class Automa {
 	}
 
 
-
-
 	public String getNome() {
 		return nome;
 	}
+	
+	
+	@Override
+	public String toString() {
+		String s =  "Automa{" +
+					"id=" + id +
+					", nome=" + nome +
+					", statoIniziale=" + statoIniziale.getNome() +
+					", statoCorrente=" + statoCorrente.getNome() + '}';
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append( "\n	Stati: ");
+		sb.append(mappaStatoTransizioni.keySet());
+		sb.append( "\n	Transizioni: ");
+		sb.append(mappaStatoTransizioni.values());
+
+
+		/**
+		 * for (Stato stato : mappaStatoTransizioni.keySet()) {
+		 * 			sb.append("\n");
+		 * 			sb.append(stato.toString());
+		 * 			sb.append("    \n");
+		 * 			sb.append(mappaStatoTransizioni.get(stato));
+		 * 			}
+		 */
+
+		return s + sb.toString();
+	}
+	
+	
+	public String toStringOss() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Automa OSSERVAZIONE:");
+		sb.append("\n\tnome:\t\t" + nome);
+		sb.append( "\n\tStati:\t\t" + mappaStatoTransizioni.keySet());
+		sb.append("\n\tstatoIniziale:\t" + statoIniziale.getNome());
+		sb.append("\n\tstatoCorrente:\t" + statoCorrente.getNome());
+		sb.append( "\n\tTransizioni:\t[");
+		for(List<Transizione> tt : mappaStatoTransizioni.values()) {
+			for(Transizione t : tt) {
+				sb.append(t.toStringOss() + "\n\t\t\t");
+			}	
+		}
+		sb.setLength(sb.length()-6); //toglie ', \n\t\t\t' finale
+		sb.append("]");
+
+		return sb.toString();
+	}
+
 }

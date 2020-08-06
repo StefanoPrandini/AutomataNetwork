@@ -98,6 +98,24 @@ public class Transizione {
 		this.etichettaOsservabilita = etichettaOsservabilita;
 	}
 
+
+	public boolean hasEtichettaRilevanza(){
+		return !isNull(this.etichettaRilevanza);
+	}
+
+	public boolean hasEtichettaOsservabilita(){
+		return !isNull(this.etichettaOsservabilita);
+	}
+
+	public String getEtichettaRilevanza() {
+		return etichettaRilevanza;
+	}
+
+	public String getEtichettaOsservabilita() {
+		return etichettaOsservabilita;
+	}
+	
+	
 	@Override
 	public String toString() {
 
@@ -119,7 +137,6 @@ public class Transizione {
 	}
 
 
-
 	public String toStringCompleto() {
 		return "Transizione{" +
 				"id=" + id +
@@ -131,22 +148,13 @@ public class Transizione {
 				", etichettaOsservabilita='" + etichettaOsservabilita + '\'' +
 				'}';
 	}
-
-
-
-	public boolean hasEtichettaRilevanza(){
-		return !isNull(this.etichettaRilevanza);
-	}
-
-	public boolean hasEtichettaOsservabilita(){
-		return !isNull(this.etichettaOsservabilita);
-	}
-
-	public String getEtichettaRilevanza() {
-		return etichettaRilevanza;
-	}
-
-	public String getEtichettaOsservabilita() {
-		return etichettaOsservabilita;
+	
+	
+	public String toStringOss() {
+		return "Transizione{" +
+				"statoPartenza=" + statoPartenza +
+				", statoArrivo=" + statoArrivo +
+				", etichettaOsservabilita='" + etichettaOsservabilita + '\'' +
+				"}, ";
 	}
 }

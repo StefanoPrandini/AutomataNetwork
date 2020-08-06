@@ -25,8 +25,7 @@ public class Stato {
 	@Override
 	public String toString() {
 		return "Stato{" +
-				"id=" + id +
-				", nome=" + nome +
+				"nome=" + nome +
 				'}';
 	}
 	

@@ -12,6 +12,7 @@ public class StatoRilevanzaRete {
     private Set<String> decorazione;
     private String ridenominazione;
     private int distanza;
+    private Stato statoOsservazione;
 
     /**
      * Crea uno stato partendo dalla rete di automi
@@ -151,5 +152,17 @@ public class StatoRilevanzaRete {
     public boolean oltreDistanzaMax() {
     	return this.distanza== -1;
     }
+
+
+	public Stato getStatoOsservazione() {
+		return statoOsservazione;
+	}
+
+
+	public void setStatoOsservazione(Stato statoOsservazione) {
+		this.statoOsservazione = statoOsservazione;
+	}
+
+
     
 }
