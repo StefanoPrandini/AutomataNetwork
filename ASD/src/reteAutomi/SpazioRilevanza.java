@@ -46,11 +46,11 @@ public class SpazioRilevanza {
 //	si potrebbe fare tipo CREASPAZIORILEVANZA(flag) e dentro fare la creazione completa, con distanza, o con osservazione 
 //	(con osservazione direi metodo separato, altri 2 insieme come ora)
 	public void creaSpazioRilevanza(ReteAutomi rete, boolean daOsservazione, Automa osservazione) {
-		//spazioRilevanza pu� essere creato a partire da una osservazione (un automa) oppure no
+		//spazioRilevanza puo' essere creato a partire da una osservazione (un automa) oppure no
 		if(daOsservazione) {
 			creaSpazioRilevanzaDaOsservazione(rete, osservazione);
 		}
-		//se non viene creato da osservazione, pu� essere o completo o un prefisso (distanza < valore fissato)
+		//se non viene creato da osservazione, puo' essere o completo o un prefisso (distanza < valore fissato)
 		else {
 			//si potrebbe fare metodo separato come creaSpazioRilevanzaDaOsservazione ma non mi viene nome appropriato 
 			Queue<StatoRilevanzaRete> coda = new LinkedList<>();
