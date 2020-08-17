@@ -1,6 +1,7 @@
 package main;
 
 import input.InputParser;
+import input.OsservazioneParser;
 import reteAutomi.*;
 import javafx.util.Pair;
 import java.io.File;
@@ -17,12 +18,13 @@ public class Prove {
 //		String nomeJSON = "AltraRete.json";
 		String nomeJSON = "ReteIniziale.json";
 		// percorso della rete iniziale, in formato JSON
-		String pathJSON;
+		String systemPathJSON;
 		if(System.getProperty("os.name").equals("Mac OS X")) {
-			pathJSON = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + nomeJSON;
+			systemPathJSON = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator;
 		}
-		else pathJSON = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + nomeJSON;
+		else systemPathJSON = System.getProperty("user.dir") + File.separator + "JSON" + File.separator;
 
+		String pathJSON = systemPathJSON + nomeJSON;
 
 		InputParser parser = new InputParser(pathJSON);
 		ReteAutomi ra = null;
@@ -113,8 +115,18 @@ public class Prove {
 		} catch (IOException e) {
 			System.out.println("L'osservazione " + osservazioneLineare2 + " non corrisponde a nessuna traiettoria della rete!");
 		}
-		
-		
+
+		System.out.println("\nOsservazione in input:");
+		String pathOsservazione = systemPathJSON + "Osservazione.json";
+		OsservazioneParser op = new OsservazioneParser(pathOsservazione);
+		try {
+			Automa a = op.getOsservazione();
+			System.out.println(a.toStringOss() + "\n");
+
+		}
+		catch (Exception e){
+			System.err.println("Errore caricamento osservazione");
+		}
 		
 	}
 }
