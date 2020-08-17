@@ -192,4 +192,9 @@ public class Automa {
 		return sb.toString();
 	}
 
+	
+	public boolean isInStatoFinale() {
+		return getTransizioniUscentiDaStatoCorrente().size() == 0;
+	}
+
 }

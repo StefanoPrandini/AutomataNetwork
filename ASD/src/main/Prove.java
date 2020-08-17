@@ -14,8 +14,8 @@ import java.util.Set;
 public class Prove {
 	public static void main(String[] args)  {
 			
-		String nomeJSON = "AltraRete.json";
 //		String nomeJSON = "AltraRete.json";
+		String nomeJSON = "ReteIniziale.json";
 		// percorso della rete iniziale, in formato JSON
 		String pathJSON;
 		if(System.getProperty("os.name").equals("Mac OS X")) {
@@ -42,7 +42,7 @@ public class Prove {
 
 		//parametro per creazione sottospazi
 		//un sottospazio di fatto crea il prefisso del dizionario
-		int distanzaMax = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
+		int distanzaMax = 2; //SpazioRilevanza.ESPLORAZIONE_COMPLETA;
 
 		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(ra, distanzaMax);
 
@@ -77,7 +77,7 @@ public class Prove {
 		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2"));
 //		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
 		//altra rete
-		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","act", "cls"));
+		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","act","cls"));
 
 		try {
 			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare);
@@ -105,15 +105,14 @@ public class Prove {
 
 		System.out.println("\nMonitoraggio + revisione:");
 		try {
-			dizionario.monitoraggio(osservazioneLineare, spazioRilevanzaRete);
-			System.out.println("Osservazione: " + osservazioneLineare);
+			dizionario.monitoraggio(osservazioneLineare2, spazioRilevanzaRete);
+			System.out.println("Osservazione: " + osservazioneLineare2);
 			for (Terna terna : dizionario.getTerne()) {
 				System.out.println("Terna " + terna);
 			}
 		} catch (IOException e) {
-			System.out.println("L'osservazione " + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
+			System.out.println("L'osservazione " + osservazioneLineare2 + " non corrisponde a nessuna traiettoria della rete!");
 		}
-		
 		
 		
 		

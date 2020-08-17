@@ -7,6 +7,7 @@ import static java.util.Objects.isNull;
 
 /**
  * Spazio di rilevanza e' un automa -> grafo: StatiRilevanza sono i vertici e transizioni sono gli archi
+ * ha due costruttori: uno per costruire spazio completo o prefisso con distanza, uno per costruire lo spazio partendo da una osservazione
  */
 public class SpazioRilevanza {	
 	public static final int ESPLORAZIONE_COMPLETA = -1;
@@ -17,104 +18,38 @@ public class SpazioRilevanza {
 	private Map<StatoRilevanzaRete, List<Pair<Transizione, StatoRilevanzaRete>>> mappaStatoRilevanzaTransizioni;
 	private StatoRilevanzaRete statoRilevanzaIniziale;
 	private int distanzaMax;
-
-	/**
-	 * se costruttore chiamato con osservazione, non si fissa una distanzaMax
-	 * @param daOsservazione indica se lo spazio di rilevanza e' da costruire partendo da una osservazione
-	 * @param osservazione l'osservazione da cui costruire lo spazio di rilevanza
-	 */
-	public SpazioRilevanza(ReteAutomi rete, boolean daOsservazione, Automa osservazione) {
-		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
-		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
-		this.distanzaMax = ESPLORAZIONE_COMPLETA;
-		creaSpazioRilevanza(rete, daOsservazione, osservazione);
-	}
-	
 	
 	/**
-	 * se costruttore chiamato con distanzaMax e senza l'osservazione, lo spazio non deve essere creato a partire da un'osservazione
- 	 * @param distanzaMax intesa come la distanza massima a cui effettuare la ricerca, -1 se completa
+	 * se costruttore chiamato con distanzaMax e senza osservazione, lo spazio non deve essere creato a partire da un'osservazione
+ 	 * @param distanzaMax distanza massima a cui arrivare nella ricerca, -1 per ricerca completa
 	 */
 	public SpazioRilevanza(ReteAutomi rete, int distanzaMax) {
 		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
 		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
 		this.distanzaMax = distanzaMax;
-		creaSpazioRilevanza(rete, false, null);
+		creaSpazioRilevanza(rete);
 	}
+	
 
-
-//	si potrebbe fare tipo CREASPAZIORILEVANZA(flag) e dentro fare la creazione completa, con distanza, o con osservazione 
-//	(con osservazione direi metodo separato, altri 2 insieme come ora)
-	public void creaSpazioRilevanza(ReteAutomi rete, boolean daOsservazione, Automa osservazione) {
-		//spazioRilevanza puo' essere creato a partire da una osservazione (un automa) oppure no
-		if(daOsservazione) {
-			creaSpazioRilevanzaDaOsservazione(rete, osservazione);
-		}
-		//se non viene creato da osservazione, puo' essere o completo o un prefisso (distanza < valore fissato)
-		else {
-			//si potrebbe fare metodo separato come creaSpazioRilevanzaDaOsservazione ma non mi viene nome appropriato 
-			Queue<StatoRilevanzaRete> coda = new LinkedList<>();
-			Set<String>decorazioneIniziale = new HashSet<>();
-			//la rete deve essere nella condizione iniziale
-			StatoRilevanzaRete statoIniziale = new StatoRilevanzaRete(rete, decorazioneIniziale);
-			statoIniziale.setDistanza(0);
-			statiRilevanza.add(statoIniziale);
-			this.statoRilevanzaIniziale = statoIniziale;
-			coda.add(statoIniziale);
-			
-			while(!coda.isEmpty()) {
-				StatoRilevanzaRete statoRilevanza = coda.remove();	
-				// faccio andare la rete nella condizione descritta dallo statoRilevanza appena estratto, cosi' poi posso usare i metodi di ReteAutomi 
-				// per cercare le transizioni abilitate e gli stati successivi
-				setReteAutomi(rete, statoRilevanza);
-				ArrayList<Transizione>transizioniAbilitate = rete.getTutteTransizioniAbilitate();
-				ArrayList<Pair<Transizione, StatoRilevanzaRete>> listaAdiacenza = new ArrayList<>();
-				
-				for(Transizione t : transizioniAbilitate) {
-					// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
-					setReteAutomi(rete, statoRilevanza);
-					int distanza = statoRilevanza.getDistanza();
-					StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
-					if (t.hasEtichettaOsservabilita()){
-						distanza++;
-					}
-
-					listaAdiacenza.add(new Pair<Transizione, StatoRilevanzaRete>(t, nuovoStatoRilevanza));
-					// se ricerca completa o distanza "attuale" e' <= del max andiamo avanti
-					if (distanzaMax == ESPLORAZIONE_COMPLETA  || distanza <= distanzaMax){
-						// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
-						if(!mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
-							nuovoStatoRilevanza.setDistanza(distanza);
-							statiRilevanza.add(nuovoStatoRilevanza);
-							coda.add(nuovoStatoRilevanza);
-						}
-						else {
-							//trovo lo stato nello spazio coincidente con quello appena generato
-							StatoRilevanzaRete statoGiaInSpazio = 
-									mappaStatoRilevanzaTransizioni.keySet()
-									.stream()
-									.filter(statoRilevanzaRete -> statoRilevanzaRete.equals(nuovoStatoRilevanza))
-									.collect(Collectors.toList())
-									.get(0);
-
-							if (statoGiaInSpazio.getDistanza() > distanza){
-								statoGiaInSpazio.setDistanza(distanza);
-							}
-						}
-					}
-				}
-				this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, listaAdiacenza);
-			}
-		}
+	/**
+	 * se costruttore chiamato con osservazione, non si fissa una distanzaMax
+	 * @param osservazione l'osservazione da cui costruire lo spazio di rilevanza
+	 */
+	public SpazioRilevanza(ReteAutomi rete, Automa osservazione) {
+		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
+		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
+		this.distanzaMax = ESPLORAZIONE_COMPLETA;
+		creaSpazioRilevanzaDaOsservazione(rete, osservazione);
 	}
+	
 
-
-	private void creaSpazioRilevanzaDaOsservazione(ReteAutomi rete, Automa osservazione) {
+//	se spazio non viene creato da osservazione, può essere o completo o un prefisso (distanza < valore fissato)
+	public void creaSpazioRilevanza(ReteAutomi rete) {
 		Queue<StatoRilevanzaRete> coda = new LinkedList<>();
 		Set<String>decorazioneIniziale = new HashSet<>();
 		//la rete deve essere nella condizione iniziale
 		StatoRilevanzaRete statoIniziale = new StatoRilevanzaRete(rete, decorazioneIniziale);
-		statoIniziale.setStatoOsservazione(osservazione.getStatoIniziale());
+		statoIniziale.setDistanza(0);
 		statiRilevanza.add(statoIniziale);
 		this.statoRilevanzaIniziale = statoIniziale;
 		coda.add(statoIniziale);
@@ -126,18 +61,81 @@ public class SpazioRilevanza {
 			setReteAutomi(rete, statoRilevanza);
 			ArrayList<Transizione>transizioniAbilitate = rete.getTutteTransizioniAbilitate();
 			ArrayList<Pair<Transizione, StatoRilevanzaRete>> listaAdiacenza = new ArrayList<>();
+			
 			for(Transizione t : transizioniAbilitate) {
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
 				setReteAutomi(rete, statoRilevanza);
+				int distanza = statoRilevanza.getDistanza();
+				StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
+				if (t.hasEtichettaOsservabilita()){
+					distanza++;
+				}
+
+				listaAdiacenza.add(new Pair<Transizione, StatoRilevanzaRete>(t, nuovoStatoRilevanza));
+				// se ricerca completa o distanza "attuale" e' <= del max andiamo avanti
+				if (distanzaMax == ESPLORAZIONE_COMPLETA  || distanza <= distanzaMax){
+					// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
+					if(!mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
+						nuovoStatoRilevanza.setDistanza(distanza);
+						statiRilevanza.add(nuovoStatoRilevanza);
+						coda.add(nuovoStatoRilevanza);
+					}
+					else {
+						//trovo lo stato nello spazio coincidente con quello appena generato
+						StatoRilevanzaRete statoGiaInSpazio = 
+								mappaStatoRilevanzaTransizioni.keySet()
+								.stream()
+								.filter(statoRilevanzaRete -> statoRilevanzaRete.equals(nuovoStatoRilevanza))
+								.collect(Collectors.toList())
+								.get(0);
+
+						if (statoGiaInSpazio.getDistanza() > distanza){
+							statoGiaInSpazio.setDistanza(distanza);
+						}
+					}
+				}
+			}
+			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, listaAdiacenza);
+		}
+	}
+
+//	spazioRilevanza può essere creato a partire da una osservazione (un automa)
+//	lascio comunque la distanza per non dover rifare il dizionario
+	private void creaSpazioRilevanzaDaOsservazione(ReteAutomi rete, Automa osservazione) {
+		Queue<StatoRilevanzaRete> coda = new LinkedList<>();
+		Set<String>decorazioneIniziale = new HashSet<>();
+		//la rete deve essere nella condizione iniziale
+		StatoRilevanzaRete statoIniziale = new StatoRilevanzaRete(rete, decorazioneIniziale);
+		statoIniziale.setDistanza(0);
+		statoIniziale.setStatoOsservazione(osservazione.getStatoIniziale());
+		statiRilevanza.add(statoIniziale);
+		this.statoRilevanzaIniziale = statoIniziale;
+		coda.add(statoIniziale);
+
+		while(!coda.isEmpty()) {
+			StatoRilevanzaRete statoRilevanza = coda.remove();	
+			// faccio andare la rete nella condizione descritta dallo statoRilevanza appena estratto, cosi' poi posso usare i metodi di ReteAutomi 
+			// per cercare le transizioni abilitate e gli stati successivi
+			setReteAutomi(rete, statoRilevanza);
+			ArrayList<Transizione>transizioniAbilitate = rete.getTutteTransizioniAbilitate();
+			ArrayList<Pair<Transizione, StatoRilevanzaRete>> listaAdiacenza = new ArrayList<>();
+			for(Transizione t : transizioniAbilitate) {
+				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
+				setReteAutomi(rete, statoRilevanza);
+				int distanza = statoRilevanza.getDistanza();
 				osservazione.setStatoCorrente(statoRilevanza.getStatoOsservazione());
 				StatoRilevanzaRete nuovoStatoRilevanza = null;
 				//la transizione, oltre che essere abilitata, deve anche essere presente nell'osservazione
 				if (t.hasEtichettaOsservabilita()){
-					
+					distanza++;
 					ArrayList<String> etichetteOsservazione = etichetteOsservazione(osservazione);
-					
-					if(etichetteOsservazione.contains(t.getEtichettaOsservabilita())) {
-						avanzaOsservazione(osservazione, t.getEtichettaOsservabilita());
+					// se osservazione è in stato finale, aggiungo comunque gli stati successivi allo spazio di rilevanza:
+					// servono per trovare gli output degli stati finali
+					// non bisogna aggiungerli alla coda, così non va avanti
+					if(etichetteOsservazione.contains(t.getEtichettaOsservabilita()) || osservazione.isInStatoFinale()) {
+						if( ! osservazione.isInStatoFinale()) {
+							avanzaOsservazione(osservazione, t.getEtichettaOsservabilita());
+						}
 						nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
 						nuovoStatoRilevanza.setStatoOsservazione(osservazione.getStatoCorrente());
 					}
@@ -152,8 +150,24 @@ public class SpazioRilevanza {
 					// se ricerca completa o distanza "attuale" e' <= del max andiamo avanti
 					// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
 					if( ! mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
+						nuovoStatoRilevanza.setDistanza(distanza);
 						statiRilevanza.add(nuovoStatoRilevanza);
-						coda.add(nuovoStatoRilevanza);
+						// se l'osservazione è nello stato finale, gli stati successivi servono solo per trovare l'output, 
+						// non devono essere aggiunti alla coda
+						if(osservazione.isInStatoFinale()) {
+							coda.add(nuovoStatoRilevanza);
+						}
+						
+					}
+					else {
+						// aggiorno la distanza dello stato già nella mappa
+						for(StatoRilevanzaRete statoGiaInSpazio : mappaStatoRilevanzaTransizioni.keySet()) {
+							if(statoGiaInSpazio.equals(nuovoStatoRilevanza)) {
+								if (statoGiaInSpazio.getDistanza() > distanza){
+									statoGiaInSpazio.setDistanza(distanza);
+								}
+							}
+						}
 					}
 				}
 			}

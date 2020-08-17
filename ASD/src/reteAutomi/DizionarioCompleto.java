@@ -53,7 +53,6 @@ public class DizionarioCompleto {
 			// mappo le etichette di osservabilita' delle transizioni con gli stati di destinazione di tali transizioni (servono per calcolare eps-closure)
 			// cosi' ho una associazione tra le etichette di osservabilita' e gli stati in cui portano (che dovranno essere raggruppati)
 			Map<String, Set<StatoRilevanzaRete>>transizioniOsservabiliUscenti = cercaTransizioniOsservabiliUscenti(spazioRilevanza, stato);
-			System.out.println("trans oss: " + transizioniOsservabiliUscenti);
 			Set<Pair<String, StatoDizionario>>coppieTransizione_NuovoStato = new HashSet<>();
 			
 			// per ogni etichetta osservabile delle transizioni uscenti, calcolo la epsClosure degli stati destinazione di tali transizioni
@@ -69,17 +68,19 @@ public class DizionarioCompleto {
 						break; // stati in "input" sono tutti alla stessa distanza
 					}
 				}
-				System.out.println(stop);
 				
 				if(!stop) {
 					Set<StatoRilevanzaRete>epsClosure = epsClosure(spazioRilevanza, input);
 					// cerco stati output dello stato del dizionario tra gli stati di rilevanza che lo compongono
 					Set<StatoRilevanzaRete>output = new HashSet<>();
 					for(StatoRilevanzaRete s : epsClosure) {
+						System.out.println(s);
+						System.out.println(spazioRilevanza.getTransizioniOsservabili(s));
 						if(!spazioRilevanza.getTransizioniOsservabili(s).isEmpty()) {
 							output.add(s);
 						}
 					}
+					System.out.println("OUTPUT: " + output);
 					// se ho gia' incontrato questo stato del dizionario, ritorno quello e non ne aggiungo uno nuovo
 					// stati destinazione delle transizioni osservabili uscenti dallo stato precedente del dizionario sono gli stati Input del nuovo stato del dizionario
 					// stati nella eps-closure che hanno transizioni osservabili uscenti sono gli stati Output del nuovo stato del dizionario
@@ -197,7 +198,7 @@ public class DizionarioCompleto {
 				}
 			}
 			if(!found) {
-				throw new Exception("Osservazione lineare " + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
+				throw new Exception("L'osservazione lineare " + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
 			}
 		}
 		return statoCorrente.getDiagnosi();		

@@ -15,7 +15,7 @@ import java.util.Set;
 public class ProveOss {
 	public static void main(String[] args)  {
 			
-		String nomeJSON = "AltraRete.json";
+		String nomeJSON = "ReteIniziale.json";
 //		String nomeJSON = "AltraRete.json";
 		// percorso della rete iniziale, in formato JSON
 		String pathJSON;
@@ -40,7 +40,7 @@ public class ProveOss {
 
 		System.out.println("\n\n\nOSSERVAZIONE FROM JSON:\n");
 		// OSSERVAZIONE DA JSON:
-		String osservazioneJSON = "Osservazione.json";
+		String osservazioneJSON = "Osservazione2.json";
 		// percorso dell'osservazione, in formato JSON
 		String pathOsservazioneJSON;
 		if(System.getProperty("os.name").equals("Mac OS X")) {
@@ -61,7 +61,7 @@ public class ProveOss {
 		System.out.println(osservazione.toStringOss());
 		
 		System.out.println("\nSPAZIO RILEVANZA:");
-		SpazioRilevanza spazioRilevanzaDaOss = new SpazioRilevanza(ra, true, osservazione);
+		SpazioRilevanza spazioRilevanzaDaOss = new SpazioRilevanza(ra, osservazione);
 
 		System.out.println(spazioRilevanzaDaOss.getStatiRilevanza().size() + " stati\n");
 		System.out.println(spazioRilevanzaDaOss);
@@ -91,7 +91,8 @@ public class ProveOss {
 		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2"));
 //		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
 		//altra rete
-		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","act", "cls"));
+		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","cls"));
+//		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","act", "cls"));
 
 		try {
 			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare);
@@ -125,7 +126,7 @@ public class ProveOss {
 				System.out.println("Terna " + terna);
 			}
 		} catch (IOException e) {
-			System.out.println("L'osservazione " + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
+			System.out.println("L'osservazione lineare" + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
 		}
 		
 //------------------------------------------------------------------------------------------------------------------------------
