@@ -43,7 +43,7 @@ public class SpazioRilevanza {
 	}
 	
 
-//	se spazio non viene creato da osservazione, può essere o completo o un prefisso (distanza < valore fissato)
+//	se spazio non viene creato da osservazione, puo' essere o completo o un prefisso (distanza < valore fissato)
 	public void creaSpazioRilevanza(ReteAutomi rete) {
 		Queue<StatoRilevanzaRete> coda = new LinkedList<>();
 		Set<String>decorazioneIniziale = new HashSet<>();
@@ -99,7 +99,7 @@ public class SpazioRilevanza {
 		}
 	}
 
-//	spazioRilevanza può essere creato a partire da una osservazione (un automa)
+//	spazioRilevanza puo' essere creato a partire da una osservazione (un automa)
 //	lascio comunque la distanza per non dover rifare il dizionario
 	private void creaSpazioRilevanzaDaOsservazione(ReteAutomi rete, Automa osservazione) {
 		Queue<StatoRilevanzaRete> coda = new LinkedList<>();
