@@ -129,9 +129,9 @@ public class SpazioRilevanza {
 				if (t.hasEtichettaOsservabilita()){
 					distanza++;
 					ArrayList<String> etichetteOsservazione = etichetteOsservazione(osservazione);
-					// se osservazione è in stato finale, aggiungo comunque gli stati successivi allo spazio di rilevanza:
+					// se osservazione e' in stato finale, aggiungo comunque gli stati successivi allo spazio di rilevanza:
 					// servono per trovare gli output degli stati finali
-					// non bisogna aggiungerli alla coda, così non va avanti
+					// non bisogna aggiungerli alla coda, cosi' non va avanti
 					if(etichetteOsservazione.contains(t.getEtichettaOsservabilita()) || osservazione.isInStatoFinale()) {
 						if( ! osservazione.isInStatoFinale()) {
 							avanzaOsservazione(osservazione, t.getEtichettaOsservabilita());
@@ -152,7 +152,7 @@ public class SpazioRilevanza {
 					if( ! mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
 						nuovoStatoRilevanza.setDistanza(distanza);
 						statiRilevanza.add(nuovoStatoRilevanza);
-						// se l'osservazione è nello stato finale, gli stati successivi servono solo per trovare l'output, 
+						// se l'osservazione e' nello stato finale, gli stati successivi servono solo per trovare l'output,
 						// non devono essere aggiunti alla coda
 						if(osservazione.isInStatoFinale()) {
 							coda.add(nuovoStatoRilevanza);
@@ -160,7 +160,7 @@ public class SpazioRilevanza {
 						
 					}
 					else {
-						// aggiorno la distanza dello stato già nella mappa
+						// aggiorno la distanza dello stato gia' nella mappa
 						for(StatoRilevanzaRete statoGiaInSpazio : mappaStatoRilevanzaTransizioni.keySet()) {
 							if(statoGiaInSpazio.equals(nuovoStatoRilevanza)) {
 								if (statoGiaInSpazio.getDistanza() > distanza){
