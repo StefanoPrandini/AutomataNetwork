@@ -52,13 +52,13 @@ public class DizionarioCompleto {
 			statiDizionario.add(stato);
 			// mappo le etichette di osservabilita' delle transizioni con gli stati di destinazione di tali transizioni (servono per calcolare eps-closure)
 			// cosi' ho una associazione tra le etichette di osservabilita' e gli stati in cui portano (che dovranno essere raggruppati)
-			Map<String, Set<StatoRilevanzaRete>>transizioniOsservabiliUscenti = cercaTransizioniOsservabiliUscenti(spazioRilevanza, stato);
+			Map<String, Set<StatoRilevanzaRete>>transizioniOsservabiliUscenti = cercaTransizioniOsservabiliUscenti(spazioRilevanza, stato); // transizioni osservabili uscenti da stato dizionario (precedente)
 			Set<Pair<String, StatoDizionario>>coppieTransizione_NuovoStato = new HashSet<>();
 			
 			// per ogni etichetta osservabile delle transizioni uscenti, calcolo la epsClosure degli stati destinazione di tali transizioni
 			for(String etichettaO : transizioniOsservabiliUscenti.keySet()) {
 				// input del nuovo stato del dizionario = stati destinazione delle transizioni osservabili uscenti da un altro stato del dizionario
-				Set<StatoRilevanzaRete>input = transizioniOsservabiliUscenti.get(etichettaO);
+				Set<StatoRilevanzaRete>input = transizioniOsservabiliUscenti.get(etichettaO); // dallo stato precedente
 				
 				// se gli stati in "input" sono oltre la distanza massima mi fermo 
 				boolean stop = false;
@@ -75,10 +75,12 @@ public class DizionarioCompleto {
 					Set<StatoRilevanzaRete>output = new HashSet<>();
 					for(StatoRilevanzaRete s : epsClosure) {
 						System.out.println(s);
-						System.out.println(spazioRilevanza.getTransizioniOsservabili(s));
-						if(!spazioRilevanza.getTransizioniOsservabili(s).isEmpty()) {
+//						System.out.println(spazioRilevanza.getTransizioniOsservabili(s));
+						if(!spazioRilevanza.getTransizioniOsservabili(s).isEmpty() ) {
 							output.add(s);
 						}
+					
+						
 					}
 					System.out.println("OUTPUT: " + output);
 					// se ho gia' incontrato questo stato del dizionario, ritorno quello e non ne aggiungo uno nuovo
@@ -88,13 +90,10 @@ public class DizionarioCompleto {
 					for(StatoDizionario statoGiaIncontrato : statiDizionario) {
 						if(statoGiaIncontrato.equals(statoArrivo)) {
 							statoArrivo = statoGiaIncontrato;
-							// creando nuovi stati del dizionario si possono aggiungere input a stati del dizionario gia' esistenti (es. a stato iniziale)
-							statoGiaIncontrato.aggiungiInput(input);
-						}
-						else {
-							statoArrivo.aggiungiInput(input);
+							break;
 						}
 					}
+					statoArrivo.aggiungiInput(input);
 
 					if(!mappaDizionario.containsKey(statoArrivo)) {
 						statiDizionario.add(statoArrivo);
@@ -124,7 +123,6 @@ public class DizionarioCompleto {
 
 		while(!codaStati.isEmpty()) {
 			StatoRilevanzaRete s = codaStati.remove();
-			// prendo le transizioni uscenti dallo statoRilevanza dalla mappa nello spazioRilevanza
 			for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
 				// se l'etichetta della transizione uscente e' eps (null)
 				if(isNull(transizione.getKey().getEtichettaOsservabilita())) {
@@ -135,6 +133,7 @@ public class DizionarioCompleto {
 					}
 				}
 			}
+			// prendo le transizioni uscenti dallo statoRilevanza dalla mappa nello spazioRilevanza
 		}
 		return result;
 	}

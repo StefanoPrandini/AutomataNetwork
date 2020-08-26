@@ -125,19 +125,25 @@ public class SpazioRilevanza {
 				int distanza = statoRilevanza.getDistanza();
 				osservazione.setStatoCorrente(statoRilevanza.getStatoOsservazione());
 				StatoRilevanzaRete nuovoStatoRilevanza = null;
-				//la transizione, oltre che essere abilitata, deve anche essere presente nell'osservazione
+				
+				boolean statoFinale = osservazione.isInStatoFinale();
+				
 				if (t.hasEtichettaOsservabilita()){
-					distanza++;
-					ArrayList<String> etichetteOsservazione = etichetteOsservazione(osservazione);
-					// se osservazione e' in stato finale, aggiungo comunque gli stati successivi allo spazio di rilevanza:
-					// servono per trovare gli output degli stati finali
-					// non bisogna aggiungerli alla coda, cosi' non va avanti
-					if(etichetteOsservazione.contains(t.getEtichettaOsservabilita()) || osservazione.isInStatoFinale()) {
-						if( ! osservazione.isInStatoFinale()) {
-							avanzaOsservazione(osservazione, t.getEtichettaOsservabilita());
-						}
+					// aggiungo anche livello successivo a quello finale per trovare gli output degli stati finali
+					if(statoFinale) {
 						nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
-						nuovoStatoRilevanza.setStatoOsservazione(osservazione.getStatoCorrente());
+					}
+					else {
+						distanza++;
+						ArrayList<String> etichetteOsservazione = etichetteOsservazione(osservazione);
+						//la transizione, oltre che essere abilitata, deve anche essere presente nell'osservazione
+						if(etichetteOsservazione.contains(t.getEtichettaOsservabilita())) {
+							if( ! statoFinale) {
+								avanzaOsservazione(osservazione, t.getEtichettaOsservabilita());
+							}
+							nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
+							nuovoStatoRilevanza.setStatoOsservazione(osservazione.getStatoCorrente());
+						}
 					}
 				}
 				else {
@@ -145,19 +151,20 @@ public class SpazioRilevanza {
 					nuovoStatoRilevanza.setStatoOsservazione(statoRilevanza.getStatoOsservazione());
 				}
 
-				if( ! isNull(nuovoStatoRilevanza)) {
+//				arrivo qua anche quando osservazione e' in stato finale: aggiorno lista di adiacenza ma non aggiungo alla coda
+				if( ! isNull(nuovoStatoRilevanza)) { 
 					listaAdiacenza.add(new Pair<Transizione, StatoRilevanzaRete>(t, nuovoStatoRilevanza));
-					// se ricerca completa o distanza "attuale" e' <= del max andiamo avanti
 					// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
-					if( ! mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
-						nuovoStatoRilevanza.setDistanza(distanza);
-						statiRilevanza.add(nuovoStatoRilevanza);
-						// se l'osservazione e' nello stato finale, gli stati successivi servono solo per trovare l'output,
-						// non devono essere aggiunti alla coda
-						if(osservazione.isInStatoFinale()) {
-							coda.add(nuovoStatoRilevanza);
-						}
-						
+					if( ! mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) { 
+						// se e' in stato finale e ha etichetta non vado avanti: non aggiungo alla coda
+						// se e' in stato finale ma non ha etichetta sono nella eps-closure, vado avanti
+						if( ! (statoFinale && t.hasEtichettaOsservabilita())) {
+							nuovoStatoRilevanza.setDistanza(distanza);
+							statiRilevanza.add(nuovoStatoRilevanza);
+							// se l'osservazione e' nello stato finale, gli stati successivi servono solo per trovare l'output, 
+							// non devono essere aggiunti alla coda
+							coda.add(nuovoStatoRilevanza);			
+						}			
 					}
 					else {
 						// aggiorno la distanza dello stato gia' nella mappa
@@ -272,12 +279,18 @@ public class SpazioRilevanza {
 	
 	public Set<Pair<Transizione, StatoRilevanzaRete>> getTransizioniOsservabili(StatoRilevanzaRete statoRilevanza){
 		Set<Pair<Transizione, StatoRilevanzaRete>> result = new HashSet<>();
-		for(Pair<Transizione, StatoRilevanzaRete> transizione : mappaStatoRilevanzaTransizioni.get(statoRilevanza)) {
-			if(transizione.getKey().hasEtichettaOsservabilita()) {
-				result.add(new Pair<>(transizione.getKey(), transizione.getValue()));
-			}
+		if(! mappaStatoRilevanzaTransizioni.containsKey(statoRilevanza)) {
+			return result;
 		}
-		return result;
+		else {
+			for(Pair<Transizione, StatoRilevanzaRete> transizione : mappaStatoRilevanzaTransizioni.get(statoRilevanza)) {
+				if(transizione.getKey().hasEtichettaOsservabilita()) {
+					result.add(new Pair<>(transizione.getKey(), transizione.getValue()));
+				}
+			}
+			return result;
+		}
+		
 	}
 /*
 	public ArrayList<Transizione> getTransizioni(){
