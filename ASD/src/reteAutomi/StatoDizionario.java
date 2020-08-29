@@ -17,6 +17,9 @@ public class StatoDizionario {
 	private Set<StatoRilevanzaRete> output;
 	private Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> IO;
 	
+//	indici e' un set: l'equals andra' fatto solo sul nome e non sul marked (utlima riga pag. 86)
+	private Set<Indice> indici;
+	
 	/**
 	public StatoRilevanzaReteDeterminizzata(Set<StatoRilevanzaRete> statiRilevanza) {
 		this.statiRilevanza = statiRilevanza;
@@ -35,14 +38,15 @@ public class StatoDizionario {
 	public StatoDizionario(Set<StatoRilevanzaRete> statiRilevanza, Set<StatoRilevanzaRete> statiOutput) {
 		this.statiRilevanza = statiRilevanza;
 		
-		this.diagnosi = new HashSet<>();
+		this.diagnosi = new LinkedHashSet<>();
 		for(StatoRilevanzaRete s : statiRilevanza) {
 			this.diagnosi.add(s.getDecorazione());
 		}
 		
 		this.output = statiOutput;
-		this.input = new HashSet<>();
-		this.IO = new HashSet<>();
+		this.input = new LinkedHashSet<>();
+		this.IO = new LinkedHashSet<>();
+		this.indici = new LinkedHashSet<>();
 	}
 
 
@@ -199,5 +203,15 @@ public class StatoDizionario {
         StatoDizionario that = (StatoDizionario) o;
         return this.statiRilevanza.equals(that.getStatiRilevanza());
     }
+
+	public Set<Indice> getIndici(){
+		return this.indici;
+	}
+
+	public void addIndice(Stato stato) {
+		Indice indice = new Indice(stato);
+//		e' un set: aggiunge solo se non c'e' gia' (il nome, indipendenemente da marked)
+		indici.add(indice);
+	}
 
 }

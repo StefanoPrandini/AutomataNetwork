@@ -14,8 +14,8 @@ import java.util.Set;
 public class ProveOss {
 	public static void main(String[] args)  {
 			
-		String nomeJSON = "altraRete.json";
-//		String nomeJSON = "reteIniziale.json";
+//		String nomeJSON = "altraRete.json";
+		String nomeJSON = "reteIniziale.json";
 		// percorso della rete, in formato JSON
 		String pathJSON;
 		if(System.getProperty("os.name").equals("Mac OS X")) {
@@ -36,11 +36,18 @@ public class ProveOss {
 		System.out.println("Automa 0:\n" + ra.getAutomi().get(0) + "\n");
 		System.out.println("Automa 1:\n" + ra.getAutomi().get(1) + "\n");
 		System.out.println("Rete Automi:\n" + ra + "\n");
+		
+		for(Automa a : ra.getAutomi()) {
+			for(Stato s : a.getMappaStatoTransizioni().keySet()) {
+				for(Transizione t : a.getMappaStatoTransizioni().get(s))
+				System.out.println(t.getEtichettaOsservabilita());
+			}
+		}
 
 		System.out.println("\n\n\nOSSERVAZIONE FROM JSON:\n");
 		// OSSERVAZIONE DA JSON:
-//		String osservazioneJSON = "Osservazione1.json";
-		String osservazioneJSON = "Osservazione2.json";
+		String osservazioneJSON = "Osservazione1.json";
+//		String osservazioneJSON = "Osservazione2.json";
 		
 		// percorso dell'osservazione, in formato JSON
 		String pathOsservazioneJSON;
@@ -69,14 +76,15 @@ public class ProveOss {
 		System.out.println(spazioRilevanzaDaOss.getStatiRilevanza().size() + " stati\n");
 //		System.out.println(spazioRilevanzaDaOss);
 		
+		System.out.println("Ridenominazione stati:");
 		spazioRilevanzaDaOss.ridenominaStati();
 		for (StatoRilevanzaRete statoRilevanzaRete : spazioRilevanzaDaOss.getStatiRilevanza()) {
-			System.out.println(statoRilevanzaRete + " --> " + statoRilevanzaRete.getRidenominazione());
+			System.out.println(statoRilevanzaRete + " -> " + statoRilevanzaRete.getRidenominazione());
 		}
 		
-		//per vedere come prendere stato rilevanza successivo:
-		System.out.println("\n");
-		System.out.println("[(StatoRilvanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:");
+		// per vedere come prendere stato rilevanza successivo
+		// alcuni stati destinazione a null: quelli che non fanno parte dello spazio ma la cui transizione serve per gli output
+		System.out.println("\nStatoRilvanza partenza -> Transizione -> StatoRilevanza arrivo:");
 		for(StatoRilevanzaRete sr : spazioRilevanzaDaOss.getStatiRilevanza()) {
 			for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanzaDaOss.getMappaStatoRilevanzaTransizioni().get(sr)) {
 				System.out.println(sr.getRidenominazione() + " -> " + transizione.getKey().getNome() + " -> " + transizione.getValue().getRidenominazione());
@@ -153,8 +161,34 @@ public class ProveOss {
 		}
 		
 //		-----------------------------------------------------------------------------------------------------------------------------------------
+//		ESTENSIONE DINAMICA DIZIONARIO
 		
+		System.out.println("\n\n\nOSSERVAZIONE FROM JSON:\n");
+		// OSSERVAZIONE DA JSON:
+		String osservazionePerEstensioneJSON = "OsservazionePerEstensione.json";
 		
+		// percorso dell'osservazione, in formato JSON
+		String pathOsservazionePerEstensione;
+		if(System.getProperty("os.name").equals("Mac OS X")) {
+			pathOsservazionePerEstensione = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + osservazionePerEstensioneJSON;
+		}
+		else pathOsservazionePerEstensione = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + osservazionePerEstensioneJSON;
+
+
+		OsservazioneParser OsservazionePerEstensioneParser = new OsservazioneParser(pathOsservazionePerEstensione);
+		Automa osservazionePerEstensione = null;
+		try {
+			osservazionePerEstensione = OsservazionePerEstensioneParser.getOsservazione();
+		} catch (Exception e) {
+			e.printStackTrace();
+			//TODO
+		}
+		
+		dizionario.estendiDizionario(ra, osservazionePerEstensione);
+		
+		System.out.println(dizionario.toString());
+		dizionario.ridenominaStati();
+		System.out.println(dizionario.toStringRidenominato());
 		
 		
 		

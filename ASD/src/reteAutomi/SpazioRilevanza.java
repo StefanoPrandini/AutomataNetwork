@@ -58,13 +58,13 @@ public class SpazioRilevanza {
 			StatoRilevanzaRete statoRilevanza = coda.remove();	
 			// faccio andare la rete nella condizione descritta dallo statoRilevanza appena estratto, cosi' poi posso usare i metodi di ReteAutomi 
 			// per cercare le transizioni abilitate e gli stati successivi
-			setReteAutomi(rete, statoRilevanza);
+			rete.setReteAutomi(statoRilevanza.getStatiCorrentiAutoma(), statoRilevanza.getContenutoLinks());
 			ArrayList<Transizione>transizioniAbilitate = rete.getTutteTransizioniAbilitate();
 			ArrayList<Pair<Transizione, StatoRilevanzaRete>> listaAdiacenza = new ArrayList<>();
 			
 			for(Transizione t : transizioniAbilitate) {
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
-				setReteAutomi(rete, statoRilevanza);
+				rete.setReteAutomi(statoRilevanza.getStatiCorrentiAutoma(), statoRilevanza.getContenutoLinks());
 				int distanza = statoRilevanza.getDistanza();
 				StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
 				if (t.hasEtichettaOsservabilita()){
@@ -116,12 +116,12 @@ public class SpazioRilevanza {
 			StatoRilevanzaRete statoRilevanza = coda.remove();	
 			// faccio andare la rete nella condizione descritta dallo statoRilevanza appena estratto, cosi' poi posso usare i metodi di ReteAutomi 
 			// per cercare le transizioni abilitate e gli stati successivi
-			setReteAutomi(rete, statoRilevanza);
+			rete.setReteAutomi(statoRilevanza.getStatiCorrentiAutoma(), statoRilevanza.getContenutoLinks());
 			ArrayList<Transizione>transizioniAbilitate = rete.getTutteTransizioniAbilitate();
 			ArrayList<Pair<Transizione, StatoRilevanzaRete>> listaAdiacenza = new ArrayList<>();
 			for(Transizione t : transizioniAbilitate) {
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
-				setReteAutomi(rete, statoRilevanza);
+				rete.setReteAutomi(statoRilevanza.getStatiCorrentiAutoma(), statoRilevanza.getContenutoLinks());
 				int distanza = statoRilevanza.getDistanza();
 				osservazione.setStatoCorrente(statoRilevanza.getStatoOsservazione());
 				StatoRilevanzaRete nuovoStatoRilevanza = null;
@@ -208,8 +208,8 @@ public class SpazioRilevanza {
 			}
 		}
 	}
-
-
+	
+	
 	private StatoRilevanzaRete calcolaStatoRilevanzaSucc(ReteAutomi rete, Transizione t, Set<String> decorazione) {		
 		Set<String>newDecorazione = new HashSet<>(decorazione);		
 		rete.svolgiTransizione(t);
@@ -228,21 +228,26 @@ public class SpazioRilevanza {
 		}
 		return newStato;
 	}
-
 	
-	/**
-	 * Porta la rete di automi nella situazione descritta dallo stato di rilevanza (statiCorrenti degli automi ed eventi sui link)
-	 * @param statoRilevanza
-	 */
-	public void setReteAutomi(ReteAutomi rete, StatoRilevanzaRete statoRilevanza) {
-		for(Pair<String, String> statoCorrenteAutoma : statoRilevanza.getStatiCorrentiAutoma()) {
-			rete.trovaAutoma(statoCorrenteAutoma.getKey()).setStatoCorrente(statoCorrenteAutoma.getValue());
+	
+//	static cosi' puo' essere usato anche quando si fa l'estensione del dizionario, nella quale non si puo' avere lo spazio di rilevanza
+	public static StatoRilevanzaRete calcolaStatoRilevanzaSuccStatic(ReteAutomi rete, Transizione t, Set<String> decorazione, Set<StatoRilevanzaRete> statiRilevanza) {		
+		Set<String>newDecorazione = new HashSet<>(decorazione);		
+		rete.svolgiTransizione(t);
+
+		//aggiungo eventuale etichetta di rilevanza
+		if (t.hasEtichettaRilevanza() && !newDecorazione.contains(t.getEtichettaRilevanza())){
+			newDecorazione.add(t.getEtichettaRilevanza());
 		}
-		for(Pair<String, Evento> eventoSuLink : statoRilevanza.getContenutoLinks()) {
-			rete.trovaLink(eventoSuLink.getKey()).setEvento(eventoSuLink.getValue());
+		StatoRilevanzaRete newStato = new StatoRilevanzaRete(rete, newDecorazione);
+		// se lo stato e' gia' presente come chiave nella mappa, lo cerco e ritorno quello: se ne restituissi uno nuovo non sarebbero lo stesso oggetto
+		// e avrei problemi quando faccio ridenominazione		
+		for(StatoRilevanzaRete statoGiaIncontrato : statiRilevanza) {
+			if(statoGiaIncontrato.equals(newStato)) {
+				return statoGiaIncontrato;
+			}
 		}
-		
-		rete.aggiornaMappaAutomiTransizioniAbilitate();
+		return newStato;
 	}
 	
 	

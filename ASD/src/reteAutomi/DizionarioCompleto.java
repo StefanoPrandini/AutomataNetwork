@@ -77,9 +77,8 @@ public class DizionarioCompleto {
 						if(!spazioRilevanza.getTransizioniOsservabili(s).isEmpty() ) {
 							output.add(s);
 						}
-					
-						
 					}
+					
 					// se ho gia' incontrato questo stato del dizionario, ritorno quello e non ne aggiungo uno nuovo
 					// stati destinazione delle transizioni osservabili uscenti dallo stato precedente del dizionario sono gli stati Input del nuovo stato del dizionario
 					// stati nella eps-closure che hanno transizioni osservabili uscenti sono gli stati Output del nuovo stato del dizionario
@@ -349,13 +348,18 @@ public class DizionarioCompleto {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("(Stati NFA nello stato DFA) -> etichetta osservabile -> (Stati NFA nello stato DFA destinazione)\n");
-		for(StatoDizionario s : mappaDizionario.keySet()) {
-			sb.append(s + " -> ");
-			for(Pair<String, StatoDizionario> transizione : mappaDizionario.get(s)) {
-				sb.append(transizione.getKey() + " -> " + transizione.getValue());
+ 		sb.append("(Stati NFA nello stato DFA): [etichetta osservabile -> (Stati NFA stato DFA destinazione)]\n");
+ 		for(StatoDizionario s : mappaDizionario.keySet()) {
+ 			sb.append(s + ": "); 
+			boolean togliVirgola = false;
+ 			for(Pair<String, StatoDizionario> transizione : mappaDizionario.get(s)) {
+ 				sb.append("[" + transizione.getKey() + " -> " + transizione.getValue() + "], "); 
+ 				togliVirgola = true;
 			}
-			sb.append("\n");
+ 			if(togliVirgola) {
+				sb.setLength(sb.length() - 2); // togliere virgola
+			}
+ 			sb.append("\n");
 		}
 		return sb.toString();
 	}
@@ -365,13 +369,17 @@ public class DizionarioCompleto {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Stato DFA ridenominato -> etichetta osservabile -> stato DFA ridenominato destinazione\n");
 		for(StatoDizionario s : mappaDizionario.keySet()) {
-			sb.append(s.getRidenominazione() + " -> ");
+			sb.append(s.getRidenominazione() + ": ");
+			boolean togliVirgola = false;
 			for(Pair<String, StatoDizionario> transizione : mappaDizionario.get(s)) {
-
-				sb.append(transizione.getKey() + " -> " + transizione.getValue().getRidenominazione() + "\n");
+ 				sb.append("[" + transizione.getKey() + " -> " + transizione.getValue().getRidenominazione() + "], "); 
+ 				togliVirgola = true;
 			}
 //			sb.append(" | Diagnosi: " + s.getDiagnosi());
-//			sb.append("\n");
+			if(togliVirgola) {
+				sb.setLength(sb.length() - 2); // togliere virgola
+			}
+			sb.append("\n");
 		}
 		return sb.toString();
 	}
@@ -384,4 +392,130 @@ public class DizionarioCompleto {
 	public List<Terna> getTerne() {
 		return terne;
 	}
+	
+//	-------------------------------------------------------------------------------------------------------------------
+//	ESTENSIONE DIZIONARIO:
+//	si ha un dizionario parziale e si vuole estenderlo in base a una osservazione
+	
+	public void estendiDizionario(ReteAutomi rete, Automa osservazione) {
+		System.out.println(mappaDizionario);
+		osservazione.setStatoCorrente(osservazione.getStatoIniziale());
+		this.statoIniziale.addIndice(osservazione.getStatoIniziale());
+		
+		Set<StatoRilevanzaRete> statiRilevanza = new LinkedHashSet<>();
+		
+		LinkedList<StatoDizionario> coda = new LinkedList<>();
+		coda.add(this.statoIniziale);
+		
+//		aggiungo gli stati del dizionario alla coda quando gli si aggiunge un indice
+		while( ! coda.isEmpty()) {
+			
+			StatoDizionario statoDiz = coda.remove();
+//			servono gli stati di rilevanza per costruire lo stato di rilevanza successivo
+			statiRilevanza.addAll(statoDiz.getStatiRilevanza());
+			
+			for(Indice indice : statoDiz.getIndici()) {
+				if( ! indice.isMarked()) {
+					osservazione.setStatoCorrente(indice.getStato());
+					for(Transizione transizioneOss : osservazione.getTransizioniUscentiDaStatoCorrente()) {
+//						transizioni uscenti dallo stato del dizionario
+						for(Pair<String, StatoDizionario> transizioneDiz : this.mappaDizionario.get(statoDiz)) {
+//							se l'etichetta coincide:
+							if(transizioneDiz.getKey().equals(transizioneOss.getEtichettaOsservabilita())) {
+//								aggiungo l'indice allo stato destinazione
+								transizioneDiz.getValue().addIndice(transizioneOss.getStatoArrivo());
+//								aggiungo lo stato destinazione alla coda 
+								coda.add(transizioneDiz.getValue());
+							}
+//							se non c'e' gia' uno stato nel dizionario raggiungibile con questa etichetta:
+							else {
+//								generare chiusura silenziosa degli stati raggiungibili da stati Output con etichetta corrispondente
+								Set<StatoRilevanzaRete> raggiuntiDaOutputs = new LinkedHashSet<>();
+								for(StatoRilevanzaRete output : statoDiz.getOutput()) {
+//									non posso usare lo spazio di rilevanza, prendo informazioni dalla rete
+//									devo portarla allo stato che sto considerando, per vedere che transizioni sono abilitate ecc.
+									rete.setReteAutomi(output.getStatiCorrentiAutoma(), output.getContenutoLinks());
+									for(Transizione transizioneRete : rete.getTutteTransizioniAbilitate()) {
+										if(transizioneRete.getEtichettaOsservabilita().equals(transizioneOss.getEtichettaOsservabilita())) {
+											StatoRilevanzaRete nuovoStatoRilevanza = SpazioRilevanza.calcolaStatoRilevanzaSuccStatic(rete, transizioneRete, output.getDecorazione(), statiRilevanza);
+											raggiuntiDaOutputs.add(nuovoStatoRilevanza);											
+										}
+									}
+								}
+//								ora ho tutti gli stati destinazione delle transizioni che partono dagli Output e che hanno l'etichetta corrispondente all'Osservazione:
+//								ne calcolo la epsClosure
+								Set<StatoRilevanzaRete> epsClosure = epsClosurePerEstensione(rete, raggiuntiDaOutputs, statiRilevanza);
+								
+								// cerco stati output del nuovo stato del dizionario tra gli stati di rilevanza che lo compongono
+								Set<StatoRilevanzaRete>statiOutput = new HashSet<>();
+								for(StatoRilevanzaRete s : epsClosure) {
+									rete.setReteAutomi(s.getStatiCorrentiAutoma(), s.getContenutoLinks());
+									for(Transizione t : rete.getTutteTransizioniAbilitate()) {
+										if( ! isNull(t.getEtichettaOsservabilita())) {
+											statiOutput.add(s);
+											break;
+										}
+									}
+								}
+								StatoDizionario nuovoStatoDiz = new StatoDizionario(epsClosure, statiOutput);
+																
+								for(StatoDizionario statoGiaIncontrato : statiDizionario) {
+									if(statoGiaIncontrato.equals(nuovoStatoDiz)) {
+										nuovoStatoDiz = statoGiaIncontrato;
+										break;
+									}
+								}
+//								gli stati Input del nuovo stato del dizionario sono quelli raggiungibili dagli stati Output dello stato precedente (con etichetta corretta)
+								nuovoStatoDiz.aggiungiInput(raggiuntiDaOutputs);
+								
+								Set<Pair<String, StatoDizionario>> transizioni = new LinkedHashSet<>();
+//								se mappa contiene gia' la chiave, aggiungo ai valori esistenti, altrimenti e' l'unico elemento
+								if(mappaDizionario.containsKey(statoDiz)) {
+									transizioni = mappaDizionario.get(statoDiz);
+								}
+								else {
+									statiDizionario.add(nuovoStatoDiz);
+								}
+								transizioni.add(new Pair<>(transizioneOss.getEtichettaOsservabilita(), nuovoStatoDiz));
+								mappaDizionario.put(statoDiz, transizioni);
+
+//								indici e' un insieme: se c'e' gia' non lo aggiunge (indipendentemente se marcato o no)
+								nuovoStatoDiz.addIndice(transizioneOss.getStatoArrivo());
+//								quando aggiungo un indice metto in coda lo stato
+								coda.add(nuovoStatoDiz);
+							}
+						}							
+					}
+//					considerate tutte le transizioni uscenti dal nodo dell'osservazione, MARCARE INDICE?
+					indice.setMarked(true);
+				}
+			}
+		}
+	}
+	
+
+	private Set<StatoRilevanzaRete> epsClosurePerEstensione(ReteAutomi rete, Set<StatoRilevanzaRete> outputs, Set<StatoRilevanzaRete> statiRilevanza) {
+		Set<StatoRilevanzaRete> epsClosure = new LinkedHashSet<>(outputs);
+		Queue<StatoRilevanzaRete> coda = new LinkedList<StatoRilevanzaRete>(outputs);
+		
+		while( ! coda.isEmpty()) {
+			StatoRilevanzaRete stato = coda.remove();
+			rete.setReteAutomi(stato.getStatiCorrentiAutoma(), stato.getContenutoLinks());
+			for(Transizione t : rete.getTutteTransizioniAbilitate()) {
+//				se transizioni non hanno etichetta di osservabilita' aggiungo lo stato di rilevanza alla epsClosure
+				if(isNull(t.getEtichettaOsservabilita())) {
+					StatoRilevanzaRete nuovoStatoRilevanza = SpazioRilevanza.calcolaStatoRilevanzaSuccStatic(rete, t, stato.getDecorazione(), statiRilevanza);
+					
+					if(!coda.contains(nuovoStatoRilevanza)) {						
+						coda.add(nuovoStatoRilevanza);
+						epsClosure.add(nuovoStatoRilevanza);
+						statiRilevanza.add(nuovoStatoRilevanza);
+					}
+				}
+			}
+		}
+		return epsClosure;
+	}
+	
+	
 }

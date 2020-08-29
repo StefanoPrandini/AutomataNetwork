@@ -121,10 +121,12 @@ public class InputParser {
 				eventiOut.add(eventoOut);
 			}
 			String etichettaR = null;
+//			se e' eps resta a null
 			if(!jTrans.get("etichettaRilevanza").getAsString().equals("eps")) {
 				etichettaR = jTrans.get("etichettaRilevanza").getAsString();
 			}
 			String etichettaO = null;
+//			se e' eps resta a null
 			if(!jTrans.get("etichettaOsservabilita").getAsString().equals("eps")) {
 				etichettaO = jTrans.get("etichettaOsservabilita").getAsString();
 			}

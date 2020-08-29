@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import javafx.util.Pair;
+
 import static java.util.Objects.isNull;
 
 public class ReteAutomi {
@@ -196,6 +199,22 @@ public class ReteAutomi {
 		if (isNull(a)) return null;
 		result.addAll(mappaAutomiTransizioniAbilitate.get(a));
 		return result;
+	}
+	
+	
+	/**
+	 * Porta la rete di automi nella situazione descritta dallo stato di rilevanza (statiCorrenti degli automi ed eventi sui link)
+	 * @param statoRilevanza
+	 */
+	public void setReteAutomi(List<Pair<String, String>> statiCorrentiAutoma, List<Pair<String, Evento>> contenutoLinks ) {
+		for(Pair<String, String> statoCorrenteAutoma : statiCorrentiAutoma) {
+			trovaAutoma(statoCorrenteAutoma.getKey()).setStatoCorrente(statoCorrenteAutoma.getValue());
+		}
+		for(Pair<String, Evento> eventoSuLink : contenutoLinks) {
+			trovaLink(eventoSuLink.getKey()).setEvento(eventoSuLink.getValue());
+		}
+		
+		aggiornaMappaAutomiTransizioniAbilitate();
 	}
 
 

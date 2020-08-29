@@ -1,7 +1,6 @@
 package main;
 
 import input.InputParser;
-import input.OsservazioneParser;
 import reteAutomi.*;
 import javafx.util.Pair;
 import java.io.File;
@@ -15,8 +14,8 @@ import java.util.Set;
 public class Prove {
 	public static void main(String[] args)  {
 			
-//		String nomeJSON = "AltraRete.json";
-		String nomeJSON = "ReteIniziale.json";
+		String nomeJSON = "AltraRete.json";
+//		String nomeJSON = "ReteIniziale.json";
 		// percorso della rete iniziale, in formato JSON
 		String systemPathJSON;
 		if(System.getProperty("os.name").equals("Mac OS X")) {
@@ -44,7 +43,7 @@ public class Prove {
 
 		//parametro per creazione sottospazi
 		//un sottospazio di fatto crea il prefisso del dizionario
-		int distanzaMax = 2; //SpazioRilevanza.ESPLORAZIONE_COMPLETA;
+		int distanzaMax = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
 
 		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(ra, distanzaMax);
 
@@ -116,17 +115,5 @@ public class Prove {
 			System.out.println("L'osservazione " + osservazioneLineare2 + " non corrisponde a nessuna traiettoria della rete!");
 		}
 
-		System.out.println("\nOsservazione in input:");
-		String pathOsservazione = systemPathJSON + "Osservazione.json";
-		OsservazioneParser op = new OsservazioneParser(pathOsservazione);
-		try {
-			Automa a = op.getOsservazione();
-			System.out.println(a.toStringOss() + "\n");
-
-		}
-		catch (Exception e){
-			System.err.println("Errore caricamento osservazione");
-		}
-		
 	}
 }
