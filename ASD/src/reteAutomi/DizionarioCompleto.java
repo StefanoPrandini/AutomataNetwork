@@ -74,15 +74,12 @@ public class DizionarioCompleto {
 					// cerco stati output dello stato del dizionario tra gli stati di rilevanza che lo compongono
 					Set<StatoRilevanzaRete>output = new HashSet<>();
 					for(StatoRilevanzaRete s : epsClosure) {
-						System.out.println(s);
-//						System.out.println(spazioRilevanza.getTransizioniOsservabili(s));
 						if(!spazioRilevanza.getTransizioniOsservabili(s).isEmpty() ) {
 							output.add(s);
 						}
 					
 						
 					}
-					System.out.println("OUTPUT: " + output);
 					// se ho gia' incontrato questo stato del dizionario, ritorno quello e non ne aggiungo uno nuovo
 					// stati destinazione delle transizioni osservabili uscenti dallo stato precedente del dizionario sono gli stati Input del nuovo stato del dizionario
 					// stati nella eps-closure che hanno transizioni osservabili uscenti sono gli stati Output del nuovo stato del dizionario
@@ -272,15 +269,16 @@ public class DizionarioCompleto {
 
 
 	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) throws IOException {
+		terne.clear(); // in caso sia già stato eseguito un monitoraggio
 		Queue<String> etichette = new LinkedList<>(osservazioneLineare);
 		String alfa = "alfa";
-		int indice =0;
+		int indice = 0;
 		String nomeCompleto = alfa + indice;
 		Terna ternaIniziale = new Terna(nomeCompleto, new HashSet<>(), statoIniziale, statoIniziale.getDiagnosi());
 		terne.add(ternaIniziale);
 
 		indice++;
-		nomeCompleto =alfa + indice;
+		nomeCompleto = alfa + indice;
 		while(!etichette.isEmpty()){
 
 			Terna corrente = terne.getLast();
@@ -288,14 +286,10 @@ public class DizionarioCompleto {
 			Terna nuova = produciTerna(spazioRilevanza, corrente, etichetta, nomeCompleto);
 			terne.add(nuova);
 
-			// differenza tra revisione e monitoraggio
-			//System.out.println(nuova);
-
 			revisione(terne, osservazioneLineare, spazioRilevanza);
 			
 			indice++;
 			nomeCompleto = alfa + indice;
-
 		}
 	}
 	
@@ -355,11 +349,11 @@ public class DizionarioCompleto {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("(Stati NFA nello stato DFA): [etichetta osservabile -> stato DFA destinazione]\n");
+		sb.append("(Stati NFA nello stato DFA) -> etichetta osservabile -> (Stati NFA nello stato DFA destinazione)\n");
 		for(StatoDizionario s : mappaDizionario.keySet()) {
-			sb.append(s + ": ");
+			sb.append(s + " -> ");
 			for(Pair<String, StatoDizionario> transizione : mappaDizionario.get(s)) {
-				sb.append("[" + transizione.getKey() + " -> " + transizione.getValue() + "] ");
+				sb.append(transizione.getKey() + " -> " + transizione.getValue());
 			}
 			sb.append("\n");
 		}
@@ -367,18 +361,17 @@ public class DizionarioCompleto {
 	}
 
 	
-	//lo stato destinazione dell'ultima transizione viene stampato null :|
 	public String toStringRidenominato(){
 		StringBuilder sb = new StringBuilder();
-		sb.append("(Stato DFA rinominato): [etichetta osservabile -> stato DFA rinominato destinazione]\n");
+		sb.append("Stato DFA ridenominato -> etichetta osservabile -> stato DFA ridenominato destinazione\n");
 		for(StatoDizionario s : mappaDizionario.keySet()) {
-			sb.append(s.getRidenominazione() + ": ");
+			sb.append(s.getRidenominazione() + " -> ");
 			for(Pair<String, StatoDizionario> transizione : mappaDizionario.get(s)) {
 
-				sb.append("[" + transizione.getKey() + " -> " +transizione.getValue().getRidenominazione() + "], ");
+				sb.append(transizione.getKey() + " -> " + transizione.getValue().getRidenominazione() + "\n");
 			}
-			sb.append("Diagnosi: " + s.getDiagnosi());
-			sb.append("\n");
+//			sb.append(" | Diagnosi: " + s.getDiagnosi());
+//			sb.append("\n");
 		}
 		return sb.toString();
 	}

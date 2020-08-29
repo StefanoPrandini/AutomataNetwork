@@ -11,13 +11,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-
 public class ProveOss {
 	public static void main(String[] args)  {
 			
-		String nomeJSON = "ReteIniziale.json";
-//		String nomeJSON = "AltraRete.json";
-		// percorso della rete iniziale, in formato JSON
+		String nomeJSON = "altraRete.json";
+//		String nomeJSON = "reteIniziale.json";
+		// percorso della rete, in formato JSON
 		String pathJSON;
 		if(System.getProperty("os.name").equals("Mac OS X")) {
 			pathJSON = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + nomeJSON;
@@ -60,11 +59,13 @@ public class ProveOss {
 		
 		System.out.println(osservazione.toStringOss());
 		
-		System.out.println("\nSPAZIO RILEVANZA:");
+//		-----------------------------------------------------------------------------------------------------------------------------------------
+		
+		System.out.println("\nSPAZIO RILEVANZA DA OSSERVAZIONE:");
 		SpazioRilevanza spazioRilevanzaDaOss = new SpazioRilevanza(ra, osservazione);
 
 		System.out.println(spazioRilevanzaDaOss.getStatiRilevanza().size() + " stati\n");
-		System.out.println(spazioRilevanzaDaOss);
+//		System.out.println(spazioRilevanzaDaOss);
 		
 		spazioRilevanzaDaOss.ridenominaStati();
 		for (StatoRilevanzaRete statoRilevanzaRete : spazioRilevanzaDaOss.getStatiRilevanza()) {
@@ -75,23 +76,28 @@ public class ProveOss {
 		System.out.println("\n");
 		System.out.println("[(StatoRilvanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:");
 		for(StatoRilevanzaRete sr : spazioRilevanzaDaOss.getStatiRilevanza()) {
-			for(Pair<Transizione, StatoRilevanzaRete> srd : spazioRilevanzaDaOss.getMappaStatoRilevanzaTransizioni().get(sr)) {
-				System.out.println(sr.getRidenominazione() + " -> " + srd.getKey().getNome() + " -> " + srd.getValue().getRidenominazione());
+			for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanzaDaOss.getMappaStatoRilevanzaTransizioni().get(sr)) {
+				System.out.println(sr.getRidenominazione() + " -> " + transizione.getKey().getNome() + " -> " + transizione.getValue().getRidenominazione());
 			}
 		}
 		
+//		-----------------------------------------------------------------------------------------------------------------------------------------
+
 		DizionarioCompleto dizionario = new DizionarioCompleto(spazioRilevanzaDaOss);
+		System.out.println("\n\nDizionario:\n" + dizionario);
 		dizionario.ridenominaStati();
-		System.out.println("\nDizionario:\n" + dizionario);
-		System.out.println("\nDizionario ridenominato:\n" + dizionario.toStringRidenominato());
+		System.out.println("Dizionario ridenominato:\n" + dizionario.toStringRidenominato());
+		
+//		-----------------------------------------------------------------------------------------------------------------------------------------
 		
 		System.out.println("\nRicerca nel dizionario: ");
-		System.out.println("(Osservazione -> Decorazione stato di arrivo)");
+//		System.out.println("(Osservazione -> Decorazione stato di arrivo)");
 
+//		reteIniziale
 		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2"));
 //		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
-		//altra rete
-		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","cls"));
+		//altraRete
+		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby"));
 //		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","act", "cls"));
 
 		try {
@@ -108,15 +114,19 @@ public class ProveOss {
 			System.out.println(e.getMessage());
 		}
 		
+//		-----------------------------------------------------------------------------------------------------------------------------------------
+
 		System.out.println("\nInput e Output:");
 		for(StatoDizionario s : dizionario.getMappaDizionario().keySet()) {
-			System.out.println("Stato: " + s.getRidenominazione() + ", Input: " + s.getInputToString() + ", Output: " + s.getOutputToString());
+			System.out.println("Stato " + s.getRidenominazione() + " -> Input: " + s.getInputToString() + ", Output: " + s.getOutputToString());
 		}
 		
 		System.out.println("\nCoppie IO:");
 		for(StatoDizionario s : dizionario.getMappaDizionario().keySet()) {
-			System.out.println("Stato " + s.getRidenominazione() + ": I-O = " + s.getIOtoString());
+			System.out.println("Stato " + s.getRidenominazione() + " -> coppie I/O: " + s.getIOtoString());
 		}
+		
+//		-----------------------------------------------------------------------------------------------------------------------------------------
 
 		System.out.println("\nMonitoraggio + revisione:");
 		try {
@@ -126,10 +136,21 @@ public class ProveOss {
 				System.out.println("Terna " + terna);
 			}
 		} catch (IOException e) {
-			System.out.println("L'osservazione lineare" + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
+			System.out.println("L'osservazione lineare " + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
 		}
 		
-//------------------------------------------------------------------------------------------------------------------------------
+		System.out.println("\nMonitoraggio + revisione:");
+		try {
+			dizionario.monitoraggio(osservazioneLineare2, spazioRilevanzaDaOss);
+			System.out.println("Osservazione: " + osservazioneLineare2);
+			for (Terna terna : dizionario.getTerne()) {
+				System.out.println("Terna " + terna);
+			}
+		} catch (IOException e) {
+			System.out.println("L'osservazione lineare " + osservazioneLineare2 + " non corrisponde a nessuna traiettoria della rete!");
+		}
+		
+//		-----------------------------------------------------------------------------------------------------------------------------------------
 		
 		
 		
