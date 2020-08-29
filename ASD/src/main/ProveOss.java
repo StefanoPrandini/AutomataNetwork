@@ -39,7 +39,9 @@ public class ProveOss {
 
 		System.out.println("\n\n\nOSSERVAZIONE FROM JSON:\n");
 		// OSSERVAZIONE DA JSON:
+//		String osservazioneJSON = "Osservazione1.json";
 		String osservazioneJSON = "Osservazione2.json";
+		
 		// percorso dell'osservazione, in formato JSON
 		String pathOsservazioneJSON;
 		if(System.getProperty("os.name").equals("Mac OS X")) {

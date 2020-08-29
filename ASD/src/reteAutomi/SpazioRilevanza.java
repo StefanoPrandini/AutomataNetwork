@@ -127,6 +127,7 @@ public class SpazioRilevanza {
 				StatoRilevanzaRete nuovoStatoRilevanza = null;
 				
 				boolean statoFinale = osservazione.isInStatoFinale();
+				boolean mettiInCoda = true;
 				
 				if (t.hasEtichettaOsservabilita()){
 					// aggiungo anche livello successivo a quello finale per trovare gli output degli stati finali
@@ -144,6 +145,11 @@ public class SpazioRilevanza {
 							nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
 							nuovoStatoRilevanza.setStatoOsservazione(osservazione.getStatoCorrente());
 						}
+						else {
+//							se c'e' la transizione osservabile uscente ma non e' concorde con l'osservazione, tengo lo stato successivo solo per aggiornare gli output dello stato precedente
+							nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
+							mettiInCoda = false;
+						}
 					}
 				}
 				else {
@@ -158,7 +164,8 @@ public class SpazioRilevanza {
 					if( ! mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) { 
 						// se e' in stato finale e ha etichetta non vado avanti: non aggiungo alla coda
 						// se e' in stato finale ma non ha etichetta sono nella eps-closure, vado avanti
-						if( ! (statoFinale && t.hasEtichettaOsservabilita())) {
+						// mettiInCoda e' falso quando c'e' una transizione oss. non concorde con l'Osservazione: stato destinazione non lo metto in coda
+						if( ! (statoFinale && t.hasEtichettaOsservabilita()) && mettiInCoda) {
 							nuovoStatoRilevanza.setDistanza(distanza);
 							statiRilevanza.add(nuovoStatoRilevanza);
 							// se l'osservazione e' nello stato finale, gli stati successivi servono solo per trovare l'output, 
