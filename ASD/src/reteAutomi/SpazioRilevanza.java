@@ -66,7 +66,7 @@ public class SpazioRilevanza {
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
 				rete.setReteAutomi(statoRilevanza.getStatiCorrentiAutoma(), statoRilevanza.getContenutoLinks());
 				int distanza = statoRilevanza.getDistanza();
-				StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
+				StatoRilevanzaRete nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione(), statiRilevanza);
 				if (t.hasEtichettaOsservabilita()){
 					distanza++;
 				}
@@ -132,7 +132,7 @@ public class SpazioRilevanza {
 				if (t.hasEtichettaOsservabilita()){
 					// aggiungo anche livello successivo a quello finale per trovare gli output degli stati finali
 					if(statoFinale) {
-						nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
+						nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione(), statiRilevanza);
 					}
 					else {
 						distanza++;
@@ -142,18 +142,18 @@ public class SpazioRilevanza {
 							if( ! statoFinale) {
 								avanzaOsservazione(osservazione, t.getEtichettaOsservabilita());
 							}
-							nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
+							nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione(), statiRilevanza);
 							nuovoStatoRilevanza.setStatoOsservazione(osservazione.getStatoCorrente());
 						}
 						else {
 //							se c'e' la transizione osservabile uscente ma non e' concorde con l'osservazione, tengo lo stato successivo solo per aggiornare gli output dello stato precedente
-							nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
+							nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione(), statiRilevanza);
 							mettiInCoda = false;
 						}
 					}
 				}
 				else {
-					nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione());
+					nuovoStatoRilevanza = calcolaStatoRilevanzaSucc(rete, t, statoRilevanza.getDecorazione(), statiRilevanza);
 					nuovoStatoRilevanza.setStatoOsservazione(statoRilevanza.getStatoOsservazione());
 				}
 
@@ -210,28 +210,8 @@ public class SpazioRilevanza {
 	}
 	
 	
-	private StatoRilevanzaRete calcolaStatoRilevanzaSucc(ReteAutomi rete, Transizione t, Set<String> decorazione) {		
-		Set<String>newDecorazione = new HashSet<>(decorazione);		
-		rete.svolgiTransizione(t);
-
-		//aggiungo eventuale etichetta di rilevanza
-		if (t.hasEtichettaRilevanza() && !newDecorazione.contains(t.getEtichettaRilevanza())){
-			newDecorazione.add(t.getEtichettaRilevanza());
-		}
-		StatoRilevanzaRete newStato = new StatoRilevanzaRete(rete, newDecorazione);
-		// se lo stato e' gia' presente come chiave nella mappa, lo cerco e ritorno quello: se ne restituissi uno nuovo non sarebbero lo stesso oggetto
-		// e avrei problemi quando faccio ridenominazione		
-		for(StatoRilevanzaRete statoGiaIncontrato : statiRilevanza) {
-			if(statoGiaIncontrato.equals(newStato)) {
-				return statoGiaIncontrato;
-			}
-		}
-		return newStato;
-	}
-	
-	
-//	static cosi' puo' essere usato anche quando si fa l'estensione del dizionario, nella quale non si puo' avere lo spazio di rilevanza
-	public static StatoRilevanzaRete calcolaStatoRilevanzaSuccStatic(ReteAutomi rete, Transizione t, Set<String> decorazione, Set<StatoRilevanzaRete> statiRilevanza) {		
+//	static cosi' puo' essere usato anche quando si fa l'estensione del dizionario, nella quale non si deve istanziare lo spazio di rilevanza
+	public static StatoRilevanzaRete calcolaStatoRilevanzaSucc(ReteAutomi rete, Transizione t, Set<String> decorazione, Set<StatoRilevanzaRete> statiRilevanza) {		
 		Set<String>newDecorazione = new HashSet<>(decorazione);		
 		rete.svolgiTransizione(t);
 

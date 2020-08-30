@@ -474,7 +474,7 @@ public class DizionarioCompleto {
 			rete.setReteAutomi(output.getStatiCorrentiAutoma(), output.getContenutoLinks());
 			for(Transizione transizioneRete : rete.getTutteTransizioniAbilitate()) {
 				if( ! isNull(transizioneRete.getEtichettaOsservabilita()) && transizioneRete.getEtichettaOsservabilita().equals(transizioneOss.getEtichettaOsservabilita())) {
-					StatoRilevanzaRete nuovoStatoRilevanza = SpazioRilevanza.calcolaStatoRilevanzaSuccStatic(rete, transizioneRete, output.getDecorazione(), statiRilevanza);
+					StatoRilevanzaRete nuovoStatoRilevanza = SpazioRilevanza.calcolaStatoRilevanzaSucc(rete, transizioneRete, output.getDecorazione(), statiRilevanza);
 					raggiuntiDaOutputs.add(nuovoStatoRilevanza);											
 				}
 			}
@@ -540,7 +540,7 @@ public class DizionarioCompleto {
 			for(Transizione t : rete.getTutteTransizioniAbilitate()) {
 //				se transizioni non hanno etichetta di osservabilita' aggiungo lo stato di rilevanza alla epsClosure
 				if(isNull(t.getEtichettaOsservabilita())) {
-					StatoRilevanzaRete nuovoStatoRilevanza = SpazioRilevanza.calcolaStatoRilevanzaSuccStatic(rete, t, stato.getDecorazione(), statiRilevanza);
+					StatoRilevanzaRete nuovoStatoRilevanza = SpazioRilevanza.calcolaStatoRilevanzaSucc(rete, t, stato.getDecorazione(), statiRilevanza);
 					
 					if(!coda.contains(nuovoStatoRilevanza)) {						
 						coda.add(nuovoStatoRilevanza);
@@ -572,7 +572,7 @@ public class DizionarioCompleto {
 				rete.setReteAutomi(s.getStatiCorrentiAutoma(), s.getContenutoLinks());
 				// aggiungo alla coda gli stati successivi solo se fanno parte dello stato del dizionario corrente e se non li ho gia' visitati
 				for(Transizione transizione : rete.getTutteTransizioniAbilitate()) {
-					StatoRilevanzaRete sNext = SpazioRilevanza.calcolaStatoRilevanzaSuccStatic(rete, transizione, s.getDecorazione(), statiRilevanza);
+					StatoRilevanzaRete sNext = SpazioRilevanza.calcolaStatoRilevanzaSucc(rete, transizione, s.getDecorazione(), statiRilevanza);
 					
 					if(sDiz.getStatiRilevanza().contains(sNext) && !visitati.containsKey(sNext)) {
 						visitati.put(sNext, true);
