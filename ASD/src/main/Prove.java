@@ -1,6 +1,7 @@
 package main;
 
 import input.InputParser;
+import input.OsservazioneParser;
 import reteAutomi.*;
 import javafx.util.Pair;
 import java.io.File;
@@ -14,8 +15,8 @@ import java.util.Set;
 public class Prove {
 	public static void main(String[] args)  {
 			
-		String nomeJSON = "AltraRete.json";
 //		String nomeJSON = "ReteIniziale.json";
+		String nomeJSON = "AltraRete.json";
 		// percorso della rete iniziale, in formato JSON
 		String systemPathJSON;
 		if(System.getProperty("os.name").equals("Mac OS X")) {
@@ -43,7 +44,7 @@ public class Prove {
 
 		//parametro per creazione sottospazi
 		//un sottospazio di fatto crea il prefisso del dizionario
-		int distanzaMax = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
+		int distanzaMax = 2; // SpazioRilevanza.ESPLORAZIONE_COMPLETA;
 
 		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(ra, distanzaMax);
 
@@ -79,6 +80,7 @@ public class Prove {
 //		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
 		//altra rete
 		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","act","cls"));
+		List<String>osservazioneLineare3 = new ArrayList<String>(Arrays.asList("act","opn","sby","cls","act"));
 
 		try {
 			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare);
@@ -114,6 +116,59 @@ public class Prove {
 		} catch (IOException e) {
 			System.out.println("L'osservazione " + osservazioneLineare2 + " non corrisponde a nessuna traiettoria della rete!");
 		}
+		
+//		-----------------------------------------------------------------------------------------------------------------------------------------
+//		ESTENSIONE DINAMICA DIZIONARIO
+		
+		System.out.println("\n\n\nOSSERVAZIONE PER ESTENSIONE FROM JSON:\n");
+		// OSSERVAZIONE DA JSON:
+		String osservazionePerEstensioneJSON = "OsservazionePerEstensione2.json";
+		
+		// percorso dell'osservazione, in formato JSON
+		String pathOsservazionePerEstensione;
+		if(System.getProperty("os.name").equals("Mac OS X")) {
+			pathOsservazionePerEstensione = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + osservazionePerEstensioneJSON;
+		}
+		else pathOsservazionePerEstensione = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + osservazionePerEstensioneJSON;
 
+
+		OsservazioneParser OsservazionePerEstensioneParser = new OsservazioneParser(pathOsservazionePerEstensione);
+		Automa osservazionePerEstensione = null;
+		try {
+			osservazionePerEstensione = OsservazionePerEstensioneParser.getOsservazione();
+		} catch (Exception e) {
+			e.printStackTrace();
+			//TODO
+		}
+		
+		dizionario.estendiDizionario(ra, osservazionePerEstensione);
+		
+		System.out.println("Ridenominazione stati di rilevanza:");
+		for(StatoRilevanzaRete s : dizionario.getStatiRilevanza()) {
+			System.out.println(s + " -> " + s.getRidenominazione());
+		}
+		
+		System.out.println("\n" + dizionario.toString());
+		dizionario.ridenominaStati();
+		System.out.println(dizionario.toStringRidenominato());
+		
+		System.out.println("\nInput e Output:");
+		for(StatoDizionario s : dizionario.getMappaDizionario().keySet()) {
+			System.out.println("Stato " + s.getRidenominazione() + " -> Input: " + s.getInputToString() + ", Output: " + s.getOutputToString());
+		}
+		
+		System.out.println("\nCoppie IO:");
+		for(StatoDizionario s : dizionario.getMappaDizionario().keySet()) {
+			System.out.println("Stato " + s.getRidenominazione() + " -> coppie I/O: " + s.getIOtoString());
+		}
+		
+//		RICERCA nel dizionario esteso
+		try {
+			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare3);
+			System.out.println("\nOsservazione lineare " + osservazioneLineare3 + " -> " + decorazione);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 }

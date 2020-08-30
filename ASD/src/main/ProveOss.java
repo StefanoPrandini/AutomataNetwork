@@ -37,12 +37,6 @@ public class ProveOss {
 		System.out.println("Automa 1:\n" + ra.getAutomi().get(1) + "\n");
 		System.out.println("Rete Automi:\n" + ra + "\n");
 		
-		for(Automa a : ra.getAutomi()) {
-			for(Stato s : a.getMappaStatoTransizioni().keySet()) {
-				for(Transizione t : a.getMappaStatoTransizioni().get(s))
-				System.out.println(t.getEtichettaOsservabilita());
-			}
-		}
 
 		System.out.println("\n\n\nOSSERVAZIONE FROM JSON:\n");
 		// OSSERVAZIONE DA JSON:
@@ -104,8 +98,8 @@ public class ProveOss {
 //		System.out.println("(Osservazione -> Decorazione stato di arrivo)");
 
 //		reteIniziale
-		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2"));
-//		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
+//		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2"));
+		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
 		//altraRete
 		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby"));
 //		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","act", "cls"));
@@ -163,7 +157,7 @@ public class ProveOss {
 //		-----------------------------------------------------------------------------------------------------------------------------------------
 //		ESTENSIONE DINAMICA DIZIONARIO
 		
-		System.out.println("\n\n\nOSSERVAZIONE FROM JSON:\n");
+		System.out.println("\n\n\nOSSERVAZIONE PER ESTENSIONE FROM JSON:\n");
 		// OSSERVAZIONE DA JSON:
 		String osservazionePerEstensioneJSON = "OsservazionePerEstensione.json";
 		
@@ -186,12 +180,32 @@ public class ProveOss {
 		
 		dizionario.estendiDizionario(ra, osservazionePerEstensione);
 		
-		System.out.println(dizionario.toString());
+		System.out.println("Ridenominazione stati di rilevanza:");
+		for(StatoRilevanzaRete s : dizionario.getStatiRilevanza()) {
+			System.out.println(s + " -> " + s.getRidenominazione());
+		}
+		
+		System.out.println("\n" + dizionario.toString());
 		dizionario.ridenominaStati();
 		System.out.println(dizionario.toStringRidenominato());
 		
+		System.out.println("\nInput e Output:");
+		for(StatoDizionario s : dizionario.getMappaDizionario().keySet()) {
+			System.out.println("Stato " + s.getRidenominazione() + " -> Input: " + s.getInputToString() + ", Output: " + s.getOutputToString());
+		}
 		
+		System.out.println("\nCoppie IO:");
+		for(StatoDizionario s : dizionario.getMappaDizionario().keySet()) {
+			System.out.println("Stato " + s.getRidenominazione() + " -> coppie I/O: " + s.getIOtoString());
+		}
 		
+//		RICERCA nel dizionario esteso
+		try {
+			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare);
+			System.out.println("\nOsservazione lineare " + osservazioneLineare + " -> " + decorazione);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		
 	}
 }
