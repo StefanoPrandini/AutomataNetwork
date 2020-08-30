@@ -67,7 +67,7 @@ public class Prove {
 				System.out.println(sr.getRidenominazione() + " -> " + srd.getKey().getNome() + " -> " + srd.getValue().getRidenominazione());
 			}
 		}		
-		DizionarioCompleto dizionario = new DizionarioCompleto(spazioRilevanzaRete);
+		Dizionario dizionario = new Dizionario(spazioRilevanzaRete);
 
 		dizionario.ridenominaStati();
 		System.out.println("\nDizionario:\n" + dizionario);
@@ -120,7 +120,7 @@ public class Prove {
 //		-----------------------------------------------------------------------------------------------------------------------------------------
 //		ESTENSIONE DINAMICA DIZIONARIO
 		
-		System.out.println("\n\n\nOSSERVAZIONE PER ESTENSIONE FROM JSON:\n");
+		System.out.println("\n\n\nESTENSIONE DINAMICA DEL DIZIONARIO:\n");
 		// OSSERVAZIONE DA JSON:
 		String osservazionePerEstensioneJSON = "OsservazionePerEstensione2.json";
 		
@@ -141,10 +141,15 @@ public class Prove {
 			//TODO
 		}
 		
-		dizionario.estendiDizionario(ra, osservazionePerEstensione);
+		System.out.println("Osservazione per l'estensione:");
+		System.out.println(osservazionePerEstensione.toStringOss() + "\n");
 		
-		System.out.println("Ridenominazione stati di rilevanza:");
-		for(StatoRilevanzaRete s : dizionario.getStatiRilevanza()) {
+		EstendiDizionario ed = new EstendiDizionario(dizionario, ra, osservazionePerEstensione);
+		dizionario = ed.estendi();
+		System.out.println(ed.buonFine());
+		
+		System.out.println("\nRidenominazione stati di rilevanza:");
+		for(StatoRilevanzaRete s : ed.getStatiRilevanza()) {
 			System.out.println(s + " -> " + s.getRidenominazione());
 		}
 		
@@ -163,9 +168,10 @@ public class Prove {
 		}
 		
 //		RICERCA nel dizionario esteso
+		System.out.println("\nRicerca nel dizionario esteso:");
 		try {
 			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare3);
-			System.out.println("\nOsservazione lineare " + osservazioneLineare3 + " -> " + decorazione);
+			System.out.println("Osservazione lineare " + osservazioneLineare3 + " -> " + decorazione);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
