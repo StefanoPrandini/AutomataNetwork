@@ -15,8 +15,8 @@ import java.util.Set;
 public class Prove {
 	public static void main(String[] args)  {
 			
-//		String nomeJSON = "ReteIniziale.json";
-		String nomeJSON = "AltraRete.json";
+		String nomeJSON = "ReteIniziale.json";
+//		String nomeJSON = "AltraRete.json";
 		// percorso della rete iniziale, in formato JSON
 		String systemPathJSON;
 		if(System.getProperty("os.name").equals("Mac OS X")) {
@@ -52,16 +52,17 @@ public class Prove {
 // 		System.out.println(spazioRilevanzaRete); 
 		System.out.println(spazioRilevanzaRete.getStatiRilevanza().size() + " stati\n");
 		//System.out.println(spazioRilevanzaRete.getTransizioni().size() + " transizioni");
-		System.out.println(spazioRilevanzaRete);
+
 
 		spazioRilevanzaRete.ridenominaStati();
+		System.out.println(spazioRilevanzaRete);
 		for (StatoRilevanzaRete statoRilevanzaRete : spazioRilevanzaRete.getStatiRilevanza()) {
 			System.out.println(statoRilevanzaRete + " --> " + statoRilevanzaRete.getRidenominazione());
 		}
 		
 		//per vedere come prendere stato rilevanza successivo:
 		System.out.println("\n");
-		System.out.println("[(StatoRilvanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:");
+		System.out.println("[(StatoRilevanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:");
 		for(StatoRilevanzaRete sr : spazioRilevanzaRete.getStatiRilevanza()) {
 			for(Pair<Transizione, StatoRilevanzaRete> srd : spazioRilevanzaRete.getMappaStatoRilevanzaTransizioni().get(sr)) {
 				System.out.println(sr.getRidenominazione() + " -> " + srd.getKey().getNome() + " -> " + srd.getValue().getRidenominazione());

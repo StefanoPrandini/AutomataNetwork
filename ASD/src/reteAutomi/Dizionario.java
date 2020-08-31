@@ -267,7 +267,7 @@ public class Dizionario {
 
 
 	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) throws IOException {
-		terne.clear(); // in caso sia già stato eseguito un monitoraggio
+		terne.clear(); // in caso sia gia' stato eseguito un monitoraggio
 		Queue<String> etichette = new LinkedList<>(osservazioneLineare);
 		String alfa = "alfa";
 		int indice = 0;

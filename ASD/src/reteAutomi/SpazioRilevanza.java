@@ -235,7 +235,11 @@ public class SpazioRilevanza {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for(StatoRilevanzaRete statoR : mappaStatoRilevanzaTransizioni.keySet()) {
-			sb.append("Stato rilevanza: " + statoR +":\n");
+			String ridenominazione = "";
+			if ( ! isNull(statoR.getRidenominazione())){
+				ridenominazione = " " + statoR.getRidenominazione();
+			}
+			sb.append("Stato rilevanza" + ridenominazione + ": " + statoR +":\n");
 			sb.append("Transizioni uscenti: " + mappaStatoRilevanzaTransizioni.get(statoR) + "\n\n");
 		}
 		return sb.toString();

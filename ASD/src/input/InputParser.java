@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 // In order to use Gson to parse JSON in Java, you need to add the library as a dependency. You can get the latest version from Maven repository
 import com.google.gson.*;
+import myLib.Stringhe;
 import reteAutomi.Automa;
 import reteAutomi.Evento;
 import reteAutomi.Link;
@@ -31,9 +32,15 @@ public class InputParser {
 	public InputParser(String filePath) {
 		try {
 			this.json = JsonParser.parseReader(new FileReader(filePath)).getAsJsonObject();
-		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (JsonIOException jioe) {
+			System.out.println(Stringhe.ERRORE_JSON);
+		} catch (JsonSyntaxException jse) {
+			System.out.println(Stringhe.ERRORE_FORMATTAZIONE);
+		}catch (FileNotFoundException fnfe) {
+			System.out.println(Stringhe.ERRORE_FILEPATH);
 		}
+
+
 		this.links = new ArrayList<>();
 		this.automi = new ArrayList<>();
 	}

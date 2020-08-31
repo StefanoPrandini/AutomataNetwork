@@ -3,7 +3,7 @@ package myLib;
 import java.util.*;
 
 /**
- * Classe di utilà generale per l'acquisizione di dati da tastiera.
+ * Classe di util generale per l'acquisizione di dati da tastiera.
  * 
  */
 
@@ -113,7 +113,7 @@ public class InputDati
 	   do
 	    {
 	     System.out.print(messaggio);
-	     if (lettore.hasNextInt())				//se è un int
+	     if (lettore.hasNextInt())				//se ï¿½ un int
 	      {
 	       valoreLetto = lettore.nextInt();
 	       finito = true;
@@ -265,12 +265,12 @@ public class InputDati
 	  }
 	
 	/** 
-	 * Questo metodo serve per leggere più valori interi e salvarli in un array di lunghezza prestabilita.
+	 * Questo metodo serve per leggere piï¿½ valori interi e salvarli in un array di lunghezza prestabilita.
 	 * Utile per acquisire i valori inseriti uno alla volta in un elenco.
 	 * 
 	 * @param daStampare Array contenente messaggi di tipo stringa che vengono stampati uno alla volta prima dell'acquisizione di ogni valore.
-	 * Deve essere della stessa dimensione dell'array che verrà restituito.
-	 * @param lunghezza Dimensione dell'array di interi che verrà creato.
+	 * Deve essere della stessa dimensione dell'array che verrï¿½ restituito.
+	 * @param lunghezza Dimensione dell'array di interi che verrï¿½ creato.
 	 * @return Un array di dimensione stabilita contenente interi.
 	 */
 	

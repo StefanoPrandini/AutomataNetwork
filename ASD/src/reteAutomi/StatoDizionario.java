@@ -24,6 +24,7 @@ public class StatoDizionario {
 	public StatoRilevanzaReteDeterminizzata(Set<StatoRilevanzaRete> statiRilevanza) {
 		this.statiRilevanza = statiRilevanza;
 		
+
 		this.diagnosi = new HashSet<>();
 		for(StatoRilevanzaRete s : statiRilevanza) {
 			this.diagnosi.add(s.getDecorazione());

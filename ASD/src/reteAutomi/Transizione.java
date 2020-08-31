@@ -123,16 +123,16 @@ public class Transizione {
 			return "Transizione{" +
 					"id=" + id +
 					", nome=" + nome +
-					", (sIn " + statoPartenza.getNome() +
-					", sOut " + statoArrivo.getNome() +
-					", eIn " + eventoIngresso.getNome() +
+					", (stato partenza: " + statoPartenza.getNome() +
+					", stato arrivo: " + statoArrivo.getNome() +
+					", evento in ingresso: " + eventoIngresso.getNome() +
 					")}";
 		else return "Transizione{" +
 				"id=" + id +
 				", nome=" + nome +
-				", (sIn " + statoPartenza.getNome() +
-				", sOut " + statoArrivo.getNome() +
-				", eIn Null" +
+				", (stato partenza: " + statoPartenza.getNome() +
+				", stato arrivo: " + statoArrivo.getNome() +
+				", evento in ingresso: null" +
 				")}";
 	}
 

@@ -12,7 +12,7 @@ public class MyMenu
   final private static String VOCE_USCITA = "0\tEsci";
   final private static String VOCE_INDIETRO = "0\tIndietro";
   final private static String RICHIESTA_INSERIMENTO = "Digita il numero dell'opzione desiderata:\n--> ";
-  final private static String SEI_SICURO="Sei sicuro? S=sì N=no";
+  final private static String SEI_SICURO="Sei sicuro? S/N";
   final private static String SEI_SICURO_CARATTERI="SN";
   
   private String titolo;

@@ -1,279 +1,176 @@
 package main;
 
-import reteAutomi.*;
+import input.GestoreDizionari;
+import input.GestoreFile;
+import myLib.InputDati;
+import myLib.MyMenu;
+import myLib.Stringhe;
+import reteAutomi.Dizionario;
+import reteAutomi.ReteAutomi;
+import reteAutomi.SpazioRilevanza;
 
-import java.util.*;
+import static java.util.Objects.isNull;
 
 public class Main {
 
-
+	private static ReteAutomi ra;
+	private static ReteAutomi oss;
+	private static SpazioRilevanza sr;
+	private static Dizionario diz;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
-		ArrayList<String> s = new ArrayList<>();
 
-		for (int i = 0; i < 10; i++) {
-			s.add(i + "");
+
+		MyMenu m = new MyMenu(Stringhe.TITOLO, Stringhe.OPZIONI);
+
+		int scelta = m.scegli();
+		while (scelta !=0) {
+			switcher(scelta);
+			scelta = m.scegli();
 		}
-
-		Queue<String> coda = new LinkedList<>(s);
-		System.out.println(s);
-		System.out.println(coda);
-		while (!coda.isEmpty()){
-			System.out.println(coda.remove());
-		}
- 		/*Automa c1 = new Automa("c1", null, null, null);
-		Automa c2 = new Automa("c2",null, null, null);
-
-		Link l1 = new Link("l1", c1, c2);
-		Link l2 = new Link("l2", c2, c1);
+	}
 
 
 
-		Stato s1 = new Stato("s1");
-		Stato s2 = new Stato("s2");
-		Stato s3 = new Stato("s3");
-		Stato s4 = new Stato("s4");
-		Stato s5 = new Stato("s5");
 
-		Evento e1 = new Evento("e1",l2);
-		Evento e2 = new Evento("e2",l1);
-		Evento e3 = new Evento("e3",l2);
-		Evento e4 = new Evento("e4",l1);
-		Evento e7 = new Evento("e7",l2);
+	//TODO opzioni aggiungibili:
+	//spazio di rilevanza
+	private static void switcher(int scelta){
+		String filepath;
+		GestoreFile gf;
+		GestoreDizionari gd;
 
-
-		ArrayList<Evento> evs1 = new ArrayList<>();
-		evs1.add(e2);
-		ArrayList<Evento> evs2 = new ArrayList<>();
-		evs2.add(e4);
-		ArrayList<Evento> evs3 = new ArrayList<>();
-		evs3.add(null);
-		ArrayList<Evento> evs4 = new ArrayList<>();
-		evs4.add(e3);
-		ArrayList<Evento> evs5 = new ArrayList<>();
-		evs5.add(e1);
-*/
-		/*
-
-		//Evento e0 = new Evento(l2);
-
-		//l2.setEvento(e0);
-
-		Transizione t1 = new Transizione("t1",s1, s2, null, evs1, "rilevanza1", "oss1");
-		Transizione t2 = new Transizione("t2",s2, s3, e3, evs2, "rilevanza2", "oss2");
-		Transizione t3 = new Transizione("t3",s2, s3, e7, evs3, "rilevanza3", "oss3");
-
-		ArrayList<Transizione> ts1 = new ArrayList<>();
-		ArrayList<Stato> ss1 = new ArrayList<>();
-
-		ss1.add(s1);
-		ss1.add(s2);
-		ss1.add(s3);
-
-		ts1.add(t1);
-		ts1.add(t2);
-		ts1.add(t3);
-
-		c1.setStatoIniziale(s1);
-		c1.inizializzaAutoma();
+		switch(scelta){
+			case 1: {
+				//carica rete automi
+				filepath = inputNomeFileJSON();
+				gf = new GestoreFile(filepath);
+				ra = gf.caricaRete();
 
 
-		c1.creaMappaStatiTransizioni(ss1, ts1);
-
-		Transizione t4 = new Transizione("t4",s4, s5, e2, evs4, "rilevanza4", "oss4");
-		Transizione t5 = new Transizione("t5",s5, s5, e4, evs5, "rilevanza5", "oss5");
-
-		ArrayList<Transizione> ts2 = new ArrayList<>();
-		ArrayList<Stato> ss2 = new ArrayList<>();
-
-		ss2.add(s4);
-		ss2.add(s5);
-
-		ts2.add(t4);
-		ts2.add(t5);
-
-		c2.setStatoIniziale(s4);
-		c2.inizializzaAutoma();
-
-		c2.creaMappaStatiTransizioni(ss2, ts2);
-
-		ArrayList<Automa>automi = new ArrayList<>();
-		automi.add(c1);
-		automi.add(c2);
-		ArrayList<Link> links = new ArrayList<>();
-		links.add(l1);
-		links.add(l2);
-
-		ReteAutomi ra = new ReteAutomi("r1",automi, links);
-		//System.out.println(ra);
-		ra.aggiornaMappaAutomiTransizioniAbilitate();
-
-
-
-		System.out.println(ra.getAutomi().get(0).getStatoCorrente());
-		System.out.println(ra.getAutomi().get(1).getStatoCorrente());
-
-				*/
-/**
-		ra.svolgiTransizione(ra.getMappaAutomiTransizioniAbilitate().get(automi.get(0)).get(0));
-
-		System.out.println(ra.getAutomi().get(0).getStatoCorrente());
-
-		ra.aggiornaMappaIdAutomiTransizioniAbilitate();
-		System.out.println(ra.getAutomi().get(1).getStatoCorrente());
-
-		ra.svolgiTransizione(ra.getMappaAutomiTransizioniAbilitate().get(automi.get(1)).get(0));
-
-		System.out.println(ra.getAutomi().get(1).getStatoCorrente());
-
-		 **/		/*
-
-		ArrayList<Transizione> daSvolgere = new ArrayList<>();
-		for (List<Transizione> listaTransizioni : ra.getMappaAutomiTransizioniAbilitate().values()) {
-			daSvolgere.addAll(listaTransizioni);
-		}
-
-		ArrayList<String> ril = new ArrayList<>();
-		ArrayList<String> oss = new ArrayList<>();
-
-
-		ArrayList<StatoRilevanzaRete> statiRilevanza = new ArrayList<>();
-
-		while (!daSvolgere.isEmpty()){
-			Transizione nextTr = daSvolgere.get(0);
-			System.out.println("eseguo transizione " + nextTr);
-			ra.svolgiTransizione(nextTr);
-			ril.add(nextTr.getEtichettaRilevanza());
-			oss.add(nextTr.getEtichettaOsservabilita());
-
-			statiRilevanza.add(new StatoRilevanzaRete(ra, new HashSet<>()));
-
-
-
-			ra.aggiornaMappaAutomiTransizioniAbilitate();
-
-
-			daSvolgere.clear();
-			for (List<Transizione> listaTransizioni : ra.getMappaAutomiTransizioniAbilitate().values()) {
-				daSvolgere.addAll(listaTransizioni);
+				//TODO
+				break;
+			}
+			case 2: {
+				//carica osservazione
+				filepath = inputNomeFileJSON();
+				gf = new GestoreFile(filepath);
+				oss = gf.caricaOsservazione();
 			}
 
+			case 3: {
+				//Dizionario completo
+
+				MyMenu sottoMenu3 = new MyMenu(Stringhe.TITOLO_SOTTO_MENU_DIZIONARIO_COMPLETO, Stringhe.OPZIONI_SOTTO_MENU_DIZIONARIO_COMPLETO);
+				int sceltaSottoMenu3 = sottoMenu3.scegli();
+				if ( ! isNull(ra) ){
+					gd = new GestoreDizionari(ra);
+					switchSottoMenu3(sceltaSottoMenu3, gd);
+				}
+				else{
+					System.out.println(Stringhe.NESSUNA_RETE_CARICATA);
+				}
+				break;
+			}
+			case 4: {
+				//"Monitoraggio",
+
+				MyMenu sottoMenu4 = new MyMenu(Stringhe.TITOLO_SOTTO_MENU_MONITORAGGIO, Stringhe.OPZIONI_SOTTO_MENU_MONITORAGGIO);
+				int sceltaMenu4 = sottoMenu4.scegli();
+				gd = new GestoreDizionari(ra);
+				switcherSottoMenu4(sceltaMenu4, gd);
+				break;
+			}
+			case 5: {
+				//"Prefisso",
+				filepath = inputNomeFileJSON();
+			}
+			case 6: {
+				//"Dizionario parziale da prefisso",
+				filepath = inputNomeFileJSON();
+			}
+			case 7: {
+				//"Dizionario parziale da osservazione",
+				filepath = inputNomeFileJSON();
+			}
+			case 8: {
+				//"Estensione dizionario"
+				filepath = inputNomeFileJSON();
+			}
+			default: break;
 		}
-
-
-		System.out.println("stato finale");
-		System.out.println(ra.getAutomi().get(0).getStatoCorrente());
-		System.out.println(ra.getAutomi().get(1).getStatoCorrente());
-
-		System.out.println(statiRilevanza.get(0).toString());
-
-		//SpazioRilevanza sr = new SpazioRilevanza(statiRilevanza, ril, oss);
-
-
-		*/
 
 
 	}
 
+	private static void switcherSottoMenu4(int sceltaMenu4, GestoreDizionari gd) {
+		switch (sceltaMenu4){
+			case 1: {
+				effettuaMonitoraggio(gd);
+				break;
+			}
+			case 2: {
+				//TODO
+				if ( !isNull(diz)) gestoreDizionari.infoDizionario();
+				else System.out.println(Stringhe.NESSUN_DIZIONARIO);
+				break;
+			}
+			case 3: {
+				//TODO
+				if ( !isNull(sr)) gestoreDizionari.infoSpazioRilevanza();
+				else System.out.println(Stringhe.NESSUN_S_R);
+				break;
+			}
+		}
 
-	/**
-	 *
-	 *
-	 *
-	 *
-	 *
-	 *
-	 automi.add(new Automa(null, null, null));
-	 automi.add(new Automa(null, null, null));
+	}
 
-	 link.add(new Link(null, null));
-	 link.add(new Link(null, null));
-	 link.add(new Link(null, null));
-	 link.add(new Link(null, null));
-	 link.add(new Link(null, null));
-	 link.add(new Link(null, null));
+	private static void switchSottoMenu3(int sceltaSottoMenu3, GestoreDizionari gestoreDizionari) {
+		switch (sceltaSottoMenu3){
+			case 1: {
+				costruisciDizionarioCompleto(gestoreDizionari);
+				break;
+			}
+			case 2: {
+				//TODO
+				if ( !isNull(diz)) gestoreDizionari.infoDizionario();
+				else System.out.println(Stringhe.NESSUN_DIZIONARIO);
+				break;
+			}
+			case 3: {
+				//TODO
+				if ( !isNull(sr)) gestoreDizionari.infoSpazioRilevanza();
+				else System.out.println(Stringhe.NESSUN_S_R);
+				break;
+			}
+		}
+	}
 
-	 for (int i = 0; i < 10; i++) {
+	private static String inputNomeFileJSON(){
+		String fileJSON = InputDati.leggiStringa(Stringhe.INSERIRE_PERCORSO_FILE);
+		return fileJSON;
+	}
 
-	 stati.add(new Stato());
-	 stati1.add(new Stato());
-	 tr.add(new Transizione(null, null, null, null, "r"+i, "f"+i));
-	 tr.add(new Transizione(null, null, null, null, "r"+i, "f"+i));
-	 tr1.add(new Transizione(null, null, null, null, "r"+i, "f"+i));
-	 tr1.add(new Transizione(null, null, null, null, "r"+i, "f"+i));
-	 eventi.add(new Evento(null));
+	private static boolean reteAutomiCaricata(){
+		return !isNull(ra);
+	}
 
-	 }
-
-
-
-
-	 for (Link link1 : link) {
-	 link1.setAutomaPartenza(automi.get(ThreadLocalRandom.current().nextInt(0, automi.size() )));
-	 link1.setAutomaArrivo(automi.get(ThreadLocalRandom.current().nextInt(0, automi.size())));
-	 }
-
-	 for (Transizione transizione : tr) {
-	 transizione.setStatoPartenza(stati.get(ThreadLocalRandom.current().nextInt(0, stati.size())));
-	 transizione.setStatoArrivo(stati.get(ThreadLocalRandom.current().nextInt(0, stati.size())));
-	 transizione.setEventoIngresso(eventi.get(ThreadLocalRandom.current().nextInt(0, eventi.size())));
-	 transizione.addEventoUscita(eventi.get(ThreadLocalRandom.current().nextInt(0, eventi.size())));
-	 transizione.addEventoUscita(eventi.get(ThreadLocalRandom.current().nextInt(0, eventi.size())));
-	 }
-
-	 for (Transizione transizione : tr1) {
-	 transizione.setStatoPartenza(stati1.get(ThreadLocalRandom.current().nextInt(0, stati1.size())));
-	 transizione.setStatoArrivo(stati1.get(ThreadLocalRandom.current().nextInt(0, stati1.size())));
-	 transizione.setEventoIngresso(eventi.get(ThreadLocalRandom.current().nextInt(0, eventi.size())));
-	 transizione.addEventoUscita(eventi.get(ThreadLocalRandom.current().nextInt(0, eventi.size())));
-	 transizione.addEventoUscita(eventi.get(ThreadLocalRandom.current().nextInt(0, eventi.size())));
-	 }
-
-	 for (Evento evento : eventi) {
-	 evento.setLink(link.get(ThreadLocalRandom.current().nextInt(0, link.size())));
-	 }
-
-
-	 tr.get(0).setStatoPartenza(stati.get(0));
-	 tr.get(0).setEventiUscita(new ArrayList<>());
-	 tr.get(0).setEventoIngresso(null);
-	 tr.get(0).addEventoUscita(new Evento(new Link(automi.get(0), automi.get(1))));
-
-	 automi.get(0).creaMappaStatiTransizioni(stati, tr);
-	 automi.get(0).setStatoIniziale(stati.get(0));
-	 automi.get(0).inizializzaAutoma();
-	 automi.get(1).creaMappaStatiTransizioni(stati1, tr1);
-	 automi.get(1).setStatoIniziale(stati1.get(0));
-	 automi.get(1).inizializzaAutoma();
+	private static void costruisciDizionarioCompleto(GestoreDizionari gestoreDizionari){
+		if (reteAutomiCaricata()){
+			gestoreDizionari = new GestoreDizionari(ra);
+			System.out.println(Stringhe.COSTRUZIONE_S_R);
+			sr = gestoreDizionari.costruisciSpazioRilevanza();
+			System.out.println(Stringhe.FINITO);
+			System.out.println(Stringhe.COSTRUZIONE_DIZIONARIO);
+			diz = gestoreDizionari.costruisciDizionarioCompleto();
+			System.out.println(Stringhe.FINITO);
+		}
+		else{
+			System.out.println(Stringhe.NESSUNA_RETE_CARICATA);
+		}
+	}
 
 
-	 //stampa di tutti gli automi e link in maniera decente
-	 System.out.println(automi.get(0));
-	 //System.out.println(automi.get(1));
-	 for (Link link1 : link) {
-	 System.out.println(link1);
-	 }
-
-
-
-	 ReteAutomi ra = new ReteAutomi(automi, link);
-	 //System.out.println(ra.mappaIdAutomiTransizioniAbilitate());
-	 StringBuilder sb = new StringBuilder();
-
-	 for (Integer id : ra.mappaIdAutomiTransizioniAbilitate().keySet()) {
-	 sb.append("automa ");
-	 sb.append(id);
-	 sb.append(" ---->\n");
-	 sb.append(ra.mappaIdAutomiTransizioniAbilitate().get(id));
-	 sb.append("\n");
-	 }
-
-	 System.out.println(sb.toString());
-
-	 ra.svolgiTransizione(automi.get(0), tr.get(0));
-	 System.out.println(automi.get(0).getStatoCorrente());
-	 */
 
 }

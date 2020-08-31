@@ -3,6 +3,8 @@ package reteAutomi;
 import javafx.util.Pair;
 import java.util.*;
 
+import static java.util.Objects.isNull;
+
 public class StatoRilevanzaRete {
 
     // <nomeLink, Evento>
@@ -13,6 +15,7 @@ public class StatoRilevanzaRete {
     private String ridenominazione;
     private int distanza;
     private Stato statoOsservazione;
+    private boolean inEccesso = false;
 
     /**
      * Crea uno stato partendo dalla rete di automi
@@ -114,7 +117,9 @@ public class StatoRilevanzaRete {
     public String toString() {
     	StringBuilder sb = new StringBuilder();
     	sb.append("(");
-    	
+    	if ( ! isNull(getRidenominazione())){
+    	    sb.append("Ridenominazione: " + getRidenominazione() + ", ");
+        }
     	for(Pair<String, String> statiCorrenti : statiCorrentiAutomi) {
     		sb.append(statiCorrenti.getKey() + ":" + statiCorrenti.getValue() + ", ");
     	}
@@ -148,7 +153,7 @@ public class StatoRilevanzaRete {
         this.distanza = distanza;
     }
     
-    // stati che vengono generati come "stati rilevanza successivi" dell'ultimo livello non gli viene settata la distanza perchè non fanno parte del prefisso, resta -1
+    // stati che vengono generati come "stati rilevanza successivi" dell'ultimo livello non gli viene settata la distanza perche' non fanno parte del prefisso, resta -1
     public boolean oltreDistanzaMax() {
     	return this.distanza== -1;
     }
@@ -164,5 +169,11 @@ public class StatoRilevanzaRete {
 	}
 
 
-    
+    public boolean isInEccesso() {
+        return inEccesso;
+    }
+
+    public void setInEccesso(boolean inEccesso) {
+        this.inEccesso = inEccesso;
+    }
 }
