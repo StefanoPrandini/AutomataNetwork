@@ -13,13 +13,15 @@ public class Stringhe {
             "Dizionario completo",
             "Monitoraggio",
             "Prefisso",
-            "Dizionario parziale da prefisso",
-            "Dizionario parziale da osservazione",
-            "Estensione dizionario"
+            "Dizionarii parziali",
+            "Estensione dizionario",
+            "Riassunto automi",
+            "Salva sessione",
+            "Carica sessione"
     };
 
     public static final String TITOLO = "Elaboratore per reti di automi";
-    public static final String SAVE_FOLDER = "ASD/saves";
+    public static final String SAVE_FOLDER = "ASD/sessioni";
 
     /**
      *
@@ -56,9 +58,13 @@ public class Stringhe {
     public static final String TITOLO_SOTTO_MENU_MONITORAGGIO = "Monitoraggio, revisione e gestione terne";
 
 
+    public static final String[] OPZIONI_MENU_10 = {
+            "Carica sessione",
+            "Elimina sessione",
 
-
-
+    };
+    public static final String TITOLO_MENU_10 = "Carica/elimina sessioni esistenti";
+    public static final String INSERISCI_SESSIONE = "Inserisci il nome della sessione:\n";
 
 
     /**
@@ -66,8 +72,7 @@ public class Stringhe {
      */
 
     /**
-     File folder = new File(SAVE_FOLDER);
-     File[] files = folder.listFiles();
+
 
      System.out.println("Working Directory = " + System.getProperty("user.dir"));
 
