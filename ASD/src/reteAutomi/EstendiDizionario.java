@@ -18,7 +18,7 @@ public class EstendiDizionario {
 	private Dizionario dizionario;
 	private ReteAutomi rete;
 	private Automa osservazione;
-	// quando si fa estensione del dizionario non si puo' usare spazio rilevanza, quindi devo salvare gli stati di rilevanza
+	// quando si fa estensione del dizionario non si puo' usare spazio rilevanza, tengo gli stati di rilevanza per non ripeterli
 	private Set<StatoRilevanzaRete> statiRilevanza;
 	private Set<Transizione> transizioniNonInTraiettoria;
 	
@@ -34,6 +34,7 @@ public class EstendiDizionario {
 		dizionario.getStatoIniziale().addIndice(osservazione.getStatoIniziale());
 		
 		statiRilevanza = new LinkedHashSet<>();
+//		non si può usare spazio di rilevanza, tengo gli stati per evitare di ripeterli
 		for(StatoDizionario s : dizionario.getStatiDizionario()) {
 			statiRilevanza.addAll(s.getStatiRilevanza());
 		}
@@ -52,32 +53,32 @@ public class EstendiDizionario {
 			for(Indice indice : statoDiz.getIndici()) {
 				if( ! indice.isMarked()) {
 					osservazione.setStatoCorrente(indice.getStato());
-					for(Transizione transizioneOss : osservazione.getTransizioniUscentiDaStatoCorrente()) {
+					for(Transizione transizioneOsservazione : osservazione.getTransizioniUscentiDaStatoCorrente()) {
 //						buonFine se la transizione nell'osservazione e' presente in una traiettoria della rete
 						Boolean buonFine = false;
 //						quando lo stato e' finale nel dizionario parziale, e' presente nella mappa ma non ha transizioni uscenti: vedo dove vanno le sue transizioni osservabili (estendo)
 						if(dizionario.getMappaDizionario().get(statoDiz).isEmpty()) {
-							estendiStato(statoDiz, transizioneOss, coda);
+							estendiStato(statoDiz, transizioneOsservazione, coda);
 						}
 //						transizioni uscenti dallo stato del dizionario
 						for(Pair<String, StatoDizionario> transizioneDiz : dizionario.getMappaDizionario().get(statoDiz)) {
 //							se l'etichetta coincide:
-							if(transizioneDiz.getKey().equals(transizioneOss.getEtichettaOsservabilita())) {
+							if(transizioneDiz.getKey().equals(transizioneOsservazione.getEtichettaOsservabilita())) {
 //								aggiungo l'indice allo stato destinazione
-								transizioneDiz.getValue().addIndice(transizioneOss.getStatoArrivo());
+								transizioneDiz.getValue().addIndice(transizioneOsservazione.getStatoArrivo());
 //								aggiungo lo stato destinazione alla coda 
 								coda.add(transizioneDiz.getValue());
 								buonFine =  true;
 							}
 //							se non c'e' gia' uno stato nel dizionario raggiungibile con questa etichetta, verifico se puo' essere esteso in questa direzione:
 							if( ! buonFine) {
-								buonFine = estendiStato(statoDiz, transizioneOss, coda);
+								buonFine = estendiStato(statoDiz, transizioneOsservazione, coda);
 							}
 						}
 						
 						if( ! buonFine) {
 //							se ci sono transizioni nell'osservazione che non sono presenti in nessuna traiettoria della rete
-							transizioniNonInTraiettoria.add(transizioneOss);
+							transizioniNonInTraiettoria.add(transizioneOsservazione);
 						}
 					}
 //					considerate tutte le transizioni uscenti dal nodo dell'osservazione, MARCARE INDICE
@@ -172,10 +173,10 @@ public class EstendiDizionario {
 }
 	
 
-	private Set<StatoRilevanzaRete> epsClosure(Set<StatoRilevanzaRete> outputs) {
-		Set<StatoRilevanzaRete> epsClosure = new LinkedHashSet<>(outputs);
-		Queue<StatoRilevanzaRete> coda = new LinkedList<StatoRilevanzaRete>(outputs);
-		statiRilevanza.addAll(outputs);
+	private Set<StatoRilevanzaRete> epsClosure(Set<StatoRilevanzaRete> stati) {
+		Set<StatoRilevanzaRete> epsClosure = new LinkedHashSet<>(stati);
+		Queue<StatoRilevanzaRete> coda = new LinkedList<StatoRilevanzaRete>(stati);
+		statiRilevanza.addAll(stati);
 		
 		while( ! coda.isEmpty()) {
 			StatoRilevanzaRete stato = coda.remove();

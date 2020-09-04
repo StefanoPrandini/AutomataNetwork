@@ -4,8 +4,8 @@ creaSpazioRilevanzaDaOsservazione(reteAutomi, osservazione){
     decorazioneIniziale <- new Set()
 
     statoRilevanzaIniziale <- new StatoRilevanzaRete(reteAutomi, decorazioneIniziale)   ▷ reteAutomi è nella condizione iniziale
-    setDistanza(statoRilevanzaIniziale, 0)
-    setStatoOsservazione(statoRilevanzaIniziale, getStatoIniziale(osservazione)) ▷ gli stati di rilevanza possiedono lo stato corrispondente nell''osservazione
+    distanza[statoRilevanzaIniziale] <- 0
+    statoOsservazione[statoRilevanzaIniziale] <- statoIniziale[osservazione] ▷ gli stati di rilevanza possiedono lo stato corrispondente nell''osservazione
 
     enqueue(coda, statoRilevanzaIniziale)
 
@@ -17,8 +17,8 @@ creaSpazioRilevanzaDaOsservazione(reteAutomi, osservazione){
 
             foreach transizione in transizioniAbilitate
                 do  setReteAutomi(reteAutomi, statoRilevanza)
-                    distanza <- getDistanza(statoRilevanza)
-                    setStatoCorrente(osservazione, getStatoOsservazione(statoRilevanza)) ▷ porto l'osservazione nello stato in considerazione
+                    distanza <- distanza[statoRilevanza]
+                    statoCorrente[osservazione] <- statoOsservazione[statoRilevanza] ▷ porto l'osservazione nello stato in considerazione
 
                     statoFinale <- isInStatoFinale(osservazione)
                     mettiInCoda <- TRUE
@@ -28,25 +28,25 @@ creaSpazioRilevanzaDaOsservazione(reteAutomi, osservazione){
                                     then    nuovoStatoRilevanza <- calcolaStatoRilevanzaSucc(reteAutomi, transizione, decorazione[statoRilevanza])
                                     else    distanza <- distanza + 1
                                             etichetteOsservazione <- etichetteOsservazione(osservazione)   ▷ etichette uscenti dallo stato dell'osservazione
-                                            if  getEtichettaOsservabilità(transizione) in etichetteOsservazione
+                                            if  etichettaOsservabilità[transizione] in etichetteOsservazione
                                                 then    if  not statoFinale
-                                                            then    avanzaOsservazione(osservazione, getEtichettaOsservabilità(transizione))
+                                                            then    avanzaOsservazione(osservazione, etichettaOsservabilità[transizione])
                                                         nuovoStatoRilevanza <- calcolaStatoRilevanzaSucc(reteAutomi, transizione, decorazione[statoRilevanza])
-                                                        setStatoOsservazione(nuovoStatoRilevanza, getStatoCorrente(osservazione))
+                                                        statoOsservazione[nuovoStatoRilevanza] <- statoCorrente[osservazione]
                                                 ▷ tengo lo stato successivo solo per aggiornare gli output dello stato precedente
                                                 else    nuovoStatoRilevanza <- calcolaStatoRilevanzaSucc(reteAutomi, transizione, decorazione[statoRilevanza])
                                                         mettiInCoda <- FALSE
                         else    nuovoStatoRilevanza <- calcolaStatoRilevanzaSucc(reteAutomi, transizione, decorazione[statoRilevanza])
-                                setStatoOsservazione(nuovoStatoRilevanza, getStatoCorrente(osservazione))
+                                statoOsservazione[nuovoStatoRilevanza] <- statoCorrente[osservazione]
                     
                     if  nuovoStatoRilevanza is not null
                         then    add(listaAdiacenza, [transizione, nuovoStatoRilevanza])
                                 if  nuovoStatoRilevanza not in keys[mappaStatoRilevenzaTransizioni]
-                                    then    setDistanza(nuovoStatoRilevanza, distanza)
+                                    then    distanza[nuovoStatoRilevanza] <- distanza
                                             enqueue(coda, nuovoStatoRilevanza)
                                     else    statoGiàInSpazio <- get(mappaStatoRilevenzaTransizioni, nuovoStatoRilevanza)
-                                            if  getDistanza(statoGiàInSpazio) > distanza
-                                                then setDistanza(statoGiàInSpazio, distanza)
+                                            if  distanza[statoGiàInSpazio] > distanza
+                                                then distanza[statoGiàInSpazio] <- distanza
 
             put(mappaStatoRilevenzaTransizioni, statoRilevanza, listaAdiacenza) ▷ inserisce nella mappa lo statoRilevanza come chiave e la lista di adiacenza come valore
             
@@ -55,9 +55,9 @@ creaSpazioRilevanzaDaOsservazione(reteAutomi, osservazione){
 
 etichetteOsservazione(osservazione){
     etichette <- []
-    foreach transizione in getTransizioniUscenti(getStatoCorrente(osservazione))
-        do  if  not equals(getEtichettaOsservabilità(transizione), "eps")
-                then add(etichette, getEtichettaOsservabilità(transizione))
+    foreach transizione in transizioniUscenti[statoCorrente[osservazione]]
+        do  if  not equals(etichettaOsservabilità[transizione], "eps")
+                then add(etichette, etichettaOsservabilità[transizione])
     return etichette
 }
 

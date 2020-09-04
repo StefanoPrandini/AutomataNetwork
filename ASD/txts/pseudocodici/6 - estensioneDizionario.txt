@@ -1,0 +1,141 @@
+estendiDizionario(rete, dizionarioParziale, osservazione){
+    setStatoCorrente(osservazione, statoIniziale[osservazione])
+    addIndice(statoIniziale[dizionarioParziale], statoIniziale[osservazione]) ▷ gli stati del dizionario hanno come indice il rispettivo stato nell''osservazione
+
+    statiRilevanza <- new Set()
+
+    foreach stato in statiDizionario[dizionarioParziale]
+        do  addAll(statiRilevanza, statiRilevanza[stato]) ▷ non si può usare spazio di rilevanza, tengo gli stati per evitare di ripeterli
+
+    coda <- new Queue()
+    enqueue(coda, statoIniziale[dizionarioParziale])
+
+    while length[coda] > 0
+        do  statoDiz <- dequeue(coda)
+            addAll(statiRilevanza, statiRilevanza[statoDiz])
+
+            foreach indice in indici[statoDiz] 
+                do  if  not isMarked(indice) ▷ marcato quando ho analizzato tutte le transizioni uscenti
+                        then    statoCorrente[osservazione] <- stato[indice]
+                                foreach transizioneOsservazione in transizioniUscenti[statoCorrente[osservazione]]
+                                    do  buonFine <- FALSE   ▷ se la transizione nell'osservazione e' presente in una traiettoria della rete
+                                        if  isEmpty(transizioniUscenti[statoDiz])
+                                            then    estendiStato(statoDiz, transizioneOsservazione, coda)
+                                        
+                                        foreach transizioneDizionario in transizioniUscenti[statoDiz]
+                                            do  if  etichettaOsservabilità[transizioneDizionario] = etichettaOsservabilità[transizioneOsservazione] ▷ se etichette corrispondono:
+                                                    ▷ aggiungo l''indice allo stato destinazione
+                                                    then    add(indici[statoArrivo[transizioneDizionario]], statoArrivo[transizioneOsservazione])
+                                                            add(coda, statoArrivo[transizioneDizionario])
+                                                            buonFine <- TRUE
+                                                    if  not buonFine
+                                                        then buonFine <- estendiStato(statoDiz, transizioneOsservazione, coda)
+                                
+                                marked[indice] <- TRUE
+    
+    ▷ ridenominazione avveniva in SpazioRilevanza che nell''estensione del dizionario non viene usato
+    ridenominazione <- "x"
+    i <- 0
+    foreach statoRilevanza in statiRilevanza
+        do  if  isNull(ridenominazione[statoRilevanza])
+                then    ridenominazione[statoRilevanza] <- ridenominazione + i
+                        i <- i + 1
+
+    ▷ formare coppie I-O
+    foreach statoDizionario in dizionarioParziale
+        do  IO <- coppieIO(statoDizionario)
+            IO[statoDizionario] <- IO
+
+}
+
+estendiStato(statoDiz, transizioneOsservazione, coda){
+    raggiuntiDaOutputs <- new Set()
+    ▷ non avendo spazio di rilevanza, prendo info dalla rete
+    foreach output in outputs[statoDiz]
+        do  setReteAutomi(rete, statiCorrentiAutoma[output], contenutoLinks[output])    ▷ non ho lo stato di rilevanza da passare
+            foreach transizioneRete in transizioniAbilitate[rete]
+                do  if  etichettaOsservabilità[transizioneRete] is not null && etichettaOsservabilità[transizioneRete] = etichettaOsservabilità[transizioneOsservazione]
+                        then    nuovoStatoRilevanza <- calcolaStatoRilevanzaSucc(rete, transizioneRete, decorazione[output])
+                                add(raggiuntiDaOutputs, nuovoStatoRilevanza)
+
+    if  isEmpty(raggiuntiDaOutputs)
+        then return FALSE
+
+    epsClosure <- epsClosure(raggiuntiDaOutputs)
+
+    statiOutput <- new Set()
+    foreach stato in epsClosure
+        do  setReteAutomi(rete, statiCorrentiAutoma[output], contenutoLinks[output])
+            foreach transizione in transizioniAbilitate[rete]
+                do  if  etichettaOsservabilità[transizione] is not null
+                        then    add(statiOutput, stato)
+                        break
+
+    nuovoStatoDiz <- new StatoDizionario(epsClosure, statiOutput)
+
+    foreach statoGiàIncontrato in stati[dizionarioParziale]
+        do  if  statoGiàIncontrato = nuovoStatoDiz
+                then    nuovoStatoDiz <- statoGiàIncontrato
+                        break
+
+    ▷ gli stati Input del nuovo stato del dizionario sono quelli raggiungibili dagli stati Output dello stato precedente
+    add(inputs[nuovoStatoDiz], raggiuntiDaOutputs)
+
+    add(transizioniUscenti[statoDiz], [etichettaOsservabilità[transizioneOsservazione], nuovoStatoDiz]) ▷ aggiungo la coppia [etichetta, nuovoStato] alle transizioni uscenti    
+
+    add(indici[nuovoStatoDiz], statoArrivo[transizioneOsservazione]) ▷ è un insieme: se c'è già non lo aggiunge
+
+    if  nuovoStatoDiz not in stati[dizionarioParziale]
+        then    add(stati[dizionario], nuovoStatoDiz)
+    
+    ▷ quando aggiungo un indice rimetto in coda lo stato
+    add(coda, nuovoStatoDiz)
+
+    return TRUE
+}
+
+
+▷ metodi diversi da creazioneDizionarioCompleto.txt: non ho spazio di rilevanza
+
+epsClosure(stati, rete, statiRilevanza){
+    epsClosure <- stati ▷ stati fanno parte della loro eps-closure
+    codaStati <- stati
+    addAll(statiRilevanza, stati)
+
+    while length[codaStati] > 0
+        do  stato <- dequeue(codaStati)
+            setReteAutomi(rete, statiCorrentiAutoma[stato], contenutoLinks[stato])
+            foreach transizione in transizioniAbilitate[rete]  ▷ devo usare la rete, non ho spazio rilevanza
+                do  if is null etichettaOsservabilità[transizione]
+                        then    nuovoStatoRilevanza <- calcolaStatoRilevanzaSucc(rete, transizione, decorazione[stato])
+                                if stato not in codaStati
+                                    then    enqueue(codaStati, statoArrivo[transizione])
+                                            add(epsClosure, statoArrivo[transizione])
+                                            add(statiRilevanza, nuovoStatoRilevanza)
+    return epsClosure
+}
+
+
+coppieIO(statoDizionario){
+    coppie <- new Set()
+    foreach input in inputs[statoDizionario]
+        do  visitati <- new Map()
+            coda <- new Queue()
+            put(visitati, [input, TRUE])
+            enqueue(coda, input)
+
+            while length[coda] > 0
+                do  stato <- dequeue(coda)
+                    if  stato in outputs[statoDizionario]
+                        then    add(coppie, [input, stato])
+
+                    setReteAutomi(rete, statiCorrentiAutoma[stato], contenutoLinks[stato])
+
+                    foreach transizione in transizioniAbilitate[rete]
+                        do  sNext <- calcolaStatoRilevanzaSucc(rete, transizione, decorazione[stato])
+                            if  sNext in statiRilevanza[statoDizionario] && sNext not in visitati
+                                then    put(visitati, [sNext, TRUE])
+                                        enqueue(coda, sNext)
+
+    return coppie
+}

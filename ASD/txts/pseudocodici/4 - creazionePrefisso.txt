@@ -15,7 +15,7 @@ creaSpazioRilevanza(reteAutomi, distanzaMax){
 
             foreach transizione in transizioniAbilitate
                 do  setReteAutomi(reteAutomi, statoRilevanza)
-                    distanza <- getDistanza(statoRilevanza)
+                    distanza <- distanza[statoRilevanza]
                     nuovoStatoRilevanza <- calcolaStatoRilevanzaSucc(reteAutomi, transizione, decorazione[statoRilevanza])
                     if  hasEtichettaOsservabilità(transizione)
                         then distanza <- distanza + 1
@@ -26,7 +26,7 @@ creaSpazioRilevanza(reteAutomi, distanzaMax){
                                     then    setDistanza(nuovoStatoRilevanza, distanza)
                                             enqueue(coda, nuovoStatoRilevanza)
                                     else    statoGiàInSpazio <- get(mappaStatoRilevenzaTransizioni, nuovoStatoRilevanza)
-                                            if  getDistanza(statoGiàInSpazio) > distanza
+                                            if  distanza[statoGiàInSpazio] > distanza
                                                 then setDistanza(statoGiàInSpazio, distanza)
 
             put(mappaStatoRilevenzaTransizioni, statoRilevanza, listaAdiacenza) ▷ inserisce nella mappa lo statoRilevanza come chiave e la lista di adiacenza come valore

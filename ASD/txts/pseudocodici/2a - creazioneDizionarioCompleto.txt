@@ -29,6 +29,9 @@ determinizzazioneSpazioRilevanza(spazioRilevanza, mappaDizionario){
                     add(coppieTransizione_NuovoStato, [etichetta, statoArrivo])
             
             put(mappaDizionario, coppieTransizione_NuovoStato)
+
+    foreach statoDizionario in keys[mappaDizionario]
+        do  IO <- coppieIO(statoDizionario, spazioRilevanza)
 }
 
 
@@ -40,11 +43,11 @@ epsClosure(stati){
 
     while length[codaStati] > 0
         do  stato <- dequeue(codaStati)
-        foreach transizione in transizioniUscenti[stato]  ▷ le transizioni che nello spazio di rilevanza escono da stato
-            do  if is null etichettaOsservabilità[transizione]
-                    then    if stato not in codaStati
-                                then    enqueue(codaStati, statoArrivo[transizione])
-                                        add(result, statoArrivo[transizione])
+            foreach transizione in transizioniUscenti[stato]  ▷ le transizioni che nello spazio di rilevanza escono da stato
+                do  if is null etichettaOsservabilità[transizione]
+                        then    if stato not in codaStati
+                                    then    enqueue(codaStati, statoArrivo[transizione])
+                                            add(result, statoArrivo[transizione])
     return result
 }
 
@@ -56,12 +59,34 @@ cercaTransizioniOsservabiliUscenti(statoDizionario){
         do  transizioniOsservabili <- transizioniOsservabili(statoRilevanza)   ▷ le transizioni osservabili uscenti da uno stato di rilevanza nello spazio di rilevanza
             foreach transizione in transizioniOsservabili
                 do  if etichettaOsservabilità[transizione] in keys[map]
-                        ▷ se l'etichetta è già tra le chiavi della mappa, aggiungo la transizione alla mappa
+                        ▷ se l''etichetta è già tra le chiavi della mappa, aggiungo la transizione alla mappa
                         then    statiArrivo <- get(mappa, etichettaOsservabilità[transizione])
                                 add(statiArrivo, statoArrivo[transizione])
-                        ▷ se l'etichetta non è già tra le chiavi della mappa, inserisco nella mappa la coppia chiave valore
+                        ▷ se l''etichetta non è già tra le chiavi della mappa, inserisco nella mappa la coppia chiave valore
                         else    statiArrivo <- new Set()
                                 add(statiArrivo, statoArrivo[transizione])
                                 put(mappa, etichettaOsservabilità[transizione], statiArrivo)
     return mappa
+}
+
+
+coppieIO(statoDizionario, spazioRilevanza){
+    coppie <- new Set()
+    foreach input in inputs[statoDizionario]
+        do  visitati <- new Map()
+            coda <- new Queue()
+            put(visitati, [input, TRUE])
+            enqueue(coda, input)
+
+            while length[coda] > 0
+                do  stato <- dequeue(coda)
+                    if  stato in outputs[statoDizionario]
+                        then    add(coppie, [input, stato])
+                    foreach transizione in transizioniUscenti[stato]
+                        do  sNext <- statoArrivo[transizione]
+                            if  sNext in statiRilevanza[statoDizionario] && sNext not in visitati
+                                then    put(visitati, [sNext, TRUE])
+                                        enqueue(coda, sNext)
+
+    return coppie
 }
