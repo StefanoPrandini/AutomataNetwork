@@ -1,38 +1,75 @@
 package myLib;
 
+import java.io.File;
+
 public class Stringhe {
+    public static final String SAVE_FOLDER = "ASD/sessioni";
     public final static String INSERIRE_PERCORSO_FILE = "Inserisci il percorso del file:\n-->";
-    public final static String ERRORE_CARICAMENTO = "Errore nel caricamento";
     public static final String COSTRUZIONE_S_R = "Costruzione spazio rilevanza";
     public static final String COSTRUZIONE_DIZIONARIO = "Costruzione dizionario";
 
+    /**
+     *
+     *
+     *                  TITOLI
+     *
+     */
 
-    public static final String[] OPZIONI = {
-            "Carica nuova rete di automi da file",
-            "Carica nuova osservazione",
-            "Dizionario completo",
-            "Monitoraggio",
-            "Prefisso",
-            "Dizionarii parziali",
-            "Estensione dizionario",
-            "Riassunto automi",
-            "Salva sessione",
-            "Carica sessione"
-    };
+    public static final String TITOLO_INIZIALE = "Elaboratore per reti di automi";
+    public static final String TITOLO_GESTIONE_RETE = "Gestione rete di automi";
+    public static final String TITOLO_CARICAMENTO_DIZIONARIO = "Caricamento dizionario da file";
 
-    public static final String TITOLO = "Elaboratore per reti di automi";
-    public static final String SAVE_FOLDER = "ASD/sessioni";
 
     /**
      *
-     * Errori in caricamento files json
+     *
+     *                  OPZIONI
      *
      */
+
+    public static final String[] OPZIONI_MENU_CARICAMENTO = {
+            "Carica una nuova rete di automi da un file JSON",
+            "Carica una rete da una sessione di lavoro precedente"
+    };
+
+    public static final String[] OPZIONI_GESTIONE_RETE = {
+            "Informazioni rete",
+            "Calcola dizionario",
+            "Carica dizionario"
+    };
+
+    public static final String[] OPZIONI_CARICAMENTO_DIZIONARIO = {
+            "Carica dizionario da file"
+    };
+
+    /**
+     *
+     *
+     *                  ERRORI
+     *
+     */
+
+
     public static final String ERRORE_JSON = "Errore JSON";
     public static final String ERRORE_FORMATTAZIONE = "Formattazione JSON errata";
     public static final String ERRORE_FILEPATH = "File non trovato";
     public static final String CARICAMENTO_RIUSCITO = "Caricamento di %s riuscito";
     public static final String NESSUNA_RETE_CARICATA = "Attenzione!\nNon è stata caricata alcuna rete";
+    public final static String ERRORE_CARICAMENTO = "Errore nel caricamento";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public static final String FINITO = "Finito";
@@ -51,11 +88,11 @@ public class Stringhe {
 
 
     public static final String[] OPZIONI_SOTTO_MENU_MONITORAGGIO = {
-            "Effetta il monitoraggio con revisione",
             "Inserisci un'ossservazione lineare",
-            "Calcola terne"
+            "Effetta il monitoraggio con revisione",
+
     };
-    public static final String TITOLO_SOTTO_MENU_MONITORAGGIO = "Monitoraggio, revisione e gestione terne";
+    public static final String TITOLO_SOTTO_MENU_MONITORAGGIO = "Monitoraggio + revisione e gestione terne";
 
 
     public static final String[] OPZIONI_MENU_10 = {
@@ -64,8 +101,35 @@ public class Stringhe {
 
     };
     public static final String TITOLO_MENU_10 = "Carica/elimina sessioni esistenti";
-    public static final String INSERISCI_SESSIONE = "Inserisci il nome della sessione:\n";
+    public static final String INSERISCI_SESSIONE = "Inserisci il nome del file:\n-->";
+    public static final String INSERIMENTO_OSSERVAZIONE = "Inserisci le etichette di un'osservazione lineare separandole con virgole " +
+                                                            "(es: o3, o4, o21):\n-->";
+    public static final String NESSUNA_OSSERVAZIONE = "Attenzione! Non è stata caricata alcuna osservazione";
+    public static final String OSSERVAZIONE_NON_CORRISPONDE = "L'osservazione inserita non corrisponde a nessuna traiettoria della rete";
+    public static final String[] OPZIONI_MENU_PREFISSO = {
+            "Inserisci lunghezza prefisso",
+            "Costruisci prefisso del dizionario"
+    };
+    public static final String TITOLO_MENU_PREFISSO = "Prefisso del dizionario";
+    public static final String LEGGI_INTERO = "Inserisci la lunghezza desiderata (-1 per esplorazione completa)\n-->";
+    public static final String SALVATO = "Salvato";
 
+
+
+
+
+    public static final String[] OPZIONI_INIZIALI = {
+            "Carica nuova rete di automi da file",
+            "Carica nuova osservazione",
+            "Dizionario completo",
+            "Monitoraggio",
+            "Prefisso",
+            "Dizionari parziali",
+            "Estensione dizionario",
+            "Riassunto automi",
+            "Salva sessione",
+            "Carica sessione"
+    };
 
     /**
      * INUTILITA'

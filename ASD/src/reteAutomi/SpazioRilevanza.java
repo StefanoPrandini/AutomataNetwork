@@ -88,7 +88,7 @@ public class SpazioRilevanza {
 								.filter(statoRilevanzaRete -> statoRilevanzaRete.equals(nuovoStatoRilevanza))
 								.collect(Collectors.toList())
 								.get(0);
-
+						//distanza viene aggiornata se ne trovo una minore
 						if (statoGiaInSpazio.getDistanza() > distanza){
 							statoGiaInSpazio.setDistanza(distanza);
 						}
@@ -98,6 +98,23 @@ public class SpazioRilevanza {
 			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, listaAdiacenza);
 		}
 	}
+
+
+	public int getMassimoValoreDistanza(){
+		int distanzaMax = 0;
+		for (StatoRilevanzaRete statoRilevanzaRete : statiRilevanza) {
+			if (statoRilevanzaRete.getDistanza() > distanzaMax)
+				distanzaMax = statoRilevanzaRete.getDistanza();
+		}
+		return distanzaMax;
+	}
+
+	public boolean distanzaMaxRaggiunta(){
+		if (this.getDistanzaMax() < distanzaMax )
+			return true;
+		return false;
+	}
+
 
 //	spazioRilevanza puo' essere creato a partire da una osservazione (un automa)
 //	lascio comunque la distanza per non dover rifare il dizionario

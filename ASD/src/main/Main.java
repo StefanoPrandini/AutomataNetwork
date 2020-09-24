@@ -2,17 +2,22 @@ package main;
 
 import input.GestoreDizionari;
 import input.GestoreFile;
-import input.InputParser;
+import javafx.util.Pair;
 import myLib.InputDati;
 import myLib.MyMenu;
 import myLib.Stringhe;
 import reteAutomi.Dizionario;
 import reteAutomi.ReteAutomi;
 import reteAutomi.SpazioRilevanza;
+import reteAutomi.Terna;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static java.util.Objects.isNull;
+import static myLib.InputDati.leggiStringa;
 
 
 public class Main {
@@ -21,22 +26,173 @@ public class Main {
 	private static ReteAutomi oss;
 	private static SpazioRilevanza sr;
 	private static Dizionario diz;
+	private static ArrayList<String> osservazioneLineare;
+	private static List<Terna> terne;
+	private static int lunghezzaPrefisso = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
+
 
 	public static void main(String[] args) {
 
 
 
-		MyMenu m = new MyMenu(Stringhe.TITOLO, Stringhe.OPZIONI);
+		MyMenu m = new MyMenu(Stringhe.TITOLO_INIZIALE, Stringhe.OPZIONI_MENU_CARICAMENTO);
 
 		int scelta = m.scegli();
 		while (scelta !=0) {
-			switcher(scelta);
+			gestisciCaricamentoIniziale(scelta);
 			scelta = m.scegli();
 		}
 	}
 
 
+	private static void gestisciCaricamentoIniziale(int scelta) {
 
+		switch (scelta){
+			case 0: break; //EXIT  TODO aggiungere sei sicuro ??
+
+			case 1:  { //carica da JSON
+				String filepath = inputNomeFileJSON();
+				GestoreFile gf = new GestoreFile();
+				gf.setPathRete(filepath);
+				try {
+					ra = gf.caricaRete();
+					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO, ra.getNome()));
+					MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
+					int sceltaGestioneRete = menuGestioneRete.scegli();
+					while (sceltaGestioneRete != 0){
+						gestisciRete(sceltaGestioneRete);
+						sceltaGestioneRete = menuGestioneRete.scegli();
+					}
+
+				}
+				catch (Exception e){
+					System.out.println(Stringhe.ERRORE_FILEPATH);
+				}
+				break;
+
+			}
+			case 2: { // carica sessione
+				if(sessioniDisponibili()){
+					visualizzaSessioniDisponibili();
+					try {
+						gestisciCaricamentoReteAutomi();
+						System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO, ra.getNome()));
+						MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
+						int sceltaGestioneRete = menuGestioneRete.scegli();
+						while (sceltaGestioneRete != 0){
+							gestisciRete(sceltaGestioneRete);
+							sceltaGestioneRete = menuGestioneRete.scegli();
+						}
+					} catch (Exception e){
+						System.out.println(Stringhe.ERRORE_CARICAMENTO);
+					}
+				}
+				break;
+			}
+			default: break;
+		}
+	}
+
+	private static void gestisciRete(int scelta){
+		//informazioni rete, calcola dizionario, carica dizionario
+		switch (scelta){
+			case 0: { //EXIT //TODO sei sicuro?
+
+				break;
+			}
+			case 1: { // informazioni rete
+				System.out.println(ra.toString());
+				break;
+			}
+
+			case 2: {//calcola dizionario
+
+				// if c'è gia un dizionario, chiedere se si vuole sovrascrivere --> spazio di rilevanza --> dizionario
+				break;
+			}
+			case 3:{//carica dizionario
+				MyMenu menuCaricamentoDizionario = new MyMenu(Stringhe.TITOLO_CARICAMENTO_DIZIONARIO, Stringhe.OPZIONI_CARICAMENTO_DIZIONARIO);
+				int sceltaCaricamentoDizionario = menuCaricamentoDizionario.scegli();
+				while ( sceltaCaricamentoDizionario != 0){
+					try {
+						gestioneCaricamentoDizionario(sceltaCaricamentoDizionario);
+						sceltaCaricamentoDizionario = menuCaricamentoDizionario.scegli();
+					}catch (Exception e){
+						System.out.println(Stringhe.ERRORE_CARICAMENTO);
+					}
+				}
+				break;
+			}
+
+			default: break;
+
+
+		}
+
+	}
+
+	private static void gestioneCaricamentoDizionario(int sceltaCaricamentoDizionario) throws Exception{
+		switch (sceltaCaricamentoDizionario){
+			case 0: { //exit
+				break;
+			}
+			case 1: {// carica dizionario
+				String filepath = leggiStringa(Stringhe.INSERISCI_SESSIONE);
+				File folder = new File(Stringhe.SAVE_FOLDER);
+				File[] files = folder.listFiles();
+				for (File file : files) {
+					if (file.getName().equals(filepath)){
+						GestoreFile gf = new GestoreFile();
+						gf.setPathDiz(filepath);
+						diz = gf.caricaDizionario();
+						break;
+					}
+					else System.out.println(Stringhe.ERRORE_FILEPATH);
+				}
+			}
+		}
+	}
+
+	private static void visualizzaSessioniDisponibili() {
+		File folder = new File(Stringhe.SAVE_FOLDER);
+		File[] files = folder.listFiles();
+		for (File file : files) {
+			System.out.println(file.getName());
+		}
+	}
+
+	private static void gestisciCaricamentoReteAutomi() throws Exception{
+		String filepath = leggiStringa(Stringhe.INSERISCI_SESSIONE);
+		File folder = new File(Stringhe.SAVE_FOLDER);
+		File[] files = folder.listFiles();
+		for (File file : files) {
+			if (file.getName().equals(filepath)){
+				GestoreFile gf = new GestoreFile();
+				gf.setPathRete(filepath);
+				ra = gf.caricaRete();
+				break;
+			}
+			else System.out.println(Stringhe.ERRORE_FILEPATH);
+		}
+
+
+	}
+
+
+
+
+	/**
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *			MENU VECCHI, DA TOGLIERE ALLA FINE
+	 *
+	 *
+	 *
+	 *
+	 */
 
 	//TODO opzioni aggiungibili:
 	//spazio di rilevanza
@@ -46,71 +202,78 @@ public class Main {
 		GestoreDizionari gd;
 
 		switch(scelta){
-			case 1: {
-				//carica rete automi
+			case 1: { //carica rete automi
+
 				filepath = inputNomeFileJSON();
-				gf = new GestoreFile(filepath);
-				ra = gf.caricaRete();
+				//gf = new GestoreFile(filepath);
+				//ra = gf.caricaRete();
 
 
 				//TODO
 				break;
 			}
-			case 2: {
-				//carica osservazione
+			case 2: { //carica osservazione
+
 				filepath = inputNomeFileJSON();
-				gf = new GestoreFile(filepath);
-				oss = gf.caricaOsservazione();
+				//gf = new GestoreFile(filepath);
+				//oss = gf.caricaOsservazione();
 			}
 
-			case 3: {
-				//Dizionario completo
+			case 3: { //Dizionario completo
+
 
 				MyMenu sottoMenu3 = new MyMenu(Stringhe.TITOLO_SOTTO_MENU_DIZIONARIO_COMPLETO, Stringhe.OPZIONI_SOTTO_MENU_DIZIONARIO_COMPLETO);
 				int sceltaSottoMenu3 = sottoMenu3.scegli();
+				if (sceltaSottoMenu3 == 0) break;
 				if ( ! isNull(ra) ){
 					gd = new GestoreDizionari(ra);
-					switchSottoMenu3(sceltaSottoMenu3, gd);
+					switcherDizionarioCompleto(sceltaSottoMenu3, gd);
 				}
 				else{
 					System.out.println(Stringhe.NESSUNA_RETE_CARICATA);
 				}
 				break;
 			}
-			case 4: {
-				//"Monitoraggio",
+			case 4: { //"Monitoraggio",
+
 
 				MyMenu sottoMenu4 = new MyMenu(Stringhe.TITOLO_SOTTO_MENU_MONITORAGGIO, Stringhe.OPZIONI_SOTTO_MENU_MONITORAGGIO);
 				int sceltaMenu4 = sottoMenu4.scegli();
-				gd = new GestoreDizionari(ra);
-				switcherSottoMenu4(sceltaMenu4, gd);
+				if (sceltaMenu4 == 0) break;
+
+				switcherMonitoraggio(sceltaMenu4);
 				break;
 			}
-			case 5: {
-				//"Prefisso",
+			case 5: { //"Prefisso",
+
+				MyMenu sottoMenu5 = new MyMenu(Stringhe.TITOLO_MENU_PREFISSO, Stringhe.OPZIONI_MENU_PREFISSO);
+				int scelta5 = sottoMenu5.scegli();
+				if (scelta5 == 0) break;
+				switcherPrefisso(scelta5);
+				break;
+			}
+			case 6: { //"Dizionari parziali",
+
+
+			}
+			case 7: { //"Estensione dizionario"
+
 				filepath = inputNomeFileJSON();
 			}
-			case 6: {
-				//"Dizionari parziali",
+			case 8: { //"Riassunto automi"
+
 				filepath = inputNomeFileJSON();
 			}
-			case 7: {
-				//"Estensione dizionario"
-				filepath = inputNomeFileJSON();
+			case 9: { //salva sessione
+
 			}
-			case 8: {
-				//"Riassunto automi"
-				filepath = inputNomeFileJSON();
-			}
-			case 9: {
-				//salva sessione
-			}
-			case 10: {
-				//carica sessione
+			case 10: { //carica sessione
+
 				if(sessioniDisponibili()){
 					MyMenu sottoMenu10 = new MyMenu(Stringhe.TITOLO_MENU_10, Stringhe.OPZIONI_MENU_10);
 					int scelta10 = sottoMenu10.scegli();
-					switcher10(scelta10);
+					if (scelta == 0) break;
+					switcherCaricaSessione(scelta10);
 				}
 				break;
 			}
@@ -123,8 +286,45 @@ public class Main {
 
 	}
 
-	private static void switcher10(int scelta10) {
-		String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
+	private static void switcherPrefisso(int scelta5) {
+		switch (scelta5){
+			case 1:{
+				//inserisci prefisso
+				lunghezzaPrefisso = InputDati.leggiIntero(Stringhe.LEGGI_INTERO);
+				System.out.println(Stringhe.SALVATO);
+				break;
+			}
+			case 2: {
+				//calcolca prefisso dizionario
+				if (reteAutomiCaricata()){
+					//TODO secondo inserimento del prefisso funziona ma non fa andare
+					GestoreDizionari gd = new GestoreDizionari(ra);
+					Pair res = gd.costruisciPrefisso(lunghezzaPrefisso);
+					System.out.println(res);
+					sr = (SpazioRilevanza)res.getKey();
+					diz = (Dizionario)res.getValue();
+					String distSR = "Spazio di rilevanza con distanza " +  lunghezzaPrefisso + ": ";
+					String distDiz = "Prefisso del dizionario di lunghezza " + lunghezzaPrefisso + ": ";
+					if (lunghezzaPrefisso == SpazioRilevanza.ESPLORAZIONE_COMPLETA){
+						distSR = "Spazio di rilevanza completo";
+						distDiz = "Dizionario completo";
+					}
+					System.out.println(distSR);
+					System.out.println(gd.infoSpazioRilevanza(sr));
+					System.out.println(distDiz);
+					System.out.println(gd.infoDizionario(diz));
+
+
+
+			}
+
+				break;
+			}
+		}
+	}
+
+	private static void switcherCaricaSessione(int scelta10) {
+		String filepath = leggiStringa(Stringhe.INSERISCI_SESSIONE);
 		File folder = new File(Stringhe.SAVE_FOLDER);
 		File[] files = folder.listFiles();
 		File sessione = null;
@@ -165,42 +365,51 @@ public class Main {
 		File folder = new File(Stringhe.SAVE_FOLDER);
 		File[] files = folder.listFiles();
 		boolean flag = false;
-		if (files.length == 0){
-			System.out.println("Nessuna sessione trovata");
-		}
-		else{
-			System.out.println("Sessioni disponibili: ");
-			for (File file : files) {
-				System.out.println(file);
-			}
-			flag = true;
-		}
+		if (files.length > 0) flag = true;
 		return flag;
+
 	}
 
-	private static void switcherSottoMenu4(int sceltaMenu4, GestoreDizionari gd) {
+	private static void switcherMonitoraggio(int sceltaMenu4) {
 		switch (sceltaMenu4){
 			case 1: {
-				//effettuaMonitoraggio(gd);
+				//inserisci osservazione lineare
+
+				osservazioneLineare = inserimentoOsservazioneLineare();
+				System.out.println("Sono state inserite queste etichette: ");
+				for (String s : osservazioneLineare) {
+					System.out.println(s);
+				}
 				break;
 			}
 			case 2: {
-				//TODO
-				if ( !isNull(diz)) ;//gestoreDizionari.infoDizionario();
-				else System.out.println(Stringhe.NESSUN_DIZIONARIO);
+				//TODO effettua monitoraggio
+				if (isNull(osservazioneLineare) || osservazioneLineare.equals("")){
+					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
+				}
+				else {
+					GestoreDizionari gd = new GestoreDizionari(ra);
+					terne = gd.effettuaMonitoraggio(diz, osservazioneLineare, sr);
+					if (terne.size() > 0){
+						System.out.println("Risultato: ");
+						for (Terna terna : terne) {
+							System.out.println("Terna " + terna);
+						}
+					}
+				}
 				break;
 			}
-			case 3: {
-				//TODO
-				if ( !isNull(sr)) ;//gestoreDizionari.infoSpazioRilevanza();
-				else System.out.println(Stringhe.NESSUN_S_R);
-				break;
-			}
+			default: break;
 		}
 
 	}
 
-	private static void switchSottoMenu3(int sceltaSottoMenu3, GestoreDizionari gestoreDizionari) {
+	private static ArrayList<String> inserimentoOsservazioneLineare() {
+		String input = InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
+		return new ArrayList<>(Arrays.asList(input.split(", ")));
+	}
+
+	private static void switcherDizionarioCompleto(int sceltaSottoMenu3, GestoreDizionari gestoreDizionari) {
 		switch (sceltaSottoMenu3){
 			case 1: {
 				costruisciDizionarioCompleto(gestoreDizionari);
@@ -218,11 +427,12 @@ public class Main {
 				else System.out.println(Stringhe.NESSUN_S_R);
 				break;
 			}
+			default: break;
 		}
 	}
 
 	private static String inputNomeFileJSON(){
-		String fileJSON = InputDati.leggiStringa(Stringhe.INSERIRE_PERCORSO_FILE);
+		String fileJSON = leggiStringa(Stringhe.INSERIRE_PERCORSO_FILE);
 		return fileJSON;
 	}
 

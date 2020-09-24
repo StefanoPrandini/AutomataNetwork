@@ -15,8 +15,8 @@ import java.util.Set;
 public class Prove {
 	public static void main(String[] args)  {
 			
-		String nomeJSON = "ReteIniziale.json";
-//		String nomeJSON = "AltraRete.json";
+//		String nomeJSON = "ReteIniziale.json";
+		String nomeJSON = "AltraRete.json";
 		// percorso della rete iniziale, in formato JSON
 		String systemPathJSON;
 		if(System.getProperty("os.name").equals("Mac OS X")) {
@@ -44,7 +44,7 @@ public class Prove {
 
 		//parametro per creazione sottospazi
 		//un sottospazio di fatto crea il prefisso del dizionario
-		int distanzaMax = 2; // SpazioRilevanza.ESPLORAZIONE_COMPLETA;
+		int distanzaMax = 5; // SpazioRilevanza.ESPLORAZIONE_COMPLETA;
 
 		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(ra, distanzaMax);
 
@@ -80,8 +80,8 @@ public class Prove {
 		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2"));
 //		List<String>osservazioneLineare = new ArrayList<String>(Arrays.asList("o3","o2","o3","o2"));
 		//altra rete
-		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","act","cls"));
-		List<String>osservazioneLineare3 = new ArrayList<String>(Arrays.asList("act","opn","sby","cls","act"));
+		List<String>osservazioneLineare3 = new ArrayList<String>(Arrays.asList("act","opn","sby"));
+		List<String>osservazioneLineare2 = new ArrayList<String>(Arrays.asList("act","opn","sby","cls","act"));
 
 		try {
 			Set<Set<String>>decorazione = dizionario.ricerca(osservazioneLineare);
@@ -112,10 +112,10 @@ public class Prove {
 			dizionario.monitoraggio(osservazioneLineare2, spazioRilevanzaRete);
 			System.out.println("Osservazione: " + osservazioneLineare2);
 			for (Terna terna : dizionario.getTerne()) {
-				System.out.println("Terna " + terna);
+				if (dizionario.getTerne().size() > 1) System.out.println("Terna " + terna);
 			}
 		} catch (IOException e) {
-			System.out.println("L'osservazione " + osservazioneLineare2 + " non corrisponde a nessuna traiettoria della rete!");
+			if (dizionario.getTerne().isEmpty()) System.out.println("L'osservazione " + osservazioneLineare2 + " non corrisponde a nessuna traiettoria della rete!");
 		}
 		
 //		-----------------------------------------------------------------------------------------------------------------------------------------

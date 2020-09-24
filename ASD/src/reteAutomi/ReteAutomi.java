@@ -204,7 +204,8 @@ public class ReteAutomi {
 	
 	/**
 	 * Porta la rete di automi nella situazione descritta dallo stato di rilevanza (statiCorrenti degli automi ed eventi sui link)
-	 * @param statoRilevanza
+	 * @param statiCorrentiAutoma
+	 * @param contenutoLinks
 	 */
 	public void setReteAutomi(List<Pair<String, String>> statiCorrentiAutoma, List<Pair<String, Evento>> contenutoLinks ) {
 		for(Pair<String, String> statoCorrenteAutoma : statiCorrentiAutoma) {
@@ -221,7 +222,7 @@ public class ReteAutomi {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Rete di automi: " + automi.size() + " automi | " + links.size() +" link\n");
+		sb.append("Rete di automi " + "\"" + nome + "\"" + ": " + automi.size() + " automi | " + links.size() +" link\n");
 
 		for (Automa automa : automi) {
 			ArrayList<String>nomiStati = new ArrayList<>();

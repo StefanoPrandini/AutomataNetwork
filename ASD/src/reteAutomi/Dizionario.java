@@ -281,13 +281,25 @@ public class Dizionario {
 
 			Terna corrente = terne.getLast();
 			String etichetta = etichette.remove();
-			Terna nuova = produciTerna(spazioRilevanza, corrente, etichetta, nomeCompleto);
-			terne.add(nuova);
+			try {
+				Terna nuova = produciTerna(spazioRilevanza, corrente, etichetta, nomeCompleto);
+				System.out.println("Prodotta terna " + nuova + " da " + etichetta);
 
-			revisione(terne, osservazioneLineare, spazioRilevanza);
-			
-			indice++;
-			nomeCompleto = alfa + indice;
+				terne.add(nuova);
+
+				revisione(terne, osservazioneLineare, spazioRilevanza);
+
+				indice++;
+				nomeCompleto = alfa + indice;
+			}catch (IOException ioe){
+				if (terne.size() == 1) {
+					System.out.println("Nessuna traiettoria coincidente con l'osservazione");
+					return;
+				}
+
+			}
+
+
 		}
 	}
 	
@@ -315,6 +327,7 @@ public class Dizionario {
 			// Altrimenti, l'insieme degli stati I della terna viene sovrascritto dall'insieme Ieff e la revisione continua
 			else {
 				ternaPrec.setInsiemeI(inputEff);
+				System.out.println("Terna " + ternaPrec.getNome() + " modificata dopo revisione: " + ternaPrec);
 			}
 		}
 	}

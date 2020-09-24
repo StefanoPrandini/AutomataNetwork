@@ -1,34 +1,30 @@
 package input;
 
-import myLib.BelleStringhe;
 import myLib.Stringhe;
+import reteAutomi.Dizionario;
 import reteAutomi.ReteAutomi;
 
 public class GestoreFile {
 
-    private String path;
+    private String pathRete;
+    private String pathOss;
+    private String pathDiz;
 
-    public GestoreFile(String filepath) {
-        this.path = filepath;
-
+    public GestoreFile() {
     }
 
-    public ReteAutomi caricaRete() {
-        InputParser ip = new InputParser(path);
+    public ReteAutomi caricaRete() throws Exception{
+        InputParser ip = new InputParser(pathRete);
         ReteAutomi ra = null;
-        try {
-            ra = ip.parseRete();
-            System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO, ra.getNome()));
-        } catch (Exception e) {
-            System.out.println(Stringhe.ERRORE_CARICAMENTO);
-        }
+        System.out.println("Carico " + pathRete);
+        ra = ip.parseRete();
         return ra;
     }
 
 
     public ReteAutomi caricaOsservazione() {
         ReteAutomi osservazione = null;
-        InputParser ip = new InputParser(path);
+        InputParser ip = new InputParser(pathRete);
         try {
             osservazione = ip.parseRete();
             System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO, osservazione.getNome()));
@@ -36,5 +32,26 @@ public class GestoreFile {
             System.out.println(Stringhe.ERRORE_CARICAMENTO);
         }
         return osservazione;
+    }
+
+    public Dizionario caricaDizionario(){
+        Dizionario dizionario = null;
+        InputParser ip = new InputParser(pathDiz);
+        return dizionario;
+    }
+
+
+
+
+    public void setPathRete(String pathRete) {
+        this.pathRete = pathRete;
+    }
+
+    public void setPathOss(String pathOss) {
+        this.pathOss = pathOss;
+    }
+
+    public void setPathDiz(String pathDiz) {
+        this.pathDiz = pathDiz;
     }
 }
