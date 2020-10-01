@@ -22,16 +22,9 @@ public class GestoreFile {
     }
 
 
-    public ReteAutomi caricaOsservazione() {
-        ReteAutomi osservazione = null;
-        InputParser ip = new InputParser(pathRete);
-        try {
-            osservazione = ip.parseRete();
-            System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO, osservazione.getNome()));
-        } catch (Exception e) {
-            System.out.println(Stringhe.ERRORE_CARICAMENTO);
-        }
-        return osservazione;
+    public ReteAutomi caricaOsservazione(String pathOsservazione) throws Exception {
+        InputParser ip = new InputParser(pathOsservazione);
+        return ip.parseRete();
     }
 
     public Dizionario caricaDizionario(){

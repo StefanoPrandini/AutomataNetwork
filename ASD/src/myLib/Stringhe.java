@@ -7,7 +7,10 @@ public class Stringhe {
     public final static String INSERIRE_PERCORSO_FILE = "Inserisci il percorso del file:\n-->";
     public static final String COSTRUZIONE_S_R = "Costruzione spazio rilevanza";
     public static final String COSTRUZIONE_DIZIONARIO = "Costruzione dizionario";
-
+    public static final String FINITO = "Finito";
+    public static final String LUNGHEZZA_PREFISSO = "Inserisci la lunghezza del prefisso (un numero negativo per tornare indietro): ";
+    public static final int VALORE_USCITA = 0;
+    public final static String INSERISCI_PERCORSO_OSSERVAZIONE = "Inserisci il percorso del file contenente l'osservazione (0 per uscire):\n-->";
     /**
      *
      *
@@ -18,6 +21,10 @@ public class Stringhe {
     public static final String TITOLO_INIZIALE = "Elaboratore per reti di automi";
     public static final String TITOLO_GESTIONE_RETE = "Gestione rete di automi";
     public static final String TITOLO_CARICAMENTO_DIZIONARIO = "Caricamento dizionario da file";
+    public static final String TITOLO_SOVRASCRIVI = "Attenzione! Un dizionario è già presente, procedendo sovrascriverai i dati";
+    public static final String TITOLO_CALCOLO_DIZIONARIO = "Calcolo di un dizionario";
+    public static final String TITOLO_GESTIONE_DIZIONARIO_PARZIALE = "Calcolo di un dizionario parziale";
+    public static final String TITOLO_GESTIONE_DIZIONARIO = "Gestione dizionario";
 
 
     /**
@@ -41,6 +48,35 @@ public class Stringhe {
     public static final String[] OPZIONI_CARICAMENTO_DIZIONARIO = {
             "Carica dizionario da file"
     };
+
+    public static final String[] OPZIONI_SOVRASCRIVI = {
+
+    };
+    public static final String[] OPZIONI_CALCOLO_DIZIONARIO = {
+
+            "Calcola dizionario completo (include calcolo dello Spazio di Rilevanza)",
+            "Calcola dizionario parziale (include calcolo dello Spazio di Rilevanza)",
+            "Calcola da Spazio Rilevanza"
+    };
+
+    public static final String[] OPZIONI_GESTIONE_DIZIONARIO_PARZIALE = {
+            "Calcolo da prefisso",
+            "Calcolo da osservazione"
+    };
+
+    public static final String[]  OPZIONI_GESTIONE_DIZIONARIO = {
+            "Informazioni sullo spazio di rilevanza",
+            "Informazioni sul dizionario",
+            "Ricerca nel dizionario",
+            "Monitoraggio con revisione",
+            "Estendi dizionario",
+            "Salva spazio di rilevanza",
+            "Salva il dizionario"
+
+    };
+
+
+
 
     /**
      *
@@ -72,7 +108,7 @@ public class Stringhe {
 
 
 
-    public static final String FINITO = "Finito";
+
 
 
 
@@ -130,6 +166,7 @@ public class Stringhe {
             "Salva sessione",
             "Carica sessione"
     };
+
 
     /**
      * INUTILITA'

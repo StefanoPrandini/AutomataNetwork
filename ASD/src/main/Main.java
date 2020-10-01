@@ -2,6 +2,7 @@ package main;
 
 import input.GestoreDizionari;
 import input.GestoreFile;
+import input.InputParser;
 import javafx.util.Pair;
 import myLib.InputDati;
 import myLib.MyMenu;
@@ -106,8 +107,11 @@ public class Main {
 			}
 
 			case 2: {//calcola dizionario
-
-				// if c'è gia un dizionario, chiedere se si vuole sovrascrivere --> spazio di rilevanza --> dizionario
+				MyMenu menuCalcolaDizionario = new MyMenu(Stringhe.TITOLO_CALCOLO_DIZIONARIO, Stringhe.OPZIONI_CALCOLO_DIZIONARIO);
+				int sceltaCalcoloDizionario = menuCalcolaDizionario.scegli();
+				while (sceltaCalcoloDizionario != 0){
+					gestisciCalcoloDizionario(sceltaCalcoloDizionario);
+				}
 				break;
 			}
 			case 3:{//carica dizionario
@@ -121,6 +125,7 @@ public class Main {
 						System.out.println(Stringhe.ERRORE_CARICAMENTO);
 					}
 				}
+				gestisciDizionario();
 				break;
 			}
 
@@ -130,6 +135,93 @@ public class Main {
 		}
 
 	}
+
+
+
+	private static void gestisciCalcoloDizionario(int sceltaCalcolo) {
+		switch (sceltaCalcolo){
+			case 0: {//back
+				break;
+			}
+			case 1:{//calcola dizionario completo
+				diz = calcolaDizionario();
+				gestisciDizionario();
+				break;
+			}
+			case 2: {// calcola dizionario parziale
+				MyMenu menuGestioneDizionarioParziale = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO_PARZIALE, Stringhe.OPZIONI_GESTIONE_DIZIONARIO_PARZIALE);
+				int sceltaDizionarioParziale = menuGestioneDizionarioParziale.scegli();
+				while (sceltaDizionarioParziale != 0){
+					gestisciCalcoloDizionarioParziale(sceltaDizionarioParziale);
+					sceltaDizionarioParziale = menuGestioneDizionarioParziale.scegli();
+				}
+				break;
+			}
+			case 3: { //calcola da spazio di rilevanza (da caricare)
+				break;
+			}
+		}
+
+	}
+
+	private static void gestisciCalcoloDizionarioParziale(int scelta) {
+		switch (scelta){
+			case 0: {// exit
+				break;
+			}
+			case 1:{// da prefisso
+				int lettura = InputDati.leggiIntero(Stringhe.LUNGHEZZA_PREFISSO);
+				if (lettura < Stringhe.VALORE_USCITA) break;
+				lunghezzaPrefisso = lettura;
+				diz = calcolaDizionarioParziale(lunghezzaPrefisso);
+				gestisciDizionario();
+				break;
+			}
+			case 2: { // da osservazione
+				String percorsoOss = InputDati.leggiStringa(Stringhe.INSERISCI_PERCORSO_OSSERVAZIONE);
+				if (percorsoOss.equals("" + Stringhe.VALORE_USCITA)) break;
+				GestoreFile gf = new GestoreFile();
+				try{
+					oss = gf.caricaOsservazione(percorsoOss);
+					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO, oss.getNome()));
+				}
+				catch (Exception e){
+					System.out.println(Stringhe.ERRORE_FILEPATH);
+				}
+				diz = calcolaDizionarioParziale(oss);
+				gestisciDizionario();
+				break;
+			}
+		}
+	}
+
+
+
+
+	//nono e decimo, precondizione: il dizionario è stato calcolato
+	private static void gestisciDizionario() {
+		MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
+		int scelta = menuGestioneDizionario.scegli();
+		while (scelta != Stringhe.VALORE_USCITA ){
+			switch (scelta){
+
+			}
+			scelta = menuGestioneDizionario.scegli();
+		}
+	}
+
+	private static Dizionario calcolaDizionarioParziale(int lunghezzaPrefisso) {
+		return null;
+	}
+
+	private static Dizionario calcolaDizionarioParziale(ReteAutomi osservazione) {
+		return null;
+	}
+
+	private static Dizionario calcolaDizionario() {
+		return null;
+	}
+
 
 	private static void gestioneCaricamentoDizionario(int sceltaCaricamentoDizionario) throws Exception{
 		switch (sceltaCaricamentoDizionario){
@@ -172,12 +264,15 @@ public class Main {
 				ra = gf.caricaRete();
 				break;
 			}
-			else System.out.println(Stringhe.ERRORE_FILEPATH);
 		}
-
-
+		System.out.println(Stringhe.ERRORE_FILEPATH);
+		throw new Exception();
 	}
 
+	private static boolean dizionarioGiaPresente(){
+		if (isNull(diz)) return false;
+		return true;
+	}
 
 
 
@@ -196,7 +291,7 @@ public class Main {
 
 	//TODO opzioni aggiungibili:
 	//spazio di rilevanza
-	private static void switcher(int scelta){
+	private static void deprecatedSwitcher(int scelta){
 		String filepath;
 		GestoreFile gf;
 		GestoreDizionari gd;
