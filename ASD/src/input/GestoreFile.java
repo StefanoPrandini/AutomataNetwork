@@ -47,4 +47,6 @@ public class GestoreFile {
     public void setPathDiz(String pathDiz) {
         this.pathDiz = pathDiz;
     }
+
+
 }

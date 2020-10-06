@@ -2,20 +2,16 @@ package main;
 
 import input.GestoreDizionari;
 import input.GestoreFile;
-import input.InputParser;
 import javafx.util.Pair;
 import myLib.InputDati;
 import myLib.MyMenu;
 import myLib.Stringhe;
-import reteAutomi.Dizionario;
-import reteAutomi.ReteAutomi;
-import reteAutomi.SpazioRilevanza;
-import reteAutomi.Terna;
+import reteAutomi.*;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 import static java.util.Objects.isNull;
 import static myLib.InputDati.leggiStringa;
@@ -28,7 +24,7 @@ public class Main {
 	private static SpazioRilevanza sr;
 	private static Dizionario diz;
 	private static ArrayList<String> osservazioneLineare;
-	private static List<Terna> terne;
+	private static Set<Set<String>> decorazione;
 	private static int lunghezzaPrefisso = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
 
 
@@ -57,7 +53,7 @@ public class Main {
 				gf.setPathRete(filepath);
 				try {
 					ra = gf.caricaRete();
-					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO, ra.getNome()));
+					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
 					MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
 					int sceltaGestioneRete = menuGestioneRete.scegli();
 					while (sceltaGestioneRete != 0){
@@ -77,7 +73,7 @@ public class Main {
 					visualizzaSessioniDisponibili();
 					try {
 						gestisciCaricamentoReteAutomi();
-						System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO, ra.getNome()));
+						System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
 						MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
 						int sceltaGestioneRete = menuGestioneRete.scegli();
 						while (sceltaGestioneRete != 0){
@@ -111,6 +107,7 @@ public class Main {
 				int sceltaCalcoloDizionario = menuCalcolaDizionario.scegli();
 				while (sceltaCalcoloDizionario != 0){
 					gestisciCalcoloDizionario(sceltaCalcoloDizionario);
+					sceltaCalcoloDizionario = menuCalcolaDizionario.scegli();
 				}
 				break;
 			}
@@ -125,7 +122,12 @@ public class Main {
 						System.out.println(Stringhe.ERRORE_CARICAMENTO);
 					}
 				}
-				gestisciDizionario();
+				MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
+				int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+				while (sceltaGestioneDizionario != 0){
+					gestisciDizionario(sceltaGestioneDizionario);
+					sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+				}
 				break;
 			}
 
@@ -144,8 +146,13 @@ public class Main {
 				break;
 			}
 			case 1:{//calcola dizionario completo
-				diz = calcolaDizionario();
-				gestisciDizionario();
+				diz = calcolaDizionarioCompleto();
+				MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
+				int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+				while (sceltaGestioneDizionario != 0){
+					gestisciDizionario(sceltaGestioneDizionario);
+					sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+				}
 				break;
 			}
 			case 2: {// calcola dizionario parziale
@@ -158,6 +165,7 @@ public class Main {
 				break;
 			}
 			case 3: { //calcola da spazio di rilevanza (da caricare)
+				System.out.println("WIP"); //TODO
 				break;
 			}
 		}
@@ -174,7 +182,12 @@ public class Main {
 				if (lettura < Stringhe.VALORE_USCITA) break;
 				lunghezzaPrefisso = lettura;
 				diz = calcolaDizionarioParziale(lunghezzaPrefisso);
-				gestisciDizionario();
+				MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
+				int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+				while (sceltaGestioneDizionario != 0){
+					gestisciDizionario(sceltaGestioneDizionario);
+					sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+				}
 				break;
 			}
 			case 2: { // da osservazione
@@ -183,13 +196,19 @@ public class Main {
 				GestoreFile gf = new GestoreFile();
 				try{
 					oss = gf.caricaOsservazione(percorsoOss);
-					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO, oss.getNome()));
+					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, oss.getNome()));
+					diz = calcolaDizionarioParziale(oss);
+					MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
+					int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+					while (sceltaGestioneDizionario != 0){
+						gestisciDizionario(sceltaGestioneDizionario);
+						sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+					}
 				}
 				catch (Exception e){
-					System.out.println(Stringhe.ERRORE_FILEPATH);
+					System.out.println(Stringhe.ERRORE_CARICAMENTO);
 				}
-				diz = calcolaDizionarioParziale(oss);
-				gestisciDizionario();
+
 				break;
 			}
 		}
@@ -199,29 +218,197 @@ public class Main {
 
 
 	//nono e decimo, precondizione: il dizionario è stato calcolato
-	private static void gestisciDizionario() {
-		MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
-		int scelta = menuGestioneDizionario.scegli();
-		while (scelta != Stringhe.VALORE_USCITA ){
-			switch (scelta){
+	private static void gestisciDizionario(int scelta) {
+			switch (scelta) {
+				case 0: { //back
+					System.out.println(scelta);
 
+					break;
+				}
+				case 1: { //info spazio rilevanza
+					MyMenu menuInfoSpazioRilevanza = new MyMenu(Stringhe.TITOLO_INFO_SPAZIO_R, Stringhe.OPZIONI_INFO_SPAZIO_R);
+					int sceltaInfoSpazioR = menuInfoSpazioRilevanza.scegli();
+					while (sceltaInfoSpazioR != 0){
+						gestisciInfoSpazioRilevanza(sceltaInfoSpazioR);
+						sceltaInfoSpazioR = menuInfoSpazioRilevanza.scegli();
+					}
+					break;
+				}
+				case 2: {//info dizionario
+					MyMenu menuInfoDizionario = new MyMenu(Stringhe.TITOLO_INFO_DIZIONARIO, Stringhe.OPZIONI_INFO_DIZIONARIO);
+					int sceltaInfoDiz = menuInfoDizionario.scegli();
+					while (sceltaInfoDiz != 0){
+						gestisciInfoDizionario(sceltaInfoDiz);
+						sceltaInfoDiz = menuInfoDizionario.scegli();
+					}
+					break;
+				}
+				case 3: {//ricerca in dizionario
+					MyMenu menuRicercaDizionario = new MyMenu(Stringhe.TITOLO_RICERCA_DIZIONARIO, Stringhe.OPZIONI_RICERCA_DIZIONARIO);
+					int sceltaRicerca = menuRicercaDizionario.scegli();
+					while (sceltaRicerca != 0){
+						gestisciRicerca(sceltaRicerca);
+						sceltaRicerca = menuRicercaDizionario.scegli();
+					}
+					break;
+				}
+				case 4: {//monitoraggio e revisione
+					MyMenu menuMonitoraggioRevisione = new MyMenu(Stringhe.TITOLO_MONITORAGGIO, Stringhe.OPZIONI_MONITORAGGIO);
+					int sceltaMonitoraggio = menuMonitoraggioRevisione.scegli();
+					while (sceltaMonitoraggio != 0){
+						gestisciMonitoraggio(sceltaMonitoraggio);
+						sceltaMonitoraggio = menuMonitoraggioRevisione.scegli();
+					}
+					break;
+				}
+				case 5: {//estensione
+
+					break;
+				}
+				case 6: {// salva spazio
+
+					break;
+				}
+				case 7: { //salva dizionario
+
+					break;
+				}
 			}
-			scelta = menuGestioneDizionario.scegli();
-		}
 	}
 
+
+
+
 	private static Dizionario calcolaDizionarioParziale(int lunghezzaPrefisso) {
+		//TODO
 		return null;
 	}
 
 	private static Dizionario calcolaDizionarioParziale(ReteAutomi osservazione) {
+		//TODO
 		return null;
 	}
 
-	private static Dizionario calcolaDizionario() {
-		return null;
+	private static Dizionario calcolaDizionarioCompleto() {
+		GestoreDizionari gd = new GestoreDizionari();
+		sr = gd.calcolaSpazioRilevanzaPrefisso(ra, SpazioRilevanza.ESPLORAZIONE_COMPLETA);
+		return gd.calcolaDizionario(sr);
 	}
 
+
+
+	private static void gestisciMonitoraggio(int sceltaMonitoraggio) {
+		switch (sceltaMonitoraggio){
+			case 0:{//back
+				break;
+			}
+			case 1:{ //monitoraggio con oss lineare da tastiera
+
+				if ( isNull(sr)){
+					System.out.println(Stringhe.NESSUNO_SPAZIO_RILEVANZA);
+				}
+				String input= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
+				osservazioneLineare = new ArrayList<>(Arrays.asList(input.split(", ")));
+				GestoreDizionari gd = new GestoreDizionari(null);
+				try {
+					gd.effettuaMonitoraggioRevisione(osservazioneLineare, diz, sr);
+					System.out.println(Stringhe.RISULTATO_MONITORAGGIO);
+					for (Terna terna : diz.getTerne()) {
+						if (diz.getTerne().size() > 1) System.out.println("Terna " + terna);
+					}
+				} catch (Exception e) {
+					if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
+				}
+				break;
+			}
+
+			case 2: {//vedi risultato precedente
+				if ( isNull(diz.getTerne())){
+					System.out.println(Stringhe.NESSUN_RISULTATO);
+				}
+				else {
+					System.out.println(Stringhe.RISULTATO_MONITORAGGIO);
+					for (Terna terna : diz.getTerne()) {
+						if (diz.getTerne().size() > 1) System.out.println("Terna " + terna);
+					}
+				}
+				break;
+			}
+		}
+	}
+
+	private static void gestisciRicerca(int sceltaRicerca) {
+		switch (sceltaRicerca){
+			case 0:{//back
+				break;
+			}
+			case 1:{ //oss lineare da tastiera
+
+				String input= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
+				osservazioneLineare = new ArrayList<>(Arrays.asList(input.split(", ")));
+
+				GestoreDizionari gd = new GestoreDizionari(null);
+				try {
+					decorazione = gd.effettuaRicerca(osservazioneLineare, diz);
+					System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
+
+				} catch (Exception e) {
+					System.out.println(Stringhe.NESSUN_RISULTATO);
+				}
+				break;
+			}
+
+			case 2: {//vedi risultato precedente
+				if ( isNull(decorazione)){
+					System.out.println(Stringhe.NESSUN_RISULTATO);
+				}
+				else System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
+				break;
+			}
+		}
+	}
+
+	private static void gestisciInfoDizionario(int sceltaInfoDiz) {
+		//toString ridenominato, toString per info generiche
+		switch (sceltaInfoDiz){
+			case 0:{//back
+				break;
+			}
+			case 1:{//info generiche
+				System.out.println(diz);
+				break;
+			}
+			case 2:{ //info ridenominazione
+				System.out.println(diz.toStringRidenominato());
+				break;
+			}
+		}
+	}
+
+	private static void gestisciInfoSpazioRilevanza(int sceltaInfoSpazioR) {
+		switch (sceltaInfoSpazioR){
+			case 0: {//back
+				break;
+			}
+			case 1: {//dettagli stati
+				System.out.println(String.format(Stringhe.INFO_SPAZIO_RILEVANZA, ""+sr.getStatiRilevanza().size()));
+				System.out.println(sr);
+			}
+			case 2: {//ridenominazione
+				for (StatoRilevanzaRete statoRilevanzaRete : sr.getStatiRilevanza()) {
+					System.out.println(statoRilevanzaRete + " --> " + statoRilevanzaRete.getRidenominazione());
+				}
+			}
+			case 3:{//mappa spazio
+				System.out.println(Stringhe.INFO_MAPPA_SPAZIO);
+				for(StatoRilevanzaRete stato : sr.getStatiRilevanza()) {
+					for(Pair<Transizione, StatoRilevanzaRete> srd : sr.getMappaStatoRilevanzaTransizioni().get(stato)) {
+						System.out.println(stato.getRidenominazione() + " -> " + srd.getKey().getNome() + " -> " + srd.getValue().getRidenominazione());
+					}
+				}
+			}
+		}
+	}
 
 	private static void gestioneCaricamentoDizionario(int sceltaCaricamentoDizionario) throws Exception{
 		switch (sceltaCaricamentoDizionario){
@@ -478,7 +665,8 @@ public class Main {
 				break;
 			}
 			case 2: {
-				//TODO effettua monitoraggio
+				/**
+
 				if (isNull(osservazioneLineare) || osservazioneLineare.equals("")){
 					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
 				}
@@ -491,7 +679,7 @@ public class Main {
 							System.out.println("Terna " + terna);
 						}
 					}
-				}
+				}**/
 				break;
 			}
 			default: break;

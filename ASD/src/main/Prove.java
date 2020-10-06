@@ -49,19 +49,27 @@ public class Prove {
 		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(ra, distanzaMax);
 
 //		spazioRilevanzaRete.creaSpazioRilevanza();
-// 		System.out.println(spazioRilevanzaRete); 
+// 		System.out.println(spazioRilevanzaRete);
+
+		//INFO MACROSCOPICA
 		System.out.println(spazioRilevanzaRete.getStatiRilevanza().size() + " stati\n");
 		//System.out.println(spazioRilevanzaRete.getTransizioni().size() + " transizioni");
 
 
 		spazioRilevanzaRete.ridenominaStati();
+
+		//DESCRIZIONE DI OGNI STATO
 		System.out.println(spazioRilevanzaRete);
+
+		//DESCRIZIONE RIDENOMINAZIONE
 		for (StatoRilevanzaRete statoRilevanzaRete : spazioRilevanzaRete.getStatiRilevanza()) {
 			System.out.println(statoRilevanzaRete + " --> " + statoRilevanzaRete.getRidenominazione());
 		}
 		
 		//per vedere come prendere stato rilevanza successivo:
 		System.out.println("\n");
+
+		//MAPPA DELLO SPAZIO
 		System.out.println("[(StatoRilevanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:");
 		for(StatoRilevanzaRete sr : spazioRilevanzaRete.getStatiRilevanza()) {
 			for(Pair<Transizione, StatoRilevanzaRete> srd : spazioRilevanzaRete.getMappaStatoRilevanzaTransizioni().get(sr)) {

@@ -11,6 +11,16 @@ public class Stringhe {
     public static final String LUNGHEZZA_PREFISSO = "Inserisci la lunghezza del prefisso (un numero negativo per tornare indietro): ";
     public static final int VALORE_USCITA = 0;
     public final static String INSERISCI_PERCORSO_OSSERVAZIONE = "Inserisci il percorso del file contenente l'osservazione (0 per uscire):\n-->";
+    public final static String INFO_SPAZIO_RILEVANZA = "Lo spazio di rilevanza ha %s stati";
+    public static final String INFO_MAPPA_SPAZIO = "[(StatoRilevanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:";
+    public static final String INSERIMENTO_OSSERVAZIONE = "Inserisci le etichette di un'osservazione lineare separandole con virgole " +
+            "(es: o3, o4, o21):\n-->";
+    public static final String RISULTATO_RICERCA = "Osservazione lineare %s -> %s";
+    public static final String RISULTATO_MONITORAGGIO = "Risultato di monitoraggio e revisione: ";
+    public static final String NESSUN_RISULTATO = "Nessuna corrispondenza trovata";
+    public static final String NESSUNO_SPAZIO_RILEVANZA = "Nessuno spazio di rilevanza rilevato, non è possibile proseguire";
+
+
     /**
      *
      *
@@ -25,6 +35,10 @@ public class Stringhe {
     public static final String TITOLO_CALCOLO_DIZIONARIO = "Calcolo di un dizionario";
     public static final String TITOLO_GESTIONE_DIZIONARIO_PARZIALE = "Calcolo di un dizionario parziale";
     public static final String TITOLO_GESTIONE_DIZIONARIO = "Gestione dizionario";
+    public static final String TITOLO_INFO_SPAZIO_R = "Informazioni spazio di rilevanza";
+    public static final String TITOLO_INFO_DIZIONARIO = "Informazioni dizionario";
+    public static final String TITOLO_RICERCA_DIZIONARIO = "Ricerca nel dizionario";
+    public static final String TITOLO_MONITORAGGIO = "Monitoraggio e revisione";
 
 
     /**
@@ -75,6 +89,29 @@ public class Stringhe {
 
     };
 
+    public static final String[] OPZIONI_INFO_SPAZIO_R = {
+            "Vedi dettagli degli stati",
+            "Vedi ridenominazione",
+            "Vedi mappa dello spazio"
+    };
+
+    public static final String[] OPZIONI_INFO_DIZIONARIO = {
+            "Vedi dettagli degli stati del dizionario",
+            "Vedi ridenominazione del dizionario"
+    };
+
+    public static final String[] OPZIONI_RICERCA_DIZIONARIO = {
+            "Inserisci osservazione lineare",
+            "Vedi risultato precedente"
+    };
+
+    public static final String[] OPZIONI_MONITORAGGIO = {
+            "Effettua monitoraggio e revisione",
+            "Vedi risultato precedente"
+    };
+
+
+
 
 
 
@@ -89,7 +126,8 @@ public class Stringhe {
     public static final String ERRORE_JSON = "Errore JSON";
     public static final String ERRORE_FORMATTAZIONE = "Formattazione JSON errata";
     public static final String ERRORE_FILEPATH = "File non trovato";
-    public static final String CARICAMENTO_RIUSCITO = "Caricamento di %s riuscito";
+    public static final String CARICAMENTO_RIUSCITO = "Caricamento riuscito";
+    public static final String CARICAMENTO_RIUSCITO_CON_NOME = "Caricamento di %s riuscito";
     public static final String NESSUNA_RETE_CARICATA = "Attenzione!\nNon è stata caricata alcuna rete";
     public final static String ERRORE_CARICAMENTO = "Errore nel caricamento";
 
@@ -138,8 +176,7 @@ public class Stringhe {
     };
     public static final String TITOLO_MENU_10 = "Carica/elimina sessioni esistenti";
     public static final String INSERISCI_SESSIONE = "Inserisci il nome del file:\n-->";
-    public static final String INSERIMENTO_OSSERVAZIONE = "Inserisci le etichette di un'osservazione lineare separandole con virgole " +
-                                                            "(es: o3, o4, o21):\n-->";
+
     public static final String NESSUNA_OSSERVAZIONE = "Attenzione! Non è stata caricata alcuna osservazione";
     public static final String OSSERVAZIONE_NON_CORRISPONDE = "L'osservazione inserita non corrisponde a nessuna traiettoria della rete";
     public static final String[] OPZIONI_MENU_PREFISSO = {
