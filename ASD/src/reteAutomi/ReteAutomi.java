@@ -1,5 +1,6 @@
 package reteAutomi;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -9,7 +10,7 @@ import javafx.util.Pair;
 
 import static java.util.Objects.isNull;
 
-public class ReteAutomi {
+public class ReteAutomi implements Serializable {
 	
 	private ArrayList<Automa> automi;
 	private ArrayList<Link> links;

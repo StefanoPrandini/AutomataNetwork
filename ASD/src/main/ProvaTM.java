@@ -1,7 +1,9 @@
 package main;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -16,15 +18,10 @@ public class ProvaTM {
 
     public static void main(String[] args) {
 
-        String lol = "";
-        System.out.println(isNull(lol));
 
-        ArrayList<String> loller = new ArrayList<String>(Arrays.asList(lol.split(", ")));
-
-
-        for (String s : loller) {
-            System.out.println("el: " + s);
-        }
+        Date ora = new Date();
+       SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+       System.out.println(format.format(ora).trim().replace(' ', '_'));
 
         /**
 

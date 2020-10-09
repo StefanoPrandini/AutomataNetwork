@@ -34,7 +34,7 @@ public class EstendiDizionario {
 		dizionario.getStatoIniziale().addIndice(osservazione.getStatoIniziale());
 		
 		statiRilevanza = new LinkedHashSet<>();
-//		non si può usare spazio di rilevanza, tengo gli stati per evitare di ripeterli
+//		non si puo' usare spazio di rilevanza, tengo gli stati per evitare di ripeterli
 		for(StatoDizionario s : dizionario.getStatiDizionario()) {
 			statiRilevanza.addAll(s.getStatiRilevanza());
 		}
@@ -87,7 +87,7 @@ public class EstendiDizionario {
 			}
 		}
 //		stati di rilevanza venivano ridenominati nello spazio di rilevanza, che qua non posso usare
-//		chiamo gli stati nuovi in modo diverso (quelli che erano già presenti hanno gia' il nome) -> anche quando carichero' il dizionario?
+//		chiamo gli stati nuovi in modo diverso (quelli che erano gia' presenti hanno gia' il nome) -> anche quando carichero' il dizionario?
 		String nome = "x";
 		int i = 0;
 		for (StatoRilevanzaRete s : statiRilevanza) {

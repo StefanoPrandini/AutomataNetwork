@@ -8,9 +8,11 @@ import myLib.MyMenu;
 import myLib.Stringhe;
 import reteAutomi.*;
 
-import java.io.File;
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Set;
 
 import static java.util.Objects.isNull;
@@ -20,7 +22,7 @@ import static myLib.InputDati.leggiStringa;
 public class Main {
 
 	private static ReteAutomi ra;
-	private static ReteAutomi oss;
+	private static Automa oss;
 	private static SpazioRilevanza sr;
 	private static Dizionario diz;
 	private static ArrayList<String> osservazioneLineare;
@@ -190,14 +192,14 @@ public class Main {
 				}
 				break;
 			}
-			case 2: { // da osservazione
+			case 2: { // da osservazione TODO
 				String percorsoOss = InputDati.leggiStringa(Stringhe.INSERISCI_PERCORSO_OSSERVAZIONE);
 				if (percorsoOss.equals("" + Stringhe.VALORE_USCITA)) break;
 				GestoreFile gf = new GestoreFile();
 				try{
-					oss = gf.caricaOsservazione(percorsoOss);
+					oss = gf.caricaOsservazione();
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, oss.getNome()));
-					diz = calcolaDizionarioParziale(oss);
+					//diz = calcolaDizionarioParziale(oss);
 					MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
 					int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
 					while (sceltaGestioneDizionario != 0){
@@ -221,8 +223,6 @@ public class Main {
 	private static void gestisciDizionario(int scelta) {
 			switch (scelta) {
 				case 0: { //back
-					System.out.println(scelta);
-
 					break;
 				}
 				case 1: { //info spazio rilevanza
@@ -262,21 +262,97 @@ public class Main {
 					break;
 				}
 				case 5: {//estensione
-
+					MyMenu menuEstensione = new MyMenu(Stringhe.TITOLO_ESTENSIONE, Stringhe.OPZIONI_ESTENSIONE);
+					int sceltaEstensione = menuEstensione.scegli();
+					while (sceltaEstensione != 0){
+						gestisciEstensione(sceltaEstensione);
+						sceltaEstensione = menuEstensione.scegli();
+					}
+					//TODO check con Ste se estensione funziona
 					break;
 				}
 				case 6: {// salva spazio
-
+                    String nome = creaNomeFile() + Stringhe.ESTENSIONE_SPAZIO;
+                    try {
+                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
+                        oos.writeObject(sr);
+						System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+                    }
+                    catch (Exception e){
+                        System.out.println(e.toString());
+                    }
 					break;
 				}
 				case 7: { //salva dizionario
-
+                    String nome = creaNomeFile() + Stringhe.ESTENSIONE_DIZ;
+                    try {
+                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
+                        oos.writeObject(diz);
+						System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+                    }
+                    catch (Exception e){
+                        System.out.println(e.toString());
+                    }
+                    break;
+				}
+				case 8: {// salva rete
+					String nome = creaNomeFile() + Stringhe.ESTENSIONE_RETE;
+					try {
+						ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
+						oos.writeObject(ra);
+						System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+					}
+					catch (Exception e){
+						System.out.println(e.toString());
+					}
 					break;
+				}
+				case 9: { //chiudi elaboratore
+					//TODO sei sicuro ? vuoi salvare tutto prima di uscire? system.exit
 				}
 			}
 	}
 
 
+
+
+
+    private static String creaNomeFile() {
+        Date ora = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return formatter.format(ora).trim().replace(' ', '_');
+    }
+
+	private static void gestisciEstensione(int sceltaEstensione) {
+		switch (sceltaEstensione){
+			case 0:{//back
+				break;
+			}
+			case 1:{//inserisci osservazione
+				String filepath = inputNomeFileJSON();
+				GestoreFile gf = new GestoreFile();
+				gf.setPathOss(filepath);
+				try {
+					oss = gf.caricaOsservazione();
+					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, oss.getNome()));
+					System.out.println(oss.toStringOss());
+					GestoreDizionari gd = new GestoreDizionari();
+					gd.estensioneDizionario(diz, ra, oss);
+					//TODO
+
+				}
+				catch (Exception e){
+					System.out.println(Stringhe.ERRORE_FILEPATH);
+				}
+
+				break;
+			}
+			case 2:{ //tramite osservazione lineare
+				break;
+			}
+
+		}
+	}
 
 
 	private static Dizionario calcolaDizionarioParziale(int lunghezzaPrefisso) {
@@ -295,8 +371,6 @@ public class Main {
 		return gd.calcolaDizionario(sr);
 	}
 
-
-
 	private static void gestisciMonitoraggio(int sceltaMonitoraggio) {
 		switch (sceltaMonitoraggio){
 			case 0:{//back
@@ -312,7 +386,6 @@ public class Main {
 				GestoreDizionari gd = new GestoreDizionari(null);
 				try {
 					gd.effettuaMonitoraggioRevisione(osservazioneLineare, diz, sr);
-					System.out.println(Stringhe.RISULTATO_MONITORAGGIO);
 					for (Terna terna : diz.getTerne()) {
 						if (diz.getTerne().size() > 1) System.out.println("Terna " + terna);
 					}
@@ -327,7 +400,6 @@ public class Main {
 					System.out.println(Stringhe.NESSUN_RISULTATO);
 				}
 				else {
-					System.out.println(Stringhe.RISULTATO_MONITORAGGIO);
 					for (Terna terna : diz.getTerne()) {
 						if (diz.getTerne().size() > 1) System.out.println("Terna " + terna);
 					}
@@ -382,6 +454,16 @@ public class Main {
 				System.out.println(diz.toStringRidenominato());
 				break;
 			}
+			case 3:{ //info I/O
+				System.out.println(Stringhe.INPUT_OUTPUT);
+				for(StatoDizionario s : diz.getMappaDizionario().keySet()) {
+					System.out.println(String.format(Stringhe.INFO_I_O, s.getRidenominazione(), s.getInputToString(), s.getOutputToString()));
+				}
+				System.out.println(Stringhe.COPPIE_INPUT_OUTPUT);
+				for(StatoDizionario s : diz.getMappaDizionario().keySet()) {
+					System.out.println(String.format(Stringhe.INFO_COPPIE_I_O, s.getRidenominazione(), s.getIOtoString()));
+				}
+			}
 		}
 	}
 
@@ -417,7 +499,7 @@ public class Main {
 			}
 			case 1: {// carica dizionario
 				String filepath = leggiStringa(Stringhe.INSERISCI_SESSIONE);
-				File folder = new File(Stringhe.SAVE_FOLDER);
+				File folder = new File(Stringhe.SAVES_PATH);
 				File[] files = folder.listFiles();
 				for (File file : files) {
 					if (file.getName().equals(filepath)){
@@ -433,7 +515,7 @@ public class Main {
 	}
 
 	private static void visualizzaSessioniDisponibili() {
-		File folder = new File(Stringhe.SAVE_FOLDER);
+		File folder = new File(Stringhe.SAVES_PATH);
 		File[] files = folder.listFiles();
 		for (File file : files) {
 			System.out.println(file.getName());
@@ -442,7 +524,7 @@ public class Main {
 
 	private static void gestisciCaricamentoReteAutomi() throws Exception{
 		String filepath = leggiStringa(Stringhe.INSERISCI_SESSIONE);
-		File folder = new File(Stringhe.SAVE_FOLDER);
+		File folder = new File(Stringhe.SAVES_PATH);
 		File[] files = folder.listFiles();
 		for (File file : files) {
 			if (file.getName().equals(filepath)){
@@ -461,6 +543,10 @@ public class Main {
 		return true;
 	}
 
+	private static String inputNomeFileJSON(){
+		String fileJSON = leggiStringa(Stringhe.INSERIRE_PERCORSO_FILE);
+		return fileJSON;
+	}
 
 
 	/**
@@ -607,7 +693,7 @@ public class Main {
 
 	private static void switcherCaricaSessione(int scelta10) {
 		String filepath = leggiStringa(Stringhe.INSERISCI_SESSIONE);
-		File folder = new File(Stringhe.SAVE_FOLDER);
+		File folder = new File(Stringhe.SAVES_PATH);
 		File[] files = folder.listFiles();
 		File sessione = null;
 		boolean flag = false;
@@ -644,7 +730,7 @@ public class Main {
 	}
 
 	private static boolean sessioniDisponibili() {
-		File folder = new File(Stringhe.SAVE_FOLDER);
+		File folder = new File(Stringhe.SAVES_PATH);
 		File[] files = folder.listFiles();
 		boolean flag = false;
 		if (files.length > 0) flag = true;
@@ -714,10 +800,7 @@ public class Main {
 		}
 	}
 
-	private static String inputNomeFileJSON(){
-		String fileJSON = leggiStringa(Stringhe.INSERIRE_PERCORSO_FILE);
-		return fileJSON;
-	}
+
 
 	private static boolean reteAutomiCaricata(){
 		return !isNull(ra);

@@ -1,6 +1,8 @@
 package reteAutomi;
 
-public class Indice {
+import java.io.Serializable;
+
+public class Indice implements Serializable {
 	
 	private Stato stato;
 	private boolean marked;

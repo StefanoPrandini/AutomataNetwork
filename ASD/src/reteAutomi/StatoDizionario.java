@@ -1,5 +1,6 @@
 package reteAutomi;
 
+import java.io.Serializable;
 import java.util.*;
 import javafx.util.Pair;
 
@@ -8,7 +9,7 @@ import javafx.util.Pair;
  * Il DFA si ottiene dalla determinazione tramite Subset Construction del NFA
  *
  */
-public class StatoDizionario {
+public class StatoDizionario implements Serializable {
 	private Set<StatoRilevanzaRete> statiRilevanza;
 	private String ridenominazione;
 	private Set<Set<String>> diagnosi; // insieme delle decorazioni di rilevanza degli statiRilevanza contenuti

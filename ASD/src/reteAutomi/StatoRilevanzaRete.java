@@ -1,11 +1,13 @@
 package reteAutomi;
 
 import javafx.util.Pair;
+
+import java.io.Serializable;
 import java.util.*;
 
 import static java.util.Objects.isNull;
 
-public class StatoRilevanzaRete {
+public class StatoRilevanzaRete implements Serializable {
 
     // <nomeLink, Evento>
     private List<Pair<String, Evento>> contenutoLinks;

@@ -1,9 +1,10 @@
 package reteAutomi;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 import static java.util.Objects.isNull;
 
-public class Link {
+public class Link implements Serializable {
 	private static AtomicInteger ai = new AtomicInteger(0);
 	private int id;
 	private String nome;

@@ -3,7 +3,8 @@ package myLib;
 import java.io.File;
 
 public class Stringhe {
-    public static final String SAVE_FOLDER = "ASD/sessioni";
+    public static final String SAVES_PATH = "ASD/sessioni";
+    public static final String SAVE_FOLDER = "ASD/sessioni/";
     public final static String INSERIRE_PERCORSO_FILE = "Inserisci il percorso del file:\n-->";
     public static final String COSTRUZIONE_S_R = "Costruzione spazio rilevanza";
     public static final String COSTRUZIONE_DIZIONARIO = "Costruzione dizionario";
@@ -16,9 +17,17 @@ public class Stringhe {
     public static final String INSERIMENTO_OSSERVAZIONE = "Inserisci le etichette di un'osservazione lineare separandole con virgole " +
             "(es: o3, o4, o21):\n-->";
     public static final String RISULTATO_RICERCA = "Osservazione lineare %s -> %s";
-    public static final String RISULTATO_MONITORAGGIO = "Risultato di monitoraggio e revisione: ";
     public static final String NESSUN_RISULTATO = "Nessuna corrispondenza trovata";
     public static final String NESSUNO_SPAZIO_RILEVANZA = "Nessuno spazio di rilevanza rilevato, non è possibile proseguire";
+    public static final String INFO_I_O = "Stato %s -> Input: %s, Output: %s";
+    public static final String INFO_COPPIE_I_O = "Stato %s -> coppie I/O: %s";
+
+
+    public static final String ESTENSIONE_SPAZIO = ".spazio.ser";
+    public static final String ESTENSIONE_DIZ = ".diz.ser";
+    public static final String ESTENSIONE_RETE = ".rete.ser";
+    public static final String SALVATAGGIO_OK = "E' stato creato il file %s";
+    public static final String ERRORE_SALVATAGGIO = "C'è stato un problema nel salvataggio";
 
 
     /**
@@ -39,6 +48,10 @@ public class Stringhe {
     public static final String TITOLO_INFO_DIZIONARIO = "Informazioni dizionario";
     public static final String TITOLO_RICERCA_DIZIONARIO = "Ricerca nel dizionario";
     public static final String TITOLO_MONITORAGGIO = "Monitoraggio e revisione";
+    public static final String TITOLO_ESTENSIONE = "Estensione dinamica del dizionario";
+    public static final String INPUT_OUTPUT = "Input e Output:";
+    public static final String COPPIE_INPUT_OUTPUT = "Coppie I/O:";
+
 
 
     /**
@@ -85,8 +98,8 @@ public class Stringhe {
             "Monitoraggio con revisione",
             "Estendi dizionario",
             "Salva spazio di rilevanza",
-            "Salva il dizionario"
-
+            "Salva il dizionario",
+            "Salva rete di automi"
     };
 
     public static final String[] OPZIONI_INFO_SPAZIO_R = {
@@ -97,7 +110,8 @@ public class Stringhe {
 
     public static final String[] OPZIONI_INFO_DIZIONARIO = {
             "Vedi dettagli degli stati del dizionario",
-            "Vedi ridenominazione del dizionario"
+            "Vedi ridenominazione del dizionario",
+            "Vedi informazioni su I/O"
     };
 
     public static final String[] OPZIONI_RICERCA_DIZIONARIO = {
@@ -108,6 +122,11 @@ public class Stringhe {
     public static final String[] OPZIONI_MONITORAGGIO = {
             "Effettua monitoraggio e revisione",
             "Vedi risultato precedente"
+    };
+
+    public static final String[] OPZIONI_ESTENSIONE = {
+            "Espansione tramite un'osservazione",
+            "Espansione tramite un'osservazione lineare"
     };
 
 
@@ -203,6 +222,7 @@ public class Stringhe {
             "Salva sessione",
             "Carica sessione"
     };
+
 
 
     /**

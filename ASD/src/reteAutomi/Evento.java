@@ -1,8 +1,9 @@
 package reteAutomi;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Evento {
+public class Evento implements Serializable {
 
 	private static AtomicInteger ai = new AtomicInteger(0);
 	private int id;

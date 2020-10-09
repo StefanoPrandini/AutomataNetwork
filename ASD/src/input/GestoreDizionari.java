@@ -23,6 +23,13 @@ public class GestoreDizionari {
     }
 
 
+    public Dizionario estensioneDizionario(Dizionario diz, ReteAutomi ra, Automa oss){
+        EstendiDizionario ed = new EstendiDizionario(diz, ra, oss);
+        diz = ed.estendi();
+        System.out.println(ed.buonFine());
+        diz.ridenominaStati();
+        return diz;
+    }
 
     public Set<Set<String>> effettuaRicerca(ArrayList<String> osservazioneLineare, Dizionario dizionario) throws Exception{
         return dizionario.ricerca(osservazioneLineare);

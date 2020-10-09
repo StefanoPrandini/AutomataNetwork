@@ -1,5 +1,6 @@
 package reteAutomi;
 
+import java.io.Serializable;
 import java.util.*;
 import javafx.util.Pair;
 import static java.util.Objects.isNull;
@@ -12,7 +13,7 @@ import java.io.IOException;
  * dalla loro diagnosi (insieme di tutte le decorazioni degli stati del NFA contenuti nello stato del DFA)
  *
  */
-public class Dizionario {
+public class Dizionario implements Serializable {
 	//tengo un insieme di tutti gli stati di rilevanza della rete determinizzata per evitare di riferirmi a stati uguali che sono oggetti diversi
 	private Set<StatoDizionario> statiDizionario;
 	//mappo stati Rilevanza del DFA con coppie<etichettaO, statoArrivo>

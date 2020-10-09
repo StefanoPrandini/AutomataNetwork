@@ -1,6 +1,8 @@
 package reteAutomi;
 
 import javafx.util.Pair;
+
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 import static java.util.Objects.isNull;
@@ -9,7 +11,7 @@ import static java.util.Objects.isNull;
  * Spazio di rilevanza e' un automa -> grafo: StatiRilevanza sono i vertici e transizioni sono gli archi
  * ha due costruttori: uno per costruire spazio completo o prefisso con distanza, uno per costruire lo spazio partendo da una osservazione
  */
-public class SpazioRilevanza {	
+public class SpazioRilevanza implements Serializable {
 	public static final int ESPLORAZIONE_COMPLETA = -1;
 
 	//tengo un insieme di tutti gli stati di rilevanza per evitare di riferirmi a stati uguali che sono oggetti diversi

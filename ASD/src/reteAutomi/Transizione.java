@@ -1,10 +1,11 @@
 package reteAutomi;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import static java.util.Objects.isNull;
 
-public class Transizione {
+public class Transizione implements Serializable {
 
 	private static AtomicInteger ai = new AtomicInteger(0);
 	private int id;

@@ -1,9 +1,10 @@
 package reteAutomi;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
-public class Terna {
+public class Terna implements Serializable {
 
     private Set<StatoRilevanzaRete> insiemeI;
     private StatoDizionario statoDizionario;
