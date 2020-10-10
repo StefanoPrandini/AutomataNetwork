@@ -16,9 +16,8 @@ public class GestoreFile {
 
     public ReteAutomi caricaRete() throws Exception{
         InputParser ip = new InputParser(pathRete);
-        ReteAutomi ra = null;
         System.out.println("Carico " + pathRete);
-        ra = ip.parseRete();
+        ReteAutomi ra = ip.parseRete();
         return ra;
     }
 

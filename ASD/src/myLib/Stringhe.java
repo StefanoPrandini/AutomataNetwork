@@ -21,6 +21,9 @@ public class Stringhe {
     public static final String NESSUNO_SPAZIO_RILEVANZA = "Nessuno spazio di rilevanza rilevato, non è possibile proseguire";
     public static final String INFO_I_O = "Stato %s -> Input: %s, Output: %s";
     public static final String INFO_COPPIE_I_O = "Stato %s -> coppie I/O: %s";
+    public static final String VUOI_USCIRE = "Vuoi terminare il programma? y/n\n-->";
+    public static final String NON_VALIDA = "La risposta inserita non è valida, vuoi terminare il programma? y/n\n-->";
+
 
 
     public static final String ESTENSIONE_SPAZIO = ".spazio.ser";
@@ -99,7 +102,8 @@ public class Stringhe {
             "Estendi dizionario",
             "Salva spazio di rilevanza",
             "Salva il dizionario",
-            "Salva rete di automi"
+            "Salva rete di automi",
+            "Chiudi elaboratore"
     };
 
     public static final String[] OPZIONI_INFO_SPAZIO_R = {
@@ -126,8 +130,18 @@ public class Stringhe {
 
     public static final String[] OPZIONI_ESTENSIONE = {
             "Espansione tramite un'osservazione",
-            "Espansione tramite un'osservazione lineare"
     };
+
+    public static final String[] RISPOSTE_VALIDE = {
+            "si",
+            "sì",
+            "s",
+            "yes",
+            "y",
+            "no",
+            "n"
+    };
+
 
 
 
@@ -222,7 +236,6 @@ public class Stringhe {
             "Salva sessione",
             "Carica sessione"
     };
-
 
 
     /**
