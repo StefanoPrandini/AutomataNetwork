@@ -13,19 +13,25 @@ import java.io.IOException;
  * dalla loro diagnosi (insieme di tutte le decorazioni degli stati del NFA contenuti nello stato del DFA)
  *
  */
-public class Dizionario implements Serializable {
+public class Dizionario extends Algoritmo implements Serializable {
 	//tengo un insieme di tutti gli stati di rilevanza della rete determinizzata per evitare di riferirmi a stati uguali che sono oggetti diversi
 	private Set<StatoDizionario> statiDizionario;
 	//mappo stati Rilevanza del DFA con coppie<etichettaO, statoArrivo>
 	private Map<StatoDizionario, Set<Pair<String, StatoDizionario>>> mappaDizionario;
 	private StatoDizionario statoIniziale;
 	private LinkedList<Terna> terne;
+	private Input inputEsterno;
 	
-	public Dizionario(SpazioRilevanza spazioRilevanza) {
+	public Dizionario(Input inputEsterno) {
 		this.statiDizionario = new LinkedHashSet<>(); // insieme con elementi in ordine di inserimento
 		this.mappaDizionario = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
 		this.terne = new LinkedList<>(); //insieme di terne in ordine di inserimento
-		determinizzazioneSpazio(spazioRilevanza);
+		this.inputEsterno = inputEsterno;
+	}
+
+	@Override
+	public void run() {
+		determinizzazioneSpazio(inputEsterno.getSpazioRilevanza());
 	}
 
 	// Lo spazio di rilevanza etichettato e' un NFA (Automa a stati Finiti Nondeterministico) nell'alfabeto Omega (etichette di osservabilita').
@@ -48,7 +54,7 @@ public class Dizionario implements Serializable {
 		this.statoIniziale = statoIniziale;
 		coda.add(statoIniziale);
 		
-		while(!coda.isEmpty()) {
+		while(!coda.isEmpty() && ! isInInterruzione()) {
 			StatoDizionario stato = coda.remove();
 			statiDizionario.add(stato);
 			// mappo le etichette di osservabilita' delle transizioni con gli stati di destinazione di tali transizioni (servono per calcolare eps-closure)
@@ -118,7 +124,7 @@ public class Dizionario implements Serializable {
 		//metto gli stati passati in una coda: dovro' aggiungere stati da verificare
 		Queue<StatoRilevanzaRete>codaStati = new LinkedList<>(stati);
 
-		while(!codaStati.isEmpty()) {
+		while(!codaStati.isEmpty() && ! isInInterruzione()) {
 			StatoRilevanzaRete s = codaStati.remove();
 			for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
 				// se l'etichetta della transizione uscente e' eps (null)
@@ -192,7 +198,7 @@ public class Dizionario implements Serializable {
 					break;
 				}
 			}
-			if(!found) {
+			if(!found || isInInterruzione()) {
 				throw new Exception("L'osservazione lineare " + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
 			}
 		}

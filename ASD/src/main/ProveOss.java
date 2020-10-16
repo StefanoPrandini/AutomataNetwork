@@ -63,7 +63,9 @@ public class ProveOss {
 		System.out.println(osservazione.toStringOss());
 		
 //		-----------------------------------------------------------------------------------------------------------------------------------------
-		
+
+
+		/**
 		System.out.println("\nSPAZIO RILEVANZA DA OSSERVAZIONE:");
 		SpazioRilevanza spazioRilevanzaDaOss = new SpazioRilevanza(ra, osservazione);
 
@@ -212,6 +214,7 @@ public class ProveOss {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
+		 **/
 	}
+
 }

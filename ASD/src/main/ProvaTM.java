@@ -11,7 +11,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static java.util.Objects.isNull;
+class Threaddino implements Runnable{
+    @Override
+    public void run() {
 
+    }
+
+
+}
 
 public class ProvaTM {
 

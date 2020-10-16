@@ -5,6 +5,10 @@ import reteAutomi.Automa;
 import reteAutomi.Dizionario;
 import reteAutomi.ReteAutomi;
 
+import java.io.FileNotFoundException;
+
+import static java.util.Objects.isNull;
+
 public class GestoreFile {
 
     private String pathRete;
@@ -16,7 +20,6 @@ public class GestoreFile {
 
     public ReteAutomi caricaRete() throws Exception{
         InputParser ip = new InputParser(pathRete);
-        System.out.println("Carico " + pathRete);
         ReteAutomi ra = ip.parseRete();
         return ra;
     }

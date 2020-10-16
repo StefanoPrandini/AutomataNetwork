@@ -59,6 +59,10 @@ public class Main {
 					}
 
 				}
+				catch (NullPointerException npe){
+					System.out.println(npe);
+					System.out.println("linea 64");
+				}
 				catch (Exception e){
 					System.out.println(Stringhe.ERRORE_FILEPATH);
 				}
@@ -362,20 +366,33 @@ public class Main {
 
 	private static Dizionario calcolaDizionarioParzialeDaPrefisso() {
 		GestoreDizionari gd = new GestoreDizionari();
-		sr = gd.calcolaSpazioRilevanzaPrefisso(ra, lunghezzaPrefisso);
-		return gd.calcolaDizionario(sr);
+		Input input = new Input();
+		input.setRete(ra);
+		input.setDistanzaMax(lunghezzaPrefisso);
+		sr = gd.calcolaSpazioRilevanza(input);
+		input.setSr(sr);
+		return gd.calcolaDizionario(input);
 	}
 
 	private static Dizionario calcolaDizionarioParzialeDaOsservazione() {
 		GestoreDizionari gd = new GestoreDizionari();
-		sr = gd.calcolaSpazioRilevanzaOss(ra, oss);
-		return gd.calcolaDizionario(sr);
+		Input input = new Input();
+		input.setOsservazione(oss);
+		input.setDaOsservazione(true);
+		sr = gd.calcolaSpazioRilevanza(input);
+		input.setSr(sr);
+		return gd.calcolaDizionario(input);
 	}
 
 	private static Dizionario calcolaDizionarioCompleto() {
 		GestoreDizionari gd = new GestoreDizionari();
-		sr = gd.calcolaSpazioRilevanzaPrefisso(ra, SpazioRilevanza.ESPLORAZIONE_COMPLETA);
-		return gd.calcolaDizionario(sr);
+		Input input = new Input();
+		input.setRete(ra);
+		input.setDistanzaMax(SpazioRilevanza.ESPLORAZIONE_COMPLETA);
+
+		sr = gd.calcolaSpazioRilevanza(input);
+		input.setSr(sr);
+		return gd.calcolaDizionario(input);
 	}
 
 	private static void gestisciMonitoraggio(int sceltaMonitoraggio) {
@@ -543,11 +560,6 @@ public class Main {
 		}
 		System.out.println(Stringhe.ERRORE_FILEPATH);
 		throw new Exception();
-	}
-
-	private static boolean dizionarioGiaPresente(){
-		if (isNull(diz)) return false;
-		return true;
 	}
 
 	private static String inputNomeFileJSON(){

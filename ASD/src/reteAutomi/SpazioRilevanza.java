@@ -11,37 +11,37 @@ import static java.util.Objects.isNull;
  * Spazio di rilevanza e' un automa -> grafo: StatiRilevanza sono i vertici e transizioni sono gli archi
  * ha due costruttori: uno per costruire spazio completo o prefisso con distanza, uno per costruire lo spazio partendo da una osservazione
  */
-public class SpazioRilevanza implements Serializable {
+public class SpazioRilevanza extends Algoritmo implements Serializable  {
 	public static final int ESPLORAZIONE_COMPLETA = -1;
+	private Input input;
 
 	//tengo un insieme di tutti gli stati di rilevanza per evitare di riferirmi a stati uguali che sono oggetti diversi
 	private Set<StatoRilevanzaRete> statiRilevanza;
 	// ogni stato di rilevanza della rete viene mappato con tutte le coppie <transizioneUscente, statoRilevanzaSuccessivo>
 	private Map<StatoRilevanzaRete, List<Pair<Transizione, StatoRilevanzaRete>>> mappaStatoRilevanzaTransizioni;
 	private StatoRilevanzaRete statoRilevanzaIniziale;
-	private int distanzaMax;
+
+
 	
 	/**
 	 * se costruttore chiamato con distanzaMax e senza osservazione, lo spazio non deve essere creato a partire da un'osservazione
- 	 * @param distanzaMax distanza massima a cui arrivare nella ricerca, -1 per ricerca completa
+ 	 * @param input
 	 */
-	public SpazioRilevanza(ReteAutomi rete, int distanzaMax) {
+	public SpazioRilevanza(Input input) {
 		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
 		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
-		this.distanzaMax = distanzaMax;
-		creaSpazioRilevanza(rete);
+		this.input = input;
 	}
-	
 
-	/**
-	 * se costruttore chiamato con osservazione, non si fissa una distanzaMax
-	 * @param osservazione l'osservazione da cui costruire lo spazio di rilevanza
-	 */
-	public SpazioRilevanza(ReteAutomi rete, Automa osservazione) {
-		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
-		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
-		this.distanzaMax = ESPLORAZIONE_COMPLETA;
-		creaSpazioRilevanzaDaOsservazione(rete, osservazione);
+	@Override
+	public void run(){
+		if (input.isDaOsservazione()){
+			creaSpazioRilevanzaDaOsservazione(input.getRete(), input.getOsservazione());
+
+		}
+		else {
+			creaSpazioRilevanza(input.getRete());
+		}
 	}
 	
 
@@ -56,7 +56,7 @@ public class SpazioRilevanza implements Serializable {
 		this.statoRilevanzaIniziale = statoIniziale;
 		coda.add(statoIniziale);
 		
-		while(!coda.isEmpty()) {
+		while(!coda.isEmpty() && ! isInInterruzione()) {
 			StatoRilevanzaRete statoRilevanza = coda.remove();	
 			// faccio andare la rete nella condizione descritta dallo statoRilevanza appena estratto, cosi' poi posso usare i metodi di ReteAutomi 
 			// per cercare le transizioni abilitate e gli stati successivi
@@ -65,6 +65,7 @@ public class SpazioRilevanza implements Serializable {
 			ArrayList<Pair<Transizione, StatoRilevanzaRete>> listaAdiacenza = new ArrayList<>();
 			
 			for(Transizione t : transizioniAbilitate) {
+				if (isInInterruzione()) break;
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
 				rete.setReteAutomi(statoRilevanza.getStatiCorrentiAutoma(), statoRilevanza.getContenutoLinks());
 				int distanza = statoRilevanza.getDistanza();
@@ -75,7 +76,7 @@ public class SpazioRilevanza implements Serializable {
 
 				listaAdiacenza.add(new Pair<Transizione, StatoRilevanzaRete>(t, nuovoStatoRilevanza));
 				// se ricerca completa o distanza "attuale" e' <= del max andiamo avanti
-				if (distanzaMax == ESPLORAZIONE_COMPLETA  || distanza <= distanzaMax){
+				if (input.getDistanzaMax() == ESPLORAZIONE_COMPLETA  || distanza <= input.getDistanzaMax()){
 					// se c'e' gia' nella mappa non lo aggiungo alla coda -> fare equals a statoRilevanza
 					if(!mappaStatoRilevanzaTransizioni.containsKey(nuovoStatoRilevanza)) {
 						nuovoStatoRilevanza.setDistanza(distanza);
@@ -97,8 +98,18 @@ public class SpazioRilevanza implements Serializable {
 					}
 				}
 			}
+			try {
+				Thread.sleep(100);
+
+
+			}catch (InterruptedException ie){
+				ie.printStackTrace();
+			}
 			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, listaAdiacenza);
 		}
+
+			System.out.println("\nCalcolo spazio rilevanza completo, inserisci 'ok' per proseguire: ");
+
 	}
 
 
@@ -112,7 +123,7 @@ public class SpazioRilevanza implements Serializable {
 	}
 
 	public boolean distanzaMaxRaggiunta(){
-		if (this.getDistanzaMax() < distanzaMax )
+		if (this.getDistanzaMax() < input.getDistanzaMax() )
 			return true;
 		return false;
 	}
@@ -318,10 +329,8 @@ public class SpazioRilevanza implements Serializable {
 	}*/
 
 	public int getDistanzaMax() {
-		return distanzaMax;
+		return input.getDistanzaMax();
 	}
 
-	public void setDistanzaMax(int distanzaMax) {
-		this.distanzaMax = distanzaMax;
-	}
+
 }

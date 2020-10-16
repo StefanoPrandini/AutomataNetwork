@@ -156,13 +156,13 @@ public class Stringhe {
      */
 
 
-    public static final String ERRORE_JSON = "Errore JSON";
-    public static final String ERRORE_FORMATTAZIONE = "Formattazione JSON errata";
-    public static final String ERRORE_FILEPATH = "File non trovato";
-    public static final String CARICAMENTO_RIUSCITO = "Caricamento riuscito";
-    public static final String CARICAMENTO_RIUSCITO_CON_NOME = "Caricamento di %s riuscito";
-    public static final String NESSUNA_RETE_CARICATA = "Attenzione!\nNon è stata caricata alcuna rete";
-    public final static String ERRORE_CARICAMENTO = "Errore nel caricamento";
+    public static final String ERRORE_JSON = "\nErrore JSON";
+    public static final String ERRORE_FORMATTAZIONE = "\nFormattazione JSON errata";
+    public static final String ERRORE_FILEPATH = "\nFile non trovato";
+    public static final String CARICAMENTO_RIUSCITO = "\nCaricamento riuscito";
+    public static final String CARICAMENTO_RIUSCITO_CON_NOME = "\nCaricamento di %s riuscito";
+    public static final String NESSUNA_RETE_CARICATA = "\nAttenzione!\nNon è stata caricata alcuna rete";
+    public final static String ERRORE_CARICAMENTO = "\nErrore nel caricamento";
 
 
 

@@ -1,23 +1,15 @@
 package input;
 
-import javafx.util.Pair;
-import myLib.Stringhe;
+import myLib.InputDati;
 import reteAutomi.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 public class GestoreDizionari {
 
-
-
-
-    public GestoreDizionari() {
-    }
-
+    private Algoritmo algoritmo;
 
     public Dizionario estensioneDizionario(Dizionario diz, ReteAutomi ra, Automa oss){
         EstendiDizionario ed = new EstendiDizionario(diz, ra, oss);
@@ -35,12 +27,22 @@ public class GestoreDizionari {
         dizionario.monitoraggio(osservazioneLineare, sr);
     }
 
-    public SpazioRilevanza calcolaSpazioRilevanzaPrefisso(ReteAutomi ra, int distanza) {
-        return ridenominaSpazio(new SpazioRilevanza(ra, distanza));
-    }
-
-    public SpazioRilevanza calcolaSpazioRilevanzaOss(ReteAutomi ra, Automa oss) {
-        return ridenominaSpazio(new SpazioRilevanza(ra, oss));
+    public SpazioRilevanza calcolaSpazioRilevanza(Input input) {
+        algoritmo = new SpazioRilevanza(input);
+        Thread thread = new Thread(algoritmo);
+        thread.start();
+        String stop = InputDati.leggiStringa("Calcolo spazio rilevanza in corso, inserisci 'stop' per fermare: ");
+        while (! stop.equalsIgnoreCase("stop") && thread.isAlive() && !algoritmo.isInInterruzione()){
+            if (stop.equalsIgnoreCase("stop")){
+                interrompiAlgoritmo();
+                thread.interrupt();
+            }
+            else if (stop.equalsIgnoreCase("ok")){
+                break;
+            }
+            stop = InputDati.leggiStringa("Calcolo spazio rilevanza in corso, inserisci 'stop' per fermare: ");
+        }
+        return ridenominaSpazio((SpazioRilevanza)algoritmo);
     }
 
     public SpazioRilevanza ridenominaSpazio(SpazioRilevanza sr){
@@ -48,8 +50,10 @@ public class GestoreDizionari {
         return sr;
     }
 
-    public Dizionario calcolaDizionario(SpazioRilevanza sr) {
-        return ridenominaDizionario(new Dizionario(sr));
+    public Dizionario calcolaDizionario(Input input) {
+        Dizionario diz = new Dizionario(input);
+        diz.run();
+        return ridenominaDizionario(diz);
     }
 
     public Dizionario ridenominaDizionario(Dizionario diz){
@@ -57,4 +61,8 @@ public class GestoreDizionari {
         return diz;
     }
 
+
+    public void interrompiAlgoritmo(){
+        this.algoritmo.stop();
+    }
 }

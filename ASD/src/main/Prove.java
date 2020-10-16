@@ -44,9 +44,19 @@ public class Prove {
 
 		//parametro per creazione sottospazi
 		//un sottospazio di fatto crea il prefisso del dizionario
-		int distanzaMax = 5; // SpazioRilevanza.ESPLORAZIONE_COMPLETA;
+		int distanzaMax = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
+		Input input = new Input();
+		input.setRete(ra);
+		input.setDistanzaMax(distanzaMax);
 
-		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(ra, distanzaMax);
+		SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(input);
+		Thread threadRilevanza = new Thread(spazioRilevanzaRete);
+		threadRilevanza.start();
+		System.out.println(spazioRilevanzaRete);
+
+
+		/**
+		 * inizio prova
 
 //		spazioRilevanzaRete.creaSpazioRilevanza();
 // 		System.out.println(spazioRilevanzaRete);
@@ -184,6 +194,12 @@ public class Prove {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
+
+
+
+		 fine prova
+		 **/
 	}
+
+
 }
