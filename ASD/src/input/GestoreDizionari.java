@@ -1,6 +1,7 @@
 package input;
 
 import myLib.InputDati;
+import myLib.Stringhe;
 import reteAutomi.*;
 
 import java.io.IOException;
@@ -27,33 +28,43 @@ public class GestoreDizionari {
         dizionario.monitoraggio(osservazioneLineare, sr);
     }
 
+
+
     public SpazioRilevanza calcolaSpazioRilevanza(Input input) {
         algoritmo = new SpazioRilevanza(input);
         Thread thread = new Thread(algoritmo);
         thread.start();
-        String stop = InputDati.leggiStringa("Calcolo spazio rilevanza in corso, inserisci 'stop' per fermare: ");
-        while (! stop.equalsIgnoreCase("stop") && thread.isAlive() && !algoritmo.isInInterruzione()){
-            if (stop.equalsIgnoreCase("stop")){
+        String stop = InputDati.leggiStringa(Stringhe.CALCOLO_SPAZIO + String.format(Stringhe.INSERISCI_STOP, Stringhe.STOP));
+        while (! stop.equalsIgnoreCase(Stringhe.STOP) && thread.isAlive() && !algoritmo.isInInterruzione()){
+            if (stop.equalsIgnoreCase(Stringhe.STOP)){
                 interrompiAlgoritmo();
                 thread.interrupt();
             }
-            else if (stop.equalsIgnoreCase("ok")){
+            else if (stop.equalsIgnoreCase(Stringhe.OK)){
                 break;
             }
-            stop = InputDati.leggiStringa("Calcolo spazio rilevanza in corso, inserisci 'stop' per fermare: ");
+            stop = InputDati.leggiStringa(Stringhe.CALCOLO_SPAZIO + String.format(Stringhe.INSERISCI_STOP, Stringhe.STOP));
         }
         return ridenominaSpazio((SpazioRilevanza)algoritmo);
     }
 
-    public SpazioRilevanza ridenominaSpazio(SpazioRilevanza sr){
-        sr.ridenominaStati();
-        return sr;
-    }
-
     public Dizionario calcolaDizionario(Input input) {
-        Dizionario diz = new Dizionario(input);
-        diz.run();
-        return ridenominaDizionario(diz);
+
+        algoritmo = new Dizionario(input);
+        Thread thread = new Thread(algoritmo);
+        thread.start();
+        String stop = InputDati.leggiStringa(Stringhe.CALCOLO_DIZIONARIO + String.format(Stringhe.INSERISCI_STOP, Stringhe.STOP));
+        while (! stop.equalsIgnoreCase(Stringhe.STOP) && thread.isAlive() && !algoritmo.isInInterruzione()){
+            if (stop.equalsIgnoreCase(Stringhe.STOP)){
+                interrompiAlgoritmo();
+                thread.interrupt();
+            }
+            else if (stop.equalsIgnoreCase(Stringhe.OK)){
+                break;
+            }
+            stop = InputDati.leggiStringa(Stringhe.CALCOLO_DIZIONARIO + String.format(Stringhe.INSERISCI_STOP, Stringhe.STOP));
+        }
+        return ridenominaDizionario((Dizionario) algoritmo);
     }
 
     public Dizionario ridenominaDizionario(Dizionario diz){
@@ -61,6 +72,10 @@ public class GestoreDizionari {
         return diz;
     }
 
+    public SpazioRilevanza ridenominaSpazio(SpazioRilevanza sr){
+        sr.ridenominaStati();
+        return sr;
+    }
 
     public void interrompiAlgoritmo(){
         this.algoritmo.stop();

@@ -3,12 +3,12 @@ package myLib;
 import java.io.File;
 
 public class Stringhe {
+    public static final String FILE_BASE_IN_CARTELLA = "I file JSON delle reti di esempio sono: ";
+    public static final String EXAMPLE_PATH = "ASD/JSON";
     public static final String SAVES_PATH = "ASD/sessioni";
     public static final String SAVE_FOLDER = "ASD/sessioni/";
     public final static String INSERIRE_PERCORSO_FILE = "Inserisci il percorso del file:\n-->";
-    public static final String COSTRUZIONE_S_R = "Costruzione spazio rilevanza";
-    public static final String COSTRUZIONE_DIZIONARIO = "Costruzione dizionario";
-    public static final String FINITO = "Finito";
+    public static final String INSERISCI_SESSIONE = "Inserisci il nome del file:\n-->";
     public static final String LUNGHEZZA_PREFISSO = "Inserisci la lunghezza del prefisso (un numero negativo per tornare indietro): ";
     public static final int VALORE_USCITA = 0;
     public final static String INSERISCI_PERCORSO_OSSERVAZIONE = "Inserisci il percorso del file contenente l'osservazione (0 per uscire):\n-->";
@@ -23,12 +23,23 @@ public class Stringhe {
     public static final String INFO_COPPIE_I_O = "Stato %s -> coppie I/O: %s";
     public static final String VUOI_USCIRE = "Vuoi terminare il programma? y/n\n-->";
     public static final String NON_VALIDA = "La risposta inserita non è valida, vuoi terminare il programma? y/n\n-->";
+    public static final String CALCOLO_SPAZIO = "Calcolo dello spazio di rilevanza in corso\n";
+    public static final String CALCOLO_SPAZIO_COMPLETO = "\nCalcolo completato, inserisci 'ok' per proseguire: ";
+    public static final String CALCOLO_DIZIONARIO = "Costruzione del dizionario in corso\n";
+    public static final String COSTRUZIONE_DIZIONARIO_COMPLETA = "\nCostruzione completa, inserisci 'ok' per proseguire: ";
+    public static final String INSERISCI_STOP = "Inserisci %s per interrompere: ";
+    public static final String STOP = "stop";
+    public static final String OK = "ok";
+
+
 
 
 
     public static final String ESTENSIONE_SPAZIO = ".spazio.ser";
     public static final String ESTENSIONE_DIZ = ".diz.ser";
     public static final String ESTENSIONE_RETE = ".rete.ser";
+    public static final String ESTENSIONE_OSS_LIN = ".linoss.ser";
+    public static final String ESTENSIONE_AUTOMA_OSS = ".autoss.ser";
     public static final String SALVATAGGIO_OK = "E' stato creato il file %s";
     public static final String ERRORE_SALVATAGGIO = "C'è stato un problema nel salvataggio";
 
@@ -52,6 +63,7 @@ public class Stringhe {
     public static final String TITOLO_RICERCA_DIZIONARIO = "Ricerca nel dizionario";
     public static final String TITOLO_MONITORAGGIO = "Monitoraggio e revisione";
     public static final String TITOLO_ESTENSIONE = "Estensione dinamica del dizionario";
+    public static final String TITOLO_SALVA = "Salvataggio risultati";
     public static final String INPUT_OUTPUT = "Input e Output:";
     public static final String COPPIE_INPUT_OUTPUT = "Coppie I/O:";
 
@@ -100,9 +112,7 @@ public class Stringhe {
             "Ricerca nel dizionario",
             "Monitoraggio con revisione",
             "Estendi dizionario",
-            "Salva spazio di rilevanza",
-            "Salva il dizionario",
-            "Salva rete di automi",
+            "Salva...",
             "Chiudi elaboratore"
     };
 
@@ -119,13 +129,21 @@ public class Stringhe {
     };
 
     public static final String[] OPZIONI_RICERCA_DIZIONARIO = {
-            "Inserisci osservazione lineare",
+            "Inserisci osservazione lineare ed effettua ricerca",
+            "Estendi osservazione lineare ed effettua ricerca",
             "Vedi risultato precedente"
     };
 
     public static final String[] OPZIONI_MONITORAGGIO = {
             "Effettua monitoraggio e revisione",
             "Vedi risultato precedente"
+    };
+
+    public static final String[] OPZIONI_SALVA = {
+            "Salva rete di automi",
+            "Salva spazio di rilevanza",
+            "Salva dizionario",
+            "Salva osservazione",
     };
 
     public static final String[] OPZIONI_ESTENSIONE = {
@@ -166,92 +184,4 @@ public class Stringhe {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public static final String[] OPZIONI_SOTTO_MENU_DIZIONARIO_COMPLETO = {
-            "Costruisci dizionario completo",
-            "Informazioni dizionario",
-            "Informazioni spazio di rilevanza"
-    };
-    public static final String TITOLO_SOTTO_MENU_DIZIONARIO_COMPLETO = "Dizionario completo";
-    public static final String NESSUN_DIZIONARIO = "Non è ancora stato costruito alcun dizionario";
-    public static final String NESSUN_S_R = "Non è ancora stato costruito alcuno spazio di rilevanza";
-
-
-    public static final String[] OPZIONI_SOTTO_MENU_MONITORAGGIO = {
-            "Inserisci un'ossservazione lineare",
-            "Effetta il monitoraggio con revisione",
-
-    };
-    public static final String TITOLO_SOTTO_MENU_MONITORAGGIO = "Monitoraggio + revisione e gestione terne";
-
-
-    public static final String[] OPZIONI_MENU_10 = {
-            "Carica sessione",
-            "Elimina sessione",
-
-    };
-    public static final String TITOLO_MENU_10 = "Carica/elimina sessioni esistenti";
-    public static final String INSERISCI_SESSIONE = "Inserisci il nome del file:\n-->";
-
-    public static final String NESSUNA_OSSERVAZIONE = "Attenzione! Non è stata caricata alcuna osservazione";
-    public static final String OSSERVAZIONE_NON_CORRISPONDE = "L'osservazione inserita non corrisponde a nessuna traiettoria della rete";
-    public static final String[] OPZIONI_MENU_PREFISSO = {
-            "Inserisci lunghezza prefisso",
-            "Costruisci prefisso del dizionario"
-    };
-    public static final String TITOLO_MENU_PREFISSO = "Prefisso del dizionario";
-    public static final String LEGGI_INTERO = "Inserisci la lunghezza desiderata (-1 per esplorazione completa)\n-->";
-    public static final String SALVATO = "Salvato";
-
-
-
-
-
-    public static final String[] OPZIONI_INIZIALI = {
-            "Carica nuova rete di automi da file",
-            "Carica nuova osservazione",
-            "Dizionario completo",
-            "Monitoraggio",
-            "Prefisso",
-            "Dizionari parziali",
-            "Estensione dizionario",
-            "Riassunto automi",
-            "Salva sessione",
-            "Carica sessione"
-    };
-
-
-    /**
-     * INUTILITA'
-     */
-
-    /**
-
-
-     System.out.println("Working Directory = " + System.getProperty("user.dir"));
-
-     System.out.println(files[0]);
-
-     Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
-
-     System.out.println(path);
-
-     **/
 }

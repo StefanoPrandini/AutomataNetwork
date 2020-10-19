@@ -45,26 +45,28 @@ public class Main {
 			case 0: break; //EXIT
 
 			case 1:  { //carica da JSON
+				System.out.println(Stringhe.FILE_BASE_IN_CARTELLA);
+				stampaFileDiEsempio();
 				String filepath = inputNomeFileJSON();
 				GestoreFile gf = new GestoreFile();
 				gf.setPathRete(filepath);
+				boolean caricamentoOk = false;
 				try {
 					ra = gf.caricaRete();
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
-					MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
-					int sceltaGestioneRete = menuGestioneRete.scegli();
-					while (sceltaGestioneRete != 0){
-						gestisciRete(sceltaGestioneRete);
-						sceltaGestioneRete = menuGestioneRete.scegli();
-					}
-
+					caricamentoOk = true;
 				}
 				catch (NullPointerException npe){
-					System.out.println(npe);
-					System.out.println("linea 64");
+					npe.printStackTrace();
 				}
 				catch (Exception e){
 					System.out.println(Stringhe.ERRORE_FILEPATH);
+				}
+				MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
+				int sceltaGestioneRete = menuGestioneRete.scegli();
+				while (sceltaGestioneRete != 0 && caricamentoOk){
+					gestisciRete(sceltaGestioneRete);
+					sceltaGestioneRete = menuGestioneRete.scegli();
 				}
 				break;
 
@@ -90,6 +92,8 @@ public class Main {
 			default: break;
 		}
 	}
+
+
 
 	private static void gestisciRete(int scelta){
 		//informazioni rete, calcola dizionario, carica dizionario
@@ -224,6 +228,7 @@ public class Main {
 				case 1: { //info spazio rilevanza
 					MyMenu menuInfoSpazioRilevanza = new MyMenu(Stringhe.TITOLO_INFO_SPAZIO_R, Stringhe.OPZIONI_INFO_SPAZIO_R);
 					int sceltaInfoSpazioR = menuInfoSpazioRilevanza.scegli();
+					//TODO info rapide su numero stati ecc
 					while (sceltaInfoSpazioR != 0){
 						gestisciInfoSpazioRilevanza(sceltaInfoSpazioR);
 						sceltaInfoSpazioR = menuInfoSpazioRilevanza.scegli();
@@ -233,6 +238,7 @@ public class Main {
 				case 2: {//info dizionario
 					MyMenu menuInfoDizionario = new MyMenu(Stringhe.TITOLO_INFO_DIZIONARIO, Stringhe.OPZIONI_INFO_DIZIONARIO);
 					int sceltaInfoDiz = menuInfoDizionario.scegli();
+					//TODO info rapide su numero stati ecc
 					while (sceltaInfoDiz != 0){
 						gestisciInfoDizionario(sceltaInfoDiz);
 						sceltaInfoDiz = menuInfoDizionario.scegli();
@@ -267,39 +273,13 @@ public class Main {
 					//TODO check con Ste se estensione funziona
 					break;
 				}
-				case 6: {// salva spazio
-                    String nome = creaNomeFile() + Stringhe.ESTENSIONE_SPAZIO;
-                    try {
-                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
-                        oos.writeObject(sr);
-						System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
-                    }
-                    catch (Exception e){
-                        System.out.println(e.toString());
-                    }
-					break;
-				}
-				case 7: { //salva dizionario
-                    String nome = creaNomeFile() + Stringhe.ESTENSIONE_DIZ;
-                    try {
-                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
-                        oos.writeObject(diz);
-						System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
-                    }
-                    catch (Exception e){
-                        System.out.println(e.toString());
-                    }
-                    break;
-				}
-				case 8: {// salva rete
-					String nome = creaNomeFile() + Stringhe.ESTENSIONE_RETE;
-					try {
-						ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
-						oos.writeObject(ra);
-						System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
-					}
-					catch (Exception e){
-						System.out.println(e.toString());
+
+				case 6:  {//salvataggi
+					MyMenu menuSalvataggi = new MyMenu(Stringhe.TITOLO_SALVA, Stringhe.OPZIONI_SALVA);
+					int sceltaSalva = menuSalvataggi.scegli();
+					while (sceltaSalva != 0){
+						gestisciSalvataggio(sceltaSalva);
+						sceltaSalva = menuSalvataggi.scegli();
 					}
 					break;
 				}
@@ -315,6 +295,74 @@ public class Main {
 
 				}
 			}
+	}
+
+	private static void gestisciSalvataggio(int sceltaSalva) {
+		switch (sceltaSalva){
+			case 0: {//back
+				break;
+			}
+			case 1: {//salva rete automi
+				String nome = creaNomeFile() + Stringhe.ESTENSIONE_RETE;
+				try {
+					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
+					oos.writeObject(ra);
+					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+				}
+				catch (Exception e){
+					System.out.println(e.toString());
+				}
+				break;
+			}
+			case 2: {//salva spazio rilevanza
+				String nome = creaNomeFile() + Stringhe.ESTENSIONE_SPAZIO;
+				try {
+					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
+					oos.writeObject(sr);
+					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+				}
+				catch (Exception e){
+					System.out.println(e.toString());
+				}
+				break;
+			}
+			case 3: {//salva dizionario
+				String nome = creaNomeFile() + Stringhe.ESTENSIONE_DIZ;
+				try {
+					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
+					oos.writeObject(diz);
+					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+				}
+				catch (Exception e){
+					System.out.println(e.toString());
+				}
+				break;
+			}
+			case 4: {//salva osservazione lineare
+				String nome = creaNomeFile() + Stringhe.ESTENSIONE_OSS_LIN;
+				try {
+					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
+					oos.writeObject(osservazioneLineare);
+					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+				}
+				catch (Exception e){
+					System.out.println(e.toString());
+				}
+				break;
+			}
+			case 5:{ //salva automa osservazione
+				String nome = creaNomeFile() + Stringhe.ESTENSIONE_AUTOMA_OSS;
+				try {
+					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
+					oos.writeObject(oss);
+					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+				}
+				catch (Exception e){
+					System.out.println(e.toString());
+				}
+				break;
+			}
+		}
 	}
 
 	private static boolean rispostaNegativa(String risposta){
@@ -439,28 +487,37 @@ public class Main {
 				break;
 			}
 			case 1:{ //oss lineare da tastiera
-
 				String input= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
 				osservazioneLineare = new ArrayList<>(Arrays.asList(input.split(", ")));
-
-				GestoreDizionari gd = new GestoreDizionari();
-				try {
-					decorazione = gd.effettuaRicerca(osservazioneLineare, diz);
-					System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
-
-				} catch (Exception e) {
-					System.out.println(Stringhe.NESSUN_RISULTATO);
-				}
+				effettuaRicerca(osservazioneLineare);
 				break;
 			}
 
-			case 2: {//vedi risultato precedente
+			case 2: {//estendi ricerca precedente
+				String estensioneOss = InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
+				osservazioneLineare.addAll(Arrays.asList(estensioneOss.split(", ")));
+				effettuaRicerca(osservazioneLineare);
+				break;
+			}
+
+			case 3: {//vedi risultato precedente
 				if ( isNull(decorazione)){
 					System.out.println(Stringhe.NESSUN_RISULTATO);
 				}
 				else System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
 				break;
 			}
+		}
+	}
+
+	private static void effettuaRicerca(ArrayList<String> osservazioneLineare) {
+		GestoreDizionari gd = new GestoreDizionari();
+		try {
+			decorazione = gd.effettuaRicerca(osservazioneLineare, diz);
+			System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
+
+		} catch (Exception e) {
+			System.out.println(Stringhe.NESSUN_RISULTATO);
 		}
 	}
 
@@ -543,6 +600,13 @@ public class Main {
 		File[] files = folder.listFiles();
 		for (File file : files) {
 			System.out.println(file.getName());
+		}
+	}
+	private static void stampaFileDiEsempio() {
+		File folder = new File(Stringhe.EXAMPLE_PATH);
+		File[] files = folder.listFiles();
+		for (File file : files) {
+			System.out.println(file.getPath());
 		}
 	}
 

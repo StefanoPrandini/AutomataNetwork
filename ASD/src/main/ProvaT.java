@@ -1,53 +1,28 @@
 package main;
 
+import myLib.InputDati;
+import myLib.Stringhe;
+
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 
-public class ProvaT implements Callable<Integer> {
-
-    int i;
-    int id;
-    String tabs = "\t";
-
-    public ProvaT(int i, int id) {
-        this.i = i;
-        this.id = id;
-        for (int j = 0; j < id; j++) {
-            tabs += "\t\t\t";
+public class ProvaT  {
+    public static void main(String[] args) {
+        String input= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
+        ArrayList<String> osservazioneLineare = new ArrayList<>(Arrays.asList(input.split(", ")));
+        for (String s : osservazioneLineare) {
+            System.out.println("hai inserito " + s);
         }
-    }
 
-    private String stato(){
-
-        return tabs + id + " --> " + i;
-    }
-
-    @Override
-    public Integer call() {
-        while (i <10){
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        String input2= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
+        ArrayList<String> aggiunte = new ArrayList<>(Arrays.asList(input2.split(", ")));
+        osservazioneLineare.addAll(aggiunte);
+        for (String s : osservazioneLineare) {
+            System.out.println("hai inserito " + s);
         }
-        return 0;
-        /**long inizio = System.currentTimeMillis();
-        System.out.println(tabs + "Running " + id);
-        while (i-->0){
-            System.out.println(stato());
-        }
-        Thread.yield();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        long fine  = System.currentTimeMillis();
-        long diff = fine - inizio;
-
-        System.out.println(tabs + "Tempo esecuzione: " + inizio + " --> " + fine);
-        return (int)diff;**/
+        System.out.println(osservazioneLineare);
     }
 
 

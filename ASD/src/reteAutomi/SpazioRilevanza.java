@@ -1,6 +1,7 @@
 package reteAutomi;
 
 import javafx.util.Pair;
+import myLib.Stringhe;
 
 import java.io.Serializable;
 import java.util.*;
@@ -98,17 +99,20 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 					}
 				}
 			}
+
+			/** PER PROVE DI INTERRUZIONE DA UTENTE
 			try {
 				Thread.sleep(100);
-
-
 			}catch (InterruptedException ie){
+
 				ie.printStackTrace();
 			}
+			 **/
 			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, listaAdiacenza);
 		}
 
-			System.out.println("\nCalcolo spazio rilevanza completo, inserisci 'ok' per proseguire: ");
+
+		if ( ! isInInterruzione() ) System.out.println(Stringhe.CALCOLO_SPAZIO_COMPLETO);
 
 	}
 

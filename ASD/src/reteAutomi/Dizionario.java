@@ -3,6 +3,8 @@ package reteAutomi;
 import java.io.Serializable;
 import java.util.*;
 import javafx.util.Pair;
+import myLib.Stringhe;
+
 import static java.util.Objects.isNull;
 
 import java.io.IOException;
@@ -113,6 +115,8 @@ public class Dizionario extends Algoritmo implements Serializable {
 			Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> IO = coppieIO(statoDizionario, spazioRilevanza);
 			statoDizionario.setIO(IO);
 		}
+
+		if ( ! isInInterruzione() ) System.out.println(Stringhe.COSTRUZIONE_DIZIONARIO_COMPLETA);
 	}
 	
 	
@@ -126,13 +130,15 @@ public class Dizionario extends Algoritmo implements Serializable {
 
 		while(!codaStati.isEmpty() && ! isInInterruzione()) {
 			StatoRilevanzaRete s = codaStati.remove();
-			for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
-				// se l'etichetta della transizione uscente e' eps (null)
-				if(isNull(transizione.getKey().getEtichettaOsservabilita())) {
-					// lo aggiungo alla coda per vedere se anche le sue transizioni uscenti hanno etichetta null: se si' le aggiungo alla eps-closure
-					if(!codaStati.contains(s)) {						
-						codaStati.add(transizione.getValue());
-						result.add(transizione.getValue());					
+			if ( ! isNull(spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s))) {
+				for (Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
+					// se l'etichetta della transizione uscente e' eps (null)
+					if (isNull(transizione.getKey().getEtichettaOsservabilita())) {
+						// lo aggiungo alla coda per vedere se anche le sue transizioni uscenti hanno etichetta null: se si' le aggiungo alla eps-closure
+						if (!codaStati.contains(s)) {
+							codaStati.add(transizione.getValue());
+							result.add(transizione.getValue());
+						}
 					}
 				}
 			}
@@ -224,13 +230,16 @@ public class Dizionario extends Algoritmo implements Serializable {
 					coppie.add(new Pair<>(sInput, s));
 				}
 				// aggiungo alla coda gli stati successivi solo se fanno parte dello stato del dizionario corrente e se non li ho gia' visitati
-				for(Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
-					StatoRilevanzaRete sNext = transizione.getValue();
-					if(sDiz.getStatiRilevanza().contains(sNext) && !visitati.containsKey(sNext)) {
-						visitati.put(sNext, true);
-						coda.add(sNext);
+				if ( ! isNull(spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s))) {
+					for (Pair<Transizione, StatoRilevanzaRete> transizione : spazioRilevanza.getMappaStatoRilevanzaTransizioni().get(s)) {
+						StatoRilevanzaRete sNext = transizione.getValue();
+						if (sDiz.getStatiRilevanza().contains(sNext) && !visitati.containsKey(sNext)) {
+							visitati.put(sNext, true);
+							coda.add(sNext);
+						}
 					}
 				}
+
 			}
 		}
 		return coppie;
