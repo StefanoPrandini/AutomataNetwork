@@ -59,6 +59,7 @@ public class Stringhe {
     public static final String TITOLO_CALCOLO_DIZIONARIO = "Calcolo di un dizionario";
     public static final String TITOLO_GESTIONE_DIZIONARIO_PARZIALE = "Calcolo di un dizionario parziale";
     public static final String TITOLO_GESTIONE_DIZIONARIO = "Gestione dizionario";
+    public static final String TITOLO_INFORMAZIONI = "Informazioni...";
     public static final String TITOLO_INFO_SPAZIO_R = "Informazioni spazio di rilevanza";
     public static final String TITOLO_INFO_DIZIONARIO = "Informazioni dizionario";
     public static final String TITOLO_RICERCA_DIZIONARIO = "Ricerca nel dizionario - Diagnosi";
@@ -108,14 +109,20 @@ public class Stringhe {
             "Calcolo da osservazione"
     };
 
-    public static final String[]  OPZIONI_GESTIONE_DIZIONARIO = {
+
+    public static final String[] OPZIONI_INFORMAZIONI = {
+            "Informazioni sulla rete di automi",
             "Informazioni sullo spazio di rilevanza",
-            "Informazioni sul dizionario",
+            "Informazioni sul dizionario"
+    };
+
+    public static final String[]  OPZIONI_GESTIONE_DIZIONARIO = {
+            "Informazioni",
             "Ricerca nel dizionario - Diagnosi",
             "Monitoraggio con revisione",
             "Estendi dizionario",
-            "Salva...",
-            "Carica...",
+            "Salva",
+            "Carica",
             "Chiudi elaboratore"
     };
 
@@ -195,6 +202,7 @@ public class Stringhe {
     public final static String ERRORE_CARICAMENTO = "\nErrore nel caricamento";
     public static final String ESTENSIONE_NON_VALIDA = "Attenzione!\nFornire un file con estensione %s" ;
     public static final String ERRORE_CLASSE = "Classe non valida";
+
 
 
 }

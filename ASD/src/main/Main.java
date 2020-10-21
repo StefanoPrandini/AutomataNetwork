@@ -227,27 +227,16 @@ public class Main {
 				case 0: { //back
 					break;
 				}
-				case 1: { //info spazio rilevanza
-					MyMenu menuInfoSpazioRilevanza = new MyMenu(Stringhe.TITOLO_INFO_SPAZIO_R, Stringhe.OPZIONI_INFO_SPAZIO_R);
-					int sceltaInfoSpazioR = menuInfoSpazioRilevanza.scegli();
-					//TODO info rapide su numero stati ecc
-					while (sceltaInfoSpazioR != 0){
-						gestisciInfoSpazioRilevanza(sceltaInfoSpazioR);
-						sceltaInfoSpazioR = menuInfoSpazioRilevanza.scegli();
+				case 1: {//informazioni...
+					MyMenu menuInformazioni = new MyMenu(Stringhe.TITOLO_INFORMAZIONI, Stringhe.OPZIONI_INFORMAZIONI);
+					int sceltaInformazioni = menuInformazioni.scegli();
+					while (sceltaInformazioni != 0){
+						gestisciSceltaInfo(sceltaInformazioni);
+						sceltaInformazioni = menuInformazioni.scegli();
 					}
 					break;
 				}
-				case 2: {//info dizionario
-					MyMenu menuInfoDizionario = new MyMenu(Stringhe.TITOLO_INFO_DIZIONARIO, Stringhe.OPZIONI_INFO_DIZIONARIO);
-					int sceltaInfoDiz = menuInfoDizionario.scegli();
-					//TODO info rapide su numero stati ecc
-					while (sceltaInfoDiz != 0){
-						gestisciInfoDizionario(sceltaInfoDiz);
-						sceltaInfoDiz = menuInfoDizionario.scegli();
-					}
-					break;
-				}
-				case 3: {//ricerca in dizionario
+				case 2: {//ricerca in dizionario
 					MyMenu menuRicercaDizionario = new MyMenu(Stringhe.TITOLO_RICERCA_DIZIONARIO, Stringhe.OPZIONI_RICERCA_DIZIONARIO);
 					int sceltaRicerca = menuRicercaDizionario.scegli();
 					while (sceltaRicerca != 0){
@@ -256,7 +245,7 @@ public class Main {
 					}
 					break;
 				}
-				case 4: {//monitoraggio e revisione
+				case 3: {//monitoraggio e revisione
 					MyMenu menuMonitoraggioRevisione = new MyMenu(Stringhe.TITOLO_MONITORAGGIO, Stringhe.OPZIONI_MONITORAGGIO);
 					int sceltaMonitoraggio = menuMonitoraggioRevisione.scegli();
 					while (sceltaMonitoraggio != 0){
@@ -265,7 +254,7 @@ public class Main {
 					}
 					break;
 				}
-				case 5: {//estensione
+				case 4: {//estensione
 					MyMenu menuEstensione = new MyMenu(Stringhe.TITOLO_ESTENSIONE, Stringhe.OPZIONI_ESTENSIONE);
 					int sceltaEstensione = menuEstensione.scegli();
 					while (sceltaEstensione != 0){
@@ -276,7 +265,7 @@ public class Main {
 					break;
 				}
 
-				case 6:  {//salvataggi
+				case 5:  {//salvataggi
 					MyMenu menuSalvataggi = new MyMenu(Stringhe.TITOLO_SALVA, Stringhe.OPZIONI_SALVA);
 					int sceltaSalva = menuSalvataggi.scegli();
 					while (sceltaSalva != 0){
@@ -286,7 +275,7 @@ public class Main {
 					break;
 				}
 
-				case 7:{// caricamento osservazioni in sessioni precedenti
+				case 6:{// caricamento osservazioni in sessioni precedenti
 					MyMenu menuCaricamento = new MyMenu(Stringhe.TITOLO_CARICAMENTI, Stringhe.OPZIONI_CARICAMENTI);
 					int sceltaCaricamento = menuCaricamento.scegli();
 					while (sceltaCaricamento != 0){
@@ -299,7 +288,7 @@ public class Main {
 					}
 					break;
 				}
-				case 8: { //chiudi elaboratore
+				case 7: { //chiudi elaboratore
 					String vuoiUscire = InputDati.leggiStringa(Stringhe.VUOI_USCIRE);
 					while ( ! rispostaValida(vuoiUscire) ){
 						vuoiUscire = InputDati.leggiStringa(Stringhe.NON_VALIDA);
@@ -311,6 +300,39 @@ public class Main {
 
 				}
 			}
+	}
+
+	private static void gestisciSceltaInfo(int sceltaInformazioni) {
+		switch (sceltaInformazioni){
+			case 0: { //back
+				break;
+			}
+			case 1: { //rete
+				System.out.println(ra.toString());
+				break;
+			}
+			case 2: { //spazio rilevanza
+				MyMenu menuInfoSpazioRilevanza = new MyMenu(Stringhe.TITOLO_INFO_SPAZIO_R, Stringhe.OPZIONI_INFO_SPAZIO_R);
+				int sceltaInfoSpazioR = menuInfoSpazioRilevanza.scegli();
+				//TODO info rapide su numero stati ecc
+				while (sceltaInfoSpazioR != 0){
+					gestisciInfoSpazioRilevanza(sceltaInfoSpazioR);
+					sceltaInfoSpazioR = menuInfoSpazioRilevanza.scegli();
+				}
+				break;
+			}
+			case 3: { // dizionario
+				MyMenu menuInfoDizionario = new MyMenu(Stringhe.TITOLO_INFO_DIZIONARIO, Stringhe.OPZIONI_INFO_DIZIONARIO);
+				int sceltaInfoDiz = menuInfoDizionario.scegli();
+				//TODO info rapide su numero stati ecc
+				while (sceltaInfoDiz != 0){
+					gestisciInfoDizionario(sceltaInfoDiz);
+					sceltaInfoDiz = menuInfoDizionario.scegli();
+				}
+				break;
+			}
+
+		}
 	}
 
 	private static void gestisciSalvataggio(int sceltaSalva) {
