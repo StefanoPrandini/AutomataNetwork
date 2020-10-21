@@ -54,6 +54,7 @@ public class Main {
 				try {
 					ra = gf.caricaRete();
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
+					System.out.println(ra.toString());
 					caricamentoOk = true;
 				}
 				catch (NullPointerException npe){
@@ -92,8 +93,6 @@ public class Main {
 			default: break;
 		}
 	}
-
-
 
 	private static void gestisciRete(int scelta){
 		//informazioni rete, calcola dizionario, carica dizionario
@@ -181,6 +180,7 @@ public class Main {
 				break;
 			}
 			case 1:{// da prefisso
+				//TODO introduzione thread
 				int lettura = InputDati.leggiIntero(Stringhe.LUNGHEZZA_PREFISSO);
 				if (lettura < Stringhe.VALORE_USCITA) break;
 				lunghezzaPrefisso = lettura;
@@ -194,6 +194,7 @@ public class Main {
 				break;
 			}
 			case 2: { // da osservazione
+				//TODO introduzione thread
 				String percorsoOss = InputDati.leggiStringa(Stringhe.INSERISCI_PERCORSO_OSSERVAZIONE);
 				if (percorsoOss.equals("" + Stringhe.VALORE_USCITA)) break;
 				GestoreFile gf = new GestoreFile();
@@ -202,6 +203,7 @@ public class Main {
 
 					oss = gf.caricaOsservazione();
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, oss.getNome()));
+					System.out.println(oss.toStringOss());
 					diz = calcolaDizionarioParzialeDaOsservazione();
 					MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
 					int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
@@ -283,7 +285,21 @@ public class Main {
 					}
 					break;
 				}
-				case 9: { //chiudi elaboratore
+
+				case 7:{// caricamento osservazioni in sessioni precedenti
+					MyMenu menuCaricamento = new MyMenu(Stringhe.TITOLO_CARICAMENTI, Stringhe.OPZIONI_CARICAMENTI);
+					int sceltaCaricamento = menuCaricamento.scegli();
+					while (sceltaCaricamento != 0){
+						try {
+							gestisciCaricamento(sceltaCaricamento);
+						} catch (Exception e) {
+							System.out.println(Stringhe.ERRORE_FILEPATH);
+						}
+						sceltaCaricamento = menuCaricamento.scegli();
+					}
+					break;
+				}
+				case 8: { //chiudi elaboratore
 					String vuoiUscire = InputDati.leggiStringa(Stringhe.VUOI_USCIRE);
 					while ( ! rispostaValida(vuoiUscire) ){
 						vuoiUscire = InputDati.leggiStringa(Stringhe.NON_VALIDA);
@@ -365,6 +381,75 @@ public class Main {
 		}
 	}
 
+	private static void gestisciCaricamento(int sceltaCaricamento){
+
+		switch (sceltaCaricamento){
+			case 0:{//back
+				break;
+			}
+			case 1:{//carica oss lineare
+				visualizzaOsservazioniLineariDisponibili();
+				String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
+				filepath = Stringhe.SAVE_FOLDER+filepath;
+				if ( ! filepath.contains(Stringhe.ESTENSIONE_OSS_LIN) ){
+					System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_OSS_LIN));
+					break;
+				}
+				File folder = new File(Stringhe.SAVES_PATH);
+				File[] files = folder.listFiles();
+				for (File file : files) {
+
+					if (file.getPath().equals(filepath)){
+						GestoreFile gf = new GestoreFile();
+						try {
+							System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
+							osservazioneLineare = gf.caricaOsservazioneLineare(filepath);
+							System.out.println(String.format(Stringhe.CARICAMENTO_OSS_LIN, osservazioneLineare));
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						break;
+					}
+				}
+				break;
+
+
+			}
+			case 2:{//carica automa oss
+				visualizzaAutomiOsservazioneDisponibili();
+				String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
+				filepath = Stringhe.SAVE_FOLDER + filepath;
+				if ( ! filepath.contains(Stringhe.ESTENSIONE_AUTOMA_OSS) ){
+					System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_AUTOMA_OSS));
+					break;
+				}
+				File folder = new File(Stringhe.SAVES_PATH);
+				File[] files = folder.listFiles();
+				for (File file : files) {
+					if (file.getPath().equals(filepath)){
+						GestoreFile gf = new GestoreFile();
+						try {
+							System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
+							oss = gf.caricaAutomaOss(filepath);
+							System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, osservazioneLineare));
+						} catch (ClassNotFoundException e){
+							e.printStackTrace();
+						}  catch (IOException e) {
+							e.printStackTrace();
+						}
+						break;
+					}
+				}
+
+				break;
+
+
+			}
+		}
+	}
+
 	private static boolean rispostaNegativa(String risposta){
 		if (risposta.equalsIgnoreCase("n") || risposta.equalsIgnoreCase("no"))
 			return true;
@@ -425,6 +510,7 @@ public class Main {
 	private static Dizionario calcolaDizionarioParzialeDaOsservazione() {
 		GestoreDizionari gd = new GestoreDizionari();
 		Input input = new Input();
+		input.setRete(ra);
 		input.setOsservazione(oss);
 		input.setDaOsservazione(true);
 		sr = gd.calcolaSpazioRilevanza(input);
@@ -488,14 +574,24 @@ public class Main {
 			}
 			case 1:{ //oss lineare da tastiera
 				String input= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
-				osservazioneLineare = new ArrayList<>(Arrays.asList(input.split(", ")));
+				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(input.split(", ")));
+				for (String s : splitted) {
+					osservazioneLineare.add(s.trim());
+				}
 				effettuaRicerca(osservazioneLineare);
 				break;
 			}
 
 			case 2: {//estendi ricerca precedente
+				if (isNull(osservazioneLineare)){
+					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
+					break;
+				}
 				String estensioneOss = InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
-				osservazioneLineare.addAll(Arrays.asList(estensioneOss.split(", ")));
+				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(estensioneOss.split(", ")));
+				for (String s : splitted) {
+					osservazioneLineare.add(s.trim());
+				}
 				effettuaRicerca(osservazioneLineare);
 				break;
 			}
@@ -602,6 +698,23 @@ public class Main {
 			System.out.println(file.getName());
 		}
 	}
+
+	public static void visualizzaOsservazioniLineariDisponibili() {
+		File folder = new File(Stringhe.SAVES_PATH);
+		File[] files = folder.listFiles();
+		for (File file : files) {
+			if (file.getName().contains(Stringhe.ESTENSIONE_OSS_LIN)) System.out.println(file.getName());
+		}
+	}
+
+	private static void visualizzaAutomiOsservazioneDisponibili() {
+		File folder = new File(Stringhe.SAVES_PATH);
+		File[] files = folder.listFiles();
+		for (File file : files) {
+			if (file.getName().contains(Stringhe.ESTENSIONE_AUTOMA_OSS)) System.out.println(file.getName());
+		}
+	}
+
 	private static void stampaFileDiEsempio() {
 		File folder = new File(Stringhe.EXAMPLE_PATH);
 		File[] files = folder.listFiles();

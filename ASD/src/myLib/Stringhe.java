@@ -24,10 +24,11 @@ public class Stringhe {
     public static final String VUOI_USCIRE = "Vuoi terminare il programma? y/n\n-->";
     public static final String NON_VALIDA = "La risposta inserita non è valida, vuoi terminare il programma? y/n\n-->";
     public static final String CALCOLO_SPAZIO = "Calcolo dello spazio di rilevanza in corso\n";
-    public static final String CALCOLO_SPAZIO_COMPLETO = "\nCalcolo completato, inserisci 'ok' per proseguire: ";
+    public static final String CALCOLO_SPAZIO_COMPLETO = "\nCalcolo completato, inserisci '%s' per proseguire: ";
     public static final String CALCOLO_DIZIONARIO = "Costruzione del dizionario in corso\n";
-    public static final String COSTRUZIONE_DIZIONARIO_COMPLETA = "\nCostruzione completa, inserisci 'ok' per proseguire: ";
-    public static final String INSERISCI_STOP = "Inserisci %s per interrompere: ";
+    public static final String COSTRUZIONE_DIZIONARIO_COMPLETA = "\nCostruzione completa, inserisci '%s' per proseguire: ";
+    public static final String INSERISCI_PER_INTERROMPERE = "Inserisci '%s' per interrompere: ";
+
     public static final String STOP = "stop";
     public static final String OK = "ok";
 
@@ -60,10 +61,11 @@ public class Stringhe {
     public static final String TITOLO_GESTIONE_DIZIONARIO = "Gestione dizionario";
     public static final String TITOLO_INFO_SPAZIO_R = "Informazioni spazio di rilevanza";
     public static final String TITOLO_INFO_DIZIONARIO = "Informazioni dizionario";
-    public static final String TITOLO_RICERCA_DIZIONARIO = "Ricerca nel dizionario";
+    public static final String TITOLO_RICERCA_DIZIONARIO = "Ricerca nel dizionario - Diagnosi";
     public static final String TITOLO_MONITORAGGIO = "Monitoraggio e revisione";
     public static final String TITOLO_ESTENSIONE = "Estensione dinamica del dizionario";
     public static final String TITOLO_SALVA = "Salvataggio risultati";
+    public static final String TITOLO_CARICAMENTI = "Caricamento da una sessione precedente";
     public static final String INPUT_OUTPUT = "Input e Output:";
     public static final String COPPIE_INPUT_OUTPUT = "Coppie I/O:";
 
@@ -109,10 +111,11 @@ public class Stringhe {
     public static final String[]  OPZIONI_GESTIONE_DIZIONARIO = {
             "Informazioni sullo spazio di rilevanza",
             "Informazioni sul dizionario",
-            "Ricerca nel dizionario",
+            "Ricerca nel dizionario - Diagnosi",
             "Monitoraggio con revisione",
             "Estendi dizionario",
             "Salva...",
+            "Carica...",
             "Chiudi elaboratore"
     };
 
@@ -131,7 +134,7 @@ public class Stringhe {
     public static final String[] OPZIONI_RICERCA_DIZIONARIO = {
             "Inserisci osservazione lineare ed effettua ricerca",
             "Estendi osservazione lineare ed effettua ricerca",
-            "Vedi risultato precedente"
+            "Vedi diagnosi precedente"
     };
 
     public static final String[] OPZIONI_MONITORAGGIO = {
@@ -143,7 +146,13 @@ public class Stringhe {
             "Salva rete di automi",
             "Salva spazio di rilevanza",
             "Salva dizionario",
-            "Salva osservazione",
+            "Salva osservazione lineare",
+            "Salva automa osservazione"
+    };
+
+    public static final String[] OPZIONI_CARICAMENTI = {
+            "Caricamento osservazione lineare",
+            "Caricamento automa osservazione"
     };
 
     public static final String[] OPZIONI_ESTENSIONE = {
@@ -179,9 +188,13 @@ public class Stringhe {
     public static final String ERRORE_FILEPATH = "\nFile non trovato";
     public static final String CARICAMENTO_RIUSCITO = "\nCaricamento riuscito";
     public static final String CARICAMENTO_RIUSCITO_CON_NOME = "\nCaricamento di %s riuscito";
+    public static final String CARICAMENTO_IN_CORSO = "Caricamento di %s in corso";
+    public static final String CARICAMENTO_OSS_LIN = "Osservazione lineare caricata: %s";
     public static final String NESSUNA_RETE_CARICATA = "\nAttenzione!\nNon è stata caricata alcuna rete";
+    public static final String NESSUNA_OSSERVAZIONE = "Attenzione!\nNon è presente alcuna osservazione da estendere";
     public final static String ERRORE_CARICAMENTO = "\nErrore nel caricamento";
-
+    public static final String ESTENSIONE_NON_VALIDA = "Attenzione!\nFornire un file con estensione %s" ;
+    public static final String ERRORE_CLASSE = "Classe non valida";
 
 
 }

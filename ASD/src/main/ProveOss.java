@@ -51,10 +51,10 @@ public class ProveOss {
 		else pathOsservazioneJSON = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + osservazioneJSON;
 
 
-		OsservazioneParser OsservazioneParser = new OsservazioneParser(pathOsservazioneJSON);
+		//OsservazioneParser OsservazioneParser = new OsservazioneParser(pathOsservazioneJSON);
 		Automa osservazione = null;
 		try {
-			osservazione = OsservazioneParser.getOsservazione();
+			//osservazione = OsservazioneParser.getOsservazione();
 		} catch (Exception e) {
 			e.printStackTrace();
 			//TODO

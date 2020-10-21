@@ -28,13 +28,11 @@ public class GestoreDizionari {
         dizionario.monitoraggio(osservazioneLineare, sr);
     }
 
-
-
     public SpazioRilevanza calcolaSpazioRilevanza(Input input) {
         algoritmo = new SpazioRilevanza(input);
         Thread thread = new Thread(algoritmo);
         thread.start();
-        String stop = InputDati.leggiStringa(Stringhe.CALCOLO_SPAZIO + String.format(Stringhe.INSERISCI_STOP, Stringhe.STOP));
+        String stop = InputDati.leggiStringa(Stringhe.CALCOLO_SPAZIO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
         while (! stop.equalsIgnoreCase(Stringhe.STOP) && thread.isAlive() && !algoritmo.isInInterruzione()){
             if (stop.equalsIgnoreCase(Stringhe.STOP)){
                 interrompiAlgoritmo();
@@ -43,7 +41,7 @@ public class GestoreDizionari {
             else if (stop.equalsIgnoreCase(Stringhe.OK)){
                 break;
             }
-            stop = InputDati.leggiStringa(Stringhe.CALCOLO_SPAZIO + String.format(Stringhe.INSERISCI_STOP, Stringhe.STOP));
+            stop = InputDati.leggiStringa(Stringhe.CALCOLO_SPAZIO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
         }
         return ridenominaSpazio((SpazioRilevanza)algoritmo);
     }
@@ -53,7 +51,7 @@ public class GestoreDizionari {
         algoritmo = new Dizionario(input);
         Thread thread = new Thread(algoritmo);
         thread.start();
-        String stop = InputDati.leggiStringa(Stringhe.CALCOLO_DIZIONARIO + String.format(Stringhe.INSERISCI_STOP, Stringhe.STOP));
+        String stop = InputDati.leggiStringa(Stringhe.CALCOLO_DIZIONARIO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
         while (! stop.equalsIgnoreCase(Stringhe.STOP) && thread.isAlive() && !algoritmo.isInInterruzione()){
             if (stop.equalsIgnoreCase(Stringhe.STOP)){
                 interrompiAlgoritmo();
@@ -62,7 +60,7 @@ public class GestoreDizionari {
             else if (stop.equalsIgnoreCase(Stringhe.OK)){
                 break;
             }
-            stop = InputDati.leggiStringa(Stringhe.CALCOLO_DIZIONARIO + String.format(Stringhe.INSERISCI_STOP, Stringhe.STOP));
+            stop = InputDati.leggiStringa(Stringhe.CALCOLO_DIZIONARIO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
         }
         return ridenominaDizionario((Dizionario) algoritmo);
     }

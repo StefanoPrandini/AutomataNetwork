@@ -112,7 +112,7 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 		}
 
 
-		if ( ! isInInterruzione() ) System.out.println(Stringhe.CALCOLO_SPAZIO_COMPLETO);
+		if ( ! isInInterruzione() ) System.out.println(String.format(Stringhe.CALCOLO_SPAZIO_COMPLETO, Stringhe.OK));
 
 	}
 
@@ -146,7 +146,7 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 		this.statoRilevanzaIniziale = statoIniziale;
 		coda.add(statoIniziale);
 
-		while(!coda.isEmpty()) {
+		while(!coda.isEmpty() && ! isInInterruzione()) {
 			StatoRilevanzaRete statoRilevanza = coda.remove();	
 			// faccio andare la rete nella condizione descritta dallo statoRilevanza appena estratto, cosi' poi posso usare i metodi di ReteAutomi 
 			// per cercare le transizioni abilitate e gli stati successivi
@@ -154,6 +154,7 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 			ArrayList<Transizione>transizioniAbilitate = rete.getTutteTransizioniAbilitate();
 			ArrayList<Pair<Transizione, StatoRilevanzaRete>> listaAdiacenza = new ArrayList<>();
 			for(Transizione t : transizioniAbilitate) {
+				if (isInInterruzione()) break;
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
 				rete.setReteAutomi(statoRilevanza.getStatiCorrentiAutoma(), statoRilevanza.getContenutoLinks());
 				int distanza = statoRilevanza.getDistanza();
@@ -221,6 +222,7 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 			}
 			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, listaAdiacenza);
 		}
+		if ( ! isInInterruzione() ) System.out.println(String.format(Stringhe.CALCOLO_SPAZIO_COMPLETO, Stringhe.OK));
 	}
 
 

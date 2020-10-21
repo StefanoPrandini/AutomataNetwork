@@ -1,11 +1,14 @@
 package input;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import myLib.Stringhe;
 import reteAutomi.Automa;
 import reteAutomi.Dizionario;
 import reteAutomi.ReteAutomi;
 
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.util.ArrayList;
 
 import static java.util.Objects.isNull;
 
@@ -38,8 +41,44 @@ public class GestoreFile {
         return op.getOsservazione();
     }
 
+    public ArrayList<String> caricaOsservazioneLineare(String nome) throws IOException, ClassNotFoundException {
+
+        ArrayList<String> osservazioneLineare;
+
+        ObjectInputStream objectinputstream;
+        FileInputStream streamIn;
+
+        streamIn = new FileInputStream(nome);
+        objectinputstream = new ObjectInputStream(streamIn);
+        osservazioneLineare = (ArrayList<String> ) objectinputstream.readObject();
+
+        if (! isNull(objectinputstream) ) {
+            objectinputstream.close();
+        }
+
+        return osservazioneLineare;
+
+    }
 
 
+    public Automa caricaAutomaOss(String filepath) throws ClassNotFoundException, IOException {
+
+        Automa osservazione;
+
+        ObjectInputStream objectinputstream;
+        FileInputStream streamIn;
+
+        streamIn = new FileInputStream(Stringhe.SAVE_FOLDER + filepath);
+        objectinputstream = new ObjectInputStream(streamIn);
+        osservazione = (Automa) objectinputstream.readObject();
+
+        if (! isNull(objectinputstream) ) {
+            objectinputstream.close();
+        }
+
+        return osservazione;
+
+    }
 
     public void setPathRete(String pathRete) {
         this.pathRete = pathRete;

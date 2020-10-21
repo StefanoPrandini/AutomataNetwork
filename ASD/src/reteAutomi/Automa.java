@@ -198,4 +198,5 @@ public class Automa implements Serializable {
 		return getTransizioniUscentiDaStatoCorrente().size() == 0;
 	}
 
+
 }

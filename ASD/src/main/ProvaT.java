@@ -3,27 +3,41 @@ package main;
 import myLib.InputDati;
 import myLib.Stringhe;
 
+import java.io.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.Callable;
 
+import static java.util.Objects.isNull;
+import static main.Main.visualizzaOsservazioniLineariDisponibili;
+
 public class ProvaT  {
-    public static void main(String[] args) {
-        String input= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
-        ArrayList<String> osservazioneLineare = new ArrayList<>(Arrays.asList(input.split(", ")));
-        for (String s : osservazioneLineare) {
-            System.out.println("hai inserito " + s);
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+
+
+        visualizzaOsservazioniLineariDisponibili();
+        String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
+        System.out.println(filepath);
+        filepath = Stringhe.SAVE_FOLDER+filepath;
+        System.out.println(filepath);
+
+        ArrayList<String> osservazioneLineare;
+
+        ObjectInputStream objectinputstream;
+        FileInputStream streamIn;
+
+        streamIn = new FileInputStream(filepath);
+        objectinputstream = new ObjectInputStream(streamIn);
+        osservazioneLineare = (ArrayList<String> ) objectinputstream.readObject();
+
+        if (! isNull(objectinputstream) ) {
+            objectinputstream.close();
         }
 
-        String input2= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
-        ArrayList<String> aggiunte = new ArrayList<>(Arrays.asList(input2.split(", ")));
-        osservazioneLineare.addAll(aggiunte);
-        for (String s : osservazioneLineare) {
-            System.out.println("hai inserito " + s);
-        }
         System.out.println(osservazioneLineare);
-    }
 
+
+    }
 
 }

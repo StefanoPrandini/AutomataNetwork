@@ -14,12 +14,8 @@ public class OsservazioneParser {
 	
     private JsonObject json;
 
-    public OsservazioneParser(String filePath) {
-        try {
-            this.json = JsonParser.parseReader(new FileReader(filePath)).getAsJsonObject();
-        } catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public OsservazioneParser(String filePath) throws JsonIOException, JsonSyntaxException, FileNotFoundException {
+        this.json = JsonParser.parseReader(new FileReader(filePath)).getAsJsonObject();
     }
 
 

@@ -116,7 +116,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 			statoDizionario.setIO(IO);
 		}
 
-		if ( ! isInInterruzione() ) System.out.println(Stringhe.COSTRUZIONE_DIZIONARIO_COMPLETA);
+		if ( ! isInInterruzione() ) System.out.println(String.format(Stringhe.COSTRUZIONE_DIZIONARIO_COMPLETA, Stringhe.OK));
 	}
 	
 	
