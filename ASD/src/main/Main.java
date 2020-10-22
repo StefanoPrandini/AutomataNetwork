@@ -21,6 +21,7 @@ import static myLib.InputDati.leggiStringa;
 
 public class Main {
 
+
 	private static ReteAutomi ra;
 	private static Automa oss;
 	private static SpazioRilevanza sr;
@@ -28,6 +29,7 @@ public class Main {
 	private static ArrayList<String> osservazioneLineare;
 	private static Set<Set<String>> decorazione;
 	private static int lunghezzaPrefisso = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
+	private static boolean spazioRilevanzaCalcolato = false;
 
 
 	public static void main(String[] args) {
@@ -171,6 +173,8 @@ public class Main {
 				break;
 			}
 			case 3: { //calcola da spazio di rilevanza (da caricare)
+				// --> qui carica lo spazio e cambia il valore del boolean spazioRilevanzaCalcolato, poi esce e si ritrova nello stesso menu con caricamento effettuato
+				//
 				visualizzaSpaziRilevanzaDisponibili();
 				String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
 				filepath = Stringhe.SAVE_FOLDER + filepath;
@@ -201,15 +205,17 @@ public class Main {
 								}
 
 							}
-
 							if (sovrascrive){
 								sr = spazioRilevanza;
 								System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, filepath));
-								//TODO CALCOLO DIZIONARIO
+								System.out.println(Stringhe.CONTINUA_CALCOLO_DIZ);
+								spazioRilevanzaCalcolato = true;
 							}
-							else  System.out.println(Stringhe.CARICAMENTO_ANNULLATO);
 
-
+							else  {
+								System.out.println(Stringhe.CARICAMENTO_ANNULLATO);
+								spazioRilevanzaCalcolato = false;
+							}
 						} catch (ClassNotFoundException e){
 							e.printStackTrace();
 						}  catch (IOException e) {
@@ -235,7 +241,7 @@ public class Main {
 				break;
 			}
 			case 1:{// da prefisso
-				//TODO introduzione thread
+
 				int lettura = InputDati.leggiIntero(Stringhe.LUNGHEZZA_PREFISSO);
 				if (lettura < Stringhe.VALORE_USCITA) break;
 				diz = calcolaDizionario(lunghezzaPrefisso = lettura);
@@ -248,7 +254,7 @@ public class Main {
 				break;
 			}
 			case 2: { // da osservazione
-				//TODO introduzione thread
+
 				String percorsoOss = InputDati.leggiStringa(Stringhe.INSERISCI_PERCORSO_OSSERVAZIONE);
 				if (percorsoOss.equals("" + Stringhe.VALORE_USCITA)) break;
 				GestoreFile gf = new GestoreFile();
@@ -730,8 +736,13 @@ public class Main {
 		InputOutput input = new InputOutput();
 		input.setRete(ra);
 		input.setDistanzaMax(dimensione);
-		sr = gd.calcolaSpazioRilevanza(input);
-		input.setSr(sr);
+		if ( ! spazioRilevanzaCalcolato){
+			sr = gd.calcolaSpazioRilevanza(input);
+			input.setSr(sr);
+		}
+		else {
+			input.setSr(sr);
+		}
 		return gd.calcolaDizionario(input);
 	}
 
@@ -741,8 +752,13 @@ public class Main {
 		input.setRete(ra);
 		input.setOsservazione(oss);
 		input.setDaOsservazione(true);
-		sr = gd.calcolaSpazioRilevanza(input);
-		input.setSr(sr);
+		if ( ! spazioRilevanzaCalcolato ){
+			sr = gd.calcolaSpazioRilevanza(input);
+			input.setSr(sr);
+		}
+		else {
+			input.setSr(sr);
+		}
 		return gd.calcolaDizionario(input);
 	}
 

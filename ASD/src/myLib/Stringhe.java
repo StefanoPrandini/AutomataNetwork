@@ -30,6 +30,7 @@ public class Stringhe {
     public static final String INSERISCI_PER_INTERROMPERE = "Inserisci '%s' per interrompere: ";
     public static final String SEI_SICURO = "Vuoi continuare comunque? y/n\n--> ";
     public static final String CARICAMENTO_ANNULLATO = "Caricamento annullato";
+    public static final String CONTINUA_CALCOLO_DIZ = "Continua con il calcolo di un dizionario o il caricamento di un diverso spazio";
     public static final String STOP = "stop";
     public static final String OK = "ok";
 
@@ -102,7 +103,7 @@ public class Stringhe {
 
             "Calcola dizionario completo (include calcolo dello Spazio di Rilevanza)",
             "Calcola dizionario parziale (include calcolo dello Spazio di Rilevanza)",
-            "Calcola da Spazio Rilevanza precedente"
+            "Calcola da Spazio Rilevanza salvato in precedenza"
     };
 
     public static final String[] OPZIONI_GESTIONE_DIZIONARIO_PARZIALE = {
