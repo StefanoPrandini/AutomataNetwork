@@ -39,6 +39,10 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Caricamento della rete iniziale
+	 * @param scelta
+	 */
 	private static void gestisciCaricamentoIniziale(int scelta) {
 
 		switch (scelta){
@@ -148,7 +152,7 @@ public class Main {
 				break;
 			}
 			case 1:{//calcola dizionario completo
-				diz = calcolaDizionarioCompleto();
+				diz = calcolaDizionario(SpazioRilevanza.ESPLORAZIONE_COMPLETA);
 				MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
 				int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
 				while (sceltaGestioneDizionario != 0){
@@ -167,12 +171,64 @@ public class Main {
 				break;
 			}
 			case 3: { //calcola da spazio di rilevanza (da caricare)
-				System.out.println("WIP"); //TODO
+				visualizzaSpaziRilevanzaDisponibili();
+				String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
+				filepath = Stringhe.SAVE_FOLDER + filepath;
+				if ( ! filepath.contains(Stringhe.ESTENSIONE_SPAZIO) ){
+					System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_SPAZIO));
+					break;
+				}
+				File folder = new File(Stringhe.SAVES_PATH);
+				File[] files = folder.listFiles();
+				for (File file : files) {
+					if (file.getPath().equals(filepath)){
+						GestoreFile gf = new GestoreFile();
+						try {
+
+							System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
+							SpazioRilevanza spazioRilevanza = gf.caricaSpazioRilevanza(filepath);
+							boolean sovrascrive = true;
+							if (spazioRilevanza.getHashRete() != ra.hashCode()){
+								System.out.println(Stringhe.HASH_DIVERSI);
+								System.out.println(spazioRilevanza.getHashRete() + " in spazio r");
+								System.out.println(ra.hashCode() + " in rete a");
+								String vuoiUscire = InputDati.leggiStringa(Stringhe.SEI_SICURO);
+								while ( ! rispostaValida(vuoiUscire) ){
+									vuoiUscire = InputDati.leggiStringa(Stringhe.NON_VALIDA);
+								}
+								//se vuole inserire uno spazio di rilevanza non relativo alla rete
+								if (rispostaNegativa(vuoiUscire)){
+									sovrascrive = false;
+								}
+
+							}
+
+							if (sovrascrive){
+								sr = spazioRilevanza;
+								System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, filepath));
+								//TODO CALCOLO DIZIONARIO
+							}
+							else  System.out.println(Stringhe.CARICAMENTO_ANNULLATO);
+
+
+						} catch (ClassNotFoundException e){
+							e.printStackTrace();
+						}  catch (IOException e) {
+							e.printStackTrace();
+						}
+						break;
+					}
+				}
+
 				break;
+
+
 			}
 		}
 
 	}
+
+
 
 	private static void gestisciCalcoloDizionarioParziale(int scelta) {
 		switch (scelta){
@@ -183,8 +239,7 @@ public class Main {
 				//TODO introduzione thread
 				int lettura = InputDati.leggiIntero(Stringhe.LUNGHEZZA_PREFISSO);
 				if (lettura < Stringhe.VALORE_USCITA) break;
-				lunghezzaPrefisso = lettura;
-				diz = calcolaDizionarioParzialeDaPrefisso();
+				diz = calcolaDizionario(lunghezzaPrefisso = lettura);
 				MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
 				int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
 				while (sceltaGestioneDizionario != 0){
@@ -300,6 +355,45 @@ public class Main {
 
 				}
 			}
+	}
+
+	private static void gestisciRicerca(int sceltaRicerca) {
+		switch (sceltaRicerca){
+			case 0:{//back
+				break;
+			}
+			case 1:{ //oss lineare da tastiera
+				String input= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
+				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(input.split(", ")));
+				for (String s : splitted) {
+					osservazioneLineare.add(s.trim());
+				}
+				effettuaRicerca(osservazioneLineare);
+				break;
+			}
+
+			case 2: {//estendi ricerca precedente
+				if (isNull(osservazioneLineare)){
+					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
+					break;
+				}
+				String estensioneOss = InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
+				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(estensioneOss.split(", ")));
+				for (String s : splitted) {
+					osservazioneLineare.add(s.trim());
+				}
+				effettuaRicerca(osservazioneLineare);
+				break;
+			}
+
+			case 3: {//vedi risultato precedente
+				if ( isNull(decorazione)){
+					System.out.println(Stringhe.NESSUN_RISULTATO);
+				}
+				else System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
+				break;
+			}
+		}
 	}
 
 	private static void gestisciSceltaInfo(int sceltaInformazioni) {
@@ -472,25 +566,6 @@ public class Main {
 		}
 	}
 
-	private static boolean rispostaNegativa(String risposta){
-		if (risposta.equalsIgnoreCase("n") || risposta.equalsIgnoreCase("no"))
-			return true;
-		return false;
-	}
-
-	private static boolean rispostaValida(String risposta){
-		for (String s : Stringhe.RISPOSTE_VALIDE) {
-			if (risposta.equalsIgnoreCase(s))return true;
-		}
-		return false;
-	}
-
-    private static String creaNomeFile() {
-        Date ora = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        return formatter.format(ora).trim().replace(' ', '_');
-    }
-
 	private static void gestisciEstensione(int sceltaEstensione) {
 		switch (sceltaEstensione){
 			case 0:{//back
@@ -517,38 +592,6 @@ public class Main {
 
 
 		}
-	}
-
-	private static Dizionario calcolaDizionarioParzialeDaPrefisso() {
-		GestoreDizionari gd = new GestoreDizionari();
-		Input input = new Input();
-		input.setRete(ra);
-		input.setDistanzaMax(lunghezzaPrefisso);
-		sr = gd.calcolaSpazioRilevanza(input);
-		input.setSr(sr);
-		return gd.calcolaDizionario(input);
-	}
-
-	private static Dizionario calcolaDizionarioParzialeDaOsservazione() {
-		GestoreDizionari gd = new GestoreDizionari();
-		Input input = new Input();
-		input.setRete(ra);
-		input.setOsservazione(oss);
-		input.setDaOsservazione(true);
-		sr = gd.calcolaSpazioRilevanza(input);
-		input.setSr(sr);
-		return gd.calcolaDizionario(input);
-	}
-
-	private static Dizionario calcolaDizionarioCompleto() {
-		GestoreDizionari gd = new GestoreDizionari();
-		Input input = new Input();
-		input.setRete(ra);
-		input.setDistanzaMax(SpazioRilevanza.ESPLORAZIONE_COMPLETA);
-
-		sr = gd.calcolaSpazioRilevanza(input);
-		input.setSr(sr);
-		return gd.calcolaDizionario(input);
 	}
 
 	private static void gestisciMonitoraggio(int sceltaMonitoraggio) {
@@ -586,56 +629,6 @@ public class Main {
 				}
 				break;
 			}
-		}
-	}
-
-	private static void gestisciRicerca(int sceltaRicerca) {
-		switch (sceltaRicerca){
-			case 0:{//back
-				break;
-			}
-			case 1:{ //oss lineare da tastiera
-				String input= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
-				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(input.split(", ")));
-				for (String s : splitted) {
-					osservazioneLineare.add(s.trim());
-				}
-				effettuaRicerca(osservazioneLineare);
-				break;
-			}
-
-			case 2: {//estendi ricerca precedente
-				if (isNull(osservazioneLineare)){
-					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
-					break;
-				}
-				String estensioneOss = InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
-				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(estensioneOss.split(", ")));
-				for (String s : splitted) {
-					osservazioneLineare.add(s.trim());
-				}
-				effettuaRicerca(osservazioneLineare);
-				break;
-			}
-
-			case 3: {//vedi risultato precedente
-				if ( isNull(decorazione)){
-					System.out.println(Stringhe.NESSUN_RISULTATO);
-				}
-				else System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
-				break;
-			}
-		}
-	}
-
-	private static void effettuaRicerca(ArrayList<String> osservazioneLineare) {
-		GestoreDizionari gd = new GestoreDizionari();
-		try {
-			decorazione = gd.effettuaRicerca(osservazioneLineare, diz);
-			System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
-
-		} catch (Exception e) {
-			System.out.println(Stringhe.NESSUN_RISULTATO);
 		}
 	}
 
@@ -713,6 +706,82 @@ public class Main {
 		}
 	}
 
+	private static void gestisciCaricamentoReteAutomi() throws Exception{
+		String filepath = leggiStringa(Stringhe.INSERISCI_SESSIONE);
+		File folder = new File(Stringhe.SAVES_PATH);
+		File[] files = folder.listFiles();
+		for (File file : files) {
+			if (file.getName().equals(filepath)){
+				GestoreFile gf = new GestoreFile();
+				gf.setPathRete(filepath);
+				ra = gf.caricaRete();
+				break;
+			}
+		}
+		System.out.println(Stringhe.ERRORE_FILEPATH);
+		throw new Exception();
+	}
+
+	private static Dizionario calcolaDizionario(int dimensione) {
+		GestoreDizionari gd = new GestoreDizionari();
+		InputOutput input = new InputOutput();
+		input.setRete(ra);
+		input.setDistanzaMax(dimensione);
+		sr = gd.calcolaSpazioRilevanza(input);
+		input.setSr(sr);
+		return gd.calcolaDizionario(input);
+	}
+
+	private static Dizionario calcolaDizionarioParzialeDaOsservazione() {
+		GestoreDizionari gd = new GestoreDizionari();
+		InputOutput input = new InputOutput();
+		input.setRete(ra);
+		input.setOsservazione(oss);
+		input.setDaOsservazione(true);
+		sr = gd.calcolaSpazioRilevanza(input);
+		input.setSr(sr);
+		return gd.calcolaDizionario(input);
+	}
+
+	private static void effettuaRicerca(ArrayList<String> osservazioneLineare) {
+		GestoreDizionari gd = new GestoreDizionari();
+		try {
+			//decorazione = gd.effettuaRicerca(osservazioneLineare, diz);
+			System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
+
+		} catch (Exception e) {
+			System.out.println(Stringhe.NESSUN_RISULTATO);
+		}
+	}
+
+	private static String inputNomeFileJSON(){
+		String fileJSON = leggiStringa(Stringhe.INSERIRE_PERCORSO_FILE);
+		return fileJSON;
+	}
+
+	private static boolean sessioniDisponibili() {
+		File folder = new File(Stringhe.SAVES_PATH);
+		File[] files = folder.listFiles();
+		boolean flag = false;
+		if (files.length > 0) flag = true;
+		return flag;
+
+	}
+
+	private static String creaNomeFile() {
+		Date ora = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		return formatter.format(ora).trim().replace(' ', '_');
+	}
+
+	private static void stampaFileDiEsempio() {
+		File folder = new File(Stringhe.EXAMPLE_PATH);
+		File[] files = folder.listFiles();
+		for (File file : files) {
+			System.out.println(file.getPath());
+		}
+	}
+
 	private static void visualizzaSessioniDisponibili() {
 		File folder = new File(Stringhe.SAVES_PATH);
 		File[] files = folder.listFiles();
@@ -737,42 +806,24 @@ public class Main {
 		}
 	}
 
-	private static void stampaFileDiEsempio() {
-		File folder = new File(Stringhe.EXAMPLE_PATH);
-		File[] files = folder.listFiles();
-		for (File file : files) {
-			System.out.println(file.getPath());
-		}
-	}
-
-	private static void gestisciCaricamentoReteAutomi() throws Exception{
-		String filepath = leggiStringa(Stringhe.INSERISCI_SESSIONE);
+	private static void visualizzaSpaziRilevanzaDisponibili() {
 		File folder = new File(Stringhe.SAVES_PATH);
 		File[] files = folder.listFiles();
 		for (File file : files) {
-			if (file.getName().equals(filepath)){
-				GestoreFile gf = new GestoreFile();
-				gf.setPathRete(filepath);
-				ra = gf.caricaRete();
-				break;
-			}
+			if (file.getName().contains(Stringhe.ESTENSIONE_SPAZIO)) System.out.println(file.getName());
 		}
-		System.out.println(Stringhe.ERRORE_FILEPATH);
-		throw new Exception();
 	}
 
-	private static String inputNomeFileJSON(){
-		String fileJSON = leggiStringa(Stringhe.INSERIRE_PERCORSO_FILE);
-		return fileJSON;
+	private static boolean rispostaNegativa(String risposta){
+		if (risposta.equalsIgnoreCase("n") || risposta.equalsIgnoreCase("no"))
+			return true;
+		return false;
 	}
 
-	private static boolean sessioniDisponibili() {
-		File folder = new File(Stringhe.SAVES_PATH);
-		File[] files = folder.listFiles();
-		boolean flag = false;
-		if (files.length > 0) flag = true;
-		return flag;
-
+	private static boolean rispostaValida(String risposta){
+		for (String s : Stringhe.RISPOSTE_VALIDE) {
+			if (risposta.equalsIgnoreCase(s))return true;
+		}
+		return false;
 	}
-
 }

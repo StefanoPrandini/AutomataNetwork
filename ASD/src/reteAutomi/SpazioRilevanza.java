@@ -14,13 +14,14 @@ import static java.util.Objects.isNull;
  */
 public class SpazioRilevanza extends Algoritmo implements Serializable  {
 	public static final int ESPLORAZIONE_COMPLETA = -1;
-	private Input input;
+	private InputOutput input;
 
 	//tengo un insieme di tutti gli stati di rilevanza per evitare di riferirmi a stati uguali che sono oggetti diversi
 	private Set<StatoRilevanzaRete> statiRilevanza;
 	// ogni stato di rilevanza della rete viene mappato con tutte le coppie <transizioneUscente, statoRilevanzaSuccessivo>
 	private Map<StatoRilevanzaRete, List<Pair<Transizione, StatoRilevanzaRete>>> mappaStatoRilevanzaTransizioni;
 	private StatoRilevanzaRete statoRilevanzaIniziale;
+	private int hashRete;
 
 
 	
@@ -28,10 +29,11 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 	 * se costruttore chiamato con distanzaMax e senza osservazione, lo spazio non deve essere creato a partire da un'osservazione
  	 * @param input
 	 */
-	public SpazioRilevanza(Input input) {
+	public SpazioRilevanza(InputOutput input) {
 		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
 		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
 		this.input = input;
+		this.hashRete = input.getRete().hashCode();
 	}
 
 	@Override
@@ -42,6 +44,7 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 		}
 		else {
 			creaSpazioRilevanza(input.getRete());
+
 		}
 	}
 	
@@ -338,5 +341,11 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 		return input.getDistanzaMax();
 	}
 
+	public int getHashRete() {
+		return hashRete;
+	}
 
+	public void setHashRete(int hashRete) {
+		this.hashRete = hashRete;
+	}
 }

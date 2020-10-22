@@ -22,18 +22,29 @@ public class Dizionario extends Algoritmo implements Serializable {
 	private Map<StatoDizionario, Set<Pair<String, StatoDizionario>>> mappaDizionario;
 	private StatoDizionario statoIniziale;
 	private LinkedList<Terna> terne;
-	private Input inputEsterno;
+	private InputOutput inputOutput;
 	
-	public Dizionario(Input inputEsterno) {
+	public Dizionario(InputOutput inputOutput) {
 		this.statiDizionario = new LinkedHashSet<>(); // insieme con elementi in ordine di inserimento
 		this.mappaDizionario = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
 		this.terne = new LinkedList<>(); //insieme di terne in ordine di inserimento
-		this.inputEsterno = inputEsterno;
+		this.inputOutput = inputOutput;
 	}
 
 	@Override
 	public void run() {
-		determinizzazioneSpazio(inputEsterno.getSpazioRilevanza());
+		if (inputOutput.isRicerca()){
+			try {
+				inputOutput.setRisultatoRicerca(ricerca(inputOutput.getOsservazioneLineare()));
+				setRicerca(false);
+			} catch (Exception e) {
+
+			}
+		}
+		else {
+			determinizzazioneSpazio(inputOutput.getSpazioRilevanza());
+		}
+
 	}
 
 	// Lo spazio di rilevanza etichettato e' un NFA (Automa a stati Finiti Nondeterministico) nell'alfabeto Omega (etichette di osservabilita').
@@ -429,6 +440,10 @@ public class Dizionario extends Algoritmo implements Serializable {
 	
 	public Set<StatoDizionario> getStatiDizionario() {
 		return statiDizionario;
+	}
+
+	public void setRicerca(boolean ricerca){
+		this.inputOutput.setRicerca(ricerca);
 	}
 
 }

@@ -6,6 +6,7 @@ import myLib.Stringhe;
 import reteAutomi.Automa;
 import reteAutomi.Dizionario;
 import reteAutomi.ReteAutomi;
+import reteAutomi.SpazioRilevanza;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -27,8 +28,23 @@ public class GestoreFile {
         return ra;
     }
 
+    public SpazioRilevanza caricaSpazioRilevanza(String filepath) throws IOException, ClassNotFoundException {
 
 
+        ObjectInputStream objectinputstream;
+        FileInputStream streamIn;
+
+        streamIn = new FileInputStream(filepath);
+        objectinputstream = new ObjectInputStream(streamIn);
+        SpazioRilevanza sr = (SpazioRilevanza ) objectinputstream.readObject();
+
+        if (! isNull(objectinputstream) ) {
+            objectinputstream.close();
+        }
+
+        return sr;
+
+    }
 
     public Dizionario caricaDizionario(){
         Dizionario dizionario = null;
@@ -59,7 +75,6 @@ public class GestoreFile {
         return osservazioneLineare;
 
     }
-
 
     public Automa caricaAutomaOss(String filepath) throws ClassNotFoundException, IOException {
 

@@ -1,7 +1,11 @@
 package main;
 
+import input.InputParser;
 import myLib.InputDati;
 import myLib.Stringhe;
+import reteAutomi.InputOutput;
+import reteAutomi.ReteAutomi;
+import reteAutomi.SpazioRilevanza;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -16,26 +20,36 @@ public class ProvaT  {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
 
-        visualizzaOsservazioniLineariDisponibili();
-        String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
-        System.out.println(filepath);
-        filepath = Stringhe.SAVE_FOLDER+filepath;
-        System.out.println(filepath);
+        String nomeJSON = "AltraRete.json";
+        // percorso della rete iniziale, in formato JSON
+        String systemPathJSON;
+        if(System.getProperty("os.name").equals("Mac OS X")) {
+            systemPathJSON = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator;
+        }
+        else systemPathJSON = System.getProperty("user.dir") + File.separator + "JSON" + File.separator;
 
-        ArrayList<String> osservazioneLineare;
+        String pathJSON = systemPathJSON + nomeJSON;
 
-        ObjectInputStream objectinputstream;
-        FileInputStream streamIn;
-
-        streamIn = new FileInputStream(filepath);
-        objectinputstream = new ObjectInputStream(streamIn);
-        osservazioneLineare = (ArrayList<String> ) objectinputstream.readObject();
-
-        if (! isNull(objectinputstream) ) {
-            objectinputstream.close();
+        InputParser parser = new InputParser(pathJSON);
+        ReteAutomi ra = null;
+        try {
+            ra = parser.parseRete();
+        } catch (Exception e) {
+            e.printStackTrace();
+            //TODO
         }
 
-        System.out.println(osservazioneLineare);
+        int distanzaMax = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
+        InputOutput input = new InputOutput();
+        input.setRete(ra);
+        input.setDistanzaMax(distanzaMax);
+
+        SpazioRilevanza spazioRilevanzaRete = new SpazioRilevanza(input);
+        Thread threadRilevanza = new Thread(spazioRilevanzaRete);
+        threadRilevanza.start();
+        System.out.println(spazioRilevanzaRete.getHashRete());
+
+
 
 
     }

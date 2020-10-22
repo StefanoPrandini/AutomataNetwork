@@ -1,15 +1,9 @@
 package main;
 
 import input.InputParser;
-import input.OsservazioneParser;
 import reteAutomi.*;
-import javafx.util.Pair;
+
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 
 
 public class Prove {
@@ -45,7 +39,7 @@ public class Prove {
 		//parametro per creazione sottospazi
 		//un sottospazio di fatto crea il prefisso del dizionario
 		int distanzaMax = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
-		Input input = new Input();
+		InputOutput input = new InputOutput();
 		input.setRete(ra);
 		input.setDistanzaMax(distanzaMax);
 

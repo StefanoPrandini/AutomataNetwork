@@ -20,15 +20,34 @@ public class GestoreDizionari {
         return diz;
     }
 
-    public Set<Set<String>> effettuaRicerca(ArrayList<String> osservazioneLineare, Dizionario dizionario) throws Exception{
+    public Set<Set<String>> effettuaRicerca(InputOutput inputOutput) throws Exception{
+        /*
+        Set<Set<String>> diagnosi;
+        .setRicerca(true);
+        Thread thread = new Thread(dizionario);
+        thread.start();
+        String stop = InputDati.leggiStringa(Stringhe.RICERCA_IN_CORSO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
+        while (! stop.equalsIgnoreCase(Stringhe.STOP) && thread.isAlive() && !dizionario.isInInterruzione()){
+            if (stop.equalsIgnoreCase(Stringhe.STOP)){
+                interrompiAlgoritmo();
+                thread.interrupt();
+            }
+            else if (stop.equalsIgnoreCase(Stringhe.OK)){
+                break;
+            }
+            stop = InputDati.leggiStringa(Stringhe.RICERCA_IN_CORSO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
+        }
+
         return dizionario.ricerca(osservazioneLineare);
+        */
+         return null;
     }
 
     public void effettuaMonitoraggioRevisione(ArrayList<String> osservazioneLineare, Dizionario dizionario, SpazioRilevanza sr) throws IOException {
         dizionario.monitoraggio(osservazioneLineare, sr);
     }
 
-    public SpazioRilevanza calcolaSpazioRilevanza(Input input) {
+    public SpazioRilevanza calcolaSpazioRilevanza(InputOutput input) {
         algoritmo = new SpazioRilevanza(input);
         Thread thread = new Thread(algoritmo);
         thread.start();
@@ -46,7 +65,7 @@ public class GestoreDizionari {
         return ridenominaSpazio((SpazioRilevanza)algoritmo);
     }
 
-    public Dizionario calcolaDizionario(Input input) {
+    public Dizionario calcolaDizionario(InputOutput input) {
 
         algoritmo = new Dizionario(input);
         Thread thread = new Thread(algoritmo);
