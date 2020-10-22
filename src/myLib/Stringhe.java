@@ -4,9 +4,9 @@ import java.io.File;
 
 public class Stringhe {
     public static final String FILE_BASE_IN_CARTELLA = "I file JSON delle reti di esempio sono: ";
-    public static final String EXAMPLE_PATH = "ASD" + File.separator + "JSON";
-    public static final String SAVES_PATH = "ASD" + File.separator + "sessioni";
-    public static final String SAVE_FOLDER = "ASD" + File.separator + "sessioni" + File.separator;
+    public static final String EXAMPLE_PATH = System.getProperty("user.dir")+ File.separator + "JSON";
+    public static final String SAVES_PATH = System.getProperty("user.dir") + File.separator + "sessioni";
+    public static final String SAVE_FOLDER = System.getProperty("user.dir") + File.separator + "sessioni" + File.separator;
     public final static String INSERIRE_PERCORSO_FILE = "Inserisci il percorso del file:\n-->";
     public static final String INSERISCI_SESSIONE = "Inserisci il nome del file:\n-->";
     public static final String LUNGHEZZA_PREFISSO = "Inserisci la lunghezza del prefisso (un numero negativo per tornare indietro): ";
