@@ -102,7 +102,7 @@ public class Stringhe {
 
             "Calcola dizionario completo (include calcolo dello Spazio di Rilevanza)",
             "Calcola dizionario parziale (include calcolo dello Spazio di Rilevanza)",
-            "Calcola da Spazio Rilevanza"
+            "Calcola da Spazio Rilevanza precedente"
     };
 
     public static final String[] OPZIONI_GESTIONE_DIZIONARIO_PARZIALE = {
@@ -204,6 +204,8 @@ public class Stringhe {
     public static final String ESTENSIONE_NON_VALIDA = "Attenzione!\nFornire un file con estensione %s" ;
     public static final String ERRORE_CLASSE = "Classe non valida";
     public static final String HASH_DIVERSI = "Attenzione!\nLo spazio di rilevanza indicato potrebbe non essere relativo alla rete caricata!";
+    public static final String INFO_HASH = "La rete di automi fornita ha id %s, lo spazio di rilevanza è relativo alla rete con id %s";
+
 
 
 }

@@ -190,8 +190,7 @@ public class Main {
 							boolean sovrascrive = true;
 							if (spazioRilevanza.getHashRete() != ra.hashCode()){
 								System.out.println(Stringhe.HASH_DIVERSI);
-								System.out.println(spazioRilevanza.getHashRete() + " in spazio r");
-								System.out.println(ra.hashCode() + " in rete a");
+								System.out.println(String.format(Stringhe.INFO_HASH, ra.hashCode(), spazioRilevanza.getHashRete()));
 								String vuoiUscire = InputDati.leggiStringa(Stringhe.SEI_SICURO);
 								while ( ! rispostaValida(vuoiUscire) ){
 									vuoiUscire = InputDati.leggiStringa(Stringhe.NON_VALIDA);
@@ -708,6 +707,10 @@ public class Main {
 
 	private static void gestisciCaricamentoReteAutomi() throws Exception{
 		String filepath = leggiStringa(Stringhe.INSERISCI_SESSIONE);
+		if (!filepath.contains(Stringhe.ESTENSIONE_RETE)){
+			System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_RETE));
+			throw new Exception();
+		}
 		File folder = new File(Stringhe.SAVES_PATH);
 		File[] files = folder.listFiles();
 		for (File file : files) {
