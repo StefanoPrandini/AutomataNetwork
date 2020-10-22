@@ -34,6 +34,12 @@ public class Stringhe {
     public static final String CONTINUA_CALCOLO_DIZ = "Continua con il calcolo di un dizionario o il caricamento di un diverso spazio";
     public static final String STOP = "stop";
     public static final String OK = "ok";
+    public static final String STRINGA_VUOTA = "";
+    public static final String OSS_LIN_IN_MEMORIA = "E' presente in memoria questa osservazione lineare:\n%s";
+    public static final String ESTENSIONE_OSSERVAZIONE = "Aggiungi una o più etichette alla sequenza (es. o2, o3)\n-->";
+
+
+
 
 
 
@@ -142,7 +148,7 @@ public class Stringhe {
 
     public static final String[] OPZIONI_RICERCA_DIZIONARIO = {
             "Inserisci osservazione lineare nuova ed effettua ricerca",
-            "Estendi osservazione lineare ed effettua ricerca",
+            "Aggiungi etichette ad un'osservazione precedente ed effettua ricerca",
             "Vedi diagnosi precedente"
     };
 

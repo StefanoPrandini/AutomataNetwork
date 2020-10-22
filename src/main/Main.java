@@ -367,9 +367,10 @@ public class Main {
 			case 1:{ //oss lineare da tastiera
 				osservazioneLineare = new ArrayList<>();
 				String input= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
-				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(input.split(", ")));
+				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(input.split(",")));
 				for (String s : splitted) {
-					osservazioneLineare.add(s.trim());
+					if ( ! s.equals(Stringhe.STRINGA_VUOTA)) osservazioneLineare.add(s.trim());
+
 				}
 				effettuaRicerca(osservazioneLineare);
 				break;
@@ -380,10 +381,11 @@ public class Main {
 					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
 					break;
 				}
-				String estensioneOss = InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
-				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(estensioneOss.split(", ")));
+				System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineare));
+				String estensioneOss = InputDati.leggiStringa(Stringhe.ESTENSIONE_OSSERVAZIONE);
+				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(estensioneOss.split(",")));
 				for (String s : splitted) {
-					osservazioneLineare.add(s.trim());
+					if ( ! s.equals(Stringhe.STRINGA_VUOTA)) osservazioneLineare.add(s.trim());
 				}
 				effettuaRicerca(osservazioneLineare);
 				break;
