@@ -38,4 +38,10 @@ public class VerificaDati
 		else return false;
 	}
 
+
+	public static boolean isCifraSingola(String stringa){
+		if (stringa.matches("\\d{1}")) return true;
+		return false;
+	}
+
 }

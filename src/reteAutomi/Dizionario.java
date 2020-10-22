@@ -130,6 +130,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 		}
 
 		if ( ! isInInterruzione() ) System.out.println(Stringhe.COSTRUZIONE_DIZIONARIO_COMPLETA);
+		this.setTerminato(true);
 	}
 	
 	
@@ -221,6 +222,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 				throw new Exception("L'osservazione lineare " + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
 			}
 		}
+		this.setTerminato(true);
 		return statoCorrente.getDiagnosi();		
 	}
 	
@@ -455,5 +457,4 @@ public class Dizionario extends Algoritmo implements Serializable {
 	public void setInputOutput(InputOutput inputOutput) {
 		this.inputOutput = inputOutput;
 	}
-
 }

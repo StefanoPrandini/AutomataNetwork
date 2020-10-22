@@ -26,17 +26,17 @@ public class GestoreDizionari {
         Thread thread = new Thread(diz);
         thread.start();
         String stop = InputDati.leggiStringa(Stringhe.RICERCA_IN_CORSO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
-        while (! stop.equalsIgnoreCase(Stringhe.STOP) && thread.isAlive() && !diz.isInInterruzione()){
-            if (stop.equalsIgnoreCase(Stringhe.STOP)){
-                interrompiAlgoritmo();
-                thread.interrupt();
-            }
-            else if (stop.equalsIgnoreCase(Stringhe.OK)){
+        while ( ! stop.equalsIgnoreCase(Stringhe.STOP) ){ //&& thread.isAlive() && !diz.isInInterruzione()
+            if (diz.isTerminato()){
                 break;
             }
             stop = InputDati.leggiStringa(Stringhe.RICERCA_IN_CORSO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
         }
-
+        if (stop.equalsIgnoreCase(Stringhe.STOP) && ! diz.isTerminato()){
+            interrompiAlgoritmo();
+            thread.interrupt();
+        }
+        inputOutput.setRicerca(false);
         return diz.getInputOutput().getRisultatoRicerca();
 
     }
@@ -50,15 +50,13 @@ public class GestoreDizionari {
         Thread thread = new Thread(algoritmo);
         thread.start();
         String stop = InputDati.leggiStringa(Stringhe.CALCOLO_SPAZIO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
-        while (! stop.equalsIgnoreCase(Stringhe.STOP) && thread.isAlive() && !algoritmo.isInInterruzione()){
-            if (stop.equalsIgnoreCase(Stringhe.STOP)){
-                interrompiAlgoritmo();
-                thread.interrupt();
-            }
-            else if (stop.equalsIgnoreCase(Stringhe.OK)){
-                break;
-            }
+        while (! stop.equalsIgnoreCase(Stringhe.STOP) ){ //&& thread.isAlive() && !algoritmo.isInInterruzione()
+            if (algoritmo.isTerminato() ) break;
             stop = InputDati.leggiStringa(Stringhe.CALCOLO_SPAZIO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
+        }
+        if (stop.equalsIgnoreCase(Stringhe.STOP) && !algoritmo.isTerminato()){
+            interrompiAlgoritmo();
+            thread.interrupt();
         }
         return ridenominaSpazio((SpazioRilevanza)algoritmo);
     }
@@ -69,15 +67,15 @@ public class GestoreDizionari {
         Thread thread = new Thread(algoritmo);
         thread.start();
         String stop = InputDati.leggiStringa(Stringhe.CALCOLO_DIZIONARIO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
-        while (! stop.equalsIgnoreCase(Stringhe.STOP) && thread.isAlive() && !algoritmo.isInInterruzione()){
-            if (stop.equalsIgnoreCase(Stringhe.STOP)){
-                interrompiAlgoritmo();
-                thread.interrupt();
-            }
-            else if (stop.equalsIgnoreCase(Stringhe.OK)){
+        while (! stop.equalsIgnoreCase(Stringhe.STOP) ){ //&& thread.isAlive() && !algoritmo.isInInterruzione()
+             if (algoritmo.isTerminato()){
                 break;
             }
             stop = InputDati.leggiStringa(Stringhe.CALCOLO_DIZIONARIO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
+        }
+        if (stop.equalsIgnoreCase(Stringhe.STOP)){
+            interrompiAlgoritmo();
+            thread.interrupt();
         }
         return ridenominaDizionario((Dizionario) algoritmo);
     }

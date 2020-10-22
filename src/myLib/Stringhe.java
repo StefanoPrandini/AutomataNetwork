@@ -7,7 +7,7 @@ public class Stringhe {
     public static final String EXAMPLE_PATH = System.getProperty("user.dir")+ File.separator + "JSON";
     public static final String SAVES_PATH = System.getProperty("user.dir") + File.separator + "sessioni";
     public static final String SAVE_FOLDER = System.getProperty("user.dir") + File.separator + "sessioni" + File.separator;
-    public final static String INSERIRE_PERCORSO_FILE = "Inserisci il percorso del file:\n-->";
+    public final static String INSERIRE_PERCORSO_FILE = "Inserisci l'indice del file di esempio desiderato o un altro percorso:\n-->";
     public static final String INSERISCI_SESSIONE = "Inserisci il nome del file:\n-->";
     public static final String LUNGHEZZA_PREFISSO = "Inserisci la lunghezza del prefisso (un numero negativo per tornare indietro): ";
     public static final int VALORE_USCITA = 0;
@@ -24,7 +24,7 @@ public class Stringhe {
     public static final String VUOI_USCIRE = "Vuoi terminare il programma? y/n\n-->";
     public static final String NON_VALIDA = "La risposta inserita non è valida, vuoi terminare il programma? y/n\n--> ";
     public static final String CALCOLO_SPAZIO = "Calcolo dello spazio di rilevanza in corso\n";
-    public static final String CALCOLO_SPAZIO_COMPLETO = "\nCalcolo completato, inserisci '%s' per proseguire: ";
+    public static final String CALCOLO_SPAZIO_COMPLETO = "\nCalcolo completato, premi invio per proseguire: ";
     public static final String CALCOLO_DIZIONARIO = "Costruzione del dizionario in corso\n";
     public static final String COSTRUZIONE_DIZIONARIO_COMPLETA = "\nCostruzione completa, premi invio per proseguire: ";
     public static final String RICERCA_IN_CORSO = "Ricerca nel dizionario in corso\n";

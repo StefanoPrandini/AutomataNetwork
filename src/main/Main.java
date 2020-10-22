@@ -6,6 +6,7 @@ import javafx.util.Pair;
 import myLib.InputDati;
 import myLib.MyMenu;
 import myLib.Stringhe;
+import myLib.VerificaDati;
 import reteAutomi.*;
 
 import java.io.*;
@@ -30,6 +31,8 @@ public class Main {
 	private static Set<Set<String>> decorazione;
 	private static int lunghezzaPrefisso = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
 	private static boolean spazioRilevanzaCalcolato = false;
+	private static File[] filesSessione;
+	private static File[] filesEsempio;
 
 
 	public static void main(String[] args) {
@@ -53,9 +56,8 @@ public class Main {
 			case 1:  { //carica da JSON
 				System.out.println(Stringhe.FILE_BASE_IN_CARTELLA);
 				stampaFileDiEsempio();
-				String filepath = inputNomeFileJSON();
 				GestoreFile gf = new GestoreFile();
-				gf.setPathRete(filepath);
+				gf.setPathRete(determinaFilepath(inputNomeFileJSON()));
 				try {
 					ra = gf.caricaRete();
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
@@ -98,6 +100,8 @@ public class Main {
 			default: break;
 		}
 	}
+
+
 
 	private static void gestisciRete(int scelta){
 		//informazioni rete, calcola dizionario, carica dizionario
@@ -713,6 +717,7 @@ public class Main {
 
 	private static void gestisciCaricamentoReteAutomi() throws Exception{
 		String filepath = leggiStringa(Stringhe.INSERISCI_SESSIONE);
+		//string file path dovrebbe essere input da controllare e poi prendere indice
 		if (!filepath.contains(Stringhe.ESTENSIONE_RETE)){
 			System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_RETE));
 			throw new Exception();
@@ -797,17 +802,21 @@ public class Main {
 
 	private static void stampaFileDiEsempio() {
 		File folder = new File(Stringhe.EXAMPLE_PATH);
-		File[] files = folder.listFiles();
-		for (File file : files) {
-			System.out.println(file.getPath());
+		filesEsempio = folder.listFiles();
+		int index = 0;
+		for (File file : filesEsempio) {
+			System.out.println(index + " " + file.getPath());
+			index++;
 		}
 	}
 
 	private static void visualizzaSessioniDisponibili() {
 		File folder = new File(Stringhe.SAVES_PATH);
-		File[] files = folder.listFiles();
-		for (File file : files) {
-			System.out.println(file.getName());
+		filesSessione = folder.listFiles();
+		int index = 0;
+		for (File file : filesSessione) {
+			System.out.println(index + " " + file.getName());
+			index++;
 		}
 	}
 
@@ -846,5 +855,12 @@ public class Main {
 			if (risposta.equalsIgnoreCase(s))return true;
 		}
 		return false;
+	}
+
+	private static String determinaFilepath(String inputUtente) {
+		if (VerificaDati.isCifraSingola(inputUtente)){
+			return filesEsempio[Integer.parseInt(inputUtente)].getPath();
+		}
+		return inputUtente;
 	}
 }

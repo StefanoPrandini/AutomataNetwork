@@ -116,6 +116,7 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 
 
 		if ( ! isInInterruzione() ) System.out.println(Stringhe.CALCOLO_SPAZIO_COMPLETO);
+		this.setTerminato(true);
 
 	}
 
@@ -226,6 +227,7 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, listaAdiacenza);
 		}
 		if ( ! isInInterruzione() ) System.out.println(Stringhe.CALCOLO_SPAZIO_COMPLETO);
+		this.setTerminato(true);
 	}
 
 
