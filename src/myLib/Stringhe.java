@@ -26,7 +26,7 @@ public class Stringhe {
     public static final String CALCOLO_SPAZIO = "Calcolo dello spazio di rilevanza in corso\n";
     public static final String CALCOLO_SPAZIO_COMPLETO = "\nCalcolo completato, inserisci '%s' per proseguire: ";
     public static final String CALCOLO_DIZIONARIO = "Costruzione del dizionario in corso\n";
-    public static final String COSTRUZIONE_DIZIONARIO_COMPLETA = "\nCostruzione completa, inserisci '%s' per proseguire: ";
+    public static final String COSTRUZIONE_DIZIONARIO_COMPLETA = "\nCostruzione completa, premi invio per proseguire: ";
     public static final String RICERCA_IN_CORSO = "Ricerca nel dizionario in corso\n";
     public static final String INSERISCI_PER_INTERROMPERE = "Inserisci '%s' per interrompere: ";
     public static final String SEI_SICURO = "Vuoi continuare comunque? y/n\n--> ";

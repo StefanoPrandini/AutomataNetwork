@@ -33,7 +33,7 @@ public class Main {
 
 
 	public static void main(String[] args) {
-		MyMenu m = new MyMenu(Stringhe.TITOLO_INIZIALE, Stringhe.OPZIONI_MENU_CARICAMENTO);
+		MyMenu m = new MyMenu(Stringhe.TITOLO_INIZIALE, Stringhe.OPZIONI_MENU_CARICAMENTO, true);
 		int scelta = m.scegli();
 		while (scelta !=0) {
 			gestisciCaricamentoIniziale(scelta);
@@ -56,25 +56,24 @@ public class Main {
 				String filepath = inputNomeFileJSON();
 				GestoreFile gf = new GestoreFile();
 				gf.setPathRete(filepath);
-				boolean caricamentoOk = false;
 				try {
 					ra = gf.caricaRete();
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
 					System.out.println(ra.toString());
-					caricamentoOk = true;
+					MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
+					int sceltaGestioneRete = menuGestioneRete.scegli();
+					while (sceltaGestioneRete != 0){
+						gestisciRete(sceltaGestioneRete);
+						sceltaGestioneRete = menuGestioneRete.scegli();
+					}
 				}
 				catch (NullPointerException npe){
-					npe.printStackTrace();
+					System.out.println(Stringhe.ERRORE_CARICAMENTO);
 				}
 				catch (Exception e){
-					System.out.println(Stringhe.ERRORE_FILEPATH);
+					System.out.println(Stringhe.ERRORE_CARICAMENTO);
 				}
-				MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
-				int sceltaGestioneRete = menuGestioneRete.scegli();
-				while (sceltaGestioneRete != 0 && caricamentoOk){
-					gestisciRete(sceltaGestioneRete);
-					sceltaGestioneRete = menuGestioneRete.scegli();
-				}
+
 				break;
 
 			}

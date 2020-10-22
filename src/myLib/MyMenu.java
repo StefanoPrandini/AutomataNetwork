@@ -24,20 +24,20 @@ public class MyMenu
   {
 	this.titolo = titolo;
 	this.voci = voci;
-	indietro = false;
+	this.indietro = true;
   }
   
-  public MyMenu (String titolo, String [] voci, boolean isSottoMenu)
+  public MyMenu(String titolo, String [] voci, boolean isMenuPrincipale)
   {
 	  this.titolo = titolo;
 	  this.voci = voci;
-	  if(!isSottoMenu)
+	  if( isMenuPrincipale)
 	  {
-		  indietro = false;
+		  this.indietro = false;
 	  }
 	  else
 	  {
-		  indietro = true;
+		  this.indietro = true;
 	  }
   }
 

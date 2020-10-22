@@ -33,11 +33,11 @@ public class InputParser {
 		try {
 			this.json = JsonParser.parseReader(new FileReader(filePath)).getAsJsonObject();
 		} catch (JsonIOException jioe) {
-			System.err.println(Stringhe.ERRORE_JSON);
+			System.out.println(Stringhe.ERRORE_JSON);
 		} catch (JsonSyntaxException jse) {
-			System.err.println(Stringhe.ERRORE_FORMATTAZIONE);
+			System.out.println(Stringhe.ERRORE_FORMATTAZIONE);
 		}catch (FileNotFoundException fnfe) {
-			System.err.println(Stringhe.ERRORE_FILEPATH);
+			System.out.println(Stringhe.ERRORE_FILEPATH);
 		}
 
 
