@@ -791,7 +791,7 @@ public class Main {
 
 	private static String creaNomeFile() {
 		Date ora = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
 		return formatter.format(ora).trim().replace(' ', '_');
 	}
 
