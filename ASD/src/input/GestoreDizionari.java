@@ -20,14 +20,13 @@ public class GestoreDizionari {
         return diz;
     }
 
-    public Set<Set<String>> effettuaRicerca(InputOutput inputOutput) throws Exception{
-        /*
-        Set<Set<String>> diagnosi;
-        .setRicerca(true);
-        Thread thread = new Thread(dizionario);
+    public Set<Set<String>> effettuaRicerca(InputOutput inputOutput, Dizionario diz) throws Exception{
+        inputOutput.setRicerca(true);
+        diz.setInputOutput(inputOutput);
+        Thread thread = new Thread(diz);
         thread.start();
         String stop = InputDati.leggiStringa(Stringhe.RICERCA_IN_CORSO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
-        while (! stop.equalsIgnoreCase(Stringhe.STOP) && thread.isAlive() && !dizionario.isInInterruzione()){
+        while (! stop.equalsIgnoreCase(Stringhe.STOP) && thread.isAlive() && !diz.isInInterruzione()){
             if (stop.equalsIgnoreCase(Stringhe.STOP)){
                 interrompiAlgoritmo();
                 thread.interrupt();
@@ -38,9 +37,8 @@ public class GestoreDizionari {
             stop = InputDati.leggiStringa(Stringhe.RICERCA_IN_CORSO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
         }
 
-        return dizionario.ricerca(osservazioneLineare);
-        */
-         return null;
+        return diz.getInputOutput().getRisultatoRicerca();
+
     }
 
     public void effettuaMonitoraggioRevisione(ArrayList<String> osservazioneLineare, Dizionario dizionario, SpazioRilevanza sr) throws IOException {

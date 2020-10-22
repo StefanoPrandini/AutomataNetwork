@@ -26,7 +26,7 @@ public class Main {
 	private static Automa oss;
 	private static SpazioRilevanza sr;
 	private static Dizionario diz;
-	private static ArrayList<String> osservazioneLineare;
+	private static ArrayList<String> osservazioneLineare = new ArrayList<>();
 	private static Set<Set<String>> decorazione;
 	private static int lunghezzaPrefisso = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
 	private static boolean spazioRilevanzaCalcolato = false;
@@ -233,8 +233,6 @@ public class Main {
 
 	}
 
-
-
 	private static void gestisciCalcoloDizionarioParziale(int scelta) {
 		switch (scelta){
 			case 0: {// exit
@@ -368,6 +366,7 @@ public class Main {
 				break;
 			}
 			case 1:{ //oss lineare da tastiera
+				osservazioneLineare = new ArrayList<>();
 				String input= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
 				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(input.split(", ")));
 				for (String s : splitted) {
@@ -765,7 +764,9 @@ public class Main {
 	private static void effettuaRicerca(ArrayList<String> osservazioneLineare) {
 		GestoreDizionari gd = new GestoreDizionari();
 		try {
-			//decorazione = gd.effettuaRicerca(osservazioneLineare, diz);
+			InputOutput inputOutput = new InputOutput();
+			inputOutput.setOsservazioneLineare(osservazioneLineare);
+			decorazione = gd.effettuaRicerca(inputOutput, diz);
 			System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
 
 		} catch (Exception e) {

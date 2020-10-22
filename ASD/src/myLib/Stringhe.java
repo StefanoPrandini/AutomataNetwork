@@ -4,9 +4,9 @@ import java.io.File;
 
 public class Stringhe {
     public static final String FILE_BASE_IN_CARTELLA = "I file JSON delle reti di esempio sono: ";
-    public static final String EXAMPLE_PATH = "ASD/JSON";
-    public static final String SAVES_PATH = "ASD/sessioni";
-    public static final String SAVE_FOLDER = "ASD/sessioni/";
+    public static final String EXAMPLE_PATH = "ASD" + File.separator + "JSON";
+    public static final String SAVES_PATH = "ASD" + File.separator + "sessioni";
+    public static final String SAVE_FOLDER = "ASD" + File.separator + "sessioni" + File.separator;
     public final static String INSERIRE_PERCORSO_FILE = "Inserisci il percorso del file:\n-->";
     public static final String INSERISCI_SESSIONE = "Inserisci il nome del file:\n-->";
     public static final String LUNGHEZZA_PREFISSO = "Inserisci la lunghezza del prefisso (un numero negativo per tornare indietro): ";
@@ -27,6 +27,7 @@ public class Stringhe {
     public static final String CALCOLO_SPAZIO_COMPLETO = "\nCalcolo completato, inserisci '%s' per proseguire: ";
     public static final String CALCOLO_DIZIONARIO = "Costruzione del dizionario in corso\n";
     public static final String COSTRUZIONE_DIZIONARIO_COMPLETA = "\nCostruzione completa, inserisci '%s' per proseguire: ";
+    public static final String RICERCA_IN_CORSO = "Ricerca nel dizionario in corso\n";
     public static final String INSERISCI_PER_INTERROMPERE = "Inserisci '%s' per interrompere: ";
     public static final String SEI_SICURO = "Vuoi continuare comunque? y/n\n--> ";
     public static final String CARICAMENTO_ANNULLATO = "Caricamento annullato";
@@ -100,7 +101,6 @@ public class Stringhe {
 
     };
     public static final String[] OPZIONI_CALCOLO_DIZIONARIO = {
-
             "Calcola dizionario completo (include calcolo dello Spazio di Rilevanza)",
             "Calcola dizionario parziale (include calcolo dello Spazio di Rilevanza)",
             "Calcola da Spazio Rilevanza salvato in precedenza"
@@ -141,7 +141,7 @@ public class Stringhe {
     };
 
     public static final String[] OPZIONI_RICERCA_DIZIONARIO = {
-            "Inserisci osservazione lineare ed effettua ricerca",
+            "Inserisci osservazione lineare nuova ed effettua ricerca",
             "Estendi osservazione lineare ed effettua ricerca",
             "Vedi diagnosi precedente"
     };
@@ -206,7 +206,6 @@ public class Stringhe {
     public static final String ERRORE_CLASSE = "Classe non valida";
     public static final String HASH_DIVERSI = "Attenzione!\nLo spazio di rilevanza indicato potrebbe non essere relativo alla rete caricata!";
     public static final String INFO_HASH = "La rete di automi fornita ha id %s, lo spazio di rilevanza è relativo alla rete con id %s";
-
 
 
 }

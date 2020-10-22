@@ -14,15 +14,6 @@ public class InputOutput implements Serializable {
     private boolean ricerca;
     private int distanzaMax;
     private SpazioRilevanza sr;
-    private Dizionario diz;
-
-    public Dizionario getDiz() {
-        return diz;
-    }
-
-    public void setDiz(Dizionario diz) {
-        this.diz = diz;
-    }
 
     private Set<Set<String>> risultatoRicerca;
 

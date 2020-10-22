@@ -31,6 +31,8 @@ public class Dizionario extends Algoritmo implements Serializable {
 		this.inputOutput = inputOutput;
 	}
 
+
+
 	@Override
 	public void run() {
 		if (inputOutput.isRicerca()){
@@ -444,6 +446,14 @@ public class Dizionario extends Algoritmo implements Serializable {
 
 	public void setRicerca(boolean ricerca){
 		this.inputOutput.setRicerca(ricerca);
+	}
+
+	public InputOutput getInputOutput() {
+		return inputOutput;
+	}
+
+	public void setInputOutput(InputOutput inputOutput) {
+		this.inputOutput = inputOutput;
 	}
 
 }
