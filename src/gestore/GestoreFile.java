@@ -22,10 +22,28 @@ public class GestoreFile {
     public GestoreFile() {
     }
 
-    public ReteAutomi caricaRete() throws Exception{
+    public ReteAutomi caricaReteDaJSON() throws Exception{
         InputParser ip = new InputParser(pathRete);
         ReteAutomi ra = ip.parseRete();
         return ra;
+    }
+
+    public ReteAutomi caricaReteDaSessione() throws Exception{
+        ObjectInputStream objectinputstream;
+        FileInputStream streamIn;
+
+        streamIn = new FileInputStream(pathRete);
+        objectinputstream = new ObjectInputStream(streamIn);
+        ReteAutomi ra = (ReteAutomi ) objectinputstream.readObject();
+        System.out.println(ra);
+
+        if (! isNull(objectinputstream) ) {
+            objectinputstream.close();
+        }
+
+        return ra;
+
+
     }
 
     public SpazioRilevanza caricaSpazioRilevanza(String filepath) throws IOException, ClassNotFoundException {

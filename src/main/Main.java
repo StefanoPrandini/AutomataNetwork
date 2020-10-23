@@ -34,8 +34,8 @@ public class Main {
 	private static Set<Set<String>> decorazione;
 	private static int lunghezzaPrefisso = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
 	private static boolean spazioRilevanzaCalcolato = false;
-	private static File[] filesSessione;
-	private static File[] filesEsempio;
+	private static ArrayList<File> filesSessione = new ArrayList<>();
+	private static ArrayList<File> filesEsempio = new ArrayList<>();
 
 
 	public static void main(String[] args) {
@@ -59,10 +59,14 @@ public class Main {
 			case 1:  { //carica da JSON
 				System.out.println(Stringhe.FILE_BASE_IN_CARTELLA);
 				stampaFileDiEsempio();
+				String input = determinaFilepathEsempio(inputNomeFileJSON());
+				if (isNull(input)){
+					break;
+				}
 				GestoreFile gf = new GestoreFile();
-				gf.setPathRete(determinaFilepath(inputNomeFileJSON()));
+				gf.setPathRete(input);
 				try {
-					ra = gf.caricaRete();
+					ra = gf.caricaReteDaJSON();
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
 					System.out.println(ra.toString());
 					MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
@@ -84,7 +88,8 @@ public class Main {
 			}
 			case 2: { // carica sessione
 				if(sessioniDisponibili()){
-					visualizzaSessioniDisponibili();
+					System.out.println(Stringhe.FILE_SESSIONI);
+					visualizzaSessioniDisponibili(Stringhe.ESTENSIONE_RETE);
 					try {
 						gestisciCaricamentoReteAutomi();
 						System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
@@ -137,12 +142,6 @@ public class Main {
 					}catch (Exception e){
 						System.out.println(Stringhe.ERRORE_CARICAMENTO);
 					}
-				}
-				MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
-				int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
-				while (sceltaGestioneDizionario != 0){
-					gestisciDizionario(sceltaGestioneDizionario);
-					sceltaGestioneDizionario = menuGestioneDizionario.scegli();
 				}
 				break;
 			}
@@ -651,6 +650,11 @@ public class Main {
 				break;
 			}
 			case 1:{//info generiche
+				int numeroTransizioni = 0;
+				for (Set<Pair<String, StatoDizionario>> value : diz.getMappaDizionario().values()) {
+					numeroTransizioni += value.size();
+				}
+				System.out.println(String.format(Stringhe.INFO_DIZIONARIO, diz.getStatiDizionario().size(),numeroTransizioni));
 				System.out.println(diz);
 				break;
 			}
@@ -677,13 +681,16 @@ public class Main {
 				break;
 			}
 			case 1: {//dettagli stati
-				System.out.println(String.format(Stringhe.INFO_SPAZIO_RILEVANZA, ""+sr.getStatiRilevanza().size()));
+				System.out.println(String.format(Stringhe.INFO_SPAZIO_RILEVANZA, sr.getStatiRilevanza().size()));
 				System.out.println(sr);
+				break;
+
 			}
 			case 2: {//ridenominazione
 				for (StatoRilevanzaRete statoRilevanzaRete : sr.getStatiRilevanza()) {
 					System.out.println(statoRilevanzaRete + " --> " + statoRilevanzaRete.getRidenominazione());
 				}
+				break;
 			}
 			case 3:{//mappa spazio
 				System.out.println(Stringhe.INFO_MAPPA_SPAZIO);
@@ -692,6 +699,7 @@ public class Main {
 						System.out.println(stato.getRidenominazione() + " -> " + srd.getKey().getNome() + " -> " + srd.getValue().getRidenominazione());
 					}
 				}
+				break;
 			}
 		}
 	}
@@ -714,27 +722,36 @@ public class Main {
 					}
 					else System.out.println(Stringhe.ERRORE_FILEPATH);
 				}
+				MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
+				int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+				while (sceltaGestioneDizionario != 0){
+					gestisciDizionario(sceltaGestioneDizionario);
+					sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+				}
+
 			}
 		}
 	}
 
 	private static void gestisciCaricamentoReteAutomi() throws Exception{
-		String filepath = leggiStringa(Stringhe.INSERISCI_SESSIONE);
-		//string file path dovrebbe essere input da controllare e poi prendere indice
+		String filepath = determinaFilepathSessione(leggiStringa(Stringhe.INSERISCI_SESSIONE));
+		System.out.println(filepath);
 		if (!filepath.contains(Stringhe.ESTENSIONE_RETE)){
 			System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_RETE));
+			System.out.println("problema estensione");
 			throw new Exception();
 		}
 		File folder = new File(Stringhe.SAVES_PATH);
 		File[] files = folder.listFiles();
 		for (File file : files) {
-			if (file.getName().equals(filepath)){
+			if (file.getPath().equals(filepath)){
 				GestoreFile gf = new GestoreFile();
 				gf.setPathRete(filepath);
-				ra = gf.caricaRete();
-				break;
+				ra = gf.caricaReteDaSessione();
+				return;
 			}
 		}
+		System.out.println("errore scemo");
 		System.out.println(Stringhe.ERRORE_FILEPATH);
 		throw new Exception();
 	}
@@ -805,22 +822,28 @@ public class Main {
 
 	private static void stampaFileDiEsempio() {
 		File folder = new File(Stringhe.EXAMPLE_PATH);
-		filesEsempio = folder.listFiles();
-		int index = 0;
+		filesEsempio = new ArrayList<>();
+		filesEsempio.addAll(Arrays.asList(folder.listFiles()));
+		int index = 1;
 		for (File file : filesEsempio) {
 			System.out.println(index + " " + file.getPath());
 			index++;
 		}
+		System.out.println("\n" + Stringhe.INDICE_INDIETRO);
 	}
 
-	private static void visualizzaSessioniDisponibili() {
+	private static void visualizzaSessioniDisponibili(String estensioneFile) {
 		File folder = new File(Stringhe.SAVES_PATH);
-		filesSessione = folder.listFiles();
+		File[] files  = folder.listFiles();
 		int index = 0;
-		for (File file : filesSessione) {
-			System.out.println(index + " " + file.getName());
-			index++;
+		for (File file : files) {
+			if (file.getName().contains(estensioneFile)){
+				filesSessione.add(file);
+				index++;
+				System.out.println(index  + " " + file.getName());
+			}
 		}
+		System.out.println("\n" + Stringhe.INDICE_INDIETRO);
 	}
 
 	public static void visualizzaOsservazioniLineariDisponibili() {
@@ -860,10 +883,25 @@ public class Main {
 		return false;
 	}
 
-	private static String determinaFilepath(String inputUtente) {
+	private static String determinaFilepathEsempio(String inputUtente) {
 		if (VerificaDati.isCifraSingola(inputUtente)){
-			return filesEsempio[Integer.parseInt(inputUtente)].getPath();
+			int index = Integer.parseInt(inputUtente);
+			if (index == 0){
+				return null;
+			}
+
+			return filesEsempio.get(index-1).getPath();
 		}
+		return inputUtente;
+	}
+
+	private static String determinaFilepathSessione(String inputUtente) {
+		int n = filesSessione.size();
+		if (VerificaDati.isInteroValido(inputUtente, n)){
+			System.out.println(filesSessione.get(Integer.parseInt(inputUtente)).getPath());
+			return filesSessione.get(Integer.parseInt(inputUtente)).getPath();
+		}
+		System.out.println(inputUtente + " input");
 		return inputUtente;
 	}
 }

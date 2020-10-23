@@ -1,9 +1,11 @@
 package myLib;
 
 import java.io.File;
+import java.util.Locale;
 
 public class Stringhe {
-    public static final String FILE_BASE_IN_CARTELLA = "I file JSON delle reti di esempio sono: ";
+    public static final String FILE_BASE_IN_CARTELLA = "I file JSON delle reti di esempio sono: \n";
+    public static final String FILE_SESSIONI = "File salvati in sessioni precedenti: \n";
     public static final String EXAMPLE_PATH = System.getProperty("user.dir")+ File.separator + "JSON";
     public static final String SAVES_PATH = System.getProperty("user.dir") + File.separator + "sessioni";
     public static final String SAVE_FOLDER = System.getProperty("user.dir") + File.separator + "sessioni" + File.separator;
@@ -37,6 +39,8 @@ public class Stringhe {
     public static final String STRINGA_VUOTA = "";
     public static final String OSS_LIN_IN_MEMORIA = "E' presente in memoria questa osservazione lineare:\n%s";
     public static final String ESTENSIONE_OSSERVAZIONE = "Aggiungi una o più etichette alla sequenza (es. o2, o3)\n-->";
+    public static final String INFO_DIZIONARIO = "Il dizionario ha %s stati e %s transizioni etichettate";
+    public static final String INDICE_INDIETRO = "0 Indietro\n";
 
 
 
