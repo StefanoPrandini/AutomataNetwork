@@ -8,6 +8,7 @@ import javafx.util.Pair;
 import static java.util.Objects.isNull;
 
 public class ReteAutomi implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private ArrayList<Automa> automi;
 	private ArrayList<Link> links;

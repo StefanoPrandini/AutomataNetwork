@@ -22,6 +22,7 @@ import java.io.IOException;
  *
  */
 public class Dizionario extends Algoritmo implements Serializable {
+	private static final long serialVersionUID = 1L;
 	//tengo un insieme di tutti gli stati di rilevanza della rete determinizzata per evitare di riferirmi a stati uguali che sono oggetti diversi
 	private Set<StatoDizionario> statiDizionario;
 	//mappo stati Rilevanza del DFA con coppie<etichettaO, statoArrivo>
@@ -36,7 +37,6 @@ public class Dizionario extends Algoritmo implements Serializable {
 		this.terne = new LinkedList<>(); //insieme di terne in ordine di inserimento
 		this.inputOutput = inputOutput;
 	}
-
 
 
 	@Override
