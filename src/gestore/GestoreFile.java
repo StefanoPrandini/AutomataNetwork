@@ -1,12 +1,12 @@
-package input;
+package gestore;
 
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
+import input.InputParser;
+import input.OsservazioneParser;
 import myLib.Stringhe;
-import reteAutomi.Automa;
-import reteAutomi.Dizionario;
-import reteAutomi.ReteAutomi;
-import reteAutomi.SpazioRilevanza;
+import model.Automa;
+import algoritmo.Dizionario;
+import model.ReteAutomi;
+import algoritmo.SpazioRilevanza;
 
 import java.io.*;
 import java.util.ArrayList;

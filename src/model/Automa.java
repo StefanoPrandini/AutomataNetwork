@@ -1,4 +1,4 @@
-package reteAutomi;
+package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -24,10 +24,6 @@ public class Automa implements Serializable {
 	
 
 	/**
-	 * ATTENZIONE Lo stato iniziale e' un doppione 
-	 * @param stati
-	 * @param transizioni
-	 * @param statoIniziale
 	 */
 	public Automa(String nome, ArrayList<Stato> stati, ArrayList<Transizione> transizioni, String nomeStatoIniziale) {
 		this.id = ai.incrementAndGet();

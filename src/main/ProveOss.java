@@ -1,15 +1,9 @@
 package main;
 
 import input.InputParser;
-import input.OsservazioneParser;
-import reteAutomi.*;
-import javafx.util.Pair;
+import model.*;
+
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 
 public class ProveOss {
 	public static void main(String[] args)  {

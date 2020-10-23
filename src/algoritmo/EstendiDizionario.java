@@ -1,4 +1,4 @@
-package reteAutomi;
+package algoritmo;
 
 import static java.util.Objects.isNull;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import javafx.util.Pair;
+import model.*;
 
 /**
  * Quando si estende il dizionario non si puo' usare lo spazio di rilevanza, servono quindi metodi specifici

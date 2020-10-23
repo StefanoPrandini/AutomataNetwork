@@ -1,4 +1,4 @@
-package reteAutomi;
+package model;
 
 import java.io.Serializable;
 import java.util.*;

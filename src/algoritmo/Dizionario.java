@@ -1,8 +1,14 @@
-package reteAutomi;
+package algoritmo;
 
 import java.io.Serializable;
 import java.util.*;
+
+import gestore.GestoreInputOutput;
 import javafx.util.Pair;
+import model.StatoDizionario;
+import model.StatoRilevanzaRete;
+import model.Terna;
+import model.Transizione;
 import myLib.Stringhe;
 
 import static java.util.Objects.isNull;
@@ -22,9 +28,9 @@ public class Dizionario extends Algoritmo implements Serializable {
 	private Map<StatoDizionario, Set<Pair<String, StatoDizionario>>> mappaDizionario;
 	private StatoDizionario statoIniziale;
 	private LinkedList<Terna> terne;
-	private InputOutput inputOutput;
+	private GestoreInputOutput inputOutput;
 	
-	public Dizionario(InputOutput inputOutput) {
+	public Dizionario(GestoreInputOutput inputOutput) {
 		this.statiDizionario = new LinkedHashSet<>(); // insieme con elementi in ordine di inserimento
 		this.mappaDizionario = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
 		this.terne = new LinkedList<>(); //insieme di terne in ordine di inserimento
@@ -450,11 +456,11 @@ public class Dizionario extends Algoritmo implements Serializable {
 		this.inputOutput.setRicerca(ricerca);
 	}
 
-	public InputOutput getInputOutput() {
+	public GestoreInputOutput getInputOutput() {
 		return inputOutput;
 	}
 
-	public void setInputOutput(InputOutput inputOutput) {
+	public void setInputOutput(GestoreInputOutput inputOutput) {
 		this.inputOutput = inputOutput;
 	}
 }

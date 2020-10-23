@@ -1,10 +1,14 @@
-package reteAutomi;
+package gestore;
+
+import model.Automa;
+import model.ReteAutomi;
+import algoritmo.SpazioRilevanza;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class InputOutput implements Serializable {
+public class GestoreInputOutput implements Serializable {
 
 
     private ReteAutomi rete;

@@ -6,12 +6,12 @@ import java.util.ArrayList;
 // In order to use Gson to parse JSON in Java, you need to add the library as a dependency. You can get the latest version from Maven repository
 import com.google.gson.*;
 import myLib.Stringhe;
-import reteAutomi.Automa;
-import reteAutomi.Evento;
-import reteAutomi.Link;
-import reteAutomi.ReteAutomi;
-import reteAutomi.Stato;
-import reteAutomi.Transizione;
+import model.Automa;
+import model.Evento;
+import model.Link;
+import model.ReteAutomi;
+import model.Stato;
+import model.Transizione;
 
 
 public class InputParser {
@@ -108,10 +108,10 @@ public class InputParser {
 				}
 			}
 			if (statoPartenza == null) {
-				throw new Exception("Stato di partenza " + jTrans.get("statoPartenza").getAsString() + " non trovato!");	
+				throw new Exception("Stato di partenza " + jTrans.get("statoPartenza").getAsString() + " non trovato!");
 			}
 			if (statoArrivo == null) {
-				throw new Exception("Stato di arrivo " + jTrans.get("statoArrivo").getAsString() + " non trovato!");	
+				throw new Exception("Stato di arrivo " + jTrans.get("statoArrivo").getAsString() + " non trovato!");
 			}
 			
 			String idEventoIn = jTrans.getAsJsonObject("eventoIngresso").get("idEvento").getAsString();

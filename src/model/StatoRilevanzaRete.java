@@ -1,4 +1,4 @@
-package reteAutomi;
+package model;
 
 import javafx.util.Pair;
 

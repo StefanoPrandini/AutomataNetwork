@@ -1,6 +1,11 @@
-package reteAutomi;
+package algoritmo;
 
+import gestore.GestoreInputOutput;
 import javafx.util.Pair;
+import model.Automa;
+import model.ReteAutomi;
+import model.StatoRilevanzaRete;
+import model.Transizione;
 import myLib.Stringhe;
 
 import java.io.Serializable;
@@ -14,7 +19,7 @@ import static java.util.Objects.isNull;
  */
 public class SpazioRilevanza extends Algoritmo implements Serializable  {
 	public static final int ESPLORAZIONE_COMPLETA = -1;
-	private InputOutput input;
+	private GestoreInputOutput input;
 
 	//tengo un insieme di tutti gli stati di rilevanza per evitare di riferirmi a stati uguali che sono oggetti diversi
 	private Set<StatoRilevanzaRete> statiRilevanza;
@@ -29,7 +34,7 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 	 * se costruttore chiamato con distanzaMax e senza osservazione, lo spazio non deve essere creato a partire da un'osservazione
  	 * @param input
 	 */
-	public SpazioRilevanza(InputOutput input) {
+	public SpazioRilevanza(GestoreInputOutput input) {
 		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
 		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
 		this.input = input;

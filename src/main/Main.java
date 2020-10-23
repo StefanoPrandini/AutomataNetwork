@@ -1,13 +1,16 @@
 package main;
 
-import input.GestoreDizionari;
-import input.GestoreFile;
+import algoritmo.Dizionario;
+import algoritmo.SpazioRilevanza;
+import gestore.GestoreDizionari;
+import gestore.GestoreFile;
+import gestore.GestoreInputOutput;
 import javafx.util.Pair;
 import myLib.InputDati;
 import myLib.MyMenu;
 import myLib.Stringhe;
 import myLib.VerificaDati;
-import reteAutomi.*;
+import model.*;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -738,7 +741,7 @@ public class Main {
 
 	private static Dizionario calcolaDizionario(int dimensione) {
 		GestoreDizionari gd = new GestoreDizionari();
-		InputOutput input = new InputOutput();
+		GestoreInputOutput input = new GestoreInputOutput();
 		input.setRete(ra);
 		input.setDistanzaMax(dimensione);
 		if ( ! spazioRilevanzaCalcolato){
@@ -753,7 +756,7 @@ public class Main {
 
 	private static Dizionario calcolaDizionarioParzialeDaOsservazione() {
 		GestoreDizionari gd = new GestoreDizionari();
-		InputOutput input = new InputOutput();
+		GestoreInputOutput input = new GestoreInputOutput();
 		input.setRete(ra);
 		input.setOsservazione(oss);
 		input.setDaOsservazione(true);
@@ -770,7 +773,7 @@ public class Main {
 	private static void effettuaRicerca(ArrayList<String> osservazioneLineare) {
 		GestoreDizionari gd = new GestoreDizionari();
 		try {
-			InputOutput inputOutput = new InputOutput();
+			GestoreInputOutput inputOutput = new GestoreInputOutput();
 			inputOutput.setOsservazioneLineare(osservazioneLineare);
 			decorazione = gd.effettuaRicerca(inputOutput, diz);
 			System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));

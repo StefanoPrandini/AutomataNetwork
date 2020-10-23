@@ -1,4 +1,4 @@
-package reteAutomi;
+package algoritmo;
 
 public abstract class Algoritmo implements Runnable {
 

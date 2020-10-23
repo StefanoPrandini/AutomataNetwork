@@ -1,7 +1,9 @@
 package main;
 
+import algoritmo.SpazioRilevanza;
+import gestore.GestoreInputOutput;
 import input.InputParser;
-import reteAutomi.*;
+import model.*;
 
 import java.io.File;
 
@@ -39,7 +41,7 @@ public class Prove {
 		//parametro per creazione sottospazi
 		//un sottospazio di fatto crea il prefisso del dizionario
 		int distanzaMax = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
-		InputOutput input = new InputOutput();
+		GestoreInputOutput input = new GestoreInputOutput();
 		input.setRete(ra);
 		input.setDistanzaMax(distanzaMax);
 

@@ -1,8 +1,12 @@
-package input;
+package gestore;
 
+import algoritmo.Algoritmo;
+import algoritmo.Dizionario;
+import algoritmo.EstendiDizionario;
+import algoritmo.SpazioRilevanza;
 import myLib.InputDati;
 import myLib.Stringhe;
-import reteAutomi.*;
+import model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +24,7 @@ public class GestoreDizionari {
         return diz;
     }
 
-    public Set<Set<String>> effettuaRicerca(InputOutput inputOutput, Dizionario diz) throws Exception{
+    public Set<Set<String>> effettuaRicerca(GestoreInputOutput inputOutput, Dizionario diz) throws Exception{
         inputOutput.setRicerca(true);
         diz.setInputOutput(inputOutput);
         Thread thread = new Thread(diz);
@@ -45,7 +49,7 @@ public class GestoreDizionari {
         dizionario.monitoraggio(osservazioneLineare, sr);
     }
 
-    public SpazioRilevanza calcolaSpazioRilevanza(InputOutput input) {
+    public SpazioRilevanza calcolaSpazioRilevanza(GestoreInputOutput input) {
         algoritmo = new SpazioRilevanza(input);
         Thread thread = new Thread(algoritmo);
         thread.start();
@@ -61,7 +65,7 @@ public class GestoreDizionari {
         return ridenominaSpazio((SpazioRilevanza)algoritmo);
     }
 
-    public Dizionario calcolaDizionario(InputOutput input) {
+    public Dizionario calcolaDizionario(GestoreInputOutput input) {
 
         algoritmo = new Dizionario(input);
         Thread thread = new Thread(algoritmo);
