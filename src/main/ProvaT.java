@@ -1,18 +1,31 @@
 package main;
 
+import myLib.InputDati;
+import myLib.Stringhe;
 import myLib.VerificaDati;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
 
 public class ProvaT  {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
 
-        String s = "1";
+ArrayList<String> res = new ArrayList<>();
+        String input= InputDati.leggiStringa("msg");
+        ArrayList<String> in = new ArrayList<>(Arrays.asList(input.split(",")));
+        for (String s : in) {
+            s = s.trim();
+            if ( ! s.equals(Stringhe.STRINGA_VUOTA)) res.add(s);
 
-        if (VerificaDati.isCifraSingola(s))
-            System.out.println("lol");
-        else System.out.println("no");
+        }
+
+        for (String re : res) {
+            System.out.println(re);
+        }
+
 
 
     }

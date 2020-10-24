@@ -45,11 +45,9 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 	public void run(){
 		if (input.isDaOsservazione()){
 			creaSpazioRilevanzaDaOsservazione(input.getRete(), input.getOsservazione());
-
 		}
 		else {
 			creaSpazioRilevanza(input.getRete());
-
 		}
 	}
 	

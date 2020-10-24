@@ -371,13 +371,7 @@ public class Main {
 				break;
 			}
 			case 1:{ //oss lineare da tastiera
-				osservazioneLineare = new ArrayList<>();
-				String input= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
-				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(input.split(",")));
-				for (String s : splitted) {
-					if ( ! s.equals(Stringhe.STRINGA_VUOTA)) osservazioneLineare.add(s.trim());
-
-				}
+				osservazioneLineare = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
 				effettuaRicerca(osservazioneLineare);
 				break;
 			}
@@ -388,11 +382,7 @@ public class Main {
 					break;
 				}
 				System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineare));
-				String estensioneOss = InputDati.leggiStringa(Stringhe.ESTENSIONE_OSSERVAZIONE);
-				ArrayList<String> splitted = new ArrayList<>(Arrays.asList(estensioneOss.split(",")));
-				for (String s : splitted) {
-					if ( ! s.equals(Stringhe.STRINGA_VUOTA)) osservazioneLineare.add(s.trim());
-				}
+				osservazioneLineare.addAll(inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE));
 				effettuaRicerca(osservazioneLineare);
 				break;
 			}
@@ -614,29 +604,46 @@ public class Main {
 
 				if ( isNull(sr)){
 					System.out.println(Stringhe.NESSUNO_SPAZIO_RILEVANZA);
+					break;
 				}
-				String input= InputDati.leggiStringa(Stringhe.INSERIMENTO_OSSERVAZIONE);
-				osservazioneLineare = new ArrayList<>(Arrays.asList(input.split(", ")));
+				osservazioneLineare = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
 				GestoreDizionari gd = new GestoreDizionari();
 				try {
 					gd.effettuaMonitoraggioRevisione(osservazioneLineare, diz, sr);
-					for (Terna terna : diz.getTerne()) {
-						if (diz.getTerne().size() > 1) System.out.println("Terna " + terna);
-					}
+					stampaTerne();
 				} catch (Exception e) {
 					if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
 				}
 				break;
 			}
 
-			case 2: {//vedi risultato precedente
+			case 2:{
+				if ( isNull(sr)){
+					System.out.println(Stringhe.NESSUNO_SPAZIO_RILEVANZA);
+					break;
+				}
+				if (isNull(osservazioneLineare)){
+					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
+					break;
+				}
+				System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineare));
+				osservazioneLineare.addAll(inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE));
+				GestoreDizionari gd = new GestoreDizionari();
+				try {
+					gd.effettuaMonitoraggioRevisione(osservazioneLineare, diz, sr);
+					stampaTerne();
+				} catch (Exception e) {
+					if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
+				}
+				break;
+			}
+
+			case 3: {//vedi risultato precedente
 				if ( isNull(diz.getTerne())){
 					System.out.println(Stringhe.NESSUN_RISULTATO);
 				}
 				else {
-					for (Terna terna : diz.getTerne()) {
-						if (diz.getTerne().size() > 1) System.out.println("Terna " + terna);
-					}
+					stampaTerne();
 				}
 				break;
 			}
@@ -759,6 +766,7 @@ public class Main {
 	private static Dizionario calcolaDizionario(int dimensione) {
 		GestoreDizionari gd = new GestoreDizionari();
 		GestoreInputOutput input = new GestoreInputOutput();
+		ra.inizializzaRete();
 		input.setRete(ra);
 		input.setDistanzaMax(dimensione);
 		if ( ! spazioRilevanzaCalcolato){
@@ -903,5 +911,24 @@ public class Main {
 		}
 		System.out.println(inputUtente + " input");
 		return inputUtente;
+	}
+
+	public static ArrayList<String> inserimentoOsservazioneLineare(String msg){
+		ArrayList<String> res  = new ArrayList<>();
+		String input= InputDati.leggiStringa(msg);
+		ArrayList<String> splitted = new ArrayList<>(Arrays.asList(input.split(",")));
+		for (String s : splitted) {
+			s = s.trim();
+			if ( ! s.equals(Stringhe.STRINGA_VUOTA)) res.add(s);
+		}
+		return res;
+
+	}
+
+	private static void stampaTerne() {
+		System.out.println(String.format(Stringhe.RISULTATO_TERNE, osservazioneLineare));
+		for (Terna terna : diz.getTerne()) {
+			if (diz.getTerne().size() > 1) System.out.println("\tTerna " + terna);
+		}
 	}
 }

@@ -29,6 +29,7 @@ public class Stringhe {
     public static final String CALCOLO_SPAZIO_COMPLETO = "\nCalcolo completato, premi invio per proseguire: ";
     public static final String CALCOLO_DIZIONARIO = "Costruzione del dizionario in corso\n";
     public static final String COSTRUZIONE_DIZIONARIO_COMPLETA = "\nCostruzione completa, premi invio per proseguire: ";
+    public static final String RICERCA_COMPLETA = "\nRicerca completata, premi invio per proseguire: ";
     public static final String RICERCA_IN_CORSO = "Ricerca nel dizionario in corso\n";
     public static final String INSERISCI_PER_INTERROMPERE = "Inserisci '%s' per interrompere: ";
     public static final String SEI_SICURO = "Vuoi continuare comunque? y/n\n--> ";
@@ -40,6 +41,7 @@ public class Stringhe {
     public static final String OSS_LIN_IN_MEMORIA = "E' presente in memoria questa osservazione lineare:\n%s";
     public static final String ESTENSIONE_OSSERVAZIONE = "Aggiungi una o più etichette alla sequenza (es. o2, o3)\n-->";
     public static final String INFO_DIZIONARIO = "Il dizionario ha %s stati e %s transizioni etichettate";
+    public static final String RISULTATO_TERNE = "\nRisultato di monitoraggio e revisione da %s: \n";
     public static final String INDICE_INDIETRO = "0 Indietro\n";
 
 
@@ -158,6 +160,7 @@ public class Stringhe {
 
     public static final String[] OPZIONI_MONITORAGGIO = {
             "Effettua monitoraggio e revisione",
+            "Aggiungi etichette ad un'osservazione precedente ed effettua monitoraggio",
             "Vedi risultato precedente"
     };
 

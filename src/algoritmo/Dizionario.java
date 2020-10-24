@@ -217,17 +217,24 @@ public class Dizionario extends Algoritmo implements Serializable {
 		StatoDizionario statoCorrente = this.statoIniziale;
 		for(String etichetta : osservazioneLineare) {
 			boolean found = false;
+			if (isInInterruzione()){
+				return statoCorrente.getDiagnosi();
+			}
 			for(Pair<String, StatoDizionario> transizioneOut : this.mappaDizionario.get(statoCorrente)) {
 				if(etichetta.equals(transizioneOut.getKey())) {
 					statoCorrente = transizioneOut.getValue();
 					found = true;
 					break;
 				}
+				if (isInInterruzione()){
+					return statoCorrente.getDiagnosi();
+				}
 			}
-			if(!found || isInInterruzione()) {
+			if(!found) {
 				throw new Exception("L'osservazione lineare " + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
 			}
 		}
+		System.out.println(Stringhe.RICERCA_COMPLETA);
 		this.setTerminato(true);
 		return statoCorrente.getDiagnosi();		
 	}
