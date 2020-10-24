@@ -364,7 +364,9 @@ public class Main {
 				break;
 			}
 			case 1:{ //oss lineare da tastiera
-				osservazioneLineare = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
+				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
+				if (isNull(input)) break;
+				osservazioneLineare = input;
 				effettuaRicerca(osservazioneLineare);
 				break;
 			}
@@ -375,7 +377,9 @@ public class Main {
 					break;
 				}
 				System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineare));
-				osservazioneLineare.addAll(inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE));
+				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE);
+				if (isNull(input)) break;
+				osservazioneLineare.addAll(input);
 				effettuaRicerca(osservazioneLineare);
 				break;
 			}
@@ -604,19 +608,24 @@ public class Main {
 					System.out.println(Stringhe.NESSUNO_SPAZIO_RILEVANZA);
 					break;
 				}
-				osservazioneLineare = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
+
+				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
+				if (isNull(input)) break;
+				osservazioneLineare = input;
 				GestoreDizionari gd = new GestoreDizionari();
 				try {
 					gd.effettuaMonitoraggioRevisione(osservazioneLineare, diz, sr);
-					stampaTerne();
+					if ( diz.getTerne().size() > 1){
+						stampaTerne();
+					}
+					break;
 				} catch (Exception e) {
 					if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
 					break;
 				}
-				break;
 			}
 
-			case 2:{
+			case 2:{ //estensione monitoraggio
 				if ( isNull(sr)){
 					System.out.println(Stringhe.NESSUNO_SPAZIO_RILEVANZA);
 					break;
@@ -625,21 +634,28 @@ public class Main {
 					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
 					break;
 				}
+
 				System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineare));
-				osservazioneLineare.addAll(inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE));
+
+
+				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE);
+				if (isNull(input)) break;
+				osservazioneLineare.addAll(input);
 				GestoreDizionari gd = new GestoreDizionari();
 				try {
 					gd.effettuaMonitoraggioRevisione(osservazioneLineare, diz, sr);
-					stampaTerne();
+					if ( diz.getTerne().size() > 1){
+						stampaTerne();
+					}
+					break;
 				} catch (Exception e) {
 					if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
 					break;
 				}
-				break;
 			}
 
 			case 3: {//vedi risultato precedente
-				if ( isNull(diz.getTerne())){
+				if ( isNull(diz.getTerne()) || diz.getTerne().size() >= 1){
 					System.out.println(Stringhe.NESSUN_RISULTATO);
 				}
 				else {
@@ -927,6 +943,7 @@ public class Main {
 	public static ArrayList<String> inserimentoOsservazioneLineare(String msg){
 		ArrayList<String> res  = new ArrayList<>();
 		String input= InputDati.leggiStringa(msg);
+		if (input.trim().equals(Stringhe.STRINGA_VUOTA)) return null;
 		ArrayList<String> splitted = new ArrayList<>(Arrays.asList(input.split(",")));
 		for (String s : splitted) {
 			s = s.trim();

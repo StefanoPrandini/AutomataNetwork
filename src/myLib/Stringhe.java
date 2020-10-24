@@ -17,9 +17,9 @@ public class Stringhe {
     public static final String INFO_RIDENOMINAZIONE_SPAZIO = "(StatoRilevanza) --> ridenominazione";
     public static final String INFO_MAPPA_SPAZIO = "[(StatoRilevanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:";
     public static final String INSERIMENTO_OSSERVAZIONE = "Inserisci le etichette di un'osservazione lineare separandole con virgole " +
-            "(es: o3, o4, act, cls):\n-->";
-    public static final String RISULTATO_RICERCA = "\tOsservazione lineare %s\n\tDiagnosi %s";
-    public static final String NESSUN_RISULTATO = "\tL'osservazione lineare non corrisponde a nessuna traiettoria nella rete!";
+            "(es: o3, o4, act, cls), una stringa vuota per tornare indietro:\n-->";
+    public static final String RISULTATO_RICERCA = "\n\tOsservazione lineare %s\n\tDiagnosi %s";
+    public static final String NESSUN_RISULTATO = "\n\tL'osservazione lineare non corrisponde a nessuna traiettoria nella rete!";
     public static final String NESSUNO_SPAZIO_RILEVANZA = "Nessuno spazio di rilevanza rilevato, non e' possibile proseguire";
     public static final String INFO_I_O = "\tStato %s -> Input: %s, Output: %s";
     public static final String INFO_COPPIE_I_O = "\tStato %s -> coppie I/O: %s";
@@ -39,7 +39,7 @@ public class Stringhe {
     public static final String OK = "ok";
     public static final String STRINGA_VUOTA = "";
     public static final String OSS_LIN_IN_MEMORIA = "E' presente in memoria questa osservazione lineare:\n%s";
-    public static final String ESTENSIONE_OSSERVAZIONE = "Aggiungi una o piu' etichette alla sequenza (es. o2, o3)\n-->";
+    public static final String ESTENSIONE_OSSERVAZIONE = "Aggiungi una o piu' etichette alla sequenza (es. o2, o3), inserisci una stringa vuota per tornare indietro\n-->";
     public static final String INFO_DIZIONARIO = "Il dizionario ha %s stati e %s transizioni etichettate";
     public static final String RISULTATO_TERNE = "\nRisultato di monitoraggio e revisione da %s: \n";
     public static final String INDICE_INDIETRO = "0 Indietro\n";
@@ -214,5 +214,6 @@ public class Stringhe {
     public static final String ERRORE_CLASSE = "Classe non valida";
     public static final String HASH_DIVERSI = "Attenzione!\nLo spazio di rilevanza indicato potrebbe non essere relativo alla rete caricata!";
     public static final String INFO_HASH = "La rete di automi fornita ha id %s, lo spazio di rilevanza e' relativo alla rete con id %s";
+
 
 }
