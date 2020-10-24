@@ -11,20 +11,16 @@ import myLib.MyMenu;
 import myLib.Stringhe;
 import myLib.VerificaDati;
 import model.*;
-
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Set;
-
 import static java.util.Objects.isNull;
 import static myLib.InputDati.leggiStringa;
 
-
 public class Main {
-
 
 	private static ReteAutomi ra;
 	private static Automa oss;
@@ -32,7 +28,6 @@ public class Main {
 	private static Dizionario diz;
 	private static ArrayList<String> osservazioneLineare = new ArrayList<>();
 	private static Set<Set<String>> decorazione;
-	private static int lunghezzaPrefisso = SpazioRilevanza.ESPLORAZIONE_COMPLETA;
 	private static boolean spazioRilevanzaCalcolato = false;
 	private static ArrayList<File> filesSessione = new ArrayList<>();
 	private static ArrayList<File> filesEsempio = new ArrayList<>();
@@ -76,9 +71,9 @@ public class Main {
 						sceltaGestioneRete = menuGestioneRete.scegli();
 					}
 				}
-				catch (NullPointerException npe){
-					System.out.println(Stringhe.ERRORE_CARICAMENTO);
-				}
+//				catch (NullPointerException npe){
+//					System.out.println(Stringhe.ERRORE_CARICAMENTO);
+//				}
 				catch (Exception e){
 					System.out.println(Stringhe.ERRORE_CARICAMENTO);
 				}
@@ -247,7 +242,7 @@ public class Main {
 
 				int lettura = InputDati.leggiIntero(Stringhe.LUNGHEZZA_PREFISSO);
 				if (lettura < Stringhe.VALORE_USCITA) break;
-				diz = calcolaDizionario(lunghezzaPrefisso = lettura);
+				diz = calcolaDizionario(lettura);
 				MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
 				int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
 				while (sceltaGestioneDizionario != 0){
@@ -440,6 +435,7 @@ public class Main {
 				try {
 					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
 					oos.writeObject(ra);
+					oos.close();
 					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
 				}
 				catch (Exception e){
@@ -452,6 +448,7 @@ public class Main {
 				try {
 					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
 					oos.writeObject(sr);
+					oos.close();
 					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
 				}
 				catch (Exception e){
@@ -464,6 +461,7 @@ public class Main {
 				try {
 					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
 					oos.writeObject(diz);
+					oos.close();
 					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
 				}
 				catch (Exception e){
@@ -476,6 +474,7 @@ public class Main {
 				try {
 					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
 					oos.writeObject(osservazioneLineare);
+					oos.close();
 					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
 				}
 				catch (Exception e){
@@ -488,6 +487,7 @@ public class Main {
 				try {
 					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
 					oos.writeObject(oss);
+					oos.close();
 					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
 				}
 				catch (Exception e){
@@ -766,7 +766,6 @@ public class Main {
 	private static Dizionario calcolaDizionario(int dimensione) {
 		GestoreDizionari gd = new GestoreDizionari();
 		GestoreInputOutput input = new GestoreInputOutput();
-		ra.inizializzaRete();
 		input.setRete(ra);
 		input.setDistanzaMax(dimensione);
 		if ( ! spazioRilevanzaCalcolato){
@@ -782,6 +781,7 @@ public class Main {
 	private static Dizionario calcolaDizionarioParzialeDaOsservazione() {
 		GestoreDizionari gd = new GestoreDizionari();
 		GestoreInputOutput input = new GestoreInputOutput();
+		ra.inizializzaRete(); // riporto a stato iniziale
 		input.setRete(ra);
 		input.setOsservazione(oss);
 		input.setDaOsservazione(true);
@@ -897,7 +897,9 @@ public class Main {
 			if (index == 0){
 				return null;
 			}
-
+			else if (index > filesEsempio.size()) {
+				return inputUtente; // lo prende come path cos� informa che non esiste
+			}
 			return filesEsempio.get(index-1).getPath();
 		}
 		return inputUtente;

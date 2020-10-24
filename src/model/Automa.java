@@ -10,6 +10,8 @@ import static java.util.Objects.isNull;
 
 
 public class Automa implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	//identificatori interi univoci
 	private static AtomicInteger ai = new AtomicInteger(0);
 	private int id;
