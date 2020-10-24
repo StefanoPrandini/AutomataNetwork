@@ -28,7 +28,7 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 	// ogni stato di rilevanza della rete viene mappato con tutte le coppie <transizioneUscente, statoRilevanzaSuccessivo>
 	private Map<StatoRilevanzaRete, List<Pair<Transizione, StatoRilevanzaRete>>> mappaStatoRilevanzaTransizioni;
 	private StatoRilevanzaRete statoRilevanzaIniziale;
-	private int hashRete;
+	private String nomeRete;
 
 
 	
@@ -40,7 +40,8 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
 		this.mappaStatoRilevanzaTransizioni = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
 		this.input = input;
-		this.hashRete = input.getRete().hashCode();
+		this.nomeRete = input.getRete().getNome();
+
 	}
 
 	@Override
@@ -348,11 +349,11 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 		return input.getDistanzaMax();
 	}
 
-	public int getHashRete() {
-		return hashRete;
+	public String getNomeRete() {
+		return nomeRete;
 	}
 
-	public void setHashRete(int hashRete) {
-		this.hashRete = hashRete;
+	public void setNomeRete(String nomeRete) {
+		this.nomeRete = nomeRete;
 	}
 }

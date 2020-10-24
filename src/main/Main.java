@@ -2,7 +2,6 @@ package main;
 
 import algoritmo.Dizionario;
 import algoritmo.SpazioRilevanza;
-import com.sun.xml.internal.ws.message.StringHeader;
 import gestore.GestoreDizionari;
 import gestore.GestoreFile;
 import gestore.GestoreInputOutput;
@@ -109,8 +108,7 @@ public class Main {
 	private static void gestisciRete(int scelta){
 		//informazioni rete, calcola dizionario, carica dizionario
 		switch (scelta){
-			case 0: { //EXIT //TODO sei sicuro?
-
+			case 0: { //back
 				break;
 			}
 			case 1: { // informazioni rete
@@ -192,15 +190,16 @@ public class Main {
 							System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
 							SpazioRilevanza spazioRilevanza = gf.caricaSpazioRilevanza(filepath);
 							boolean sovrascrive = true;
-							if (spazioRilevanza.getHashRete() != ra.hashCode()){
-								System.out.println(Stringhe.HASH_DIVERSI);
-								System.out.println(String.format(Stringhe.INFO_HASH, ra.hashCode(), spazioRilevanza.getHashRete()));
-								String vuoiUscire = InputDati.leggiStringa(Stringhe.SEI_SICURO);
-								while ( ! rispostaValida(vuoiUscire) ){
-									vuoiUscire = InputDati.leggiStringa(Stringhe.NON_VALIDA);
+							if ( ! spazioRilevanza.getNomeRete().equals(ra.getNome())){
+								System.out.println(Stringhe.NOMI_RETE_DIVERSI);
+								System.out.println(String.format(Stringhe.INFO_NOMI_RETE, ra.getNome(), spazioRilevanza.getNomeRete()));
+								String vuoiContinuare = InputDati.leggiStringa(Stringhe.SEI_SICURO);
+								while ( ! rispostaValida(vuoiContinuare) ){
+									System.out.println(Stringhe.NON_VALIDA);
+									vuoiContinuare = InputDati.leggiStringa(Stringhe.SEI_SICURO);
 								}
 								//se vuole inserire uno spazio di rilevanza non relativo alla rete
-								if (rispostaNegativa(vuoiUscire)){
+								if (rispondeNo(vuoiContinuare)){
 									sovrascrive = false;
 								}
 
@@ -349,9 +348,10 @@ public class Main {
 				case 7: { //chiudi elaboratore
 					String vuoiUscire = InputDati.leggiStringa(Stringhe.VUOI_USCIRE);
 					while ( ! rispostaValida(vuoiUscire) ){
-						vuoiUscire = InputDati.leggiStringa(Stringhe.NON_VALIDA);
+						System.out.println(Stringhe.NON_VALIDA);
+						vuoiUscire = InputDati.leggiStringa(Stringhe.VUOI_USCIRE);
 					}
-					if (rispostaNegativa(vuoiUscire)){
+					if (rispondeNo(vuoiUscire)){
 						break;
 					}
 					else System.exit(0);
@@ -962,7 +962,7 @@ public class Main {
 		}
 	}
 
-	private static boolean rispostaNegativa(String risposta){
+	private static boolean rispondeNo(String risposta){
 		if (risposta.equalsIgnoreCase("n") || risposta.equalsIgnoreCase("no"))
 			return true;
 		return false;

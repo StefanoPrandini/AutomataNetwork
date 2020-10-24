@@ -24,7 +24,7 @@ public class Stringhe {
     public static final String INFO_I_O = "\tStato %s -> Input: %s, Output: %s";
     public static final String INFO_COPPIE_I_O = "\tStato %s -> coppie I/O: %s";
     public static final String VUOI_USCIRE = "Vuoi terminare il programma? y/n\n-->";
-    public static final String NON_VALIDA = "La risposta inserita non e' valida, vuoi terminare il programma? y/n\n--> ";
+    public static final String NON_VALIDA = "Attenzione!\nNon e' stata inserita una risposta valida";
     public static final String CALCOLO_SPAZIO = "Calcolo dello spazio di rilevanza in corso\n";
     public static final String CALCOLO_SPAZIO_COMPLETO = "\nCalcolo completato, premi INVIO per proseguire ";
     public static final String CALCOLO_DIZIONARIO = "Costruzione del dizionario in corso\n";
@@ -217,8 +217,8 @@ public class Stringhe {
     public final static String ERRORE_CARICAMENTO = "Errore nel caricamento";
     public static final String ESTENSIONE_NON_VALIDA = "Attenzione!\nFornire un file con estensione %s" ;
     public static final String ERRORE_CLASSE = "Classe non valida";
-    public static final String HASH_DIVERSI = "Attenzione!\nLo spazio di rilevanza indicato potrebbe non essere relativo alla rete caricata!";
-    public static final String INFO_HASH = "La rete di automi fornita ha id %s, lo spazio di rilevanza e' relativo alla rete con id %s";
+    public static final String NOMI_RETE_DIVERSI = "Attenzione!\nLo spazio di rilevanza indicato potrebbe non essere relativo alla rete caricata!";
+    public static final String INFO_NOMI_RETE = "La rete di automi fornita e' chiamata %s, lo spazio di rilevanza e' relativo alla rete %s";
 
 
 
