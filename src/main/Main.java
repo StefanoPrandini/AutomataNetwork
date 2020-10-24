@@ -2,6 +2,7 @@ package main;
 
 import algoritmo.Dizionario;
 import algoritmo.SpazioRilevanza;
+import com.sun.xml.internal.ws.message.StringHeader;
 import gestore.GestoreDizionari;
 import gestore.GestoreFile;
 import gestore.GestoreInputOutput;
@@ -24,7 +25,8 @@ public class Main {
 	private static Automa oss;
 	private static SpazioRilevanza sr;
 	private static Dizionario diz;
-	private static ArrayList<String> osservazioneLineare = new ArrayList<>();
+	private static ArrayList<String> osservazioneLineareRicerca = new ArrayList<>();
+	private static ArrayList<String> osservazioneLineareMonitoraggio = new ArrayList<>();
 	private static Set<Set<String>> decorazione;
 	private static boolean spazioRilevanzaCalcolato = false;
 	private static ArrayList<File> filesSessione = new ArrayList<>();
@@ -366,29 +368,33 @@ public class Main {
 			case 1:{ //oss lineare da tastiera
 				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
 				if (isNull(input)) break;
-				osservazioneLineare = input;
-				effettuaRicerca(osservazioneLineare);
+				osservazioneLineareRicerca = input;
+				effettuaRicerca(osservazioneLineareRicerca);
 				break;
 			}
 
 			case 2: {//estendi ricerca precedente
-				if (isNull(osservazioneLineare) || osservazioneLineare.isEmpty()){
+				if (isNull(osservazioneLineareRicerca) || osservazioneLineareRicerca.isEmpty()){
 					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
 					break;
 				}
-				System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineare));
+				System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineareRicerca));
 				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE);
 				if (isNull(input)) break;
-				osservazioneLineare.addAll(input);
-				effettuaRicerca(osservazioneLineare);
+				osservazioneLineareRicerca.addAll(input);
+				effettuaRicerca(osservazioneLineareRicerca);
 				break;
 			}
 
 			case 3: {//vedi risultato precedente
-				if ( isNull(decorazione)){
+				if (isNull(osservazioneLineareRicerca) || osservazioneLineareRicerca.isEmpty()){
+					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.RICERCA_DIAGNOSI));
+					break;
+				}
+				if ( isNull(decorazione) ){
 					System.out.println(Stringhe.NESSUN_RISULTATO);
 				}
-				else System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
+				else System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineareRicerca, decorazione));
 				break;
 			}
 		}
@@ -471,11 +477,11 @@ public class Main {
 				}
 				break;
 			}
-			case 4: {//salva osservazione lineare
-				String nome = creaNomeFile() + Stringhe.ESTENSIONE_OSS_LIN;
+			case 4: {//salva osservazione lineare per la ricerca
+				String nome = creaNomeFile() + Stringhe.ESTENSIONE_OSS_LIN_RIC;
 				try {
 					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
-					oos.writeObject(osservazioneLineare);
+					oos.writeObject(osservazioneLineareRicerca);
 					oos.close();
 					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
 				}
@@ -484,7 +490,22 @@ public class Main {
 				}
 				break;
 			}
-			case 5:{ //salva automa osservazione
+
+			case 5: {//salva osservazione lineare per il monitoraggio
+				String nome = creaNomeFile() + Stringhe.ESTENSIONE_OSS_LIN_MON;
+				try {
+					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
+					oos.writeObject(osservazioneLineareMonitoraggio);
+					oos.close();
+					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+				}
+				catch (Exception e){
+					System.out.println(e.toString());
+				}
+				break;
+			}
+
+			case 6:{ //salva automa osservazione
 				String nome = creaNomeFile() + Stringhe.ESTENSIONE_AUTOMA_OSS;
 				try {
 					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
@@ -506,12 +527,12 @@ public class Main {
 			case 0:{//back
 				break;
 			}
-			case 1:{//carica oss lineare
-				visualizzaOsservazioniLineariDisponibili();
+			case 1:{//carica oss lineare ricerca
+				visualizzaOsservazioniLineariDisponibili(Stringhe.ESTENSIONE_OSS_LIN_RIC);
 				String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
 				filepath = Stringhe.SAVE_FOLDER+filepath;
-				if ( ! filepath.contains(Stringhe.ESTENSIONE_OSS_LIN) ){
-					System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_OSS_LIN));
+				if ( ! filepath.contains(Stringhe.ESTENSIONE_OSS_LIN_RIC) ){
+					System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_OSS_LIN_RIC));
 					break;
 				}
 				File folder = new File(Stringhe.SAVES_PATH);
@@ -522,8 +543,8 @@ public class Main {
 						GestoreFile gf = new GestoreFile();
 						try {
 							System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
-							osservazioneLineare = gf.caricaOsservazioneLineare(filepath);
-							System.out.println(String.format(Stringhe.CARICAMENTO_OSS_LIN, osservazioneLineare));
+							osservazioneLineareRicerca = gf.caricaOsservazioneLineare(filepath);
+							System.out.println(String.format(Stringhe.CARICAMENTO_OSS_LIN, osservazioneLineareRicerca));
 						} catch (IOException e) {
 							e.printStackTrace();
 						} catch (ClassNotFoundException e) {
@@ -536,7 +557,40 @@ public class Main {
 
 
 			}
-			case 2:{//carica automa oss
+
+			case 2:{//carica oss lineare monitoraggio
+				visualizzaOsservazioniLineariDisponibili(Stringhe.ESTENSIONE_OSS_LIN_MON);
+				String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
+				filepath = Stringhe.SAVE_FOLDER+filepath;
+				if ( ! filepath.contains(Stringhe.ESTENSIONE_OSS_LIN_MON) ){
+					System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_OSS_LIN_MON));
+					break;
+				}
+				File folder = new File(Stringhe.SAVES_PATH);
+				File[] files = folder.listFiles();
+				for (File file : files) {
+
+					if (file.getPath().equals(filepath)){
+						GestoreFile gf = new GestoreFile();
+						try {
+							System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
+							osservazioneLineareMonitoraggio = gf.caricaOsservazioneLineare(filepath);
+							System.out.println(String.format(Stringhe.CARICAMENTO_OSS_LIN, osservazioneLineareMonitoraggio));
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+						}
+						break;
+					}
+				}
+				break;
+
+
+			}
+
+
+			case 3:{//carica automa oss
 				visualizzaAutomiOsservazioneDisponibili();
 				String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
 				filepath = Stringhe.SAVE_FOLDER + filepath;
@@ -552,7 +606,7 @@ public class Main {
 						try {
 							System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
 							oss = gf.caricaAutomaOss(filepath);
-							System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, osservazioneLineare));
+							System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, oss));
 						} catch (ClassNotFoundException e){
 							e.printStackTrace();
 						}  catch (IOException e) {
@@ -611,10 +665,10 @@ public class Main {
 
 				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
 				if (isNull(input)) break;
-				osservazioneLineare = input;
+				osservazioneLineareMonitoraggio = input;
 				GestoreDizionari gd = new GestoreDizionari();
 				try {
-					gd.effettuaMonitoraggioRevisione(osservazioneLineare, diz, sr);
+					gd.effettuaMonitoraggioRevisione(osservazioneLineareMonitoraggio, diz, sr);
 					if ( diz.getTerne().size() > 1){
 						stampaTerne();
 					}
@@ -630,20 +684,20 @@ public class Main {
 					System.out.println(Stringhe.NESSUNO_SPAZIO_RILEVANZA);
 					break;
 				}
-				if (isNull(osservazioneLineare) || osservazioneLineare.isEmpty()){
+				if (isNull(osservazioneLineareMonitoraggio) || osservazioneLineareMonitoraggio.isEmpty()){
 					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
 					break;
 				}
 
-				System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineare));
+				System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineareMonitoraggio));
 
 
 				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE);
 				if (isNull(input)) break;
-				osservazioneLineare.addAll(input);
+				osservazioneLineareMonitoraggio.addAll(input);
 				GestoreDizionari gd = new GestoreDizionari();
 				try {
-					gd.effettuaMonitoraggioRevisione(osservazioneLineare, diz, sr);
+					gd.effettuaMonitoraggioRevisione(osservazioneLineareMonitoraggio, diz, sr);
 					if ( diz.getTerne().size() > 1){
 						stampaTerne();
 					}
@@ -655,7 +709,12 @@ public class Main {
 			}
 
 			case 3: {//vedi risultato precedente
-				if ( isNull(diz.getTerne()) || diz.getTerne().size() >= 1){
+				if ( isNull(osservazioneLineareMonitoraggio) || osservazioneLineareMonitoraggio.isEmpty()){
+					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.MONITORAGGIO_REVISIONE));
+					break;
+				}
+
+				if ( isNull(diz.getTerne()) || diz.getTerne().size() <= 1){
 					System.out.println(Stringhe.NESSUN_RISULTATO);
 				}
 				else {
@@ -879,11 +938,11 @@ public class Main {
 		System.out.println("\n" + Stringhe.INDICE_INDIETRO);
 	}
 
-	public static void visualizzaOsservazioniLineariDisponibili() {
+	public static void visualizzaOsservazioniLineariDisponibili(String estensioneFile) {
 		File folder = new File(Stringhe.SAVES_PATH);
 		File[] files = folder.listFiles();
 		for (File file : files) {
-			if (file.getName().contains(Stringhe.ESTENSIONE_OSS_LIN)) System.out.println(file.getName());
+			if (file.getName().contains(estensioneFile)) System.out.println(file.getName());
 		}
 	}
 
@@ -954,7 +1013,7 @@ public class Main {
 	}
 
 	private static void stampaTerne() {
-		System.out.println(String.format(Stringhe.RISULTATO_TERNE, osservazioneLineare));
+		System.out.println(String.format(Stringhe.RISULTATO_TERNE, osservazioneLineareMonitoraggio));
 		for (Terna terna : diz.getTerne()) {
 			if (diz.getTerne().size() > 1) System.out.println("\tTerna " + terna);
 		}

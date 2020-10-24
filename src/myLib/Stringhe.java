@@ -43,7 +43,8 @@ public class Stringhe {
     public static final String INFO_DIZIONARIO = "Il dizionario ha %s stati e %s transizioni etichettate";
     public static final String RISULTATO_TERNE = "\nRisultato di monitoraggio e revisione da %s: \n";
     public static final String INDICE_INDIETRO = "0 Indietro\n";
-
+    public static final String MONITORAGGIO_REVISIONE = "monitoraggio e revisione";
+    public static final String RICERCA_DIAGNOSI = "ricerca e diagnosi";
 
     /**
     *
@@ -55,7 +56,8 @@ public class Stringhe {
     public static final String ESTENSIONE_SPAZIO = ".spazio.ser";
     public static final String ESTENSIONE_DIZ = ".diz.ser";
     public static final String ESTENSIONE_RETE = ".rete.ser";
-    public static final String ESTENSIONE_OSS_LIN = ".linoss.ser";
+    public static final String ESTENSIONE_OSS_LIN_RIC = ".linossric.ser";
+    public static final String ESTENSIONE_OSS_LIN_MON = ".linossmon.ser";
     public static final String ESTENSIONE_AUTOMA_OSS = ".autoss.ser";
     public static final String SALVATAGGIO_OK = "E' stato creato il file %s";
     public static final String ERRORE_SALVATAGGIO = "C'e' stato un problema nel salvataggio";
@@ -168,12 +170,14 @@ public class Stringhe {
             "Salva rete di automi",
             "Salva spazio di rilevanza",
             "Salva dizionario",
-            "Salva osservazione lineare",
+            "Salva osservazione lineare per la ricerca",
+            "Salva osservazione lineare per il monitoraggio",
             "Salva automa osservazione"
     };
 
     public static final String[] OPZIONI_CARICAMENTI = {
-            "Caricamento osservazione lineare",
+            "Caricamento osservazione lineare per ricerca",
+            "Caricamento osservazione lineare per monitoraggio",
             "Caricamento automa osservazione"
     };
 
@@ -184,7 +188,7 @@ public class Stringhe {
     public static final String[] RISPOSTE_VALIDE = {
             "si",
             "sì",
-            "s�",
+            "si'",
             "s",
             "yes",
             "y",
@@ -209,11 +213,13 @@ public class Stringhe {
     public static final String CARICAMENTO_OSS_LIN = "Osservazione lineare caricata: %s";
     public static final String NESSUNA_RETE_CARICATA = "\nAttenzione!\nNon e' stata caricata alcuna rete";
     public static final String NESSUNA_OSSERVAZIONE = "Attenzione!\nNon e' presente alcuna osservazione da estendere";
+    public static final String NESSUNA_OSSERVAZIONE_INSERITA = "Attenzione!\nNon e' stata ancora inserita un'osservazione per %s";
     public final static String ERRORE_CARICAMENTO = "Errore nel caricamento";
     public static final String ESTENSIONE_NON_VALIDA = "Attenzione!\nFornire un file con estensione %s" ;
     public static final String ERRORE_CLASSE = "Classe non valida";
     public static final String HASH_DIVERSI = "Attenzione!\nLo spazio di rilevanza indicato potrebbe non essere relativo alla rete caricata!";
     public static final String INFO_HASH = "La rete di automi fornita ha id %s, lo spazio di rilevanza e' relativo alla rete con id %s";
+
 
 
 }
