@@ -231,7 +231,9 @@ public class Dizionario extends Algoritmo implements Serializable {
 				}
 			}
 			if(!found) {
-				throw new Exception("L'osservazione lineare " + osservazioneLineare + " non corrisponde a nessuna traiettoria della rete!");
+				this.setTerminato(true);
+				System.out.println(Stringhe.RICERCA_COMPLETA);
+				throw new Exception();
 			}
 		}
 		System.out.println(Stringhe.RICERCA_COMPLETA);
@@ -406,6 +408,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 		StringBuilder sb = new StringBuilder();
  		sb.append("(Stati NFA nello stato DFA): [etichetta osservabile -> (Stati NFA stato DFA destinazione)]\n");
  		for(StatoDizionario s : mappaDizionario.keySet()) {
+			sb.append("\t");
  			sb.append(s + ": "); 
 			boolean togliVirgola = false;
  			for(Pair<String, StatoDizionario> transizione : mappaDizionario.get(s)) {
@@ -425,6 +428,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Stato DFA ridenominato: [etichetta osservabile -> stato DFA destinazione]\n");
 		for(StatoDizionario s : mappaDizionario.keySet()) {
+			sb.append("\t");
 			sb.append(s.getRidenominazione() + ": ");
 			boolean togliVirgola = false;
 			for(Pair<String, StatoDizionario> transizione : mappaDizionario.get(s)) {

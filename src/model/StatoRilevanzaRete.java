@@ -140,6 +140,27 @@ public class StatoRilevanzaRete implements Serializable {
     	return sb.toString();
     }
 
+    public String toStringSenzaRidenominazione(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t(");
+        for(Pair<String, String> statiCorrenti : statiCorrentiAutomi) {
+            sb.append(statiCorrenti.getKey() + ":" + statiCorrenti.getValue() + ", ");
+        }
+        for(Pair<String, Evento> eventiLink : contenutoLinks) {
+            if(eventiLink.getValue()==null) {
+                sb.append(eventiLink.getKey() + ":null, ");
+            }
+            else {
+                sb.append(eventiLink.getKey() + ":" + eventiLink.getValue().getNome() + ", ");
+            }
+        }
+        sb.append("decorazione:" + decorazione);
+        sb.append(", distanza:" + distanza);
+        sb.append(")");
+        return sb.toString();
+
+    }
+
     public String getRidenominazione() {
         return ridenominazione;
     }

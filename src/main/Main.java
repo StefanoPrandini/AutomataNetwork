@@ -13,10 +13,8 @@ import myLib.VerificaDati;
 import model.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
+
 import static java.util.Objects.isNull;
 import static myLib.InputDati.leggiStringa;
 
@@ -372,7 +370,7 @@ public class Main {
 			}
 
 			case 2: {//estendi ricerca precedente
-				if (isNull(osservazioneLineare)){
+				if (isNull(osservazioneLineare) || osservazioneLineare.isEmpty()){
 					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
 					break;
 				}
@@ -613,6 +611,7 @@ public class Main {
 					stampaTerne();
 				} catch (Exception e) {
 					if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
+					break;
 				}
 				break;
 			}
@@ -622,7 +621,7 @@ public class Main {
 					System.out.println(Stringhe.NESSUNO_SPAZIO_RILEVANZA);
 					break;
 				}
-				if (isNull(osservazioneLineare)){
+				if (isNull(osservazioneLineare) || osservazioneLineare.isEmpty()){
 					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
 					break;
 				}
@@ -634,6 +633,7 @@ public class Main {
 					stampaTerne();
 				} catch (Exception e) {
 					if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
+					break;
 				}
 				break;
 			}
@@ -688,14 +688,19 @@ public class Main {
 				break;
 			}
 			case 1: {//dettagli stati
-				System.out.println(String.format(Stringhe.INFO_SPAZIO_RILEVANZA, sr.getStatiRilevanza().size()));
 				System.out.println(sr);
+				int numeroTransizioni = 0;
+				for (List<Pair<Transizione, StatoRilevanzaRete>> value : sr.getMappaStatoRilevanzaTransizioni().values()) {
+					numeroTransizioni += value.size();
+				}
+				System.out.println(String.format(Stringhe.INFO_SPAZIO_RILEVANZA, sr.getStatiRilevanza().size(), numeroTransizioni));
 				break;
 
 			}
 			case 2: {//ridenominazione
+				System.out.println(Stringhe.INFO_RIDENOMINAZIONE_SPAZIO);
 				for (StatoRilevanzaRete statoRilevanzaRete : sr.getStatiRilevanza()) {
-					System.out.println(statoRilevanzaRete + " --> " + statoRilevanzaRete.getRidenominazione());
+					System.out.println(statoRilevanzaRete.toStringSenzaRidenominazione() + " --> " + statoRilevanzaRete.getRidenominazione());
 				}
 				break;
 			}
@@ -703,7 +708,7 @@ public class Main {
 				System.out.println(Stringhe.INFO_MAPPA_SPAZIO);
 				for(StatoRilevanzaRete stato : sr.getStatiRilevanza()) {
 					for(Pair<Transizione, StatoRilevanzaRete> srd : sr.getMappaStatoRilevanzaTransizioni().get(stato)) {
-						System.out.println(stato.getRidenominazione() + " -> " + srd.getKey().getNome() + " -> " + srd.getValue().getRidenominazione());
+						System.out.println("\t" + stato.getRidenominazione() + " -> " + srd.getKey().getNome() + " -> " + srd.getValue().getRidenominazione());
 					}
 				}
 				break;
@@ -801,6 +806,10 @@ public class Main {
 			GestoreInputOutput inputOutput = new GestoreInputOutput();
 			inputOutput.setOsservazioneLineare(osservazioneLineare);
 			decorazione = gd.effettuaRicerca(inputOutput, diz);
+			if (isNull(decorazione)){
+				System.out.println(Stringhe.NESSUN_RISULTATO);
+				return;
+			}
 			System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
 
 		} catch (Exception e) {
