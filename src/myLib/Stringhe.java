@@ -30,7 +30,10 @@ public class Stringhe {
     public static final String CALCOLO_DIZIONARIO = "Costruzione del dizionario in corso\n";
     public static final String COSTRUZIONE_DIZIONARIO_COMPLETA = "\nCostruzione completa, premi INVIO per proseguire: ";
     public static final String RICERCA_COMPLETA = "\nRicerca completa, premi INVIO per proseguire: ";
+    public static final String MONITORAGGIO_COMPLETO = "\nMonitoraggio e revisione completi, premi INVIO per proseguire: ";
     public static final String RICERCA_IN_CORSO = "Ricerca nel dizionario in corso\n";
+    public static final String MONITORAGGIO_IN_CORSO = "Monitoraggio e revisione nel dizionario in corso\n";
+    public static final String ESTENSIONE_IN_CORSO = "Estensione del dizionario in corso\n";
     public static final String INSERISCI_PER_INTERROMPERE = "Inserisci '%s' per interrompere: ";
     public static final String SEI_SICURO = "Vuoi continuare comunque? y/n\n--> ";
     public static final String CARICAMENTO_ANNULLATO = "Caricamento annullato";
@@ -45,6 +48,7 @@ public class Stringhe {
     public static final String INDICE_INDIETRO = "0 Indietro\n";
     public static final String MONITORAGGIO_REVISIONE = "monitoraggio e revisione";
     public static final String RICERCA_DIAGNOSI = "ricerca e diagnosi";
+    public static final String INTERRUZIONE = "Interrompo l'algoritmo";
 
     /**
     *
@@ -85,6 +89,7 @@ public class Stringhe {
     public static final String TITOLO_ESTENSIONE = "Estensione dinamica del dizionario";
     public static final String TITOLO_SALVA = "Salvataggio risultati";
     public static final String TITOLO_CARICAMENTI = "Caricamento da una sessione precedente";
+    public static final String TITOLO_LOG = "Log delle azioni di monitoraggio e revisione";
     public static final String INPUT_OUTPUT = "Input e Output:";
     public static final String COPPIE_INPUT_OUTPUT = "Coppie I/O:";
 
@@ -182,7 +187,7 @@ public class Stringhe {
     };
 
     public static final String[] OPZIONI_ESTENSIONE = {
-            "Espansione tramite un'osservazione",
+            "Estensione tramite un'osservazione",
     };
 
     public static final String[] RISPOSTE_VALIDE = {
@@ -217,7 +222,7 @@ public class Stringhe {
     public final static String ERRORE_CARICAMENTO = "Errore nel caricamento";
     public static final String ESTENSIONE_NON_VALIDA = "Attenzione!\nFornire un file con estensione %s" ;
     public static final String ERRORE_CLASSE = "Classe non valida";
-    public static final String NOMI_RETE_DIVERSI = "Attenzione!\nLo spazio di rilevanza indicato potrebbe non essere relativo alla rete caricata!";
+    public static final String NOMI_RETE_DIVERSI = "\nAttenzione!\nLo spazio di rilevanza indicato potrebbe non essere relativo alla rete caricata!";
     public static final String INFO_NOMI_RETE = "La rete di automi fornita e' chiamata %s, lo spazio di rilevanza e' relativo alla rete %s";
 
 

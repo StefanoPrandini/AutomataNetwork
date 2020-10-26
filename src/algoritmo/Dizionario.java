@@ -30,11 +30,13 @@ public class Dizionario extends Algoritmo implements Serializable {
 	private StatoDizionario statoIniziale;
 	private LinkedList<Terna> terne;
 	private GestoreInputOutput inputOutput;
+	private Set<Set<String>> diagnosi;
 	
 	public Dizionario(GestoreInputOutput inputOutput) {
 		this.statiDizionario = new LinkedHashSet<>(); // insieme con elementi in ordine di inserimento
 		this.mappaDizionario = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
 		this.terne = new LinkedList<>(); //insieme di terne in ordine di inserimento
+		this.diagnosi = new LinkedHashSet<>();
 		this.inputOutput = inputOutput;
 	}
 
@@ -43,10 +45,19 @@ public class Dizionario extends Algoritmo implements Serializable {
 	public void run() {
 		if (inputOutput.isRicerca()){
 			try {
-				inputOutput.setRisultatoRicerca(ricerca(inputOutput.getOsservazioneLineare()));
+				ricerca(inputOutput.getOsservazioneLineareRicerca());
 				setRicerca(false);
 			} catch (Exception e) {
 
+				e.printStackTrace();
+			}
+		}
+		else if (inputOutput.isMonitoraggio()){
+			try {
+				monitoraggio(inputOutput.getOsservazioneLineareMonitoraggio(), inputOutput.getSpazioRilevanza());
+				setMonitoraggio(false);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		else {
@@ -54,6 +65,8 @@ public class Dizionario extends Algoritmo implements Serializable {
 		}
 
 	}
+
+
 
 	// Lo spazio di rilevanza etichettato e' un NFA (Automa a stati Finiti Nondeterministico) nell'alfabeto Omega (etichette di osservabilita').
 	// Esso puo' essere sottoposto all'operazione di determinizzazione per trasformarlo in un automa finito deterministico (DFA), tramite l'algoritmo SUBSET CONSTRUCTION
@@ -126,6 +139,14 @@ public class Dizionario extends Algoritmo implements Serializable {
 					coppieTransizione_NuovoStato.add(new Pair<>(etichettaO, statoArrivo));
 				}
 			}
+
+			/** PROVE INTERRUZIONE
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			 **/
 			mappaDizionario.put(stato, coppieTransizione_NuovoStato);
 		}
 		
@@ -205,40 +226,55 @@ public class Dizionario extends Algoritmo implements Serializable {
 		}
 	}
 	
-	
-	/**
-	 * Un'operazione di ricerca nel dizionario acquisisce in ingresso un'osservazione lineare (sequenza di eventi osservabili associata a una traiettoria dello spazio di rilevanza)
-	 * e produce in uscita la diagnosi associata allo stato raggiunto nel DFA, a partire da quello iniziale, col cammino (unico) contraddistinto dall'osservazione lineare stessa
-	 * @param osservazioneLineare
-	 * @return
-	 * @throws Exception 
-	 */
-	public Set<Set<String>> ricerca(List<String> osservazioneLineare) throws Exception{
+
+	public synchronized void ricerca(List<String> osservazioneLineare){
 		StatoDizionario statoCorrente = this.statoIniziale;
+		boolean trovatoQualcosa = false;
 		for(String etichetta : osservazioneLineare) {
 			boolean found = false;
 			if (isInInterruzione()){
-				return statoCorrente.getDiagnosi();
+				setRicercaTerminata(true);
+				break;
+			}
+
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 			for(Pair<String, StatoDizionario> transizioneOut : this.mappaDizionario.get(statoCorrente)) {
 				if(etichetta.equals(transizioneOut.getKey())) {
 					statoCorrente = transizioneOut.getValue();
+					diagnosi = statoCorrente.getDiagnosi();
+					if ( ! trovatoQualcosa) trovatoQualcosa = true;
 					found = true;
 					break;
 				}
 				if (isInInterruzione()){
-					return statoCorrente.getDiagnosi();
+					this.setRicercaTerminata(true);
+					break;
 				}
 			}
+
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			//se non trovo qualcosa corrispondente all'etichetta
 			if(!found) {
-				this.setTerminato(true);
-				System.out.println(Stringhe.RICERCA_COMPLETA);
-				throw new Exception();
+				this.setRicercaTerminata(true);
+				System.out.println(Stringhe.RICERCA_COMPLETA + " 260");
+				break;
 			}
 		}
-		System.out.println(Stringhe.RICERCA_COMPLETA);
-		this.setTerminato(true);
-		return statoCorrente.getDiagnosi();		
+
+		if ( ! isInInterruzione() && trovatoQualcosa){
+			System.out.println(Stringhe.RICERCA_COMPLETA + " 264");
+		}
+		this.setRicercaTerminata(true);
+		diagnosi = statoCorrente.getDiagnosi();
 	}
 	
 	
@@ -329,7 +365,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 			String etichetta = etichette.remove();
 			try {
 				Terna nuova = produciTerna(spazioRilevanza, corrente, etichetta, nomeCompleto);
-				System.out.println("Prodotta terna " + nuova + " da " + etichetta);
+				this.inputOutput.addEventoToLog("Prodotta terna " + nuova + " da " + etichetta);
 
 				terne.add(nuova);
 
@@ -347,6 +383,9 @@ public class Dizionario extends Algoritmo implements Serializable {
 
 
 		}
+
+		System.out.println(Stringhe.MONITORAGGIO_COMPLETO);
+		this.setTerminato(true);
 	}
 	
 	
@@ -373,7 +412,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 			// Altrimenti, l'insieme degli stati I della terna viene sovrascritto dall'insieme Ieff e la revisione continua
 			else {
 				ternaPrec.setInsiemeI(inputEff);
-				System.out.println("Terna " + ternaPrec.getNome() + " modificata dopo revisione: " + ternaPrec);
+				this.inputOutput.addEventoToLog("Terna " + ternaPrec.getNome() + " modificata dopo revisione: " + ternaPrec);
 			}
 		}
 	}
@@ -420,6 +459,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 			}
  			sb.append("\n");
 		}
+ 		//sb.append(this.isInInterruzione());
 		return sb.toString();
 	}
 
@@ -463,8 +503,11 @@ public class Dizionario extends Algoritmo implements Serializable {
 		return statiDizionario;
 	}
 
-	public void setRicerca(boolean ricerca){
+	private void setRicerca(boolean ricerca){
 		this.inputOutput.setRicerca(ricerca);
+	}
+	private void setMonitoraggio(boolean b) {
+		this.inputOutput.setMonitoraggio(b);
 	}
 
 	public GestoreInputOutput getInputOutput() {
@@ -473,5 +516,9 @@ public class Dizionario extends Algoritmo implements Serializable {
 
 	public void setInputOutput(GestoreInputOutput inputOutput) {
 		this.inputOutput = inputOutput;
+	}
+
+	public Set<Set<String>> getDiagnosi() {
+		return this.diagnosi;
 	}
 }

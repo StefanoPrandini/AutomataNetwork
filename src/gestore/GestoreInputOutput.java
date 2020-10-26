@@ -1,5 +1,6 @@
 package gestore;
 
+import algoritmo.Dizionario;
 import model.Automa;
 import model.ReteAutomi;
 import algoritmo.SpazioRilevanza;
@@ -13,21 +14,15 @@ public class GestoreInputOutput implements Serializable {
 
     private ReteAutomi rete;
     private Automa osservazione;
-    private ArrayList<String> osservazioneLineare;
+    private ArrayList<String> osservazioneLineareRicerca;
+    private ArrayList<String> osservazioneLineareMonitoraggio;
     private boolean daOsservazione;
     private boolean ricerca;
+    private boolean monitoraggio;
     private int distanzaMax;
     private SpazioRilevanza sr;
-
-    private Set<Set<String>> risultatoRicerca;
-
-    public Set<Set<String>> getRisultatoRicerca() {
-        return risultatoRicerca;
-    }
-
-    public void setRisultatoRicerca(Set<Set<String>> risultatoRicerca) {
-        this.risultatoRicerca = risultatoRicerca;
-    }
+    private Dizionario diz;
+    private ArrayList<String> logMonitoraggio;
 
     public ReteAutomi getRete() {
         return rete;
@@ -78,11 +73,48 @@ public class GestoreInputOutput implements Serializable {
         return this.ricerca;
     }
 
-    public ArrayList<String> getOsservazioneLineare() {
-        return osservazioneLineare;
+    public boolean isMonitoraggio() {
+        return monitoraggio;
     }
 
-    public void setOsservazioneLineare(ArrayList<String> osservazioneLineare) {
-        this.osservazioneLineare = osservazioneLineare;
+    public void setMonitoraggio(boolean monitoraggio) {
+        this.monitoraggio = monitoraggio;
     }
+
+    public ArrayList<String> getOsservazioneLineareRicerca() {
+        return osservazioneLineareRicerca;
+    }
+
+    public ArrayList<String> getOsservazioneLineareMonitoraggio() {
+        return osservazioneLineareMonitoraggio;
+    }
+
+    public void setOsservazioneLineareRicerca(ArrayList<String> osservazioneLineareRicerca) {
+        this.osservazioneLineareRicerca = osservazioneLineareRicerca;
+    }
+
+    public void setOsservazioneLineareMonitoraggio(ArrayList<String> osservazioneLineareMonitoraggio) {
+        this.osservazioneLineareMonitoraggio = osservazioneLineareMonitoraggio;
+    }
+
+    public Dizionario getDizionario() {
+        return diz;
+    }
+
+    public void setDizionario(Dizionario diz){
+        this.diz = diz;
+    }
+
+    public void inizializzaLogMonitoraggio(){
+        this.logMonitoraggio = new ArrayList<>();
+    }
+
+    public void addEventoToLog(String evento){
+        this.logMonitoraggio.add(evento);
+    }
+
+    public ArrayList<String> getLogMonitoraggio(){
+        return this.logMonitoraggio;
+    }
+
 }

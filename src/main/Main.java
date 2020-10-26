@@ -312,12 +312,7 @@ public class Main {
 					break;
 				}
 				case 4: {//estensione
-					MyMenu menuEstensione = new MyMenu(Stringhe.TITOLO_ESTENSIONE, Stringhe.OPZIONI_ESTENSIONE);
-					int sceltaEstensione = menuEstensione.scegli();
-					while (sceltaEstensione != 0){
-						gestisciEstensione(sceltaEstensione);
-						sceltaEstensione = menuEstensione.scegli();
-					}
+					gestisciEstensione();
 					//TODO check con Ste se estensione funziona
 					break;
 				}
@@ -623,31 +618,23 @@ public class Main {
 		}
 	}
 
-	private static void gestisciEstensione(int sceltaEstensione) {
-		switch (sceltaEstensione){
-			case 0:{//back
-				break;
-			}
-			case 1:{//inserisci osservazione
-				String filepath = inputNomeFileJSON();
-				GestoreFile gf = new GestoreFile();
-				gf.setPathOss(filepath);
-				try {
-					oss = gf.caricaOsservazione();
-					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, oss.getNome()));
-					System.out.println(oss.toStringOss());
-					GestoreDizionari gd = new GestoreDizionari();
-					diz = gd.estensioneDizionario(diz, ra, oss);
-					//TODO
+	private static void gestisciEstensione() {
+		//inserisci osservazione
+		stampaFileDiEsempio();
+		String filepath = determinaFilepathEsempio(inputNomeFileJSON());
+		GestoreFile gf = new GestoreFile();
+		gf.setPathOss(filepath);
+		try {
+			oss = gf.caricaOsservazione();
+			System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, oss.getNome()));
+			System.out.println(oss.toStringOss());
+			GestoreDizionari gd = new GestoreDizionari();
+			//diz = gd.estensioneDizionario(diz, ra, oss);
+			//TODO WIP, vedere gestore dizinari @estensione
 
-				}
-				catch (Exception e){
-					System.out.println(Stringhe.ERRORE_FILEPATH);
-				}
-				break;
-			}
-
-
+		}
+		catch (Exception e){
+			System.out.println(Stringhe.ERRORE_FILEPATH);
 		}
 	}
 
@@ -668,8 +655,13 @@ public class Main {
 				osservazioneLineareMonitoraggio = input;
 				GestoreDizionari gd = new GestoreDizionari();
 				try {
-					gd.effettuaMonitoraggioRevisione(osservazioneLineareMonitoraggio, diz, sr);
+					GestoreInputOutput inputOutput = new GestoreInputOutput();
+					inputOutput.setOsservazioneLineareMonitoraggio(osservazioneLineareMonitoraggio);
+					inputOutput.setSr(sr);
+					inputOutput.inizializzaLogMonitoraggio();
+					gd.effettuaMonitoraggioRevisione(inputOutput, diz);
 					if ( diz.getTerne().size() > 1){
+						stampaLog(inputOutput);
 						stampaTerne();
 					}
 					break;
@@ -697,8 +689,13 @@ public class Main {
 				osservazioneLineareMonitoraggio.addAll(input);
 				GestoreDizionari gd = new GestoreDizionari();
 				try {
-					gd.effettuaMonitoraggioRevisione(osservazioneLineareMonitoraggio, diz, sr);
+					GestoreInputOutput inputOutput = new GestoreInputOutput();
+					inputOutput.setOsservazioneLineareMonitoraggio(osservazioneLineareMonitoraggio);
+					inputOutput.setSr(sr);
+					inputOutput.inizializzaLogMonitoraggio();
+					gd.effettuaMonitoraggioRevisione(inputOutput, diz);
 					if ( diz.getTerne().size() > 1){
+						stampaLog(inputOutput);
 						stampaTerne();
 					}
 					break;
@@ -723,6 +720,14 @@ public class Main {
 				break;
 			}
 		}
+	}
+
+	private static void stampaLog(GestoreInputOutput inputOutput) {
+		System.out.println(Stringhe.TITOLO_LOG);
+		for (String s : inputOutput.getLogMonitoraggio()) {
+			System.out.println(s);
+		}
+
 	}
 
 	private static void gestisciInfoDizionario(int sceltaInfoDiz) {
@@ -879,15 +884,20 @@ public class Main {
 		GestoreDizionari gd = new GestoreDizionari();
 		try {
 			GestoreInputOutput inputOutput = new GestoreInputOutput();
-			inputOutput.setOsservazioneLineare(osservazioneLineare);
-			decorazione = gd.effettuaRicerca(inputOutput, diz);
+			inputOutput.setOsservazioneLineareRicerca(osservazioneLineare);
+			gd.effettuaRicerca(inputOutput, diz);
+			decorazione = diz.getDiagnosi();
+			diz.setRicercaTerminata(false);
 			if (isNull(decorazione)){
+				System.out.println(decorazione);
 				System.out.println(Stringhe.NESSUN_RISULTATO);
 				return;
 			}
 			System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
 
 		} catch (Exception e) {
+			e.printStackTrace();
+			diz.setRicercaTerminata(false);
 			System.out.println(Stringhe.NESSUN_RISULTATO);
 		}
 	}

@@ -8,29 +8,40 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+
+import gestore.GestoreInputOutput;
 import javafx.util.Pair;
 import model.*;
 
 /**
  * Quando si estende il dizionario non si puo' usare lo spazio di rilevanza, servono quindi metodi specifici
  */
-public class EstendiDizionario {
+public class EstendiDizionario extends Algoritmo implements Runnable {
 	
 	private Dizionario dizionario;
-	private ReteAutomi rete;
 	private Automa osservazione;
+	private ReteAutomi rete;
 	// quando si fa estensione del dizionario non si puo' usare spazio rilevanza, tengo gli stati di rilevanza per non ripeterli
 	private Set<StatoRilevanzaRete> statiRilevanza;
 	private Set<Transizione> transizioniNonInTraiettoria;
+	private GestoreInputOutput inputOutput;
 	
-	public EstendiDizionario(Dizionario dizionario, ReteAutomi rete, Automa osservazione) {
-		this.dizionario = dizionario;
-		this.rete = rete;
-		this.osservazione = osservazione;
+	public EstendiDizionario(GestoreInputOutput inputOutput) {
+
+		this.inputOutput = inputOutput;
+		this.osservazione = inputOutput.getOsservazione();
+		this.rete = inputOutput.getRete();
+		this.dizionario = inputOutput.getDizionario();
 		this.transizioniNonInTraiettoria = new LinkedHashSet<>();
 	}
-	
-	public Dizionario estendi() {
+
+	@Override
+	public void run() {
+		estendi();
+	}
+
+	public void estendi() {
+
 		osservazione.setStatoCorrente(osservazione.getStatoIniziale());
 		dizionario.getStatoIniziale().addIndice(osservazione.getStatoIniziale());
 		
@@ -44,7 +55,7 @@ public class EstendiDizionario {
 		coda.add(dizionario.getStatoIniziale());
 		
 //		aggiungo gli stati del dizionario alla coda quando gli si aggiunge un indice
-		while( ! coda.isEmpty()) {
+		while( ! coda.isEmpty() && ! isInInterruzione()) {
 			
 			StatoDizionario statoDiz = coda.remove();
 //			servono gli stati di rilevanza per costruire lo stato di rilevanza successivo
@@ -52,11 +63,13 @@ public class EstendiDizionario {
 			statiRilevanza.addAll(statoDiz.getStatiRilevanza());
 			
 			for(Indice indice : statoDiz.getIndici()) {
+				if (isInInterruzione()) break;
 				if( ! indice.isMarked()) {
 					osservazione.setStatoCorrente(indice.getStato());
 					for(Transizione transizioneOsservazione : osservazione.getTransizioniUscentiDaStatoCorrente()) {
 //						buonFine se la transizione nell'osservazione e' presente in una traiettoria della rete
 						Boolean buonFine = false;
+						if (isInInterruzione()) break;
 //						quando lo stato e' finale nel dizionario parziale, e' presente nella mappa ma non ha transizioni uscenti: vedo dove vanno le sue transizioni osservabili (estendo)
 						if(dizionario.getMappaDizionario().get(statoDiz).isEmpty()) {
 							estendiStato(statoDiz, transizioneOsservazione, coda);
@@ -86,6 +99,7 @@ public class EstendiDizionario {
 					indice.setMarked(true);
 				}
 			}
+
 		}
 //		stati di rilevanza venivano ridenominati nello spazio di rilevanza, che qua non posso usare
 //		chiamo gli stati nuovi in modo diverso (quelli che erano gia' presenti hanno gia' il nome) -> anche quando carichero' il dizionario?
@@ -104,7 +118,7 @@ public class EstendiDizionario {
 			Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> IO = coppieIO(statoDizionario);
 			statoDizionario.setIO(IO);
 		}
-		return dizionario;
+		this.inputOutput.setDizionario(dizionario);
 	}
 	
 	
@@ -252,4 +266,7 @@ public class EstendiDizionario {
 		return sb.toString();
 	}
 
+	public GestoreInputOutput getInputOutput() {
+		return this.inputOutput;
+	}
 }

@@ -75,7 +75,10 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 			ArrayList<Pair<Transizione, StatoRilevanzaRete>> listaAdiacenza = new ArrayList<>();
 			
 			for(Transizione t : transizioniAbilitate) {
-				if (isInInterruzione()) break;
+				if (isInInterruzione()) {
+					break;
+				}
+
 				// se vengono provate transizioni diverse (uscenti dallo stesso statoRilevanza), tra una e l'altra la rete deve essere riportata nello statoRilevanza di partenza
 				rete.setReteAutomi(statoRilevanza.getStatiCorrentiAutoma(), statoRilevanza.getContenutoLinks());
 				int distanza = statoRilevanza.getDistanza();
@@ -109,19 +112,20 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 				}
 			}
 
-			/** PER PROVE DI INTERRUZIONE DA UTENTE
+			/** PROVE INTERRUZIONE
 			try {
 				Thread.sleep(100);
 			}catch (InterruptedException ie){
-
 				ie.printStackTrace();
 			}
 			 **/
+
 			this.mappaStatoRilevanzaTransizioni.put(statoRilevanza, listaAdiacenza);
 		}
 
 
 		if ( ! isInInterruzione() ) System.out.println(Stringhe.CALCOLO_SPAZIO_COMPLETO);
+
 		this.setTerminato(true);
 
 	}
