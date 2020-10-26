@@ -64,7 +64,7 @@ public class GestoreDizionari {
 
         inputOutput.setMonitoraggio(true);
         dizionario.setInputOutput(inputOutput);
-
+        dizionario.setTerminato(false);
         Thread thread = new Thread(dizionario);
         thread.start();
         String stop = InputDati.leggiStringa(Stringhe.MONITORAGGIO_IN_CORSO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
@@ -75,6 +75,7 @@ public class GestoreDizionari {
             stop = InputDati.leggiStringa(Stringhe.MONITORAGGIO_IN_CORSO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
         }
         if (stop.equalsIgnoreCase(Stringhe.STOP) && ! dizionario.isTerminato()){
+            System.out.println(Stringhe.INTERRUZIONE);
             interrompiAlgoritmo(dizionario);
             thread.interrupt();
         }

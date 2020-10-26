@@ -237,11 +237,13 @@ public class Dizionario extends Algoritmo implements Serializable {
 				break;
 			}
 
+			/** PROVE INTERRUZIONE
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			 **/
 			for(Pair<String, StatoDizionario> transizioneOut : this.mappaDizionario.get(statoCorrente)) {
 				if(etichetta.equals(transizioneOut.getKey())) {
 					statoCorrente = transizioneOut.getValue();
@@ -256,22 +258,24 @@ public class Dizionario extends Algoritmo implements Serializable {
 				}
 			}
 
+			/** PROVE INTERRUZIONE
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			 **/
 
 			//se non trovo qualcosa corrispondente all'etichetta
 			if(!found) {
 				this.setRicercaTerminata(true);
-				System.out.println(Stringhe.RICERCA_COMPLETA + " 260");
+				System.out.println(Stringhe.RICERCA_COMPLETA);
 				break;
 			}
 		}
 
 		if ( ! isInInterruzione() && trovatoQualcosa){
-			System.out.println(Stringhe.RICERCA_COMPLETA + " 264");
+			System.out.println(Stringhe.RICERCA_COMPLETA);
 		}
 		this.setRicercaTerminata(true);
 		diagnosi = statoCorrente.getDiagnosi();
@@ -359,7 +363,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 
 		indice++;
 		nomeCompleto = alfa + indice;
-		while(!etichette.isEmpty()){
+		while(!etichette.isEmpty() && ! isInInterruzione() ){
 
 			Terna corrente = terne.getLast();
 			String etichetta = etichette.remove();
@@ -370,6 +374,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 				terne.add(nuova);
 
 				revisione(terne, osservazioneLineare, spazioRilevanza);
+				if (isInInterruzione()) break;
 
 				indice++;
 				nomeCompleto = alfa + indice;
@@ -380,11 +385,15 @@ public class Dizionario extends Algoritmo implements Serializable {
 				}
 
 			}
-
-
+			/** PROVE INTERRUZIONE
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			 **/
 		}
-
-		System.out.println(Stringhe.MONITORAGGIO_COMPLETO);
+		if ( ! isInInterruzione()) System.out.println(Stringhe.MONITORAGGIO_COMPLETO);
 		this.setTerminato(true);
 	}
 	
