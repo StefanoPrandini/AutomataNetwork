@@ -115,6 +115,7 @@ public class Main {
 			case 3:{//carica dizionario
 				try {
 					caricaFilesDaSessione(Stringhe.ESTENSIONE_DIZ);
+					System.out.println(Stringhe.CARICAMENTO_RIUSCITO);
 					MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
 					int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
 					while (sceltaGestioneDizionario != 0){
@@ -890,21 +891,26 @@ public class Main {
 		if (isNull(filepath)) throw new Exception(Stringhe.CARICAMENTO_ANNULLATO);
 		GestoreFile gf = new GestoreFile();
 		if (estensioneFile.equals(Stringhe.ESTENSIONE_RETE)){
+			System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
 			ra = (ReteAutomi) gf.caricaDaSessione(filepath);
 		}
 		else if (estensioneFile.equals(Stringhe.ESTENSIONE_SPAZIO)){
+			System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
 			sr = (SpazioRilevanza) gf.caricaDaSessione(filepath);
 		}
 		else if (estensioneFile.equals(Stringhe.ESTENSIONE_OSS_LIN_RIC)){
+			System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
 			osservazioneLineareRicerca = (ArrayList<String>) gf.caricaDaSessione(filepath);
 		}
 		else if (estensioneFile.equals(Stringhe.ESTENSIONE_OSS_LIN_MON)){
 			osservazioneLineareMonitoraggio = (ArrayList<String>) gf.caricaDaSessione(filepath);
 		}
 		else if (estensioneFile.equals(Stringhe.ESTENSIONE_DIZ)){
+			System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
 			diz = (Dizionario) gf.caricaDaSessione(filepath);
 		}
 		else if (estensioneFile.equals(Stringhe.ESTENSIONE_AUTOMA_OSS)){
+			System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
 			automaOss = (Automa) gf.caricaDaSessione(filepath);
 		}
 		else throw new Exception(Stringhe.PROBLEMA_CARICAMENTO_ESTENSIONI);
@@ -921,7 +927,11 @@ public class Main {
 			System.out.println(automaOss.toStringOss());
 		}
 		catch (Exception e){
-			System.out.println(Stringhe.ERRORE_FILEPATH);
+			if (e instanceof NullPointerException){
+				System.out.println(Stringhe.FILE_NON_VALIDO);
+			}
+			else System.out.println(Stringhe.ERRORE_FILEPATH);
+			return false;
 		}
 		return true;
 	}

@@ -225,9 +225,9 @@ public class Stringhe {
     public static final String ERRORE_JSON = "\nErrore JSON";
     public static final String ERRORE_FORMATTAZIONE = "\nFormattazione JSON errata";
     public static final String ERRORE_FILEPATH = "\nFile non trovato";
-    public static final String CARICAMENTO_RIUSCITO = "\nCaricamento riuscito";
-    public static final String CARICAMENTO_RIUSCITO_CON_NOME = "\nCaricamento di %s riuscito";
-    public static final String CARICAMENTO_IN_CORSO = "Caricamento di %s in corso";
+    public static final String CARICAMENTO_RIUSCITO = "\nCaricamento riuscito\n";
+    public static final String CARICAMENTO_RIUSCITO_CON_NOME = "\nCaricamento di %s riuscito\n";
+    public static final String CARICAMENTO_IN_CORSO = "\nCaricamento di %s in corso";
     public static final String CARICAMENTO_OSS_LIN = "Osservazione lineare caricata: %s";
     public static final String NESSUNA_RETE_CARICATA = "\nAttenzione!\nNon e' stata caricata alcuna rete";
     public static final String NESSUNA_OSSERVAZIONE = "Attenzione!\nNon e' presente alcuna osservazione";
@@ -240,6 +240,7 @@ public class Stringhe {
     public static final String NESSUN_FILE_ADATTO = "\nNessun file di salvataggio pertinente trovato!\n";
     public static final String PROBLEMA_CARICAMENTO_ESTENSIONI = "\nQualcosa e' andatao storto con il caricamento\n";
     public static final String ERRORE_THREAD = "\nErrore nell'algoritmo";
+    public static final String FILE_NON_VALIDO = "\nFile non valido\n";
 
 
 }
