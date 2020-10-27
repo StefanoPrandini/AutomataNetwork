@@ -43,7 +43,6 @@ public class Main {
 			case 0: break; //EXIT
 
 			case 1:  { //carica da JSON
-				System.out.println(Stringhe.FILE_BASE_IN_CARTELLA);
 				stampaFileDiEsempio();
 				String input = determinaFilepathEsempio(inputNomeFileJSON());
 				if (isNull(input)){
@@ -199,23 +198,7 @@ public class Main {
 				break;
 			}
 			case 2: { // da osservazione
-
-
-				//TODO
-
-				System.out.println("WIP per caricamento sessioni");
-
-
-				/**
-				String percorsoOss = InputDati.leggiStringa(Stringhe.INSERISCI_PERCORSO_OSSERVAZIONE);
-				if (percorsoOss.equals("" + Stringhe.VALORE_USCITA)) break;
-				GestoreFile gf = new GestoreFile();
-				gf.setPathOss(percorsoOss);
-				try{
-
-					automaOss = gf.caricaOsservazione();
-					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, automaOss.getNome()));
-					System.out.println(automaOss.toStringOss());
+				if (caricaOsservazioneDaJSON()){
 					diz = calcolaDizionarioParzialeDaOsservazione();
 					MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
 					int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
@@ -224,12 +207,6 @@ public class Main {
 						sceltaGestioneDizionario = menuGestioneDizionario.scegli();
 					}
 				}
-				catch (Exception e){
-					System.out.println(Stringhe.ERRORE_CARICAMENTO);
-					System.out.println(e);
-				}
-				 **/
-
 				break;
 			}
 		}
@@ -455,32 +432,35 @@ public class Main {
 		}
 	}
 
-	private static void gestisciEstensione(int scelta) {
+	private static void gestisciEstensione(int sceltaEstensione) {
 
-		//TODO WIP caricamento
-		System.out.println("WIP caricamento");
-		//inserisci osservazione
-		/**stampaFileDiEsempio();
-		 String filepath = determinaFilepathEsempio(inputNomeFileJSON());
-		 GestoreFile gf = new GestoreFile();
-		 gf.setPathOss(filepath);
-		 try {
-		 automaOss = gf.caricaOsservazione();
-		 System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, automaOss.getNome()));
-		 System.out.println(automaOss.toStringOss());
-		 GestoreDizionari gd = new GestoreDizionari();
-		 GestoreInputOutput inputOutput  = new GestoreInputOutput();
-		 inputOutput.setRete(ra);
-		 inputOutput.setOsservazione(automaOss);
-		 inputOutput.setDizionario(diz);
-		 gd.estensioneDizionario(inputOutput);
-		 //TODO WIP, vedere gestore dizinari @estensione
-
-		 }
-		 catch (Exception e){
-		 System.out.println(Stringhe.ERRORE_FILEPATH);
-		 }
-		 **/
+		switch (sceltaEstensione){
+			case 0:{ //indietro
+				break;
+			}
+			case 1:{ //estensione tramite osservazione da caricare
+				if (caricaOsservazioneDaJSON()){
+					effettuaEstensione();
+				}
+				break;
+			}
+			case 2:{ //estensione tramite osservazione caricata
+				if (isNull(automaOss)){
+					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.ESTENSIONE_DIZIONARIO));
+					break;
+				}
+				effettuaEstensione();
+				break;
+			}
+			case 3:{ //risultato precedente
+				if (isNull(automaOss)){
+					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.ESTENSIONE_DIZIONARIO));
+					break;
+				}
+				gestisciInfoDizionario(1);
+				break;
+			}
+		}
 	}
 
 	private static void gestisciSalvataggio(int sceltaSalva) {
@@ -659,6 +639,37 @@ public class Main {
 	 *
 	 */
 
+	private static Dizionario calcolaDizionario(int dimensione) {
+		GestoreDizionari gd = new GestoreDizionari();
+		GestoreInputOutput input = new GestoreInputOutput();
+		input.setRete(ra);
+		input.setDistanzaMax(dimensione);
+		if ( ! spazioRilevanzaCalcolato){
+			sr = gd.calcolaSpazioRilevanza(input);
+			input.setSr(sr);
+		}
+		else {
+			input.setSr(sr);
+		}
+		return gd.calcolaDizionario(input);
+	}
+
+	private static Dizionario calcolaDizionarioParzialeDaOsservazione() {
+		GestoreDizionari gd = new GestoreDizionari();
+		GestoreInputOutput input = new GestoreInputOutput();
+		ra.inizializzaRete(); // riporto a stato iniziale
+		input.setRete(ra);
+		input.setOsservazione(automaOss);
+		input.setDaOsservazione(true);
+		if ( ! spazioRilevanzaCalcolato ){
+			sr = gd.calcolaSpazioRilevanza(input);
+			input.setSr(sr);
+		}
+		else {
+			input.setSr(sr);
+		}
+		return gd.calcolaDizionario(input);
+	}
 
 	private static void gestisciInfoDizionario(int sceltaInfoDiz) {
 		//toString ridenominato, toString per info generiche
@@ -726,38 +737,6 @@ public class Main {
 		}
 	}
 
-	private static Dizionario calcolaDizionario(int dimensione) {
-		GestoreDizionari gd = new GestoreDizionari();
-		GestoreInputOutput input = new GestoreInputOutput();
-		input.setRete(ra);
-		input.setDistanzaMax(dimensione);
-		if ( ! spazioRilevanzaCalcolato){
-			sr = gd.calcolaSpazioRilevanza(input);
-			input.setSr(sr);
-		}
-		else {
-			input.setSr(sr);
-		}
-		return gd.calcolaDizionario(input);
-	}
-
-	private static Dizionario calcolaDizionarioParzialeDaOsservazione() {
-		GestoreDizionari gd = new GestoreDizionari();
-		GestoreInputOutput input = new GestoreInputOutput();
-		ra.inizializzaRete(); // riporto a stato iniziale
-		input.setRete(ra);
-		input.setOsservazione(automaOss);
-		input.setDaOsservazione(true);
-		if ( ! spazioRilevanzaCalcolato ){
-			sr = gd.calcolaSpazioRilevanza(input);
-			input.setSr(sr);
-		}
-		else {
-			input.setSr(sr);
-		}
-		return gd.calcolaDizionario(input);
-	}
-
 	private static void effettuaRicerca(ArrayList<String> osservazioneLineare) {
 		GestoreDizionari gd = new GestoreDizionari();
 		try {
@@ -780,24 +759,45 @@ public class Main {
 		}
 	}
 
+	private static void effettuaMonitoraggio(){
+		GestoreDizionari gd = new GestoreDizionari();
+		try {
+			GestoreInputOutput inputOutput = new GestoreInputOutput();
+			inputOutput.setOsservazioneLineareMonitoraggio(osservazioneLineareMonitoraggio);
+			inputOutput.setSr(sr);
+			inputOutput.inizializzaLogMonitoraggio();
+			gd.effettuaMonitoraggioRevisione(inputOutput, diz);
+			if ( diz.getTerne().size() > 1){
+				stampaLog(inputOutput);
+				stampaTerne();
+			}
+			return;
+		} catch (Exception e) {
+			if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
+			return;
+		}
+	}
+
+	private static void effettuaEstensione(){
+		GestoreDizionari gd = new GestoreDizionari();
+		GestoreInputOutput inputOutput  = new GestoreInputOutput();
+		inputOutput.setRete(ra);
+		inputOutput.setOsservazione(automaOss);
+		inputOutput.setDizionario(diz);
+		gd.estensioneDizionario(inputOutput);
+	}
+
 	private static void stampaFileDiEsempio() {
 		File folder = new File(Stringhe.EXAMPLE_PATH);
 		filesEsempio = new ArrayList<>();
 		filesEsempio.addAll(Arrays.asList(folder.listFiles()));
 		int index = 1;
+		System.out.println(Stringhe.TITOLO_FILE_ESEMPIO);
 		for (File file : filesEsempio) {
 			System.out.println(index + " " + file.getPath());
 			index++;
 		}
 		System.out.println("\n" + Stringhe.INDICE_INDIETRO);
-	}
-
-	private static void visualizzaAutomiOsservazioneDisponibili() {
-		File folder = new File(Stringhe.SAVES_PATH);
-		File[] files = folder.listFiles();
-		for (File file : files) {
-			if (file.getName().contains(Stringhe.ESTENSIONE_AUTOMA_OSS)) System.out.println(file.getName());
-		}
 	}
 
 	private static String determinaFilepathEsempio(String inputUtente) {
@@ -910,6 +910,22 @@ public class Main {
 		else throw new Exception(Stringhe.PROBLEMA_CARICAMENTO_ESTENSIONI);
 	}
 
+	private static boolean caricaOsservazioneDaJSON() {
+		stampaFileDiEsempio();
+		String filepath = determinaFilepathEsempio(inputNomeFileJSON());
+		if (isNull(filepath) || filepath.trim().equals(Stringhe.STRINGA_VUOTA)) return false;
+		GestoreFile gf = new GestoreFile();
+		try {
+			automaOss = gf.caricaOsservazioneDaJSON(filepath);
+			System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, automaOss.getNome()));
+			System.out.println(automaOss.toStringOss());
+		}
+		catch (Exception e){
+			System.out.println(Stringhe.ERRORE_FILEPATH);
+		}
+		return true;
+	}
+
 	private static SpazioRilevanza caricaSpazio() throws Exception {
 		String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_SPAZIO);
 		if (isNull(filepath)) throw new Exception(Stringhe.CARICAMENTO_ANNULLATO);
@@ -933,25 +949,6 @@ public class Main {
 			}
 		}
 		return sovrascrive;
-	}
-
-	private static void effettuaMonitoraggio(){
-		GestoreDizionari gd = new GestoreDizionari();
-		try {
-			GestoreInputOutput inputOutput = new GestoreInputOutput();
-			inputOutput.setOsservazioneLineareMonitoraggio(osservazioneLineareMonitoraggio);
-			inputOutput.setSr(sr);
-			inputOutput.inizializzaLogMonitoraggio();
-			gd.effettuaMonitoraggioRevisione(inputOutput, diz);
-			if ( diz.getTerne().size() > 1){
-				stampaLog(inputOutput);
-				stampaTerne();
-			}
-			return;
-		} catch (Exception e) {
-			if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
-			return;
-		}
 	}
 
 	private static boolean parametriMonitoraggioOk() {

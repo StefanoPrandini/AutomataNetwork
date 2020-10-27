@@ -96,11 +96,15 @@ public class EstendiDizionario extends Algoritmo implements Runnable {
 							transizioniNonInTraiettoria.add(transizioneOsservazione);
 						}
 					}
+
+					/** PROVE INTERRUZIONE
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+					 **/
+
 //					considerate tutte le transizioni uscenti dal nodo dell'osservazione, MARCARE INDICE
 					indice.setMarked(true);
 				}

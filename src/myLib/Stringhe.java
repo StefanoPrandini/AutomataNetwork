@@ -3,8 +3,6 @@ package myLib;
 import java.io.File;
 
 public class Stringhe {
-    public static final String FILE_BASE_IN_CARTELLA = "I file JSON delle reti di esempio sono: \n";
-    public static final String FILE_SESSIONI = "File salvati in sessioni precedenti: \n";
     public static final String EXAMPLE_PATH = System.getProperty("user.dir")+ File.separator + "JSON";
     public static final String SAVES_PATH = System.getProperty("user.dir") + File.separator + "sessioni";
     public static final String SAVE_FOLDER = System.getProperty("user.dir") + File.separator + "sessioni" + File.separator;
@@ -50,6 +48,7 @@ public class Stringhe {
     public static final String INDICE_INDIETRO = "0 Indietro\n";
     public static final String MONITORAGGIO_REVISIONE = "monitoraggio e revisione";
     public static final String RICERCA_DIAGNOSI = "ricerca e diagnosi";
+    public static final String ESTENSIONE_DIZIONARIO = "l'estensione del dizionario";
     public static final String INTERRUZIONE = "Interrompo l'algoritmo";
     public static final String ELIMINATO = "\nFile eliminato\n";
     public static final String RINOMINATO = "\nFile rinominato\n";
@@ -82,6 +81,8 @@ public class Stringhe {
      *
      */
 
+
+    public static final String TITOLO_FILE_ESEMPIO = "I file JSON delle reti di esempio sono: \n";
     public static final String TITOLO_INIZIALE = "Elaboratore per reti di automi";
     public static final String TITOLO_GESTIONE_RETE = "Gestione rete di automi";
     public static final String TITOLO_SESSIONI_SALVATE = "\nSessioni disponibili: \n";
@@ -238,6 +239,7 @@ public class Stringhe {
     public static final String INFO_NOMI_RETE = "La rete di automi fornita e' chiamata %s, lo spazio di rilevanza e' relativo alla rete %s";
     public static final String NESSUN_FILE_ADATTO = "\nNessun file di salvataggio pertinente trovato!\n";
     public static final String PROBLEMA_CARICAMENTO_ESTENSIONI = "\nQualcosa e' andatao storto con il caricamento\n";
+    public static final String ERRORE_THREAD = "\nErrore nell'algoritmo";
 
 
 }
