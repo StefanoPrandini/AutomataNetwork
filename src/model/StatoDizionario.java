@@ -10,7 +10,7 @@ import javafx.util.Pair;
  *
  */
 public class StatoDizionario implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 8562299842109567691L;
 	
 	private Set<StatoRilevanzaRete> statiRilevanza;
 	private String ridenominazione;

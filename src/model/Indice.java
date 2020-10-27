@@ -3,7 +3,7 @@ package model;
 import java.io.Serializable;
 
 public class Indice implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3562299391009560371L;
 	
 	private Stato stato;
 	private boolean marked;

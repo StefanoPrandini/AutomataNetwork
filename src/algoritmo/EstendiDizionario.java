@@ -12,6 +12,7 @@ import java.util.Set;
 import gestore.GestoreInputOutput;
 import javafx.util.Pair;
 import model.*;
+import myLib.Stringhe;
 
 /**
  * Quando si estende il dizionario non si puo' usare lo spazio di rilevanza, servono quindi metodi specifici
@@ -61,7 +62,7 @@ public class EstendiDizionario extends Algoritmo implements Runnable {
 //			servono gli stati di rilevanza per costruire lo stato di rilevanza successivo
 //			potrebbero gia' essere stati aggiunti oppure no, non importa, e' un insieme
 			statiRilevanza.addAll(statoDiz.getStatiRilevanza());
-			
+
 			for(Indice indice : statoDiz.getIndici()) {
 				if (isInInterruzione()) break;
 				if( ! indice.isMarked()) {
@@ -95,6 +96,11 @@ public class EstendiDizionario extends Algoritmo implements Runnable {
 							transizioniNonInTraiettoria.add(transizioneOsservazione);
 						}
 					}
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 //					considerate tutte le transizioni uscenti dal nodo dell'osservazione, MARCARE INDICE
 					indice.setMarked(true);
 				}
@@ -118,7 +124,8 @@ public class EstendiDizionario extends Algoritmo implements Runnable {
 			Set<Pair<StatoRilevanzaRete, StatoRilevanzaRete>> IO = coppieIO(statoDizionario);
 			statoDizionario.setIO(IO);
 		}
-		this.inputOutput.setDizionario(dizionario);
+		System.out.println(Stringhe.ESTENSIONE_COMPLETA);
+		this.setTerminato(true);
 	}
 	
 	

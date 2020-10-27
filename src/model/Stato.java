@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Stato implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8342606357729996094L;
 	
 	private static AtomicInteger ai = new AtomicInteger(0);
 	private int id;

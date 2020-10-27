@@ -1,33 +1,39 @@
 package main;
 
-import myLib.InputDati;
+import algoritmo.Dizionario;
+import algoritmo.SpazioRilevanza;
+import input.OsservazioneParser;
+import model.Automa;
+import model.ReteAutomi;
 import myLib.Stringhe;
-import myLib.VerificaDati;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Vector;
+
+import static myLib.Utility.creaNomeFile;
 
 public class ProvaT  {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
 
-ArrayList<String> res = new ArrayList<>();
-        String input= InputDati.leggiStringa("msg");
-        ArrayList<String> in = new ArrayList<>(Arrays.asList(input.split(",")));
-        for (String s : in) {
-            s = s.trim();
-            if ( ! s.equals(Stringhe.STRINGA_VUOTA)) res.add(s);
+    public static void main(String[] args) {
 
+        try {
+            OsservazioneParser op = new OsservazioneParser(Stringhe.EXAMPLE_PATH + "/OsservazionePerEstensione.json");
+            Automa a = op.getOsservazione();
+            System.out.println(a);
+            String nome = "automaOss" + Stringhe.ESTENSIONE_AUTOMA_OSS;
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
+            oos.writeObject(a);
+            oos.close();
+            System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        for (String re : res) {
-            System.out.println(re);
-        }
-
-
 
     }
 
+
+    private static boolean isClasseBella(Class classe){
+        return classe.getName().equals("algoritmo.Dizionario");
+    }
 }

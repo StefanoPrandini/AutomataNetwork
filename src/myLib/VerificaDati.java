@@ -43,17 +43,4 @@ public class VerificaDati
 		if (stringa.matches("\\d{1}")) return true;
 		return false;
 	}
-
-	public static boolean isInteroValido(String inputUtente, int n) {
-		if (inputUtente.matches("\\d+")){
-			int input = Integer.parseInt(inputUtente);
-			if (input < n){
-				return true;
-			}
-			return false;
-
-		}
-		return false;
-
-	}
 }

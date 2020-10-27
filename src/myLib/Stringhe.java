@@ -8,8 +8,8 @@ public class Stringhe {
     public static final String EXAMPLE_PATH = System.getProperty("user.dir")+ File.separator + "JSON";
     public static final String SAVES_PATH = System.getProperty("user.dir") + File.separator + "sessioni";
     public static final String SAVE_FOLDER = System.getProperty("user.dir") + File.separator + "sessioni" + File.separator;
-    public final static String INSERIRE_PERCORSO_FILE = "Inserisci l'indice del file di esempio desiderato o un altro percorso:\n-->";
-    public static final String INSERISCI_SESSIONE = "Inserisci il nome del file:\n-->";
+    public final static String INSERISCI_JSON = "Inserisci l'indice del file di esempio desiderato o un altro percorso:\n-->";
+    public static final String INSERISCI_SESSIONE = "Inserisci l'indice del file:\n-->";
     public static final String LUNGHEZZA_PREFISSO = "Inserisci la lunghezza del prefisso (un numero negativo per tornare indietro): ";
     public static final int VALORE_USCITA = 0;
     public final static String INSERISCI_PERCORSO_OSSERVAZIONE = "Inserisci il percorso del file contenente l'osservazione (0 per uscire):\n-->";
@@ -31,13 +31,14 @@ public class Stringhe {
     public static final String COSTRUZIONE_DIZIONARIO_COMPLETA = "\nCostruzione completa, premi INVIO per proseguire: ";
     public static final String RICERCA_COMPLETA = "\nRicerca completa, premi INVIO per proseguire: ";
     public static final String MONITORAGGIO_COMPLETO = "\nMonitoraggio e revisione completi, premi INVIO per proseguire: ";
+    public static final String ESTENSIONE_COMPLETA = "\nEstensione del dizionario completa, premi INVIO per proseguire: ";
     public static final String RICERCA_IN_CORSO = "Ricerca nel dizionario in corso\n";
     public static final String MONITORAGGIO_IN_CORSO = "Monitoraggio e revisione nel dizionario in corso\n";
     public static final String ESTENSIONE_IN_CORSO = "Estensione del dizionario in corso\n";
     public static final String INSERISCI_PER_INTERROMPERE = "Inserisci '%s' per interrompere: ";
     public static final String SEI_SICURO = "Vuoi continuare comunque? y/n\n--> ";
-    public static final String CARICAMENTO_ANNULLATO = "Caricamento annullato";
-    public static final String CONTINUA_CALCOLO_DIZ = "Continua con il calcolo di un dizionario o il caricamento di un diverso spazio";
+    public static final String CARICAMENTO_ANNULLATO = "\nCaricamento annullato\n";
+    public static final String CONTINUA_CALCOLO_DIZ = "\nContinua con il calcolo di un dizionario o il caricamento di un diverso spazio\n";
     public static final String STOP = "stop";
     public static final String OK = "ok";
     public static final String STRINGA_VUOTA = "";
@@ -63,7 +64,7 @@ public class Stringhe {
     public static final String ESTENSIONE_OSS_LIN_RIC = ".linossric.ser";
     public static final String ESTENSIONE_OSS_LIN_MON = ".linossmon.ser";
     public static final String ESTENSIONE_AUTOMA_OSS = ".autoss.ser";
-    public static final String SALVATAGGIO_OK = "E' stato creato il file %s";
+    public static final String SALVATAGGIO_OK = "\nE' stato creato il file %s";
     public static final String ERRORE_SALVATAGGIO = "C'e' stato un problema nel salvataggio";
 
 
@@ -76,7 +77,7 @@ public class Stringhe {
 
     public static final String TITOLO_INIZIALE = "Elaboratore per reti di automi";
     public static final String TITOLO_GESTIONE_RETE = "Gestione rete di automi";
-    public static final String TITOLO_CARICAMENTO_DIZIONARIO = "Caricamento dizionario da file";
+    public static final String TITOLO_SESSIONI_SALVATE = "\nSessioni disponibili per il caricamento: \n";
     public static final String TITOLO_SOVRASCRIVI = "Attenzione! Un dizionario e' gia'� presente, procedendo sovrascriverai i dati";
     public static final String TITOLO_CALCOLO_DIZIONARIO = "Calcolo di un dizionario";
     public static final String TITOLO_GESTIONE_DIZIONARIO_PARZIALE = "Calcolo di un dizionario parziale";
@@ -89,7 +90,7 @@ public class Stringhe {
     public static final String TITOLO_ESTENSIONE = "Estensione dinamica del dizionario";
     public static final String TITOLO_SALVA = "Salvataggio risultati";
     public static final String TITOLO_CARICAMENTI = "Caricamento da una sessione precedente";
-    public static final String TITOLO_LOG = "Log delle azioni di monitoraggio e revisione";
+    public static final String TITOLO_LOG = "Log delle azioni svolte in monitoraggio e revisione";
     public static final String INPUT_OUTPUT = "Input e Output:";
     public static final String COPPIE_INPUT_OUTPUT = "Coppie I/O:";
 
@@ -112,13 +113,6 @@ public class Stringhe {
             "Carica dizionario"
     };
 
-    public static final String[] OPZIONI_CARICAMENTO_DIZIONARIO = {
-            "Carica dizionario da file"
-    };
-
-    public static final String[] OPZIONI_SOVRASCRIVI = {
-
-    };
     public static final String[] OPZIONI_CALCOLO_DIZIONARIO = {
             "Calcola dizionario completo (include calcolo dello Spazio di Rilevanza)",
             "Calcola dizionario parziale (include calcolo dello Spazio di Rilevanza)",
@@ -162,12 +156,14 @@ public class Stringhe {
     public static final String[] OPZIONI_RICERCA_DIZIONARIO = {
             "Inserisci osservazione lineare nuova ed effettua ricerca",
             "Aggiungi etichette ad un'osservazione precedente ed effettua ricerca",
+            "Effettua ricerca con un'osservazione lineare caricata",
             "Vedi diagnosi precedente"
     };
 
     public static final String[] OPZIONI_MONITORAGGIO = {
             "Effettua monitoraggio e revisione",
-            "Aggiungi etichette ad un'osservazione precedente ed effettua monitoraggio",
+            "Aggiungi etichette ad un'osservazione precedente ed effettua monitoraggio e revisione",
+            "Effettua monitoraggio e revisione con un'osservazione lineare caricata",
             "Vedi risultato precedente"
     };
 
@@ -188,6 +184,8 @@ public class Stringhe {
 
     public static final String[] OPZIONI_ESTENSIONE = {
             "Estensione tramite un'osservazione",
+            "Estensione tramite un'osservazione gia' caricata",
+            "Vedi risultato precedente"
     };
 
     public static final String[] RISPOSTE_VALIDE = {
@@ -217,14 +215,18 @@ public class Stringhe {
     public static final String CARICAMENTO_IN_CORSO = "Caricamento di %s in corso";
     public static final String CARICAMENTO_OSS_LIN = "Osservazione lineare caricata: %s";
     public static final String NESSUNA_RETE_CARICATA = "\nAttenzione!\nNon e' stata caricata alcuna rete";
-    public static final String NESSUNA_OSSERVAZIONE = "Attenzione!\nNon e' presente alcuna osservazione da estendere";
+    public static final String NESSUNA_OSSERVAZIONE = "Attenzione!\nNon e' presente alcuna osservazione";
     public static final String NESSUNA_OSSERVAZIONE_INSERITA = "Attenzione!\nNon e' stata ancora inserita un'osservazione per %s";
     public final static String ERRORE_CARICAMENTO = "Errore nel caricamento";
     public static final String ESTENSIONE_NON_VALIDA = "Attenzione!\nFornire un file con estensione %s" ;
     public static final String ERRORE_CLASSE = "Classe non valida";
     public static final String NOMI_RETE_DIVERSI = "\nAttenzione!\nLo spazio di rilevanza indicato potrebbe non essere relativo alla rete caricata!";
     public static final String INFO_NOMI_RETE = "La rete di automi fornita e' chiamata %s, lo spazio di rilevanza e' relativo alla rete %s";
-
-
-
+    public static final String NESSUN_FILE_ADATTO = "\nNessun file di salvataggio pertinente trovato!\n";
+    public static final String PROBLEMA_CARICAMENTO_ESTENSIONI = "\nQualcosa e' andatao storto con il caricamento\n";
+    public static final String CLASSE_SPAZIO_RILEVANZA = "algoritmo.SpazioRilevanza";
+    public static final String CLASSE_RETE = "model.ReteAutomi";
+    public static final String CLASSE_DIZIONARIO = "algoritmo.Dizionario";
+    public static final String CLASSE_OSS_LIN = "java.util.ArrayList";
+    public static final String CLASSE_AUTOMA_OSS = "model.Automa";
 }

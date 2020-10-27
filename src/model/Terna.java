@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Terna implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5575599391009567691L;
 	
 	private Set<StatoRilevanzaRete> insiemeI;
     private StatoDizionario statoDizionario;

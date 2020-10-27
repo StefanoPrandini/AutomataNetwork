@@ -7,7 +7,6 @@ import algoritmo.SpazioRilevanza;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Set;
 
 public class GestoreInputOutput implements Serializable {
 
@@ -23,6 +22,9 @@ public class GestoreInputOutput implements Serializable {
     private SpazioRilevanza sr;
     private Dizionario diz;
     private ArrayList<String> logMonitoraggio;
+
+    private static final long serialVersionUID = 2441396588518329859L;
+
 
     public ReteAutomi getRete() {
         return rete;

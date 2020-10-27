@@ -6,22 +6,18 @@ import gestore.GestoreDizionari;
 import gestore.GestoreFile;
 import gestore.GestoreInputOutput;
 import javafx.util.Pair;
-import myLib.InputDati;
-import myLib.MyMenu;
-import myLib.Stringhe;
-import myLib.VerificaDati;
+import myLib.*;
 import model.*;
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.util.Objects.isNull;
-import static myLib.InputDati.leggiStringa;
+import static myLib.Utility.*;
 
 public class Main {
 
 	private static ReteAutomi ra;
-	private static Automa oss;
+	private static Automa automaOss;
 	private static SpazioRilevanza sr;
 	private static Dizionario diz;
 	private static ArrayList<String> osservazioneLineareRicerca = new ArrayList<>();
@@ -41,10 +37,6 @@ public class Main {
 		}
 	}
 
-	/**
-	 * Caricamento della rete iniziale
-	 * @param scelta
-	 */
 	private static void gestisciCaricamentoIniziale(int scelta) {
 
 		switch (scelta){
@@ -58,9 +50,8 @@ public class Main {
 					break;
 				}
 				GestoreFile gf = new GestoreFile();
-				gf.setPathRete(input);
 				try {
-					ra = gf.caricaReteDaJSON();
+					ra = gf.caricaReteDaJSON(input);
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
 					System.out.println(ra.toString());
 					MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
@@ -80,30 +71,26 @@ public class Main {
 				break;
 
 			}
-			case 2: { // carica sessione
-				if(sessioniDisponibili()){
-					System.out.println(Stringhe.FILE_SESSIONI);
-					visualizzaSessioniDisponibili(Stringhe.ESTENSIONE_RETE);
-					try {
-						gestisciCaricamentoReteAutomi();
-						System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
-						MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
-						int sceltaGestioneRete = menuGestioneRete.scegli();
-						while (sceltaGestioneRete != 0){
-							gestisciRete(sceltaGestioneRete);
-							sceltaGestioneRete = menuGestioneRete.scegli();
-						}
-					} catch (Exception e){
-						System.out.println(Stringhe.ERRORE_CARICAMENTO);
+			case 2: { // carica da sessione
+				try {
+					caricaFilesDaSessione(Stringhe.ESTENSIONE_RETE);
+					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
+					System.out.println("\n" + ra);
+					MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
+					int sceltaGestioneRete = menuGestioneRete.scegli();
+					while (sceltaGestioneRete != 0){
+						gestisciRete(sceltaGestioneRete);
+						sceltaGestioneRete = menuGestioneRete.scegli();
 					}
+				} catch (Exception e){
+					System.out.println(e.getMessage());
 				}
+
 				break;
 			}
 			default: break;
 		}
 	}
-
-
 
 	private static void gestisciRete(int scelta){
 		//informazioni rete, calcola dizionario, carica dizionario
@@ -120,23 +107,24 @@ public class Main {
 				MyMenu menuCalcolaDizionario = new MyMenu(Stringhe.TITOLO_CALCOLO_DIZIONARIO, Stringhe.OPZIONI_CALCOLO_DIZIONARIO);
 				int sceltaCalcoloDizionario = menuCalcolaDizionario.scegli();
 				while (sceltaCalcoloDizionario != 0){
+					spazioRilevanzaCalcolato = false;
 					gestisciCalcoloDizionario(sceltaCalcoloDizionario);
 					sceltaCalcoloDizionario = menuCalcolaDizionario.scegli();
 				}
 				break;
 			}
 			case 3:{//carica dizionario
-				MyMenu menuCaricamentoDizionario = new MyMenu(Stringhe.TITOLO_CARICAMENTO_DIZIONARIO, Stringhe.OPZIONI_CARICAMENTO_DIZIONARIO);
-				int sceltaCaricamentoDizionario = menuCaricamentoDizionario.scegli();
-				while ( sceltaCaricamentoDizionario != 0){
-					try {
-						gestioneCaricamentoDizionario(sceltaCaricamentoDizionario);
-						sceltaCaricamentoDizionario = menuCaricamentoDizionario.scegli();
-					}catch (Exception e){
-						System.out.println(Stringhe.ERRORE_CARICAMENTO);
+				try {
+					caricaFilesDaSessione(Stringhe.ESTENSIONE_DIZ);
+					MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
+					int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+					while (sceltaGestioneDizionario != 0){
+						gestisciDizionario(sceltaGestioneDizionario);
+						sceltaGestioneDizionario = menuGestioneDizionario.scegli();
 					}
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
 				}
-				break;
 			}
 
 			default: break;
@@ -172,65 +160,27 @@ public class Main {
 			}
 			case 3: { //calcola da spazio di rilevanza (da caricare)
 				// --> qui carica lo spazio e cambia il valore del boolean spazioRilevanzaCalcolato, poi esce e si ritrova nello stesso menu con caricamento effettuato
-				//
-				visualizzaSpaziRilevanzaDisponibili();
-				String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
-				filepath = Stringhe.SAVE_FOLDER + filepath;
-				if ( ! filepath.contains(Stringhe.ESTENSIONE_SPAZIO) ){
-					System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_SPAZIO));
-					break;
-				}
-				File folder = new File(Stringhe.SAVES_PATH);
-				File[] files = folder.listFiles();
-				for (File file : files) {
-					if (file.getPath().equals(filepath)){
-						GestoreFile gf = new GestoreFile();
-						try {
-
-							System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
-							SpazioRilevanza spazioRilevanza = gf.caricaSpazioRilevanza(filepath);
-							boolean sovrascrive = true;
-							if ( ! spazioRilevanza.getNomeRete().equals(ra.getNome())){
-								System.out.println(Stringhe.NOMI_RETE_DIVERSI);
-								System.out.println(String.format(Stringhe.INFO_NOMI_RETE, ra.getNome(), spazioRilevanza.getNomeRete()));
-								String vuoiContinuare = InputDati.leggiStringa(Stringhe.SEI_SICURO);
-								while ( ! rispostaValida(vuoiContinuare) ){
-									System.out.println(Stringhe.NON_VALIDA);
-									vuoiContinuare = InputDati.leggiStringa(Stringhe.SEI_SICURO);
-								}
-								//se vuole inserire uno spazio di rilevanza non relativo alla rete
-								if (rispondeNo(vuoiContinuare)){
-									sovrascrive = false;
-								}
-
-							}
-							if (sovrascrive){
-								sr = spazioRilevanza;
-								System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, filepath));
-								System.out.println(Stringhe.CONTINUA_CALCOLO_DIZ);
-								spazioRilevanzaCalcolato = true;
-							}
-
-							else  {
-								System.out.println(Stringhe.CARICAMENTO_ANNULLATO);
-								spazioRilevanzaCalcolato = false;
-							}
-						} catch (ClassNotFoundException e){
-							e.printStackTrace();
-						}  catch (IOException e) {
-							e.printStackTrace();
-						}
-						break;
+				try {
+					SpazioRilevanza spazioRilevanza = caricaSpazio();
+					boolean vuoleSovrascrivere = controllaNomeRete(spazioRilevanza);
+					if (vuoleSovrascrivere){
+						sr = spazioRilevanza;
+						System.out.println(Stringhe.CONTINUA_CALCOLO_DIZ);
+						spazioRilevanzaCalcolato = true;
 					}
+					else  {
+						System.out.println(Stringhe.CARICAMENTO_ANNULLATO);
+						spazioRilevanzaCalcolato = false;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-
 				break;
-
-
 			}
 		}
-
 	}
+
+
 
 	private static void gestisciCalcoloDizionarioParziale(int scelta) {
 		switch (scelta){
@@ -252,15 +202,22 @@ public class Main {
 			}
 			case 2: { // da osservazione
 
+
+				//TODO
+
+				System.out.println("WIP per caricamento sessioni");
+
+
+				/**
 				String percorsoOss = InputDati.leggiStringa(Stringhe.INSERISCI_PERCORSO_OSSERVAZIONE);
 				if (percorsoOss.equals("" + Stringhe.VALORE_USCITA)) break;
 				GestoreFile gf = new GestoreFile();
 				gf.setPathOss(percorsoOss);
 				try{
 
-					oss = gf.caricaOsservazione();
-					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, oss.getNome()));
-					System.out.println(oss.toStringOss());
+					automaOss = gf.caricaOsservazione();
+					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, automaOss.getNome()));
+					System.out.println(automaOss.toStringOss());
 					diz = calcolaDizionarioParzialeDaOsservazione();
 					MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
 					int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
@@ -273,6 +230,7 @@ public class Main {
 					System.out.println(Stringhe.ERRORE_CARICAMENTO);
 					System.out.println(e);
 				}
+				 **/
 
 				break;
 			}
@@ -312,9 +270,14 @@ public class Main {
 					break;
 				}
 				case 4: {//estensione
-					gestisciEstensione();
-					//TODO check con Ste se estensione funziona
+					MyMenu menuEstensione = new MyMenu(Stringhe.TITOLO_ESTENSIONE, Stringhe.OPZIONI_ESTENSIONE);
+					int sceltaEstensione = menuEstensione.scegli();
+					while (sceltaEstensione != 0){
+						gestisciEstensione(sceltaEstensione);
+						sceltaEstensione = menuEstensione.scegli();
+					}
 					break;
+					//TODO check con Ste se estensione funziona
 				}
 
 				case 5:  {//salvataggi
@@ -355,46 +318,6 @@ public class Main {
 			}
 	}
 
-	private static void gestisciRicerca(int sceltaRicerca) {
-		switch (sceltaRicerca){
-			case 0:{//back
-				break;
-			}
-			case 1:{ //oss lineare da tastiera
-				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
-				if (isNull(input)) break;
-				osservazioneLineareRicerca = input;
-				effettuaRicerca(osservazioneLineareRicerca);
-				break;
-			}
-
-			case 2: {//estendi ricerca precedente
-				if (isNull(osservazioneLineareRicerca) || osservazioneLineareRicerca.isEmpty()){
-					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
-					break;
-				}
-				System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineareRicerca));
-				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE);
-				if (isNull(input)) break;
-				osservazioneLineareRicerca.addAll(input);
-				effettuaRicerca(osservazioneLineareRicerca);
-				break;
-			}
-
-			case 3: {//vedi risultato precedente
-				if (isNull(osservazioneLineareRicerca) || osservazioneLineareRicerca.isEmpty()){
-					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.RICERCA_DIAGNOSI));
-					break;
-				}
-				if ( isNull(decorazione) ){
-					System.out.println(Stringhe.NESSUN_RISULTATO);
-				}
-				else System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineareRicerca, decorazione));
-				break;
-			}
-		}
-	}
-
 	private static void gestisciSceltaInfo(int sceltaInformazioni) {
 		switch (sceltaInformazioni){
 			case 0: { //back
@@ -426,6 +349,130 @@ public class Main {
 			}
 
 		}
+	}
+
+	private static void gestisciRicerca(int sceltaRicerca) {
+		switch (sceltaRicerca){
+			case 0:{//back
+				break;
+			}
+			case 1:{ //oss lineare da tastiera
+				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
+				if (isNull(input)) break;
+				osservazioneLineareRicerca = input;
+				effettuaRicerca(osservazioneLineareRicerca);
+				break;
+			}
+
+			case 2: {//estendi ricerca precedente
+				if (isNull(osservazioneLineareRicerca) || osservazioneLineareRicerca.isEmpty()){
+					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.RICERCA_DIAGNOSI));
+					break;
+				}
+				System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineareRicerca));
+				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE);
+				if (isNull(input)) break;
+				osservazioneLineareRicerca.addAll(input);
+				effettuaRicerca(osservazioneLineareRicerca);
+				break;
+			}
+
+			case 3: {//effettua ricerca dopo caricamento
+				if (isNull(osservazioneLineareRicerca) || osservazioneLineareRicerca.isEmpty()){
+					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.RICERCA_DIAGNOSI));
+					break;
+				}
+				effettuaRicerca(osservazioneLineareRicerca);
+				break;
+			}
+
+			case 4: {//vedi risultato precedente
+				if (isNull(osservazioneLineareRicerca) || osservazioneLineareRicerca.isEmpty()){
+					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.RICERCA_DIAGNOSI));
+					break;
+				}
+				if ( isNull(decorazione) ){
+					System.out.println(Stringhe.NESSUN_RISULTATO);
+				}
+				else System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineareRicerca, decorazione));
+				break;
+			}
+		}
+	}
+
+	private static void gestisciMonitoraggio(int sceltaMonitoraggio) {
+		switch (sceltaMonitoraggio){
+			case 0:{//back
+				break;
+			}
+			case 1:{ //monitoraggio con oss lineare da tastiera
+				if (isNull(sr)){
+					System.out.println(Stringhe.NESSUNO_SPAZIO_RILEVANZA);
+					break;
+				}
+				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
+				if (isNull(input)) break;
+				osservazioneLineareMonitoraggio = input;
+				effettuaMonitoraggio();
+				break;
+			}
+
+			case 2:{ //estensione monitoraggio
+				if (parametriMonitoraggioOk()){
+					System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineareMonitoraggio));
+					ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE);
+					if (isNull(input)) break;
+					osservazioneLineareMonitoraggio.addAll(input);
+					effettuaMonitoraggio();
+				}
+				break;
+			}
+
+			case 3: {//effettua monitoraggio dopo caricamento
+				if (parametriMonitoraggioOk()) effettuaMonitoraggio();
+				break;
+			}
+
+			case 4: {//vedi risultato precedente
+				if (parametriMonitoraggioOk()){
+					if (isNull(diz.getTerne()) || diz.getTerne().size() <= 1){
+						System.out.println(Stringhe.NESSUN_RISULTATO);
+					}
+					else {
+						stampaTerne();
+					}
+				}
+				break;
+			}
+		}
+	}
+
+	private static void gestisciEstensione(int scelta) {
+
+		//TODO WIP caricamento
+		System.out.println("WIP caricamento");
+		//inserisci osservazione
+		/**stampaFileDiEsempio();
+		 String filepath = determinaFilepathEsempio(inputNomeFileJSON());
+		 GestoreFile gf = new GestoreFile();
+		 gf.setPathOss(filepath);
+		 try {
+		 automaOss = gf.caricaOsservazione();
+		 System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, automaOss.getNome()));
+		 System.out.println(automaOss.toStringOss());
+		 GestoreDizionari gd = new GestoreDizionari();
+		 GestoreInputOutput inputOutput  = new GestoreInputOutput();
+		 inputOutput.setRete(ra);
+		 inputOutput.setOsservazione(automaOss);
+		 inputOutput.setDizionario(diz);
+		 gd.estensioneDizionario(inputOutput);
+		 //TODO WIP, vedere gestore dizinari @estensione
+
+		 }
+		 catch (Exception e){
+		 System.out.println(Stringhe.ERRORE_FILEPATH);
+		 }
+		 **/
 	}
 
 	private static void gestisciSalvataggio(int sceltaSalva) {
@@ -504,7 +551,7 @@ public class Main {
 				String nome = creaNomeFile() + Stringhe.ESTENSIONE_AUTOMA_OSS;
 				try {
 					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
-					oos.writeObject(oss);
+					oos.writeObject(automaOss);
 					oos.close();
 					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
 				}
@@ -523,212 +570,51 @@ public class Main {
 				break;
 			}
 			case 1:{//carica oss lineare ricerca
-				visualizzaOsservazioniLineariDisponibili(Stringhe.ESTENSIONE_OSS_LIN_RIC);
-				String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
-				filepath = Stringhe.SAVE_FOLDER+filepath;
-				if ( ! filepath.contains(Stringhe.ESTENSIONE_OSS_LIN_RIC) ){
-					System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_OSS_LIN_RIC));
-					break;
-				}
-				File folder = new File(Stringhe.SAVES_PATH);
-				File[] files = folder.listFiles();
-				for (File file : files) {
-
-					if (file.getPath().equals(filepath)){
-						GestoreFile gf = new GestoreFile();
-						try {
-							System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
-							osservazioneLineareRicerca = gf.caricaOsservazioneLineare(filepath);
-							System.out.println(String.format(Stringhe.CARICAMENTO_OSS_LIN, osservazioneLineareRicerca));
-						} catch (IOException e) {
-							e.printStackTrace();
-						} catch (ClassNotFoundException e) {
-							e.printStackTrace();
-						}
-						break;
-					}
+				try {
+					caricaFilesDaSessione(Stringhe.ESTENSIONE_OSS_LIN_RIC);
+					System.out.println(String.format(Stringhe.CARICAMENTO_OSS_LIN, osservazioneLineareRicerca));
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
 				}
 				break;
-
-
 			}
 
 			case 2:{//carica oss lineare monitoraggio
-				visualizzaOsservazioniLineariDisponibili(Stringhe.ESTENSIONE_OSS_LIN_MON);
-				String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
-				filepath = Stringhe.SAVE_FOLDER+filepath;
-				if ( ! filepath.contains(Stringhe.ESTENSIONE_OSS_LIN_MON) ){
-					System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_OSS_LIN_MON));
-					break;
-				}
-				File folder = new File(Stringhe.SAVES_PATH);
-				File[] files = folder.listFiles();
-				for (File file : files) {
-
-					if (file.getPath().equals(filepath)){
-						GestoreFile gf = new GestoreFile();
-						try {
-							System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
-							osservazioneLineareMonitoraggio = gf.caricaOsservazioneLineare(filepath);
-							System.out.println(String.format(Stringhe.CARICAMENTO_OSS_LIN, osservazioneLineareMonitoraggio));
-						} catch (IOException e) {
-							e.printStackTrace();
-						} catch (ClassNotFoundException e) {
-							e.printStackTrace();
-						}
-						break;
-					}
+				try {
+					caricaFilesDaSessione(Stringhe.ESTENSIONE_OSS_LIN_MON);
+					System.out.println(String.format(Stringhe.CARICAMENTO_OSS_LIN, osservazioneLineareMonitoraggio));
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
 				}
 				break;
-
 
 			}
 
 
 			case 3:{//carica automa oss
-				visualizzaAutomiOsservazioneDisponibili();
-				String filepath = InputDati.leggiStringa(Stringhe.INSERISCI_SESSIONE);
-				filepath = Stringhe.SAVE_FOLDER + filepath;
-				if ( ! filepath.contains(Stringhe.ESTENSIONE_AUTOMA_OSS) ){
-					System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_AUTOMA_OSS));
-					break;
-				}
-				File folder = new File(Stringhe.SAVES_PATH);
-				File[] files = folder.listFiles();
-				for (File file : files) {
-					if (file.getPath().equals(filepath)){
-						GestoreFile gf = new GestoreFile();
-						try {
-							System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
-							oss = gf.caricaAutomaOss(filepath);
-							System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, oss));
-						} catch (ClassNotFoundException e){
-							e.printStackTrace();
-						}  catch (IOException e) {
-							e.printStackTrace();
-						}
-						break;
-					}
-				}
-
-				break;
-
-
-			}
-		}
-	}
-
-	private static void gestisciEstensione() {
-		//inserisci osservazione
-		stampaFileDiEsempio();
-		String filepath = determinaFilepathEsempio(inputNomeFileJSON());
-		GestoreFile gf = new GestoreFile();
-		gf.setPathOss(filepath);
-		try {
-			oss = gf.caricaOsservazione();
-			System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, oss.getNome()));
-			System.out.println(oss.toStringOss());
-			GestoreDizionari gd = new GestoreDizionari();
-			//diz = gd.estensioneDizionario(diz, ra, oss);
-			//TODO WIP, vedere gestore dizinari @estensione
-
-		}
-		catch (Exception e){
-			System.out.println(Stringhe.ERRORE_FILEPATH);
-		}
-	}
-
-	private static void gestisciMonitoraggio(int sceltaMonitoraggio) {
-		switch (sceltaMonitoraggio){
-			case 0:{//back
-				break;
-			}
-			case 1:{ //monitoraggio con oss lineare da tastiera
-
-				if ( isNull(sr)){
-					System.out.println(Stringhe.NESSUNO_SPAZIO_RILEVANZA);
-					break;
-				}
-
-				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
-				if (isNull(input)) break;
-				osservazioneLineareMonitoraggio = input;
-				GestoreDizionari gd = new GestoreDizionari();
 				try {
-					GestoreInputOutput inputOutput = new GestoreInputOutput();
-					inputOutput.setOsservazioneLineareMonitoraggio(osservazioneLineareMonitoraggio);
-					inputOutput.setSr(sr);
-					inputOutput.inizializzaLogMonitoraggio();
-					gd.effettuaMonitoraggioRevisione(inputOutput, diz);
-					if ( diz.getTerne().size() > 1){
-						stampaLog(inputOutput);
-						stampaTerne();
-					}
-					break;
+					caricaFilesDaSessione(Stringhe.ESTENSIONE_AUTOMA_OSS);
+					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, automaOss.getNome()));
+					System.out.println(automaOss);
 				} catch (Exception e) {
-					if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
-					break;
-				}
-			}
-
-			case 2:{ //estensione monitoraggio
-				if ( isNull(sr)){
-					System.out.println(Stringhe.NESSUNO_SPAZIO_RILEVANZA);
-					break;
-				}
-				if (isNull(osservazioneLineareMonitoraggio) || osservazioneLineareMonitoraggio.isEmpty()){
-					System.out.println(Stringhe.NESSUNA_OSSERVAZIONE);
-					break;
-				}
-
-				System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineareMonitoraggio));
-
-
-				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE);
-				if (isNull(input)) break;
-				osservazioneLineareMonitoraggio.addAll(input);
-				GestoreDizionari gd = new GestoreDizionari();
-				try {
-					GestoreInputOutput inputOutput = new GestoreInputOutput();
-					inputOutput.setOsservazioneLineareMonitoraggio(osservazioneLineareMonitoraggio);
-					inputOutput.setSr(sr);
-					inputOutput.inizializzaLogMonitoraggio();
-					gd.effettuaMonitoraggioRevisione(inputOutput, diz);
-					if ( diz.getTerne().size() > 1){
-						stampaLog(inputOutput);
-						stampaTerne();
-					}
-					break;
-				} catch (Exception e) {
-					if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
-					break;
-				}
-			}
-
-			case 3: {//vedi risultato precedente
-				if ( isNull(osservazioneLineareMonitoraggio) || osservazioneLineareMonitoraggio.isEmpty()){
-					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.MONITORAGGIO_REVISIONE));
-					break;
-				}
-
-				if ( isNull(diz.getTerne()) || diz.getTerne().size() <= 1){
-					System.out.println(Stringhe.NESSUN_RISULTATO);
-				}
-				else {
-					stampaTerne();
+					System.out.println(e.getMessage());
 				}
 				break;
+
+
 			}
 		}
 	}
 
-	private static void stampaLog(GestoreInputOutput inputOutput) {
-		System.out.println(Stringhe.TITOLO_LOG);
-		for (String s : inputOutput.getLogMonitoraggio()) {
-			System.out.println(s);
-		}
 
-	}
+	/**
+	 *
+	 *
+	 *
+	 *
+	 *
+	 */
+
 
 	private static void gestisciInfoDizionario(int sceltaInfoDiz) {
 		//toString ridenominato, toString per info generiche
@@ -796,58 +682,6 @@ public class Main {
 		}
 	}
 
-	private static void gestioneCaricamentoDizionario(int sceltaCaricamentoDizionario) throws Exception{
-		switch (sceltaCaricamentoDizionario){
-			case 0: { //exit
-				break;
-			}
-			case 1: {// carica dizionario
-				String filepath = leggiStringa(Stringhe.INSERISCI_SESSIONE);
-				File folder = new File(Stringhe.SAVES_PATH);
-				File[] files = folder.listFiles();
-				for (File file : files) {
-					if (file.getName().equals(filepath)){
-						GestoreFile gf = new GestoreFile();
-						gf.setPathDiz(filepath);
-						diz = gf.caricaDizionario();
-						break;
-					}
-					else System.out.println(Stringhe.ERRORE_FILEPATH);
-				}
-				MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
-				int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
-				while (sceltaGestioneDizionario != 0){
-					gestisciDizionario(sceltaGestioneDizionario);
-					sceltaGestioneDizionario = menuGestioneDizionario.scegli();
-				}
-
-			}
-		}
-	}
-
-	private static void gestisciCaricamentoReteAutomi() throws Exception{
-		String filepath = determinaFilepathSessione(leggiStringa(Stringhe.INSERISCI_SESSIONE));
-		System.out.println(filepath);
-		if (!filepath.contains(Stringhe.ESTENSIONE_RETE)){
-			System.out.println(String.format(Stringhe.ESTENSIONE_NON_VALIDA, Stringhe.ESTENSIONE_RETE));
-			System.out.println("problema estensione");
-			throw new Exception();
-		}
-		File folder = new File(Stringhe.SAVES_PATH);
-		File[] files = folder.listFiles();
-		for (File file : files) {
-			if (file.getPath().equals(filepath)){
-				GestoreFile gf = new GestoreFile();
-				gf.setPathRete(filepath);
-				ra = gf.caricaReteDaSessione();
-				return;
-			}
-		}
-		System.out.println("errore scemo");
-		System.out.println(Stringhe.ERRORE_FILEPATH);
-		throw new Exception();
-	}
-
 	private static Dizionario calcolaDizionario(int dimensione) {
 		GestoreDizionari gd = new GestoreDizionari();
 		GestoreInputOutput input = new GestoreInputOutput();
@@ -868,7 +702,7 @@ public class Main {
 		GestoreInputOutput input = new GestoreInputOutput();
 		ra.inizializzaRete(); // riporto a stato iniziale
 		input.setRete(ra);
-		input.setOsservazione(oss);
+		input.setOsservazione(automaOss);
 		input.setDaOsservazione(true);
 		if ( ! spazioRilevanzaCalcolato ){
 			sr = gd.calcolaSpazioRilevanza(input);
@@ -902,26 +736,6 @@ public class Main {
 		}
 	}
 
-	private static String inputNomeFileJSON(){
-		String fileJSON = leggiStringa(Stringhe.INSERIRE_PERCORSO_FILE);
-		return fileJSON;
-	}
-
-	private static boolean sessioniDisponibili() {
-		File folder = new File(Stringhe.SAVES_PATH);
-		File[] files = folder.listFiles();
-		boolean flag = false;
-		if (files.length > 0) flag = true;
-		return flag;
-
-	}
-
-	private static String creaNomeFile() {
-		Date ora = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
-		return formatter.format(ora).trim().replace(' ', '_');
-	}
-
 	private static void stampaFileDiEsempio() {
 		File folder = new File(Stringhe.EXAMPLE_PATH);
 		filesEsempio = new ArrayList<>();
@@ -934,55 +748,12 @@ public class Main {
 		System.out.println("\n" + Stringhe.INDICE_INDIETRO);
 	}
 
-	private static void visualizzaSessioniDisponibili(String estensioneFile) {
-		File folder = new File(Stringhe.SAVES_PATH);
-		File[] files  = folder.listFiles();
-		int index = 0;
-		for (File file : files) {
-			if (file.getName().contains(estensioneFile)){
-				filesSessione.add(file);
-				index++;
-				System.out.println(index  + " " + file.getName());
-			}
-		}
-		System.out.println("\n" + Stringhe.INDICE_INDIETRO);
-	}
-
-	public static void visualizzaOsservazioniLineariDisponibili(String estensioneFile) {
-		File folder = new File(Stringhe.SAVES_PATH);
-		File[] files = folder.listFiles();
-		for (File file : files) {
-			if (file.getName().contains(estensioneFile)) System.out.println(file.getName());
-		}
-	}
-
 	private static void visualizzaAutomiOsservazioneDisponibili() {
 		File folder = new File(Stringhe.SAVES_PATH);
 		File[] files = folder.listFiles();
 		for (File file : files) {
 			if (file.getName().contains(Stringhe.ESTENSIONE_AUTOMA_OSS)) System.out.println(file.getName());
 		}
-	}
-
-	private static void visualizzaSpaziRilevanzaDisponibili() {
-		File folder = new File(Stringhe.SAVES_PATH);
-		File[] files = folder.listFiles();
-		for (File file : files) {
-			if (file.getName().contains(Stringhe.ESTENSIONE_SPAZIO)) System.out.println(file.getName());
-		}
-	}
-
-	private static boolean rispondeNo(String risposta){
-		if (risposta.equalsIgnoreCase("n") || risposta.equalsIgnoreCase("no"))
-			return true;
-		return false;
-	}
-
-	private static boolean rispostaValida(String risposta){
-		for (String s : Stringhe.RISPOSTE_VALIDE) {
-			if (risposta.equalsIgnoreCase(s))return true;
-		}
-		return false;
 	}
 
 	private static String determinaFilepathEsempio(String inputUtente) {
@@ -996,16 +767,6 @@ public class Main {
 			}
 			return filesEsempio.get(index-1).getPath();
 		}
-		return inputUtente;
-	}
-
-	private static String determinaFilepathSessione(String inputUtente) {
-		int n = filesSessione.size();
-		if (VerificaDati.isInteroValido(inputUtente, n)){
-			System.out.println(filesSessione.get(Integer.parseInt(inputUtente)).getPath());
-			return filesSessione.get(Integer.parseInt(inputUtente)).getPath();
-		}
-		System.out.println(inputUtente + " input");
 		return inputUtente;
 	}
 
@@ -1028,4 +789,126 @@ public class Main {
 			if (diz.getTerne().size() > 1) System.out.println("\tTerna " + terna);
 		}
 	}
+
+	private static String inserimentoFileSessione(String estensioneFile){
+		if (sessioniDisponibili(estensioneFile)){
+			visualizzaSessioniDisponibili();
+			int scelta = (InputDati.leggiIntero(Stringhe.INSERISCI_SESSIONE, Stringhe.VALORE_USCITA, filesSessione.size()));
+			if (scelta == Stringhe.VALORE_USCITA){
+				return null;
+			}
+			return filesSessione.get(scelta-1).getPath();
+		}
+		else{
+			System.out.println(Stringhe.NESSUN_FILE_ADATTO);
+			return null;
+		}
+	}
+
+	private static void visualizzaSessioniDisponibili() {
+		int index = 0;
+		System.out.println(Stringhe.TITOLO_SESSIONI_SALVATE);
+		for (File file : filesSessione) {
+			index++;
+			System.out.println(index  + " " + file.getName());
+		}
+		System.out.println("\n" + Stringhe.INDICE_INDIETRO);
+	}
+
+	private static boolean sessioniDisponibili(String estensioneFile) {
+		File folder = new File(Stringhe.SAVES_PATH);
+		File[] files = folder.listFiles();
+		boolean flag = false;
+		filesSessione = new ArrayList<>();
+		for (File file : files) {
+			if (file.getPath().contains(estensioneFile)){
+				filesSessione.add(file);
+			}
+		}
+		if (filesSessione.size() > 0) flag = true;
+		return flag;
+	}
+
+	private static void caricaFilesDaSessione(String estensioneFile) throws Exception{
+		String filepath = inserimentoFileSessione(estensioneFile);
+		if (isNull(filepath)) throw new Exception(Stringhe.CARICAMENTO_ANNULLATO);
+		GestoreFile gf = new GestoreFile();
+		if (estensioneFile.equals(Stringhe.ESTENSIONE_RETE)){
+			ra = (ReteAutomi) gf.caricaDaSessione(filepath);
+		}
+		else if (estensioneFile.equals(Stringhe.ESTENSIONE_SPAZIO)){
+			sr = (SpazioRilevanza) gf.caricaDaSessione(filepath);
+		}
+		else if (estensioneFile.equals(Stringhe.ESTENSIONE_OSS_LIN_RIC)){
+			osservazioneLineareRicerca = (ArrayList<String>) gf.caricaDaSessione(filepath);
+		}
+		else if (estensioneFile.equals(Stringhe.ESTENSIONE_OSS_LIN_MON)){
+			osservazioneLineareMonitoraggio = (ArrayList<String>) gf.caricaDaSessione(filepath);
+		}
+		else if (estensioneFile.equals(Stringhe.ESTENSIONE_DIZ)){
+			diz = (Dizionario) gf.caricaDaSessione(filepath);
+		}
+		else if (estensioneFile.equals(Stringhe.ESTENSIONE_AUTOMA_OSS)){
+			automaOss = (Automa) gf.caricaDaSessione(filepath);
+		}
+		else throw new Exception(Stringhe.PROBLEMA_CARICAMENTO_ESTENSIONI);
+	}
+
+	private static SpazioRilevanza caricaSpazio() throws Exception {
+		String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_SPAZIO);
+		if (isNull(filepath)) throw new Exception(Stringhe.CARICAMENTO_ANNULLATO);
+		GestoreFile gf = new GestoreFile();
+		return (SpazioRilevanza) gf.caricaDaSessione(filepath);
+	}
+
+	private static boolean controllaNomeRete(SpazioRilevanza spazioRilevanza) {
+		boolean sovrascrive = true;
+		if ( ! spazioRilevanza.getNomeRete().equals(ra.getNome())){
+			System.out.println(Stringhe.NOMI_RETE_DIVERSI);
+			System.out.println(String.format(Stringhe.INFO_NOMI_RETE, ra.getNome(), spazioRilevanza.getNomeRete()));
+			String vuoiContinuare = InputDati.leggiStringa(Stringhe.SEI_SICURO);
+			while ( ! rispostaValida(vuoiContinuare) ){
+				System.out.println(Stringhe.NON_VALIDA);
+				vuoiContinuare = InputDati.leggiStringa(Stringhe.SEI_SICURO);
+			}
+			//se vuole inserire uno spazio di rilevanza non relativo alla rete
+			if (rispondeNo(vuoiContinuare)){
+				sovrascrive = false;
+			}
+		}
+		return sovrascrive;
+	}
+
+	private static void effettuaMonitoraggio(){
+		GestoreDizionari gd = new GestoreDizionari();
+		try {
+			GestoreInputOutput inputOutput = new GestoreInputOutput();
+			inputOutput.setOsservazioneLineareMonitoraggio(osservazioneLineareMonitoraggio);
+			inputOutput.setSr(sr);
+			inputOutput.inizializzaLogMonitoraggio();
+			gd.effettuaMonitoraggioRevisione(inputOutput, diz);
+			if ( diz.getTerne().size() > 1){
+				stampaLog(inputOutput);
+				stampaTerne();
+			}
+			return;
+		} catch (Exception e) {
+			if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
+			return;
+		}
+	}
+
+	private static boolean parametriMonitoraggioOk() {
+		if ( isNull(sr)){
+			System.out.println(Stringhe.NESSUNO_SPAZIO_RILEVANZA);
+			return false;
+		}
+		if (isNull(osservazioneLineareMonitoraggio) || osservazioneLineareMonitoraggio.isEmpty()){
+			System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.MONITORAGGIO_REVISIONE));
+			return false;
+		}
+		return true;
+	}
+
+
 }

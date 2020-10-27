@@ -8,7 +8,7 @@ import java.util.*;
 import static java.util.Objects.isNull;
 
 public class StatoRilevanzaRete implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3562299841009568691L;
 	
 	// <nomeLink, Evento>
     private List<Pair<String, Evento>> contenutoLinks;

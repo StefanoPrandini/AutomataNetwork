@@ -22,7 +22,7 @@ import java.io.IOException;
  *
  */
 public class Dizionario extends Algoritmo implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6562299391009567691L;
 	//tengo un insieme di tutti gli stati di rilevanza della rete determinizzata per evitare di riferirmi a stati uguali che sono oggetti diversi
 	private Set<StatoDizionario> statiDizionario;
 	//mappo stati Rilevanza del DFA con coppie<etichettaO, statoArrivo>
@@ -431,7 +431,6 @@ public class Dizionario extends Algoritmo implements Serializable {
 	//cerca in dizionario lo stato successivo raggiungibile dallo stato corrente (della terna) attraverso transizione con etichetta oemga
 	//stato corrente diventa stato precendente e stato raggiunto diventa stato corrente nuovo
 	//produci in uscita la terna
-	//
 	public Terna produciTerna(SpazioRilevanza sr, Terna ternaCorrente, String etichettaOss, String nome) throws IOException{
 		Terna result = null;
 		boolean esiste = false;

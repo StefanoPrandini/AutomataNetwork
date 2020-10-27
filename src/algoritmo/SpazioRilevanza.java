@@ -18,7 +18,7 @@ import static java.util.Objects.isNull;
  * ha due costruttori: uno per costruire spazio completo o prefisso con distanza, uno per costruire lo spazio partendo da una osservazione
  */
 public class SpazioRilevanza extends Algoritmo implements Serializable  {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1528479391009567691L;
 	
 	public static final int ESPLORAZIONE_COMPLETA = -1;
 	private GestoreInputOutput input;

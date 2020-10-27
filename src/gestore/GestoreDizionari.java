@@ -16,7 +16,7 @@ public class GestoreDizionari {
 
 
 
-    public Dizionario estensioneDizionario(GestoreInputOutput inputOutput){
+    public void estensioneDizionario(GestoreInputOutput inputOutput){
 
         //TODO WIP, attendere risposte di ste su estensione
         EstendiDizionario ed = new EstendiDizionario(inputOutput);
@@ -34,12 +34,10 @@ public class GestoreDizionari {
             interrompiAlgoritmo(ed);
             thread.interrupt();
         }
-        //return ed.getInputOutput().getDizionario();
-
-        return null;
+        System.out.println(ed.buonFine());
     }
 
-    public synchronized void effettuaRicerca(GestoreInputOutput inputOutput, Dizionario dizionario){
+    public void effettuaRicerca(GestoreInputOutput inputOutput, Dizionario dizionario){
         inputOutput.setRicerca(true);
         dizionario.setInputOutput(inputOutput);
         dizionario.inizializzaInInterruzione();
