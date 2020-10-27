@@ -9,6 +9,8 @@ import myLib.Stringhe;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static myLib.Utility.creaNomeFile;
 
@@ -17,18 +19,6 @@ public class ProvaT  {
 
     public static void main(String[] args) {
 
-        try {
-            OsservazioneParser op = new OsservazioneParser(Stringhe.EXAMPLE_PATH + "/OsservazionePerEstensione.json");
-            Automa a = op.getOsservazione();
-            System.out.println(a);
-            String nome = "automaOss" + Stringhe.ESTENSIONE_AUTOMA_OSS;
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
-            oos.writeObject(a);
-            oos.close();
-            System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 

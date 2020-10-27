@@ -36,7 +36,8 @@ public class Stringhe {
     public static final String MONITORAGGIO_IN_CORSO = "Monitoraggio e revisione nel dizionario in corso\n";
     public static final String ESTENSIONE_IN_CORSO = "Estensione del dizionario in corso\n";
     public static final String INSERISCI_PER_INTERROMPERE = "Inserisci '%s' per interrompere: ";
-    public static final String SEI_SICURO = "Vuoi continuare comunque? y/n\n--> ";
+    public static final String SEI_SICURO = "\nVuoi continuare comunque? y/n\n--> ";
+    public static final String ATTENZIONE_ELIMINARE = "\nAttenzione!\nProcedendo non sara' possibile recuperare il file";
     public static final String CARICAMENTO_ANNULLATO = "\nCaricamento annullato\n";
     public static final String CONTINUA_CALCOLO_DIZ = "\nContinua con il calcolo di un dizionario o il caricamento di un diverso spazio\n";
     public static final String STOP = "stop";
@@ -50,6 +51,12 @@ public class Stringhe {
     public static final String MONITORAGGIO_REVISIONE = "monitoraggio e revisione";
     public static final String RICERCA_DIAGNOSI = "ricerca e diagnosi";
     public static final String INTERRUZIONE = "Interrompo l'algoritmo";
+    public static final String ELIMINATO = "\nFile eliminato\n";
+    public static final String RINOMINATO = "\nFile rinominato\n";
+    public static final String HAI_SCELTO = "\nHai scelto il file ";
+    public static final String NUOVO_NOME = "\nInserisci il nuovo nome (senza estensione o percorso), una stringa vuota per tornare indietro:\n-->";
+
+
 
     /**
     *
@@ -77,7 +84,7 @@ public class Stringhe {
 
     public static final String TITOLO_INIZIALE = "Elaboratore per reti di automi";
     public static final String TITOLO_GESTIONE_RETE = "Gestione rete di automi";
-    public static final String TITOLO_SESSIONI_SALVATE = "\nSessioni disponibili per il caricamento: \n";
+    public static final String TITOLO_SESSIONI_SALVATE = "\nSessioni disponibili: \n";
     public static final String TITOLO_SOVRASCRIVI = "Attenzione! Un dizionario e' gia'� presente, procedendo sovrascriverai i dati";
     public static final String TITOLO_CALCOLO_DIZIONARIO = "Calcolo di un dizionario";
     public static final String TITOLO_GESTIONE_DIZIONARIO_PARZIALE = "Calcolo di un dizionario parziale";
@@ -90,6 +97,7 @@ public class Stringhe {
     public static final String TITOLO_ESTENSIONE = "Estensione dinamica del dizionario";
     public static final String TITOLO_SALVA = "Salvataggio risultati";
     public static final String TITOLO_CARICAMENTI = "Caricamento da una sessione precedente";
+    public static final String TITOLO_GESTIONE_SALVATAGGI = "Gestione salvataggi";
     public static final String TITOLO_LOG = "Log delle azioni svolte in monitoraggio e revisione";
     public static final String INPUT_OUTPUT = "Input e Output:";
     public static final String COPPIE_INPUT_OUTPUT = "Coppie I/O:";
@@ -138,6 +146,7 @@ public class Stringhe {
             "Estendi dizionario",
             "Salva",
             "Carica",
+            "Gestisci salvataggi",
             "Chiudi elaboratore"
     };
 
@@ -188,6 +197,11 @@ public class Stringhe {
             "Vedi risultato precedente"
     };
 
+    public static final String[] OPZIONI_GESTIONE_SALVATAGGI = {
+            "Rinomina",
+            "Elimina"
+    };
+
     public static final String[] RISPOSTE_VALIDE = {
             "si",
             "sì",
@@ -224,9 +238,6 @@ public class Stringhe {
     public static final String INFO_NOMI_RETE = "La rete di automi fornita e' chiamata %s, lo spazio di rilevanza e' relativo alla rete %s";
     public static final String NESSUN_FILE_ADATTO = "\nNessun file di salvataggio pertinente trovato!\n";
     public static final String PROBLEMA_CARICAMENTO_ESTENSIONI = "\nQualcosa e' andatao storto con il caricamento\n";
-    public static final String CLASSE_SPAZIO_RILEVANZA = "algoritmo.SpazioRilevanza";
-    public static final String CLASSE_RETE = "model.ReteAutomi";
-    public static final String CLASSE_DIZIONARIO = "algoritmo.Dizionario";
-    public static final String CLASSE_OSS_LIN = "java.util.ArrayList";
-    public static final String CLASSE_AUTOMA_OSS = "model.Automa";
+
+
 }

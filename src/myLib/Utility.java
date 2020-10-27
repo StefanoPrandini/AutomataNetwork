@@ -4,6 +4,8 @@ import gestore.GestoreInputOutput;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static myLib.InputDati.leggiStringa;
 
@@ -39,5 +41,18 @@ public class Utility {
         for (String s : inputOutput.getLogMonitoraggio()) {
             System.out.println(s);
         }
+    }
+
+    public static String ottieniEstensione(String path) {
+        String invertita = new StringBuilder( path.substring(0, path.length()-4)).reverse().toString();
+        Pattern pattern = Pattern.compile("[a-z]+\\.");
+        Matcher matcher = pattern.matcher(invertita);
+        String estensione = "";
+        if (matcher.find())
+        {
+            estensione = new StringBuilder(matcher.group(0)).reverse().toString();
+        }
+        return estensione;
+
     }
 }
