@@ -305,7 +305,7 @@ public class Main {
 					MyMenu menuGestioneSalvataggi = new MyMenu(Stringhe.TITOLO_GESTIONE_SALVATAGGI, Stringhe.OPZIONI_GESTIONE_SALVATAGGI);
 					int sceltaGestioneSalvataggi = menuGestioneSalvataggi.scegli();
 					while (sceltaGestioneSalvataggi != 0){
-						gestisciSalvataggi(sceltaGestioneSalvataggi);
+						gestisciFileSalvataggio(sceltaGestioneSalvataggi);
 						sceltaGestioneSalvataggi = menuGestioneSalvataggi.scegli();
 					}
 					break;
@@ -610,6 +610,42 @@ public class Main {
 				break;
 
 
+			}
+		}
+	}
+
+	private static void gestisciFileSalvataggio(int sceltaGestioneSalvataggi) {
+		switch (sceltaGestioneSalvataggi){
+			case 0:{ //indietro
+				break;
+			}
+			case 1:{ //modifica nome
+				if (allSessioniDisponibili()){
+					visualizzaSessioniDisponibili();
+					int scelta = (InputDati.leggiIntero(Stringhe.INSERISCI_SESSIONE, Stringhe.VALORE_USCITA, filesSessione.size()));
+					if (scelta == Stringhe.VALORE_USCITA){
+						break;
+					}
+					if (rinominaFile(filesSessione.get(scelta-1).getPath())){
+						System.out.println(Stringhe.RINOMINATO);
+					}
+				}
+				else System.out.println(Stringhe.NESSUN_FILE_ADATTO);
+				break;
+			}
+			case 2:{ //elimina
+				if (allSessioniDisponibili()){
+					visualizzaSessioniDisponibili();
+					int scelta = (InputDati.leggiIntero(Stringhe.INSERISCI_SESSIONE, Stringhe.VALORE_USCITA, filesSessione.size()));
+					if (scelta == Stringhe.VALORE_USCITA){
+						break;
+					}
+					if (eliminaFile(filesSessione.get(scelta-1).getPath())){
+						System.out.println(Stringhe.ELIMINATO);
+					}
+				}
+				else System.out.println(Stringhe.NESSUN_FILE_ADATTO);
+				break;
 			}
 		}
 	}
@@ -928,42 +964,6 @@ public class Main {
 			return false;
 		}
 		return true;
-	}
-
-	private static void gestisciSalvataggi(int sceltaGestioneSalvataggi) {
-		switch (sceltaGestioneSalvataggi){
-			case 0:{ //indietro
-				break;
-			}
-			case 1:{ //modifica nome
-				if (allSessioniDisponibili()){
-					visualizzaSessioniDisponibili();
-					int scelta = (InputDati.leggiIntero(Stringhe.INSERISCI_SESSIONE, Stringhe.VALORE_USCITA, filesSessione.size()));
-					if (scelta == Stringhe.VALORE_USCITA){
-						break;
-					}
-					if (rinominaFile(filesSessione.get(scelta-1).getPath())){
-						System.out.println(Stringhe.RINOMINATO);
-					}
-				}
-				else System.out.println(Stringhe.NESSUN_FILE_ADATTO);
-				break;
-			}
-			case 2:{ //elimina
-				if (allSessioniDisponibili()){
-					visualizzaSessioniDisponibili();
-					int scelta = (InputDati.leggiIntero(Stringhe.INSERISCI_SESSIONE, Stringhe.VALORE_USCITA, filesSessione.size()));
-					if (scelta == Stringhe.VALORE_USCITA){
-						break;
-					}
-					if (eliminaFile(filesSessione.get(scelta-1).getPath())){
-						System.out.println(Stringhe.ELIMINATO);
-					}
-				}
-				else System.out.println(Stringhe.NESSUN_FILE_ADATTO);
-				break;
-			}
-		}
 	}
 
 	private static boolean rinominaFile(String path){
