@@ -9,6 +9,9 @@ import javafx.util.Pair;
 import myLib.*;
 import model.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static java.util.Objects.isNull;
@@ -26,6 +29,8 @@ public class Main {
 	private static boolean spazioRilevanzaCalcolato = false;
 	private static ArrayList<File> filesSessione = new ArrayList<>();
 	private static ArrayList<File> filesEsempio = new ArrayList<>();
+	private static ArrayList<File> sessioniIntere = new ArrayList<>();
+
 
 
 	public static void main(String[] args) {
@@ -72,7 +77,8 @@ public class Main {
 			}
 			case 2: { // carica da sessione
 				try {
-					caricaFilesDaSessione(Stringhe.ESTENSIONE_RETE);
+					String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_RETE);
+					caricaFilesDaSessione(Stringhe.ESTENSIONE_RETE, filepath);
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
 					System.out.println("\n" + ra);
 					MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
@@ -87,7 +93,21 @@ public class Main {
 
 				break;
 			}
-			default: break;
+
+			case 3: { //carica intera sessione
+				String sessione = caricaSessioneIntera();
+				if (isNull(sessione)) break;
+				else {
+					caricaOggetti(sessione + File.separator);
+					MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
+					int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+					while (sceltaGestioneDizionario != 0){
+						gestisciDizionario(sceltaGestioneDizionario);
+						sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+					}
+				}
+				break;
+			}
 		}
 	}
 
@@ -114,7 +134,8 @@ public class Main {
 			}
 			case 3:{//carica dizionario
 				try {
-					caricaFilesDaSessione(Stringhe.ESTENSIONE_DIZ);
+					String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_DIZ);
+					caricaFilesDaSessione(Stringhe.ESTENSIONE_DIZ, filepath);
 					System.out.println(Stringhe.CARICAMENTO_RIUSCITO);
 					MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
 					int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
@@ -470,84 +491,55 @@ public class Main {
 				break;
 			}
 			case 1: {//salva rete automi
-				String nome = creaNomeFile() + Stringhe.ESTENSIONE_RETE;
-				try {
-					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
-					oos.writeObject(ra);
-					oos.close();
-					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_RETE)){
+					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
+					break;
 				}
-				catch (Exception e){
-					System.out.println(e.toString());
-				}
-				break;
 			}
 			case 2: {//salva spazio rilevanza
-				String nome = creaNomeFile() + Stringhe.ESTENSIONE_SPAZIO;
-				try {
-					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
-					oos.writeObject(sr);
-					oos.close();
-					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_SPAZIO)){
+					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
+					break;
 				}
-				catch (Exception e){
-					System.out.println(e.toString());
-				}
-				break;
 			}
 			case 3: {//salva dizionario
-				String nome = creaNomeFile() + Stringhe.ESTENSIONE_DIZ;
-				try {
-					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
-					oos.writeObject(diz);
-					oos.close();
-					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
-				}
-				catch (Exception e){
-					System.out.println(e.toString());
+				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_DIZ)){
+					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
+					break;
 				}
 				break;
 			}
 			case 4: {//salva osservazione lineare per la ricerca
-				String nome = creaNomeFile() + Stringhe.ESTENSIONE_OSS_LIN_RIC;
-				try {
-					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
-					oos.writeObject(osservazioneLineareRicerca);
-					oos.close();
-					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_OSS_LIN_RIC)){
+					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
+					break;
 				}
-				catch (Exception e){
-					System.out.println(e.toString());
-				}
-				break;
 			}
 
 			case 5: {//salva osservazione lineare per il monitoraggio
-				String nome = creaNomeFile() + Stringhe.ESTENSIONE_OSS_LIN_MON;
-				try {
-					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
-					oos.writeObject(osservazioneLineareMonitoraggio);
-					oos.close();
-					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_OSS_LIN_MON)){
+					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
+					break;
 				}
-				catch (Exception e){
-					System.out.println(e.toString());
-				}
-				break;
 			}
-
 			case 6:{ //salva automa osservazione
-				String nome = creaNomeFile() + Stringhe.ESTENSIONE_AUTOMA_OSS;
+				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_AUTOMA_OSS)){
+					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
+					break;
+				}
+			}
+			case 7:{// salva intera sessione
+
+				String input = InputDati.leggiStringa(Stringhe.INSERISCI_NOME);
+				if (input.equals(Stringhe.STRINGA_VUOTA)) break;
+
+
 				try {
-					ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(Stringhe.SAVE_FOLDER + nome)));
-					oos.writeObject(automaOss);
-					oos.close();
-					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+					String cartella = creaCartellaSessione(input) + File.separator;
+					salvaOggettiSessione(cartella);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				catch (Exception e){
-					System.out.println(e.toString());
-				}
-				break;
 			}
 		}
 	}
@@ -560,7 +552,8 @@ public class Main {
 			}
 			case 1:{//carica oss lineare ricerca
 				try {
-					caricaFilesDaSessione(Stringhe.ESTENSIONE_OSS_LIN_RIC);
+					String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_OSS_LIN_RIC);
+					caricaFilesDaSessione(Stringhe.ESTENSIONE_OSS_LIN_RIC, filepath);
 					System.out.println(String.format(Stringhe.CARICAMENTO_OSS_LIN, osservazioneLineareRicerca));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
@@ -570,7 +563,8 @@ public class Main {
 
 			case 2:{//carica oss lineare monitoraggio
 				try {
-					caricaFilesDaSessione(Stringhe.ESTENSIONE_OSS_LIN_MON);
+					String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_OSS_LIN_MON);
+					caricaFilesDaSessione(Stringhe.ESTENSIONE_OSS_LIN_MON, filepath);
 					System.out.println(String.format(Stringhe.CARICAMENTO_OSS_LIN, osservazioneLineareMonitoraggio));
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
@@ -582,7 +576,8 @@ public class Main {
 
 			case 3:{//carica automa oss
 				try {
-					caricaFilesDaSessione(Stringhe.ESTENSIONE_AUTOMA_OSS);
+					String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_AUTOMA_OSS);
+					caricaFilesDaSessione(Stringhe.ESTENSIONE_AUTOMA_OSS, filepath);
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, automaOss.getNome()));
 					System.out.println(automaOss);
 				} catch (Exception e) {
@@ -630,6 +625,7 @@ public class Main {
 			}
 		}
 	}
+
 
 
 	/**
@@ -886,8 +882,7 @@ public class Main {
 		return flag;
 	}
 
-	private static void caricaFilesDaSessione(String estensioneFile) throws Exception{
-		String filepath = inserimentoFileSessione(estensioneFile);
+	private static void caricaFilesDaSessione(String estensioneFile, String filepath) throws Exception{
 		if (isNull(filepath)) throw new Exception(Stringhe.CARICAMENTO_ANNULLATO);
 		GestoreFile gf = new GestoreFile();
 		if (estensioneFile.equals(Stringhe.ESTENSIONE_RETE)){
@@ -984,7 +979,7 @@ public class Main {
 			return false;
 		}
 		File old = new File(path);
-		File nuovo = new File(Stringhe.SAVE_FOLDER + inputUtente + estensione);
+		File nuovo = new File(Stringhe.SAVES_FOLDER + inputUtente + estensione);
 		return old.renameTo(nuovo);
 
 	}
@@ -1003,6 +998,109 @@ public class Main {
 			File f1 = new File(filepath);
 			return f1.delete();
 		}
+	}
+
+	private static boolean salvaOggetto(String baseFolder, String estensioneFile){
+		String nome = baseFolder + dataFormattata() + estensioneFile;
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(nome)));
+			if (estensioneFile.equals(Stringhe.ESTENSIONE_RETE)){
+				oos.writeObject(ra);
+				oos.close();
+				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+			}
+			else if (estensioneFile.equals(Stringhe.ESTENSIONE_SPAZIO)){
+				oos.writeObject(sr);
+				oos.close();
+				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+			}
+			else if (estensioneFile.equals(Stringhe.ESTENSIONE_OSS_LIN_RIC)){
+				oos.writeObject(osservazioneLineareRicerca);
+				oos.close();
+				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+			}
+			else if (estensioneFile.equals(Stringhe.ESTENSIONE_OSS_LIN_MON)){
+				oos.writeObject(osservazioneLineareMonitoraggio);
+				oos.close();
+				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+			}
+			else if (estensioneFile.equals(Stringhe.ESTENSIONE_DIZ)){
+				oos.writeObject(diz);
+				oos.close();
+				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+			}
+			else if (estensioneFile.equals(Stringhe.ESTENSIONE_AUTOMA_OSS)){
+				oos.writeObject(automaOss);
+				oos.close();
+				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+			}
+			else return false;
+		}
+		catch (Exception e){
+			System.out.println(e.toString());
+			return false;
+		}
+		return true;
+	}
+
+	private static String creaCartellaSessione(String input) throws IOException {
+		String nomeCartella = input + dataFormattata();
+		Path path = Paths.get(Stringhe.SESSIONI_INTERE_FOLDER + nomeCartella + File.separator);
+		Files.createDirectory(path);
+		return path.toString();
+	}
+
+	private static void salvaOggettiSessione(String cartella) {
+		salvaOggetto(cartella, Stringhe.ESTENSIONE_RETE);
+		salvaOggetto(cartella, Stringhe.ESTENSIONE_SPAZIO);
+		salvaOggetto(cartella, Stringhe.ESTENSIONE_DIZ);
+		salvaOggetto(cartella, Stringhe.ESTENSIONE_OSS_LIN_RIC);
+		salvaOggetto(cartella, Stringhe.ESTENSIONE_OSS_LIN_MON);
+		salvaOggetto(cartella, Stringhe.ESTENSIONE_AUTOMA_OSS);
+	}
+
+	private static boolean visualizzaCartellaSessioniIntere(){
+		File cartella = new File(Stringhe.SESSIONI_INTERE_PATH);
+		File[] files = cartella.listFiles();
+		sessioniIntere = new ArrayList<>(Arrays.asList(files));
+		if (sessioniIntere.isEmpty()) return false;
+		int indice = 1;
+		System.out.println(Stringhe.TITOLO_SESSIONI_SALVATE);
+		for (File file : sessioniIntere) {
+			System.out.println(indice +  " " + file.getName());
+		}
+		System.out.println("\n" + Stringhe.INDICE_INDIETRO);
+		return true;
+	}
+
+	private static String caricaSessioneIntera() {
+		if (visualizzaCartellaSessioniIntere()){
+			int scelta = InputDati.leggiIntero(Stringhe.INSERISCI_SESSIONE, Stringhe.VALORE_USCITA, sessioniIntere.size());
+			if (scelta == Stringhe.VALORE_USCITA){
+				return null;
+			}
+			return sessioniIntere.get(scelta-1).getPath();
+		}
+		else {
+			System.out.println(Stringhe.NESSUN_FILE_ADATTO);
+			return null;
+		}
+	}
+
+	private static boolean caricaOggetti(String filepath) {
+		File sessionePath = new File(filepath);
+		File[] filesSessione = sessionePath.listFiles();
+		for (File oggetto : filesSessione) {
+			try {
+				caricaFilesDaSessione(Utility.ottieniEstensione(oggetto.getPath()) + ".ser", oggetto.getPath());
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return false;
+
 	}
 
 }

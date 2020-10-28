@@ -3,9 +3,15 @@ package myLib;
 import java.io.File;
 
 public class Stringhe {
+
+
     public static final String EXAMPLE_PATH = System.getProperty("user.dir")+ File.separator + "JSON";
     public static final String SAVES_PATH = System.getProperty("user.dir") + File.separator + "sessioni";
-    public static final String SAVE_FOLDER = System.getProperty("user.dir") + File.separator + "sessioni" + File.separator;
+    public static final String SAVES_FOLDER = System.getProperty("user.dir") + File.separator + "sessioni" + File.separator;
+    public static final String SESSIONI_INTERE_PATH = SAVES_FOLDER + "intere";
+    public static final String SESSIONI_INTERE_FOLDER = SAVES_FOLDER + "intere" + File.separator;
+
+
     public final static String INSERISCI_JSON = "Inserisci l'indice del file di esempio desiderato o un altro percorso:\n-->";
     public static final String INSERISCI_SESSIONE = "Inserisci l'indice del file:\n-->";
     public static final String LUNGHEZZA_PREFISSO = "Inserisci la lunghezza del prefisso (un numero negativo per tornare indietro): ";
@@ -54,7 +60,7 @@ public class Stringhe {
     public static final String RINOMINATO = "\nFile rinominato\n";
     public static final String HAI_SCELTO = "\nHai scelto il file ";
     public static final String NUOVO_NOME = "\nInserisci il nuovo nome (senza estensione o percorso), una stringa vuota per tornare indietro:\n-->";
-
+    public static final String SALVATAGGIO_OK = "\nE' stato creato il file %s";
 
 
     /**
@@ -70,8 +76,8 @@ public class Stringhe {
     public static final String ESTENSIONE_OSS_LIN_RIC = ".linossric.ser";
     public static final String ESTENSIONE_OSS_LIN_MON = ".linossmon.ser";
     public static final String ESTENSIONE_AUTOMA_OSS = ".autoss.ser";
-    public static final String SALVATAGGIO_OK = "\nE' stato creato il file %s";
-    public static final String ERRORE_SALVATAGGIO = "C'e' stato un problema nel salvataggio";
+    public static final String ESTENSIONE_INFO_SESSIONI = ".sess.info";
+
 
 
     /**
@@ -113,7 +119,8 @@ public class Stringhe {
 
     public static final String[] OPZIONI_MENU_CARICAMENTO = {
             "Carica una nuova rete di automi da un file JSON",
-            "Carica una rete da una sessione di lavoro precedente"
+            "Carica una rete da una sessione di lavoro precedente",
+            "Carica un'intera sessione precedente"
     };
 
     public static final String[] OPZIONI_GESTIONE_RETE = {
@@ -183,7 +190,8 @@ public class Stringhe {
             "Salva dizionario",
             "Salva osservazione lineare per la ricerca",
             "Salva osservazione lineare per il monitoraggio",
-            "Salva automa osservazione"
+            "Salva automa osservazione",
+            "Salva l'intera sessione di lavoro"
     };
 
     public static final String[] OPZIONI_CARICAMENTI = {
@@ -241,6 +249,7 @@ public class Stringhe {
     public static final String PROBLEMA_CARICAMENTO_ESTENSIONI = "\nQualcosa e' andatao storto con il caricamento\n";
     public static final String ERRORE_THREAD = "\nErrore nell'algoritmo";
     public static final String FILE_NON_VALIDO = "\nFile non valido\n";
+    public static final String ERRORE_SALVATAGGIO = "C'e' stato un problema nel salvataggio";
 
-
+    public static final String INSERISCI_NOME = "\nInserisci un nome per la sessione, una stringa vuota per uscire:\n-->";
 }

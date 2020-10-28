@@ -11,7 +11,7 @@ import static myLib.InputDati.leggiStringa;
 
 public class Utility {
 
-    public static String creaNomeFile() {
+    public static String dataFormattata() {
         Date ora = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
         return formatter.format(ora).trim().replace(' ', '_');
