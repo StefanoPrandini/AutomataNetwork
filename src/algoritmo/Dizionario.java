@@ -53,12 +53,8 @@ public class Dizionario extends Algoritmo implements Serializable {
 			}
 		}
 		else if (inputOutput.isMonitoraggio()){
-			try {
-				monitoraggio(inputOutput.getOsservazioneLineareMonitoraggio(), inputOutput.getSpazioRilevanza());
-				setMonitoraggio(false);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			monitoraggio(inputOutput.getOsservazioneLineareMonitoraggio(), inputOutput.getSpazioRilevanza());
+			setMonitoraggio(false);
 		}
 		else {
 			determinizzazioneSpazio(inputOutput.getSpazioRilevanza());
@@ -352,7 +348,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 	}		
 
 
-	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) throws IOException {
+	public void monitoraggio(List<String> osservazioneLineare, SpazioRilevanza spazioRilevanza ) {
 		terne.clear(); // in caso sia gia' stato eseguito un monitoraggio
 		Queue<String> etichette = new LinkedList<>(osservazioneLineare);
 		String alfa = "alfa";
@@ -367,24 +363,21 @@ public class Dizionario extends Algoritmo implements Serializable {
 
 			Terna corrente = terne.getLast();
 			String etichetta = etichette.remove();
-			try {
-				Terna nuova = produciTerna(spazioRilevanza, corrente, etichetta, nomeCompleto);
-				this.inputOutput.addEventoToLog("Prodotta terna " + nuova + " da " + etichetta);
 
-				terne.add(nuova);
-
-				revisione(terne, osservazioneLineare, spazioRilevanza);
-				if (isInInterruzione()) break;
-
-				indice++;
-				nomeCompleto = alfa + indice;
-			}catch (IOException ioe){
-				if (terne.size() == 1) {
-					System.out.println("Nessuna traiettoria coincidente con l'osservazione");
-					return;
-				}
-
+			Terna nuova = produciTerna(spazioRilevanza, corrente, etichetta, nomeCompleto);
+			if (isNull(nuova)){
+				break;
 			}
+			this.inputOutput.addEventoToLog("Prodotta terna " + nuova + " da " + etichetta);
+
+			terne.add(nuova);
+
+			revisione(terne, osservazioneLineare, spazioRilevanza);
+			if (isInInterruzione()) break;
+
+			indice++;
+			nomeCompleto = alfa + indice;
+
 			/** PROVE INTERRUZIONE
 			try {
 				Thread.sleep(1000);
@@ -431,19 +424,14 @@ public class Dizionario extends Algoritmo implements Serializable {
 	//cerca in dizionario lo stato successivo raggiungibile dallo stato corrente (della terna) attraverso transizione con etichetta oemga
 	//stato corrente diventa stato precendente e stato raggiunto diventa stato corrente nuovo
 	//produci in uscita la terna
-	public Terna produciTerna(SpazioRilevanza sr, Terna ternaCorrente, String etichettaOss, String nome) throws IOException{
+	public Terna produciTerna(SpazioRilevanza sr, Terna ternaCorrente, String etichettaOss, String nome){
 		Terna result = null;
-		boolean esiste = false;
 		for (Pair<String, StatoDizionario> coppiaEtichettaStato : mappaDizionario.get(ternaCorrente.getStatoDizionario())) {
 			if (coppiaEtichettaStato.getKey().equals(etichettaOss)){
-				esiste = true;
 				Set<StatoRilevanzaRete>inputSubset = inputSubset(ternaCorrente.getStatoDizionario(), etichettaOss, coppiaEtichettaStato.getValue(), sr);
 				result = new Terna(nome, inputSubset, coppiaEtichettaStato.getValue(), coppiaEtichettaStato.getValue().getDiagnosi());
 				break;
 			}
-		}
-		if (!esiste){
-			throw new IOException();
 		}
 		
 		return result;

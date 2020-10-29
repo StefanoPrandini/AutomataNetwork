@@ -39,7 +39,7 @@ public class Utility {
     public static void stampaLog(GestoreInputOutput inputOutput) {
         System.out.println(Stringhe.TITOLO_LOG);
         for (String s : inputOutput.getLogMonitoraggio()) {
-            System.out.println(s);
+            System.out.println("\t" + s);
         }
     }
 

@@ -105,7 +105,7 @@ public class Stringhe {
     public static final String TITOLO_SALVA = "Salvataggio risultati";
     public static final String TITOLO_CARICAMENTI = "Caricamento da una sessione precedente";
     public static final String TITOLO_GESTIONE_SALVATAGGI = "Gestione salvataggi";
-    public static final String TITOLO_LOG = "Log delle azioni svolte in monitoraggio e revisione";
+    public static final String TITOLO_LOG = "Log delle azioni svolte in monitoraggio e revisione\n";
     public static final String INPUT_OUTPUT = "Input e Output:";
     public static final String COPPIE_INPUT_OUTPUT = "Coppie I/O:";
 

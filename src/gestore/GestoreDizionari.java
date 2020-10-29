@@ -58,7 +58,7 @@ public class GestoreDizionari {
         inputOutput.setRicerca(false);
     }
 
-    public void effettuaMonitoraggioRevisione(GestoreInputOutput inputOutput, Dizionario dizionario) throws IOException {
+    public void effettuaMonitoraggioRevisione(GestoreInputOutput inputOutput, Dizionario dizionario){
 
         inputOutput.setMonitoraggio(true);
         dizionario.setInputOutput(inputOutput);

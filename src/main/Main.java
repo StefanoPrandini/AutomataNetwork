@@ -764,21 +764,15 @@ public class Main {
 
 	private static void effettuaMonitoraggio(){
 		GestoreDizionari gd = new GestoreDizionari();
-		try {
-			GestoreInputOutput inputOutput = new GestoreInputOutput();
-			inputOutput.setOsservazioneLineareMonitoraggio(osservazioneLineareMonitoraggio);
-			inputOutput.setSr(sr);
-			inputOutput.inizializzaLogMonitoraggio();
-			gd.effettuaMonitoraggioRevisione(inputOutput, diz);
-			if ( diz.getTerne().size() > 1){
-				stampaLog(inputOutput);
-				stampaTerne();
-			}
-			return;
-		} catch (Exception e) {
-			if (diz.getTerne().isEmpty()) System.out.println(Stringhe.NESSUN_RISULTATO);
-			return;
-		}
+		GestoreInputOutput inputOutput = new GestoreInputOutput();
+		inputOutput.setOsservazioneLineareMonitoraggio(osservazioneLineareMonitoraggio);
+		inputOutput.setSr(sr);
+		inputOutput.inizializzaLogMonitoraggio();
+		gd.effettuaMonitoraggioRevisione(inputOutput, diz);
+		if (esistonoTerneRisultato()){
+			stampaLog(inputOutput);
+			stampaTerne();
+		} else System.out.println(Stringhe.NESSUN_RISULTATO);
 	}
 
 	private static void effettuaEstensione(){
@@ -1107,6 +1101,13 @@ public class Main {
 		}
 		return false;
 
+	}
+
+	private static boolean esistonoTerneRisultato() {
+		if (diz.getTerne().size() <= 1){
+			return false;
+		}
+		return true;
 	}
 
 }
