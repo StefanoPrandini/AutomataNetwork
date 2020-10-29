@@ -219,15 +219,22 @@ public class Main {
 				}
 				break;
 			}
+
 			case 2: { // da osservazione
-				if (caricaOsservazioneDaJSON()){
-					diz = calcolaDizionarioParzialeDaOsservazione();
-					MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
-					int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
-					while (sceltaGestioneDizionario != 0){
-						gestisciDizionario(sceltaGestioneDizionario);
-						sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+
+				MyMenu menuSceltaCaricamentoJSONoSessione = new MyMenu(Stringhe.TITOLO_JSON_O_SESSIONE, Stringhe.OPZIONI_JSON_O_SESSIONE);
+				int sceltaCaricamentoJSONSess = menuSceltaCaricamentoJSONoSessione.scegli();
+				while ( sceltaCaricamentoJSONSess != 0){
+					if (gestisciCaricamentoAutomaOss(sceltaCaricamentoJSONSess)){
+						diz = calcolaDizionarioParzialeDaOsservazione();
+						MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
+						int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+						while (sceltaGestioneDizionario != 0){
+							gestisciDizionario(sceltaGestioneDizionario);
+							sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+						}
 					}
+					sceltaCaricamentoJSONSess = menuSceltaCaricamentoJSONoSessione.scegli();
 				}
 				break;
 			}
@@ -363,7 +370,17 @@ public class Main {
 			case 0:{//back
 				break;
 			}
-			case 1:{ //oss lineare da tastiera
+
+			case 1: {//effettua ricerca
+				if (isNull(osservazioneLineareRicerca) || osservazioneLineareRicerca.isEmpty()){
+					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.RICERCA_DIAGNOSI));
+					break;
+				}
+				effettuaRicerca(osservazioneLineareRicerca);
+				break;
+			}
+
+			case 2:{ //oss lineare da tastiera
 				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.INSERIMENTO_OSSERVAZIONE);
 				if (isNull(input)) break;
 				osservazioneLineareRicerca = input;
@@ -371,7 +388,7 @@ public class Main {
 				break;
 			}
 
-			case 2: {//estendi ricerca precedente
+			case 3: {//estendi ricerca precedente
 				if (isNull(osservazioneLineareRicerca) || osservazioneLineareRicerca.isEmpty()){
 					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.RICERCA_DIAGNOSI));
 					break;
@@ -380,15 +397,6 @@ public class Main {
 				ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE);
 				if (isNull(input)) break;
 				osservazioneLineareRicerca.addAll(input);
-				effettuaRicerca(osservazioneLineareRicerca);
-				break;
-			}
-
-			case 3: {//effettua ricerca dopo caricamento
-				if (isNull(osservazioneLineareRicerca) || osservazioneLineareRicerca.isEmpty()){
-					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.RICERCA_DIAGNOSI));
-					break;
-				}
 				effettuaRicerca(osservazioneLineareRicerca);
 				break;
 			}
@@ -412,7 +420,13 @@ public class Main {
 			case 0:{//back
 				break;
 			}
-			case 1:{ //monitoraggio con oss lineare da tastiera
+
+			case 1: {//effettua monitoraggio
+				if (parametriMonitoraggioOk()) effettuaMonitoraggio();
+				break;
+			}
+
+			case 2:{ //monitoraggio con oss lineare da tastiera
 				if (isNull(sr)){
 					System.out.println(Stringhe.NESSUNO_SPAZIO_RILEVANZA);
 					break;
@@ -424,7 +438,7 @@ public class Main {
 				break;
 			}
 
-			case 2:{ //estensione monitoraggio
+			case 3:{ //estensione osservazione + monitoraggio
 				if (parametriMonitoraggioOk()){
 					System.out.println(String.format(Stringhe.OSS_LIN_IN_MEMORIA, osservazioneLineareMonitoraggio));
 					ArrayList<String> input = inserimentoOsservazioneLineare(Stringhe.ESTENSIONE_OSSERVAZIONE);
@@ -432,11 +446,6 @@ public class Main {
 					osservazioneLineareMonitoraggio.addAll(input);
 					effettuaMonitoraggio();
 				}
-				break;
-			}
-
-			case 3: {//effettua monitoraggio dopo caricamento
-				if (parametriMonitoraggioOk()) effettuaMonitoraggio();
 				break;
 			}
 
@@ -460,13 +469,8 @@ public class Main {
 			case 0:{ //indietro
 				break;
 			}
-			case 1:{ //estensione tramite osservazione da caricare
-				if (caricaOsservazioneDaJSON()){
-					effettuaEstensione();
-				}
-				break;
-			}
-			case 2:{ //estensione tramite osservazione caricata
+
+			case 1:{ //effettua estensione
 				if (isNull(automaOss)){
 					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.ESTENSIONE_DIZIONARIO));
 					break;
@@ -474,6 +478,19 @@ public class Main {
 				effettuaEstensione();
 				break;
 			}
+
+			case 2:{ //carica nuova osservazione ed effettua estensione
+				MyMenu menuSceltaCaricamentoJSONoSessione = new MyMenu(Stringhe.TITOLO_JSON_O_SESSIONE, Stringhe.OPZIONI_JSON_O_SESSIONE);
+				int sceltaCaricamentoJSONSess = menuSceltaCaricamentoJSONoSessione.scegli();
+				while ( sceltaCaricamentoJSONSess != 0){
+					if (gestisciCaricamentoAutomaOss(sceltaCaricamentoJSONSess)){
+						effettuaEstensione();
+					}
+					sceltaCaricamentoJSONSess = menuSceltaCaricamentoJSONoSessione.scegli();
+				}
+				break;
+			}
+
 			case 3:{ //risultato precedente
 				if (isNull(automaOss)){
 					System.out.println(String.format(Stringhe.NESSUNA_OSSERVAZIONE_INSERITA, Stringhe.ESTENSIONE_DIZIONARIO));
@@ -483,6 +500,40 @@ public class Main {
 				break;
 			}
 		}
+	}
+
+	private static boolean gestisciCaricamentoAutomaOss(int sceltaCaricamentoJSONSess) {
+		switch (sceltaCaricamentoJSONSess){
+			case 0:{ //indietro
+				return false;
+			}
+			case 1:{ //da json
+				if (caricaOsservazioneDaJSON()){
+					return true;
+				}
+				break;
+			}
+			case 2:{ //da sessione
+				try {
+					String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_AUTOMA_OSS);
+					caricaFilesDaSessione(Stringhe.ESTENSIONE_AUTOMA_OSS, filepath);
+					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, automaOss.getNome()));
+					if (isNull(automaOss)){
+						System.out.println(Stringhe.FILE_VUOTO);
+						return false;
+					} else {
+						System.out.println(automaOss);
+						return true;
+					}
+
+
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				break;
+			}
+		}
+		return false;
 	}
 
 	private static void gestisciSalvataggio(int sceltaSalva) {
@@ -742,24 +793,30 @@ public class Main {
 
 	private static void effettuaRicerca(ArrayList<String> osservazioneLineare) {
 		GestoreDizionari gd = new GestoreDizionari();
-		try {
-			GestoreInputOutput inputOutput = new GestoreInputOutput();
-			inputOutput.setOsservazioneLineareRicerca(osservazioneLineare);
-			gd.effettuaRicerca(inputOutput, diz);
-			decorazione = diz.getDiagnosi();
-			diz.setRicercaTerminata(false);
-			if (isNull(decorazione)){
-				System.out.println(decorazione);
-				System.out.println(Stringhe.NESSUN_RISULTATO);
-				return;
-			}
-			System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			diz.setRicercaTerminata(false);
+		GestoreInputOutput inputOutput = new GestoreInputOutput();
+		inputOutput.setOsservazioneLineareRicerca(osservazioneLineare);
+		gd.effettuaRicerca(inputOutput, diz);
+		decorazione = diz.getDiagnosi();
+		diz.setRicercaTerminata(false);
+		if (isNull(decorazione)){
 			System.out.println(Stringhe.NESSUN_RISULTATO);
+		} else if (risultatoRicercaVuoto()){
+			System.out.println("WIP 753, risultato vuoto" + "\n" + osservazioneLineare + "\n" + decorazione);
 		}
+		else System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
+	}
+
+	private static boolean risultatoRicercaVuoto() {
+		if (decorazione.size() == 1){
+			Iterator<Set<String>> it = decorazione.iterator();
+			if (it.hasNext()){
+				if (it.next().isEmpty()){
+					return true;
+				}
+			}
+		}
+		return false;
+
 	}
 
 	private static void effettuaMonitoraggio(){

@@ -62,6 +62,7 @@ public class GestoreDizionari {
 
         inputOutput.setMonitoraggio(true);
         dizionario.setInputOutput(inputOutput);
+        dizionario.inizializzaInInterruzione();
         dizionario.setTerminato(false);
         Thread thread = new Thread(dizionario);
         thread.start();

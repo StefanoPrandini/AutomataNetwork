@@ -44,13 +44,8 @@ public class Dizionario extends Algoritmo implements Serializable {
 	@Override
 	public void run() {
 		if (inputOutput.isRicerca()){
-			try {
-				ricerca(inputOutput.getOsservazioneLineareRicerca());
-				setRicerca(false);
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
+			ricerca(inputOutput.getOsservazioneLineareRicerca());
+			setRicerca(false);
 		}
 		else if (inputOutput.isMonitoraggio()){
 			monitoraggio(inputOutput.getOsservazioneLineareMonitoraggio(), inputOutput.getSpazioRilevanza());
