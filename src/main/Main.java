@@ -495,12 +495,14 @@ public class Main {
 					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
 					break;
 				}
+				break;
 			}
 			case 2: {//salva spazio rilevanza
 				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_SPAZIO)){
 					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
 					break;
 				}
+				break;
 			}
 			case 3: {//salva dizionario
 				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_DIZ)){
@@ -514,6 +516,7 @@ public class Main {
 					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
 					break;
 				}
+				break;
 			}
 
 			case 5: {//salva osservazione lineare per il monitoraggio
@@ -521,12 +524,14 @@ public class Main {
 					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
 					break;
 				}
+				break;
 			}
 			case 6:{ //salva automa osservazione
 				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_AUTOMA_OSS)){
 					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
 					break;
 				}
+				break;
 			}
 			case 7:{// salva intera sessione
 
@@ -540,6 +545,7 @@ public class Main {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				break;
 			}
 		}
 	}
