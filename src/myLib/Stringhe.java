@@ -74,6 +74,8 @@ public class Stringhe {
     public static final String NUOVO_NOME = "\nInserisci il nuovo nome (senza estensione o percorso), una stringa vuota per tornare indietro:\n-->";
     public static final String SALVATAGGIO_OK = "\nE' stato creato il file %s";
     public static final String INSERISCI_NOME = "\nInserisci un nome per la sessione, una stringa vuota per uscire:\n-->";
+    public static final String SESSIONE_CARICATA = "\nSessione caricata correttamente\n";
+    public static final String SPAZIO_CARICATO = "\nCaricamento completato\n";
 
 
     /**
@@ -89,7 +91,6 @@ public class Stringhe {
     public static final String ESTENSIONE_OSS_LIN_RIC = ".linossric.ser";
     public static final String ESTENSIONE_OSS_LIN_MON = ".linossmon.ser";
     public static final String ESTENSIONE_AUTOMA_OSS = ".autoss.ser";
-    public static final String ESTENSIONE_INFO_SESSIONI = ".sess.info";
 
 
 
@@ -182,7 +183,8 @@ public class Stringhe {
     public static final String[] OPZIONI_CARICAMENTI = {
             "Caricamento osservazione lineare per ricerca",
             "Caricamento osservazione lineare per monitoraggio",
-            "Caricamento automa osservazione"
+            "Caricamento automa osservazione",
+            "Caricamento spazio di rilevanza"
     };
 
     public static final String[] OPZIONI_ESTENSIONE = {
@@ -235,7 +237,7 @@ public class Stringhe {
     public static final String ESTENSIONE_NON_VALIDA = ATTENZIONE + "Fornire un file con estensione %s" ;
     public static final String ERRORE_CLASSE = "Classe non valida";
     public static final String NOMI_RETE_DIVERSI = ATTENZIONE + "Lo spazio di rilevanza indicato potrebbe non essere relativo alla rete caricata!";
-    public static final String INFO_NOMI_RETE = "La rete di automi fornita e' chiamata %s, lo spazio di rilevanza e' relativo alla rete %s";
+    public static final String INFO_NOMI_RETE = "La rete di automi fornita inizialmente e' chiamata %s, lo spazio di rilevanza e' relativo alla rete %s";
     public static final String NESSUN_FILE_ADATTO = "\nNessun file di salvataggio pertinente trovato!\n";
     public static final String PROBLEMA_CARICAMENTO_ESTENSIONI = "\nQualcosa e' andatao storto con il caricamento\n";
     public static final String ERRORE_THREAD = "\nErrore nell'algoritmo";
@@ -244,7 +246,7 @@ public class Stringhe {
     public static final String FILE_VUOTO = ATTENZIONE + "Il file indicato sembra essere vuoto";
     public static final String ATTENZIONE_ELIMINARE = ATTENZIONE + "Procedendo non sara' possibile recuperare il file";
     public static final String NON_VALIDA = ATTENZIONE + "Non e' stata inserita una risposta valida\n";
-
+    public static final String FILE_CORROTTO = ATTENZIONE + "Il file sembra essere corrotto";
 
 
     /**
@@ -259,7 +261,6 @@ public class Stringhe {
     public static final String TITOLO_INIZIALE = "Elaboratore per reti di automi";
     public static final String TITOLO_GESTIONE_RETE = "Gestione rete di automi";
     public static final String TITOLO_SESSIONI_SALVATE = "\nSessioni disponibili: \n";
-    public static final String TITOLO_SOVRASCRIVI = "Attenzione! Un dizionario e' gia'� presente, procedendo sovrascriverai i dati";
     public static final String TITOLO_CALCOLO_DIZIONARIO = "Calcolo di un dizionario";
     public static final String TITOLO_GESTIONE_DIZIONARIO_PARZIALE = "Calcolo di un dizionario parziale";
     public static final String TITOLO_GESTIONE_DIZIONARIO = "Gestione dizionario";
@@ -276,6 +277,7 @@ public class Stringhe {
     public static final String TITOLO_JSON_O_SESSIONE = "Caricamento automa osservazione";
     public static final String INPUT_OUTPUT = "Input e Output:";
     public static final String COPPIE_INPUT_OUTPUT = "Coppie I/O:";
+
 
 
 }

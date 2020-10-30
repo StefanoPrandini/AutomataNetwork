@@ -78,7 +78,7 @@ public class Main {
 			case 2: { // carica da sessione
 				try {
 					String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_RETE);
-					caricaFilesDaSessione(Stringhe.ESTENSIONE_RETE, filepath);
+					caricaOggettoSerializzato(Stringhe.ESTENSIONE_RETE, filepath);
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, ra.getNome()));
 					System.out.println("\n" + ra);
 					MyMenu menuGestioneRete = new MyMenu(Stringhe.TITOLO_GESTIONE_RETE, Stringhe.OPZIONI_GESTIONE_RETE);
@@ -88,6 +88,9 @@ public class Main {
 						sceltaGestioneRete = menuGestioneRete.scegli();
 					}
 				} catch (Exception e){
+					if (e instanceof StreamCorruptedException){
+						System.out.println(Stringhe.FILE_CORROTTO);
+					}
 					System.out.println(e.getMessage());
 				}
 
@@ -95,16 +98,18 @@ public class Main {
 			}
 
 			case 3: { //carica intera sessione
-				String sessione = caricaSessioneIntera();
+				String sessione = inputFilepathSessioneIntera();
 				if (isNull(sessione)) break;
 				else {
-					caricaOggetti(sessione + File.separator);
-					MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
-					int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
-					while (sceltaGestioneDizionario != 0){
-						gestisciDizionario(sceltaGestioneDizionario);
-						sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+					if (caricaTuttiOggettiInCartella(sessione + File.separator)) {
+						MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
+						int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+						while (sceltaGestioneDizionario != 0) {
+							gestisciDizionario(sceltaGestioneDizionario);
+							sceltaGestioneDizionario = menuGestioneDizionario.scegli();
+						}
 					}
+					else System.out.println(Stringhe.ERRORE_CARICAMENTO);
 				}
 				break;
 			}
@@ -135,7 +140,7 @@ public class Main {
 			case 3:{//carica dizionario
 				try {
 					String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_DIZ);
-					caricaFilesDaSessione(Stringhe.ESTENSIONE_DIZ, filepath);
+					caricaOggettoSerializzato(Stringhe.ESTENSIONE_DIZ, filepath);
 					System.out.println(Stringhe.CARICAMENTO_RIUSCITO);
 					MyMenu menuGestioneDizionario = new MyMenu(Stringhe.TITOLO_GESTIONE_DIZIONARIO, Stringhe.OPZIONI_GESTIONE_DIZIONARIO);
 					int sceltaGestioneDizionario = menuGestioneDizionario.scegli();
@@ -144,6 +149,9 @@ public class Main {
 						sceltaGestioneDizionario = menuGestioneDizionario.scegli();
 					}
 				} catch (Exception e) {
+					if (e instanceof StreamCorruptedException){
+						System.out.println(Stringhe.FILE_CORROTTO);
+					}
 					System.out.println(e.getMessage());
 				}
 			}
@@ -181,20 +189,8 @@ public class Main {
 			}
 			case 3: { //calcola da spazio di rilevanza (da caricare)
 				// --> qui carica lo spazio e cambia il valore del boolean spazioRilevanzaCalcolato, poi esce e si ritrova nello stesso menu con caricamento effettuato
-				try {
-					SpazioRilevanza spazioRilevanza = caricaSpazio();
-					boolean vuoleSovrascrivere = controllaNomeRete(spazioRilevanza);
-					if (vuoleSovrascrivere){
-						sr = spazioRilevanza;
-						System.out.println(Stringhe.CONTINUA_CALCOLO_DIZ);
-						spazioRilevanzaCalcolato = true;
-					}
-					else  {
-						System.out.println(Stringhe.CARICAMENTO_ANNULLATO);
-						spazioRilevanzaCalcolato = false;
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (gestioneCaricamentoSpazioRilevanzaDaSerializzazione()){
+					System.out.println(Stringhe.CONTINUA_CALCOLO_DIZ);
 				}
 				break;
 			}
@@ -516,7 +512,7 @@ public class Main {
 			case 2:{ //da sessione
 				try {
 					String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_AUTOMA_OSS);
-					caricaFilesDaSessione(Stringhe.ESTENSIONE_AUTOMA_OSS, filepath);
+					caricaOggettoSerializzato(Stringhe.ESTENSIONE_AUTOMA_OSS, filepath);
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, automaOss.getNome()));
 					if (isNull(automaOss)){
 						System.out.println(Stringhe.FILE_VUOTO);
@@ -528,6 +524,9 @@ public class Main {
 
 
 				} catch (Exception e) {
+					if (e instanceof StreamCorruptedException){
+						System.out.println(Stringhe.FILE_CORROTTO);
+					}
 					System.out.println(e.getMessage());
 				}
 				break;
@@ -544,28 +543,24 @@ public class Main {
 			case 1: {//salva rete automi
 				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_RETE)){
 					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
-					break;
 				}
 				break;
 			}
 			case 2: {//salva spazio rilevanza
 				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_SPAZIO)){
 					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
-					break;
 				}
 				break;
 			}
 			case 3: {//salva dizionario
 				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_DIZ)){
 					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
-					break;
 				}
 				break;
 			}
 			case 4: {//salva osservazione lineare per la ricerca
 				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_OSS_LIN_RIC)){
 					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
-					break;
 				}
 				break;
 			}
@@ -573,23 +568,18 @@ public class Main {
 			case 5: {//salva osservazione lineare per il monitoraggio
 				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_OSS_LIN_MON)){
 					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
-					break;
 				}
 				break;
 			}
 			case 6:{ //salva automa osservazione
 				if ( ! salvaOggetto(Stringhe.SAVES_FOLDER, Stringhe.ESTENSIONE_AUTOMA_OSS)){
 					System.out.println(Stringhe.ERRORE_SALVATAGGIO);
-					break;
 				}
 				break;
 			}
 			case 7:{// salva intera sessione
-
 				String input = InputDati.leggiStringa(Stringhe.INSERISCI_NOME);
 				if (input.equals(Stringhe.STRINGA_VUOTA)) break;
-
-
 				try {
 					String cartella = creaCartellaSessione(input) + File.separator;
 					salvaOggettiSessione(cartella);
@@ -601,18 +591,21 @@ public class Main {
 		}
 	}
 
-	private static void gestisciCaricamento(int sceltaCaricamento){
+	private static void gestisciCaricamento(int scelta){
 
-		switch (sceltaCaricamento){
+		switch (scelta){
 			case 0:{//back
 				break;
 			}
 			case 1:{//carica oss lineare ricerca
 				try {
 					String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_OSS_LIN_RIC);
-					caricaFilesDaSessione(Stringhe.ESTENSIONE_OSS_LIN_RIC, filepath);
+					caricaOggettoSerializzato(Stringhe.ESTENSIONE_OSS_LIN_RIC, filepath);
 					System.out.println(String.format(Stringhe.CARICAMENTO_OSS_LIN, osservazioneLineareRicerca));
 				} catch (Exception e) {
+					if (e instanceof StreamCorruptedException){
+						System.out.println(Stringhe.FILE_CORROTTO);
+					}
 					System.out.println(e.getMessage());
 				}
 				break;
@@ -621,9 +614,12 @@ public class Main {
 			case 2:{//carica oss lineare monitoraggio
 				try {
 					String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_OSS_LIN_MON);
-					caricaFilesDaSessione(Stringhe.ESTENSIONE_OSS_LIN_MON, filepath);
+					caricaOggettoSerializzato(Stringhe.ESTENSIONE_OSS_LIN_MON, filepath);
 					System.out.println(String.format(Stringhe.CARICAMENTO_OSS_LIN, osservazioneLineareMonitoraggio));
 				} catch (Exception e) {
+					if (e instanceof StreamCorruptedException){
+						System.out.println(Stringhe.FILE_CORROTTO);
+					}
 					System.out.println(e.getMessage());
 				}
 				break;
@@ -634,15 +630,20 @@ public class Main {
 			case 3:{//carica automa oss
 				try {
 					String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_AUTOMA_OSS);
-					caricaFilesDaSessione(Stringhe.ESTENSIONE_AUTOMA_OSS, filepath);
+					caricaOggettoSerializzato(Stringhe.ESTENSIONE_AUTOMA_OSS, filepath);
 					System.out.println(String.format(Stringhe.CARICAMENTO_RIUSCITO_CON_NOME, automaOss.getNome()));
 					System.out.println(automaOss);
 				} catch (Exception e) {
+					if (e instanceof StreamCorruptedException){
+						System.out.println(Stringhe.FILE_CORROTTO);
+					}
 					System.out.println(e.getMessage());
 				}
 				break;
+			}
 
-
+			case 4: { //carica spazio di rilevanza
+				gestioneCaricamentoSpazioRilevanzaDaSerializzazione();
 			}
 		}
 	}
@@ -653,7 +654,7 @@ public class Main {
 				break;
 			}
 			case 1:{ //modifica nome
-				if (allSessioniDisponibili()){
+				if (aggiungiTutteSessioniAFilesSessione()){
 					visualizzaSessioniDisponibili();
 					int scelta = (InputDati.leggiIntero(Stringhe.INSERISCI_SESSIONE, Stringhe.VALORE_USCITA, filesSessione.size()));
 					if (scelta == Stringhe.VALORE_USCITA){
@@ -667,7 +668,7 @@ public class Main {
 				break;
 			}
 			case 2:{ //elimina
-				if (allSessioniDisponibili()){
+				if (aggiungiTutteSessioniAFilesSessione()){
 					visualizzaSessioniDisponibili();
 					int scelta = (InputDati.leggiIntero(Stringhe.INSERISCI_SESSIONE, Stringhe.VALORE_USCITA, filesSessione.size()));
 					if (scelta == Stringhe.VALORE_USCITA){
@@ -692,38 +693,6 @@ public class Main {
 	 *
 	 *
 	 */
-
-	private static Dizionario calcolaDizionario(int dimensione) {
-		GestoreDizionari gd = new GestoreDizionari();
-		GestoreInputOutput input = new GestoreInputOutput();
-		input.setRete(ra);
-		input.setDistanzaMax(dimensione);
-		if ( ! spazioRilevanzaCalcolato){
-			sr = gd.calcolaSpazioRilevanza(input);
-			input.setSr(sr);
-		}
-		else {
-			input.setSr(sr);
-		}
-		return gd.calcolaDizionario(input);
-	}
-
-	private static Dizionario calcolaDizionarioParzialeDaOsservazione() {
-		GestoreDizionari gd = new GestoreDizionari();
-		GestoreInputOutput input = new GestoreInputOutput();
-		ra.inizializzaRete(); // riporto a stato iniziale
-		input.setRete(ra);
-		input.setOsservazione(automaOss);
-		input.setDaOsservazione(true);
-		if ( ! spazioRilevanzaCalcolato ){
-			sr = gd.calcolaSpazioRilevanza(input);
-			input.setSr(sr);
-		}
-		else {
-			input.setSr(sr);
-		}
-		return gd.calcolaDizionario(input);
-	}
 
 	private static void gestisciInfoDizionario(int sceltaInfoDiz) {
 		//toString ridenominato, toString per info generiche
@@ -889,7 +858,7 @@ public class Main {
 	}
 
 	private static String inserimentoFileSessione(String estensioneFile){
-		if (sessioniDisponibili(estensioneFile)){
+		if (esistonoSessioniDisponibili(estensioneFile)){
 			visualizzaSessioniDisponibili();
 			int scelta = (InputDati.leggiIntero(Stringhe.INSERISCI_SESSIONE, Stringhe.VALORE_USCITA, filesSessione.size()));
 			if (scelta == Stringhe.VALORE_USCITA){
@@ -913,7 +882,7 @@ public class Main {
 		System.out.println("\n" + Stringhe.INDICE_INDIETRO);
 	}
 
-	private static boolean sessioniDisponibili(String estensioneFile) {
+	private static boolean esistonoSessioniDisponibili(String estensioneFile) {
 		File folder = new File(Stringhe.SAVES_PATH);
 		File[] files = folder.listFiles();
 		boolean flag = false;
@@ -927,7 +896,7 @@ public class Main {
 		return flag;
 	}
 
-	private static boolean allSessioniDisponibili() {
+	private static boolean aggiungiTutteSessioniAFilesSessione() {
 		File folder = new File(Stringhe.SAVES_PATH);
 		File[] files = folder.listFiles();
 		boolean flag = false;
@@ -939,7 +908,7 @@ public class Main {
 		return flag;
 	}
 
-	private static void caricaFilesDaSessione(String estensioneFile, String filepath) throws Exception{
+	private static void caricaOggettoSerializzato(String estensioneFile, String filepath) throws Exception{
 		if (isNull(filepath)) throw new Exception(Stringhe.CARICAMENTO_ANNULLATO);
 		GestoreFile gf = new GestoreFile();
 		if (estensioneFile.equals(Stringhe.ESTENSIONE_RETE)){
@@ -955,6 +924,7 @@ public class Main {
 			osservazioneLineareRicerca = (ArrayList<String>) gf.caricaDaSessione(filepath);
 		}
 		else if (estensioneFile.equals(Stringhe.ESTENSIONE_OSS_LIN_MON)){
+			System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
 			osservazioneLineareMonitoraggio = (ArrayList<String>) gf.caricaDaSessione(filepath);
 		}
 		else if (estensioneFile.equals(Stringhe.ESTENSIONE_DIZ)){
@@ -988,6 +958,11 @@ public class Main {
 		return true;
 	}
 
+	/**
+	 * metodo necessario solo per gestioneCaricamentoSpazioRilevanza(), di fatto consiste in una sezione di caricaFilesDaSessione
+	 * @return
+	 * @throws Exception
+	 */
 	private static SpazioRilevanza caricaSpazio() throws Exception {
 		String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_SPAZIO);
 		if (isNull(filepath)) throw new Exception(Stringhe.CARICAMENTO_ANNULLATO);
@@ -1125,12 +1100,13 @@ public class Main {
 		System.out.println(Stringhe.TITOLO_SESSIONI_SALVATE);
 		for (File file : sessioniIntere) {
 			System.out.println(indice +  " " + file.getName());
+			indice++;
 		}
 		System.out.println("\n" + Stringhe.INDICE_INDIETRO);
 		return true;
 	}
 
-	private static String caricaSessioneIntera() {
+	private static String inputFilepathSessioneIntera() {
 		if (visualizzaCartellaSessioniIntere()){
 			int scelta = InputDati.leggiIntero(Stringhe.INSERISCI_SESSIONE, Stringhe.VALORE_USCITA, sessioniIntere.size());
 			if (scelta == Stringhe.VALORE_USCITA){
@@ -1144,19 +1120,22 @@ public class Main {
 		}
 	}
 
-	private static boolean caricaOggetti(String filepath) {
+	private static boolean caricaTuttiOggettiInCartella(String filepath) {
 		File sessionePath = new File(filepath);
 		File[] filesSessione = sessionePath.listFiles();
 		for (File oggetto : filesSessione) {
 			try {
-				caricaFilesDaSessione(Utility.ottieniEstensione(oggetto.getPath()) + ".ser", oggetto.getPath());
+				caricaOggettoSerializzato(Utility.ottieniEstensione(oggetto.getPath()) + ".ser", oggetto.getPath());
 			} catch (Exception e) {
+				if (e instanceof StreamCorruptedException){
+					System.out.println(Stringhe.FILE_CORROTTO);
+				}
 				System.out.println(e.getMessage());
-				e.printStackTrace();
 				return false;
 			}
 		}
-		return false;
+		System.out.println(Stringhe.SESSIONE_CARICATA);
+		return true;
 
 	}
 
@@ -1166,5 +1145,65 @@ public class Main {
 		}
 		return true;
 	}
+
+	private static boolean gestioneCaricamentoSpazioRilevanzaDaSerializzazione() {
+		try {
+			SpazioRilevanza spazioRilevanza = caricaSpazio();
+			boolean vuoleSovrascrivere = controllaNomeRete(spazioRilevanza);
+			if (vuoleSovrascrivere){
+				sr = spazioRilevanza;
+				System.out.println(Stringhe.SPAZIO_CARICATO);
+				spazioRilevanzaCalcolato = true;
+			}
+			else  {
+				System.out.println(Stringhe.CARICAMENTO_ANNULLATO);
+				spazioRilevanzaCalcolato = false;
+			}
+		} catch (Exception e) {
+			if (e instanceof StreamCorruptedException){
+				System.out.println(Stringhe.FILE_CORROTTO);
+			}
+			System.out.println(e.getMessage());
+			spazioRilevanzaCalcolato = false;
+
+		} finally {
+			return spazioRilevanzaCalcolato;
+		}
+	}
+
+	private static Dizionario calcolaDizionario(int dimensione) {
+		GestoreDizionari gd = new GestoreDizionari();
+		GestoreInputOutput input = new GestoreInputOutput();
+		input.setRete(ra);
+		input.setDistanzaMax(dimensione);
+		if ( ! spazioRilevanzaCalcolato){
+			sr = gd.calcolaSpazioRilevanza(input);
+			input.setSr(sr);
+		}
+		else {
+			input.setSr(sr);
+		}
+		return gd.calcolaDizionario(input);
+	}
+
+	private static Dizionario calcolaDizionarioParzialeDaOsservazione() {
+		GestoreDizionari gd = new GestoreDizionari();
+		GestoreInputOutput input = new GestoreInputOutput();
+		ra.inizializzaRete(); // riporto a stato iniziale
+		input.setRete(ra);
+		input.setOsservazione(automaOss);
+		input.setDaOsservazione(true);
+		if ( ! spazioRilevanzaCalcolato ){
+			sr = gd.calcolaSpazioRilevanza(input);
+			input.setSr(sr);
+		}
+		else {
+			input.setSr(sr);
+		}
+		return gd.calcolaDizionario(input);
+	}
+
+
+
 
 }
