@@ -1038,7 +1038,6 @@ public class Main {
 			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(nome)));
 			if (estensioneFile.equals(Stringhe.ESTENSIONE_RETE)){
 				oos.writeObject(ra);
-				oos.close();
 				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
 			}
 			else if (estensioneFile.equals(Stringhe.ESTENSIONE_SPAZIO)){
@@ -1066,7 +1065,10 @@ public class Main {
 				oos.close();
 				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
 			}
-			else return false;
+			else {
+				oos.close();
+				return false;
+			}
 		}
 		catch (Exception e){
 			System.out.println(e.toString());
@@ -1174,6 +1176,7 @@ public class Main {
 	private static Dizionario calcolaDizionario(int dimensione) {
 		GestoreDizionari gd = new GestoreDizionari();
 		GestoreInputOutput input = new GestoreInputOutput();
+		ra.inizializzaRete(); // riporto a stato iniziale
 		input.setRete(ra);
 		input.setDistanzaMax(dimensione);
 		if ( ! spazioRilevanzaCalcolato){
