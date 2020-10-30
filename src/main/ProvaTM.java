@@ -1,16 +1,8 @@
 package main;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import static java.util.Objects.isNull;
 class Threaddino implements Runnable{
     @Override
     public void run() {

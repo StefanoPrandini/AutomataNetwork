@@ -43,10 +43,10 @@ public class ProveOss {
 			pathOsservazioneJSON = System.getProperty("user.dir") + File.separator + "ASD" + File.separator + "JSON" + File.separator + osservazioneJSON;
 		}
 		else pathOsservazioneJSON = System.getProperty("user.dir") + File.separator + "JSON" + File.separator + osservazioneJSON;
-
+		System.out.println(pathOsservazioneJSON);
 
 		//OsservazioneParser OsservazioneParser = new OsservazioneParser(pathOsservazioneJSON);
-		Automa osservazione = null;
+		// Automa osservazione = null;
 		try {
 			//osservazione = OsservazioneParser.getOsservazione();
 		} catch (Exception e) {
@@ -54,7 +54,7 @@ public class ProveOss {
 			//TODO
 		}
 		
-		System.out.println(osservazione.toStringOss());
+		// System.out.println(osservazione.toStringOss());
 		
 //		-----------------------------------------------------------------------------------------------------------------------------------------
 

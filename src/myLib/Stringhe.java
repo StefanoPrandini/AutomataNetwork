@@ -76,6 +76,7 @@ public class Stringhe {
     public static final String INSERISCI_NOME = "\nInserisci un nome per la sessione, una stringa vuota per uscire:\n-->";
     public static final String SESSIONE_CARICATA = "\nSessione caricata correttamente\n";
     public static final String SPAZIO_CARICATO = "\nCaricamento completato\n";
+	public static final String PROGRAMMA_TERMINATO = "\nProgramma terminato";
 
 
     /**

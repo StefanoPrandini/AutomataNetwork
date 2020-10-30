@@ -2,16 +2,9 @@ package gestore;
 
 import input.InputParser;
 import input.OsservazioneParser;
-import myLib.Stringhe;
 import model.Automa;
-import algoritmo.Dizionario;
 import model.ReteAutomi;
-import algoritmo.SpazioRilevanza;
-
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Objects;
-
 import static java.util.Objects.isNull;
 
 public class GestoreFile {

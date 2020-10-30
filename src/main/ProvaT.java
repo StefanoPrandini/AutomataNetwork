@@ -33,8 +33,9 @@ public class ProvaT  {
         return path.toString();
     }
 
-
+/**
     private static boolean isClasseBella(Class classe){
         return classe.getName().equals("algoritmo.Dizionario");
     }
+*/
 }

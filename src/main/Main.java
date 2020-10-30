@@ -40,12 +40,15 @@ public class Main {
 			gestisciCaricamentoIniziale(scelta);
 			scelta = m.scegli();
 		}
+		System.out.println(Stringhe.PROGRAMMA_TERMINATO);
 	}
 
 	private static void gestisciCaricamentoIniziale(int scelta) {
 
 		switch (scelta){
-			case 0: break; //EXIT
+			case 0: { //EXIT
+				break; 
+			}
 
 			case 1:  { //carica da JSON
 				stampaFileDiEsempio();
@@ -322,7 +325,10 @@ public class Main {
 					if (rispondeNo(vuoiUscire)){
 						break;
 					}
-					else System.exit(0);
+					else {
+						System.out.println(Stringhe.PROGRAMMA_TERMINATO);
+						System.exit(0);
+					}
 
 				}
 			}

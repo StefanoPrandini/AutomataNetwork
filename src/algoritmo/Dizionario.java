@@ -2,7 +2,6 @@ package algoritmo;
 
 import java.io.Serializable;
 import java.util.*;
-
 import gestore.GestoreInputOutput;
 import javafx.util.Pair;
 import model.StatoDizionario;
@@ -10,10 +9,7 @@ import model.StatoRilevanzaRete;
 import model.Terna;
 import model.Transizione;
 import myLib.Stringhe;
-
 import static java.util.Objects.isNull;
-
-import java.io.IOException;
 
 /**
  * Dizionario Completo delle osservazioni:

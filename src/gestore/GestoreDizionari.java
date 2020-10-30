@@ -4,14 +4,8 @@ import algoritmo.Algoritmo;
 import algoritmo.Dizionario;
 import algoritmo.EstendiDizionario;
 import algoritmo.SpazioRilevanza;
-import javafx.util.Pair;
 import myLib.InputDati;
 import myLib.Stringhe;
-import model.*;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Set;
 
 public class GestoreDizionari {
 
