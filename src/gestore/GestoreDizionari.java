@@ -4,6 +4,7 @@ import algoritmo.Algoritmo;
 import algoritmo.Dizionario;
 import algoritmo.EstendiDizionario;
 import algoritmo.SpazioRilevanza;
+import javafx.util.Pair;
 import myLib.InputDati;
 import myLib.Stringhe;
 import model.*;
@@ -120,16 +121,19 @@ public class GestoreDizionari {
 
     public Dizionario ridenominaDizionario(Dizionario diz){
         diz.ridenominaStati();
-
+        System.out.println(diz.compendio());
         return diz;
     }
 
     public SpazioRilevanza ridenominaSpazio(SpazioRilevanza sr){
         sr.ridenominaStati();
+        System.out.println(sr.compendio());
         return sr;
     }
 
     public void interrompiAlgoritmo(Algoritmo algoritmo){
         algoritmo.stop();
     }
+
+
 }

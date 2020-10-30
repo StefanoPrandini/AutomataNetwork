@@ -31,7 +31,7 @@ public class Stringhe {
     public static final String LUNGHEZZA_PREFISSO = "Inserisci la lunghezza del prefisso (un numero negativo per tornare indietro): ";
     public static final int VALORE_USCITA = 0;
     public final static String INSERISCI_PERCORSO_OSSERVAZIONE = "Inserisci il percorso del file contenente l'osservazione (0 per uscire):\n-->";
-    public final static String INFO_SPAZIO_RILEVANZA = "\tLo spazio di rilevanza ha %s stati e %s transizioni";
+    public final static String INFO_SPAZIO_RILEVANZA = "\tLo spazio di rilevanza ha %s stati e %s transizioni\n";
     public static final String INFO_RIDENOMINAZIONE_SPAZIO = "(StatoRilevanza) --> ridenominazione";
     public static final String INFO_MAPPA_SPAZIO = "[(StatoRilevanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:";
     public static final String INSERIMENTO_OSSERVAZIONE = "Inserisci le etichette di un'osservazione lineare separandole con virgole " +
@@ -61,7 +61,7 @@ public class Stringhe {
     public static final String STRINGA_VUOTA = "";
     public static final String OSS_LIN_IN_MEMORIA = "E' presente in memoria questa osservazione lineare:\n%s";
     public static final String ESTENSIONE_OSSERVAZIONE = "Aggiungi una o piu' etichette alla sequenza (es. o2, o3), inserisci una stringa vuota per tornare indietro\n-->";
-    public static final String INFO_DIZIONARIO = "Il dizionario ha %s stati e %s transizioni etichettate";
+    public static final String INFO_DIZIONARIO = "\tIl dizionario ha %s stati e %s transizioni etichettate\n";
     public static final String RISULTATO_TERNE = "\nRisultato di monitoraggio e revisione da %s: \n";
     public static final String INDICE_INDIETRO = "0 Indietro\n";
     public static final String MONITORAGGIO_REVISIONE = "monitoraggio e revisione";

@@ -2,10 +2,7 @@ package algoritmo;
 
 import gestore.GestoreInputOutput;
 import javafx.util.Pair;
-import model.Automa;
-import model.ReteAutomi;
-import model.StatoRilevanzaRete;
-import model.Transizione;
+import model.*;
 import myLib.Stringhe;
 
 import java.io.Serializable;
@@ -360,4 +357,13 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 	public void setNomeRete(String nomeRete) {
 		this.nomeRete = nomeRete;
 	}
+
+	public String compendio() {
+		int numeroTransizioni = 0;
+		for (List<Pair<Transizione, StatoRilevanzaRete>> value : getMappaStatoRilevanzaTransizioni().values()) {
+			numeroTransizioni += value.size();
+		}
+		return  new StringBuilder().append(String.format(Stringhe.INFO_SPAZIO_RILEVANZA, getStatiRilevanza().size(), numeroTransizioni)).toString();
+	}
 }
+

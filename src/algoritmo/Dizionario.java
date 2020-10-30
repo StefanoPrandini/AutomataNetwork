@@ -512,4 +512,13 @@ public class Dizionario extends Algoritmo implements Serializable {
 	public Set<Set<String>> getDiagnosi() {
 		return this.diagnosi;
 	}
+
+	public String compendio() {
+		int numeroTransizioni = 0;
+		for (Set<Pair<String, StatoDizionario>> value : getMappaDizionario().values()) {
+			numeroTransizioni += value.size();
+		}
+		return  new StringBuilder().append("\t" + String.format(Stringhe.INFO_DIZIONARIO, getStatiDizionario().size(),numeroTransizioni)).toString();
+
+	}
 }

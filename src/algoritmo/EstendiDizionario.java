@@ -266,6 +266,9 @@ public class EstendiDizionario extends Algoritmo implements Runnable {
 
 		if(transizioniNonInTraiettoria.isEmpty()) {
 			sb.append("Estensione andata a buon fine! (l'osservazione e' inerente a una o piu' traiettorie della rete)");
+			sb.append("\n\n");
+			sb.append(dizionario.compendio());
+			sb.append("\n\n");
 		}
 		else {
 			sb.append("L'estensione e' stata eseguita, tuttavia ci sono transizioni nell'osservazione fornita che non non sono presenti "
