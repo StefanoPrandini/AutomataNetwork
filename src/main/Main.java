@@ -1161,14 +1161,13 @@ public class Main {
 				System.out.println(Stringhe.CARICAMENTO_ANNULLATO);
 				spazioRilevanzaCalcolato = false;
 			}
+			return spazioRilevanzaCalcolato;
 		} catch (Exception e) {
 			if (e instanceof StreamCorruptedException){
 				System.out.println(Stringhe.FILE_CORROTTO);
 			}
 			System.out.println(e.getMessage());
 			spazioRilevanzaCalcolato = false;
-
-		} finally {
 			return spazioRilevanzaCalcolato;
 		}
 	}
