@@ -1097,13 +1097,13 @@ public class Main {
 		if (! isNull(sr)){
 			salvaOggetto(cartella, Stringhe.ESTENSIONE_SPAZIO);
 		}
-		if (! isNull(osservazioneLineareRicerca)){
+		if (! isNull(osservazioneLineareRicerca) && ! osservazioneLineareRicerca.isEmpty()){
 			salvaOggetto(cartella, Stringhe.ESTENSIONE_OSS_LIN_RIC);
 		}
-		if (! isNull(osservazioneLineareMonitoraggio)){
+		if (! isNull(osservazioneLineareMonitoraggio) && ! osservazioneLineareMonitoraggio.isEmpty()){
 			salvaOggetto(cartella, Stringhe.ESTENSIONE_OSS_LIN_MON);
 		}
-		if (! isNull(osservazioneLineareMonitoraggio)){
+		if (! isNull(automaOss)){
 			salvaOggetto(cartella, Stringhe.ESTENSIONE_AUTOMA_OSS);
 		}
 	}
