@@ -346,7 +346,6 @@ public class Main {
 			case 2: { //spazio rilevanza
 				MyMenu menuInfoSpazioRilevanza = new MyMenu(Stringhe.TITOLO_INFO_SPAZIO_R, Stringhe.OPZIONI_INFO_SPAZIO_R);
 				int sceltaInfoSpazioR = menuInfoSpazioRilevanza.scegli();
-				//TODO info rapide su numero stati ecc
 				while (sceltaInfoSpazioR != 0){
 					gestisciInfoSpazioRilevanza(sceltaInfoSpazioR);
 					sceltaInfoSpazioR = menuInfoSpazioRilevanza.scegli();
@@ -356,7 +355,6 @@ public class Main {
 			case 3: { // dizionario
 				MyMenu menuInfoDizionario = new MyMenu(Stringhe.TITOLO_INFO_DIZIONARIO, Stringhe.OPZIONI_INFO_DIZIONARIO);
 				int sceltaInfoDiz = menuInfoDizionario.scegli();
-				//TODO info rapide su numero stati ecc
 				while (sceltaInfoDiz != 0){
 					gestisciInfoDizionario(sceltaInfoDiz);
 					sceltaInfoDiz = menuInfoDizionario.scegli();
@@ -1084,19 +1082,30 @@ public class Main {
 	}
 
 	private static String creaCartellaSessione(String input) throws IOException {
-		String nomeCartella = input + dataFormattata();
+		String nomeCartella = input + "_" + dataFormattata();
 		Path path = Paths.get(Stringhe.SESSIONI_INTERE_FOLDER + nomeCartella + File.separator);
 		Files.createDirectory(path);
 		return path.toString();
 	}
 
 	private static void salvaOggettiSessione(String cartella) {
+
+		//i primi due sono per costruzione non null
+
 		salvaOggetto(cartella, Stringhe.ESTENSIONE_RETE);
-		salvaOggetto(cartella, Stringhe.ESTENSIONE_SPAZIO);
 		salvaOggetto(cartella, Stringhe.ESTENSIONE_DIZ);
-		salvaOggetto(cartella, Stringhe.ESTENSIONE_OSS_LIN_RIC);
-		salvaOggetto(cartella, Stringhe.ESTENSIONE_OSS_LIN_MON);
-		salvaOggetto(cartella, Stringhe.ESTENSIONE_AUTOMA_OSS);
+		if (! isNull(sr)){
+			salvaOggetto(cartella, Stringhe.ESTENSIONE_SPAZIO);
+		}
+		if (! isNull(osservazioneLineareRicerca)){
+			salvaOggetto(cartella, Stringhe.ESTENSIONE_OSS_LIN_RIC);
+		}
+		if (! isNull(osservazioneLineareMonitoraggio)){
+			salvaOggetto(cartella, Stringhe.ESTENSIONE_OSS_LIN_MON);
+		}
+		if (! isNull(osservazioneLineareMonitoraggio)){
+			salvaOggetto(cartella, Stringhe.ESTENSIONE_AUTOMA_OSS);
+		}
 	}
 
 	private static boolean visualizzaCartellaSessioniIntere(){
