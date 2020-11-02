@@ -14,7 +14,18 @@ public class Stringhe {
     public static final String JSON_PATH = System.getProperty("user.dir")+ File.separator + "JSON";
     public static final String JSON_PATH_RETI = JSON_PATH + File.separator + "rete";
     public static final String JSON_PATH_OSSERVAZIONI = JSON_PATH + File.separator + "osservazione";
-    public static final String LOG_PATH = System.getProperty("user.dir")+ File.separator + "log";
+    public static final String LOG_PATH = System.getProperty("user.dir")+ File.separator + "log" + File.separator;
+
+
+    public static final String FILE_LOG_COSTRUZIONE_DIZIONARIO = LOG_PATH + "log_costruzione_dizionario.txt";
+    public static final String FILE_LOG_COSTRUZIONE_SPAZIO = LOG_PATH + "log_costruzione_spazio.txt";
+    public static final String FILE_LOG_RICERCA = LOG_PATH + "log_ricerca.txt";
+    public static final String FILE_LOG_MONITORAGGIO = LOG_PATH + "log_monitoraggio.txt";
+    public static final String FILE_LOG_ESTENSIONE = LOG_PATH + "log_estensione.txt";
+
+
+
+
     public static final String SAVES_PATH = System.getProperty("user.dir") + File.separator + "sessioni";
     public static final String SAVES_FOLDER = System.getProperty("user.dir") + File.separator + "sessioni" + File.separator;
     public static final String SESSIONI_INTERE_PATH = SAVES_FOLDER + "intere";
@@ -281,6 +292,18 @@ public class Stringhe {
     public static final String INPUT_OUTPUT = "Input e Output:";
     public static final String COPPIE_INPUT_OUTPUT = "Coppie I/O:";
 
+
+    /**
+     *
+     *          LOG
+     *
+     */
+
+
+    /**
+     * Data, nome rete, compendio, tempo trascorso
+     */
+    public static final String EVENTO_LOG = BelleStringhe.incornicia("%s, %s" + "\n" + "%s" + "\n" + "%s");
 
 
 }

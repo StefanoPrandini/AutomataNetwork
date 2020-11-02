@@ -53,6 +53,5 @@ public class Utility {
             estensione = new StringBuilder(matcher.group(0)).reverse().toString();
         }
         return estensione;
-
     }
 }

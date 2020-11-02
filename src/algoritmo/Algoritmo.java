@@ -6,6 +6,7 @@ public abstract class Algoritmo implements Runnable {
     private boolean terminato = false;
     private boolean ricercaTerminata = false;
 
+
     public void stop(){
         inInterruzione = true;
     }
