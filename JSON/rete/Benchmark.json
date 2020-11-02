@@ -149,7 +149,7 @@
                     "etichettaOsservabilita": "eps",
                     "eventoIngresso": {
                         "idEvento": "e3",
-                        "link": "L3"
+                        "link": "L2"
                     },
                     "eventiUscita": []
                 },
@@ -161,7 +161,7 @@
                     "etichettaOsservabilita": "eps",
                     "eventoIngresso": {
                         "idEvento": "e3",
-                        "link": "L3"
+                        "link": "L2"
                     },
                     "eventiUscita": []
                 }
