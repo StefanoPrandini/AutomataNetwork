@@ -514,7 +514,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 		for (Set<Pair<String, StatoDizionario>> value : getMappaDizionario().values()) {
 			numeroTransizioni += value.size();
 		}
-		return  new StringBuilder().append("\t" + String.format(Stringhe.INFO_DIZIONARIO, getStatiDizionario().size(),numeroTransizioni)).toString();
+		return  new StringBuilder().append(String.format(Stringhe.INFO_DIZIONARIO, getStatiDizionario().size(),numeroTransizioni)).toString();
 
 	}
 }

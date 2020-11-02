@@ -51,7 +51,7 @@ public class Main {
 			}
 
 			case 1:  { //carica da JSON
-				stampaFileDiEsempio();
+				stampaFileDiEsempio(Stringhe.ESTENSIONE_RETE);
 				String input = determinaFilepathEsempio(inputNomeFileJSON());
 				if (isNull(input)){
 					break;
@@ -814,8 +814,14 @@ public class Main {
 		gd.estensioneDizionario(inputOutput);
 	}
 
-	private static void stampaFileDiEsempio() {
-		File folder = new File(Stringhe.EXAMPLE_PATH);
+	private static void stampaFileDiEsempio(String estensioneFile) {
+		String filepath;
+		if (estensioneFile.equals(Stringhe.ESTENSIONE_RETE)){
+			filepath = Stringhe.JSON_PATH_RETI;
+		} else {
+			filepath = Stringhe.JSON_PATH_OSSERVAZIONI;
+		}
+		File folder = new File(filepath);
 		filesEsempio = new ArrayList<>();
 		filesEsempio.addAll(Arrays.asList(folder.listFiles()));
 		int index = 1;
@@ -943,7 +949,7 @@ public class Main {
 	}
 
 	private static boolean caricaOsservazioneDaJSON() {
-		stampaFileDiEsempio();
+		stampaFileDiEsempio(Stringhe.ESTENSIONE_AUTOMA_OSS);
 		String filepath = determinaFilepathEsempio(inputNomeFileJSON());
 		if (isNull(filepath) || filepath.trim().equals(Stringhe.STRINGA_VUOTA)) return false;
 		GestoreFile gf = new GestoreFile();

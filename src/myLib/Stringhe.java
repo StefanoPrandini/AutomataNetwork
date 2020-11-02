@@ -11,8 +11,10 @@ public class Stringhe {
      *
      */
 
-
-    public static final String EXAMPLE_PATH = System.getProperty("user.dir")+ File.separator + "JSON";
+    public static final String JSON_PATH = System.getProperty("user.dir")+ File.separator + "JSON";
+    public static final String JSON_PATH_RETI = JSON_PATH + File.separator + "rete";
+    public static final String JSON_PATH_OSSERVAZIONI = JSON_PATH + File.separator + "osservazione";
+    public static final String LOG_PATH = System.getProperty("user.dir")+ File.separator + "log";
     public static final String SAVES_PATH = System.getProperty("user.dir") + File.separator + "sessioni";
     public static final String SAVES_FOLDER = System.getProperty("user.dir") + File.separator + "sessioni" + File.separator;
     public static final String SESSIONI_INTERE_PATH = SAVES_FOLDER + "intere";
@@ -41,7 +43,7 @@ public class Stringhe {
     public static final String NESSUNO_SPAZIO_RILEVANZA = "Nessuno spazio di rilevanza rilevato, non e' possibile proseguire";
     public static final String INFO_I_O = "\tStato %s -> Input: %s, Output: %s";
     public static final String INFO_COPPIE_I_O = "\tStato %s -> coppie I/O: %s";
-    public static final String VUOI_USCIRE = "Vuoi terminare il programma? y/n\n-->";
+    public static final String VUOI_USCIRE = "Vuoi terminare il programma? s/n\n-->";
     public static final String CALCOLO_SPAZIO = "Calcolo dello spazio di rilevanza in corso\n";
     public static final String CALCOLO_SPAZIO_COMPLETO = "\nCalcolo completato, premi INVIO per proseguire ";
     public static final String CALCOLO_DIZIONARIO = "Costruzione del dizionario in corso\n";
@@ -53,7 +55,7 @@ public class Stringhe {
     public static final String MONITORAGGIO_IN_CORSO = "Monitoraggio e revisione nel dizionario in corso\n";
     public static final String ESTENSIONE_IN_CORSO = "Estensione del dizionario in corso\n";
     public static final String INSERISCI_PER_INTERROMPERE = "Inserisci '%s' per interrompere: ";
-    public static final String SEI_SICURO = "\nVuoi continuare comunque? y/n\n--> ";
+    public static final String SEI_SICURO = "\nVuoi continuare comunque? s/n\n--> ";
     public static final String CARICAMENTO_ANNULLATO = "\nCaricamento annullato\n";
     public static final String CONTINUA_CALCOLO_DIZ = "\nContinua con il calcolo di un dizionario o il caricamento di un diverso spazio\n";
     public static final String STOP = "stop";
@@ -258,14 +260,14 @@ public class Stringhe {
      */
 
 
-    public static final String TITOLO_FILE_ESEMPIO = "I file JSON delle reti di esempio sono: \n";
+    public static final String TITOLO_FILE_ESEMPIO = "File JSON dagli esempi: \n";
     public static final String TITOLO_INIZIALE = "Elaboratore per reti di automi";
     public static final String TITOLO_GESTIONE_RETE = "Gestione rete di automi";
     public static final String TITOLO_SESSIONI_SALVATE = "\nSessioni disponibili: \n";
     public static final String TITOLO_CALCOLO_DIZIONARIO = "Calcolo di un dizionario";
     public static final String TITOLO_GESTIONE_DIZIONARIO_PARZIALE = "Calcolo di un dizionario parziale";
     public static final String TITOLO_GESTIONE_DIZIONARIO = "Gestione dizionario";
-    public static final String TITOLO_INFORMAZIONI = "Informazioni...";
+    public static final String TITOLO_INFORMAZIONI = "Informazioni";
     public static final String TITOLO_INFO_SPAZIO_R = "Informazioni spazio di rilevanza";
     public static final String TITOLO_INFO_DIZIONARIO = "Informazioni dizionario";
     public static final String TITOLO_RICERCA_DIZIONARIO = "Ricerca nel dizionario - Diagnosi";

@@ -1,6 +1,6 @@
 package main;
 
-import input.InputParser;
+import parser.InputParser;
 import model.*;
 
 import java.io.File;

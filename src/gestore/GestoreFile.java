@@ -1,10 +1,12 @@
 package gestore;
 
-import input.InputParser;
-import input.OsservazioneParser;
+import parser.InputParser;
+import parser.OsservazioneParser;
 import model.Automa;
 import model.ReteAutomi;
 import java.io.*;
+import java.util.ArrayList;
+
 import static java.util.Objects.isNull;
 
 public class GestoreFile {
@@ -47,6 +49,13 @@ public class GestoreFile {
             objectinputstream.close();
         }
         return oggetto;
+    }
+
+
+
+    public void stampaLogAlgoritmo(String titolo, ArrayList<String> logAlgoritmo){
+
+
     }
 
 

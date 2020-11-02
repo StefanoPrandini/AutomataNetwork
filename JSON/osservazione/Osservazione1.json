@@ -1,0 +1,26 @@
+{
+    "idAutoma": "Osservazione2_MaFile1",
+  
+    "stati": [
+      0,
+      2,
+      3
+    ],
+  
+    "statoIniziale": 0,
+  
+    "transizioni": [
+      {
+        "statoPartenza": 0,
+        "statoArrivo": 2,
+        "etichettaOsservabilita": "o3"
+      },
+  
+      {
+        "statoPartenza": 2,
+        "statoArrivo": 3,
+        "etichettaOsservabilita": "o2"
+      }
+    ]
+  
+  }

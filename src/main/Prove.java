@@ -2,7 +2,7 @@ package main;
 
 import algoritmo.SpazioRilevanza;
 import gestore.GestoreInputOutput;
-import input.InputParser;
+import parser.InputParser;
 import model.*;
 
 import java.io.File;
