@@ -1,0 +1,195 @@
+{
+    "idRete": "Interazione",
+
+    "links": [
+        {
+            "idLink": "I",
+            "automaIniziale": "Utente",
+            "automaFinale": "Maps"
+        },
+        {
+            "idLink": "O",
+            "automaIniziale": "Maps",
+            "automaFinale": "Utente"
+        }
+    ],
+
+    "automi": [
+        {
+            "idAutoma": "Utente",
+            "stati": [
+                "inizio",
+                "attesa",
+                "analisi",
+                "fine"
+            ],
+            "statoIniziale": "inizio",
+            "transizioni": [
+                {
+                    "idTransizione": "t0u",
+                    "statoPartenza": "inizio",
+                    "statoArrivo": "attesa",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "null",
+                        "link": ""
+                    },
+                    "eventiUscita": [
+                        {
+                            "idEvento": "start",
+                            "link": "I"
+                        }
+                    ]
+                },
+                
+                {
+                    "idTransizione": "t1u",
+                    "statoPartenza": "attesa",
+                    "statoArrivo": "analisi",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "ok_res",
+                        "link": "O"
+                    },
+                    "eventiUscita": []
+                },
+
+                {
+                    "idTransizione": "t2u",
+                    "statoPartenza": "attesa",
+                    "statoArrivo": "inizio",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "null",
+                        "link": ""
+                    },
+                    "eventiUscita": [
+                        {
+                            "idEvento": "stop",
+                            "link": "I"
+                        }
+                    ]
+                },
+
+                {
+                    "idTransizione": "t3u",
+                    "statoPartenza": "analisi",
+                    "statoArrivo": "inizio",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "null",
+                        "link": ""
+                    },
+                    "eventiUscita": [
+                        {
+                            "idEvento": "stop",
+                            "link": "I"
+                        }
+                    ]
+                },
+
+                {
+                    "idTransizione": "t4u",
+                    "statoPartenza": "analisi",
+                    "statoArrivo": "fine",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "ok_res",
+                        "link": "O"
+                    },
+                    "eventiUscita": []
+                }
+            ]
+        },
+        {
+            "idAutoma": "Maps",
+            "stati": [
+                "attesa",
+                "ricarica",
+                "fine"
+            ],
+            "statoIniziale": "attesa",
+            "transizioni": [
+                {
+                    "idTransizione": "t0m",
+                    "statoPartenza": "attesa",
+                    "statoArrivo": "ricarica",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "start",
+                        "link": "I"
+                    },
+                    "eventiUscita": []
+                },
+                
+                {
+                    "idTransizione": "t1m",
+                    "statoPartenza": "ricarica",
+                    "statoArrivo": "attesa",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "null",
+                        "link": ""
+                    },
+                    "eventiUscita": [
+                        {
+                            "idEvento": "no_res",
+                            "link": "O"
+                        }
+                    ]
+                },
+
+                {
+                    "idTransizione": "t2m",
+                    "statoPartenza": "ricarica",
+                    "statoArrivo": "fine",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "null",
+                        "link": ""
+                    },
+                    "eventiUscita": [
+                        {
+                            "idEvento": "ok_res",
+                            "link": "O"
+                        }
+                    ]
+                },
+
+                {
+                    "idTransizione": "t3m",
+                    "statoPartenza": "ricarica",
+                    "statoArrivo": "attesa",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "stop",
+                        "link": "I"
+                    },
+                    "eventiUscita": []
+                },
+
+                {
+                    "idTransizione": "t4m",
+                    "statoPartenza": "ricarica",
+                    "statoArrivo": "ricarica",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "null",
+                        "link": ""
+                    },
+                    "eventiUscita": []
+                }
+            ]
+        }
+    ]
+}
