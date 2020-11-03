@@ -63,8 +63,8 @@
                     "etichettaRilevanza": "eps",
                     "etichettaOsservabilita": "eps",
                     "eventoIngresso": {
-                        "idEvento": "null",
-                        "link": ""
+                        "idEvento": "started",
+                        "link": "O"
                     },
                     "eventiUscita": [
                         {
@@ -86,7 +86,7 @@
                     },
                     "eventiUscita": [
                         {
-                            "idEvento": "stop",
+                            "idEvento": "annulla",
                             "link": "I"
                         }
                     ]
@@ -99,10 +99,41 @@
                     "etichettaRilevanza": "eps",
                     "etichettaOsservabilita": "eps",
                     "eventoIngresso": {
-                        "idEvento": "ok_res",
+                        "idEvento": "null",
+                        "link": ""
+                    },
+                    "eventiUscita": []
+                },
+
+                {
+                    "idTransizione": "t5u",
+                    "statoPartenza": "attesa",
+                    "statoArrivo": "inizio",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "no_res",
                         "link": "O"
                     },
                     "eventiUscita": []
+                },
+
+                {
+                    "idTransizione": "t6u",
+                    "statoPartenza": "attesa",
+                    "statoArrivo": "attesa",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "started",
+                        "link": "O"
+                    },
+                    "eventiUscita": [
+                        {
+                            "idEvento": "no_stop",
+                            "link": "I"
+                        }
+                    ]
                 }
             ]
         },
@@ -110,7 +141,7 @@
             "idAutoma": "Maps",
             "stati": [
                 "attesa",
-                "ricarica",
+                "ricerca",
                 "fine"
             ],
             "statoIniziale": "attesa",
@@ -118,25 +149,30 @@
                 {
                     "idTransizione": "t0m",
                     "statoPartenza": "attesa",
-                    "statoArrivo": "ricarica",
+                    "statoArrivo": "ricerca",
                     "etichettaRilevanza": "eps",
                     "etichettaOsservabilita": "eps",
                     "eventoIngresso": {
                         "idEvento": "start",
                         "link": "I"
                     },
-                    "eventiUscita": []
+                    "eventiUscita": [
+                        {
+                            "idEvento": "started",
+                            "link": "O"
+                        }
+                    ]
                 },
                 
                 {
                     "idTransizione": "t1m",
-                    "statoPartenza": "ricarica",
+                    "statoPartenza": "ricerca",
                     "statoArrivo": "attesa",
                     "etichettaRilevanza": "eps",
                     "etichettaOsservabilita": "eps",
                     "eventoIngresso": {
-                        "idEvento": "null",
-                        "link": ""
+                        "idEvento": "no_stop",
+                        "link": "I"
                     },
                     "eventiUscita": [
                         {
@@ -148,13 +184,13 @@
 
                 {
                     "idTransizione": "t2m",
-                    "statoPartenza": "ricarica",
+                    "statoPartenza": "ricerca",
                     "statoArrivo": "fine",
                     "etichettaRilevanza": "eps",
                     "etichettaOsservabilita": "eps",
                     "eventoIngresso": {
-                        "idEvento": "null",
-                        "link": ""
+                        "idEvento": "no_stop",
+                        "link": "I"
                     },
                     "eventiUscita": [
                         {
@@ -166,7 +202,7 @@
 
                 {
                     "idTransizione": "t3m",
-                    "statoPartenza": "ricarica",
+                    "statoPartenza": "ricerca",
                     "statoArrivo": "attesa",
                     "etichettaRilevanza": "eps",
                     "etichettaOsservabilita": "eps",
@@ -179,13 +215,31 @@
 
                 {
                     "idTransizione": "t4m",
-                    "statoPartenza": "ricarica",
-                    "statoArrivo": "ricarica",
+                    "statoPartenza": "ricerca",
+                    "statoArrivo": "ricerca",
                     "etichettaRilevanza": "eps",
                     "etichettaOsservabilita": "eps",
                     "eventoIngresso": {
-                        "idEvento": "null",
-                        "link": ""
+                        "idEvento": "no_stop",
+                        "link": "I"
+                    },
+                    "eventiUscita": [
+                        {
+                            "idEvento": "started",
+                            "link": "O"
+                        }
+                    ]
+                },
+
+                {
+                    "idTransizione": "t5m",
+                    "statoPartenza": "fine",
+                    "statoArrivo": "attesa",
+                    "etichettaRilevanza": "eps",
+                    "etichettaOsservabilita": "eps",
+                    "eventoIngresso": {
+                        "idEvento": "annulla",
+                        "link": "I"
                     },
                     "eventiUscita": []
                 }
