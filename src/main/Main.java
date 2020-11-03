@@ -1220,11 +1220,8 @@ public class Main {
 		input.setDaOsservazione(true);
 		if ( ! spazioRilevanzaCalcolato ){
 			sr = gd.calcolaSpazioRilevanza(input);
-			input.setSr(sr);
 		}
-		else {
-			input.setSr(sr);
-		}
+		input.setSr(sr);
 		return gd.calcolaDizionario(input);
 	}
 
