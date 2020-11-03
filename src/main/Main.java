@@ -34,6 +34,7 @@ public class Main {
 
 
 	public static void main(String[] args) {
+		initCartelle();
 		MyMenu m = new MyMenu(Stringhe.TITOLO_INIZIALE, Stringhe.OPZIONI_MENU_CARICAMENTO, true);
 		int scelta = m.scegli();
 		while (scelta !=0) {
@@ -41,6 +42,15 @@ public class Main {
 			scelta = m.scegli();
 		}
 		System.out.println(Stringhe.PROGRAMMA_TERMINATO);
+	}
+
+	private static void initCartelle() {
+		//log; json--> oss, rete ; sessioni
+		Utility.initCartella(Stringhe.LOG_PATH);
+		Utility.initCartella(Stringhe.JSON_PATH_RETI);
+		Utility.initCartella(Stringhe.JSON_PATH_OSSERVAZIONI);
+		Utility.initCartella(Stringhe.SESSIONI_INTERE_PATH);
+
 	}
 
 	private static void gestisciCaricamentoIniziale(int scelta) {

@@ -2,6 +2,7 @@ package myLib;
 
 import gestore.GestoreInputOutput;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -53,5 +54,13 @@ public class Utility {
             estensione = new StringBuilder(matcher.group(0)).reverse().toString();
         }
         return estensione;
+    }
+
+
+    public static void initCartella(String path){
+        File cartella = new File(path);
+        if ( ! cartella.exists()){
+            cartella.mkdirs();
+        }
     }
 }

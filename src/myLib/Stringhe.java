@@ -11,10 +11,12 @@ public class Stringhe {
      *
      */
 
-    public static final String JSON_PATH = System.getProperty("user.dir")+ File.separator + "JSON";
+    public static final String BASE_FOLDER = System.getProperty("user.dir");
+
+    public static final String JSON_PATH = BASE_FOLDER+ File.separator + "JSON";
     public static final String JSON_PATH_RETI = JSON_PATH + File.separator + "rete";
     public static final String JSON_PATH_OSSERVAZIONI = JSON_PATH + File.separator + "osservazione";
-    public static final String LOG_PATH = System.getProperty("user.dir")+ File.separator + "log" + File.separator;
+    public static final String LOG_PATH = BASE_FOLDER+ File.separator + "log" + File.separator;
 
 
     public static final String FILE_LOG_COSTRUZIONE_DIZIONARIO = LOG_PATH + "log_costruzione_dizionario.txt";
@@ -26,8 +28,8 @@ public class Stringhe {
 
 
 
-    public static final String SAVES_PATH = System.getProperty("user.dir") + File.separator + "sessioni";
-    public static final String SAVES_FOLDER = System.getProperty("user.dir") + File.separator + "sessioni" + File.separator;
+    public static final String SAVES_PATH = BASE_FOLDER + File.separator + "sessioni";
+    public static final String SAVES_FOLDER = BASE_FOLDER + File.separator + "sessioni" + File.separator;
     public static final String SESSIONI_INTERE_PATH = SAVES_FOLDER + "intere";
     public static final String SESSIONI_INTERE_FOLDER = SAVES_FOLDER + "intere" + File.separator;
 

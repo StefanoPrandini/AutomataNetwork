@@ -22,13 +22,17 @@ public class ProvaT  {
 
     public static void main(String[] args) {
 
-        ArrayList<String> lol = new ArrayList<>();
+        File f = new File(System.getProperty("user.dir") + "/src/main");
 
-        for (int i = 0; i < 10; i++) {
-            lol.add(i + "");
+        System.out.println(f.listFiles().length);
+
+
+
+        File cartellaLog = new File(Stringhe.LOG_PATH);
+        if ( ! cartellaLog.exists()){
+            cartellaLog.mkdirs();
         }
 
-        System.out.println(lol.toString());
     }
 
 
