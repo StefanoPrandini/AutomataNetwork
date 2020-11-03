@@ -40,15 +40,21 @@ public class Dizionario extends Algoritmo implements Serializable {
 	@Override
 	public void run() {
 		if (inputOutput.isRicerca()){
+			setInizio(System.nanoTime());
 			ricerca(inputOutput.getOsservazioneLineareRicerca());
 			setRicerca(false);
+			setFine(System.nanoTime());
 		}
 		else if (inputOutput.isMonitoraggio()){
+			setInizio(System.nanoTime());
 			monitoraggio(inputOutput.getOsservazioneLineareMonitoraggio(), inputOutput.getSpazioRilevanza());
 			setMonitoraggio(false);
+			setFine(System.nanoTime());
 		}
 		else {
+			setInizio(System.nanoTime());
 			determinizzazioneSpazio(inputOutput.getSpazioRilevanza());
+			setFine(System.nanoTime());
 		}
 
 	}
@@ -516,5 +522,13 @@ public class Dizionario extends Algoritmo implements Serializable {
 		}
 		return  new StringBuilder().append(String.format(Stringhe.INFO_DIZIONARIO, getStatiDizionario().size(),numeroTransizioni)).toString();
 
+	}
+
+	public String logCostruzione(){
+		int numeroTransizioni = 0;
+		for (Set<Pair<String, StatoDizionario>> value : getMappaDizionario().values()) {
+			numeroTransizioni += value.size();
+		}
+		return  getStatiDizionario().size() + " stati " + numeroTransizioni + " transizioni";
 	}
 }

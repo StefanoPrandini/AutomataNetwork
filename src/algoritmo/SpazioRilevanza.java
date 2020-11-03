@@ -44,10 +44,14 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 	@Override
 	public void run(){
 		if (input.isDaOsservazione()){
+			setInizio(System.nanoTime());
 			creaSpazioRilevanzaDaOsservazione(input.getRete(), input.getOsservazione());
+			setFine(System.nanoTime());
 		}
 		else {
+			setInizio(System.nanoTime());
 			creaSpazioRilevanza(input.getRete());
+			setFine(System.nanoTime());
 		}
 	}
 	
@@ -364,6 +368,14 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 			numeroTransizioni += value.size();
 		}
 		return  new StringBuilder().append(String.format(Stringhe.INFO_SPAZIO_RILEVANZA, getStatiRilevanza().size(), numeroTransizioni)).toString();
+	}
+
+	public String log(){
+		int numeroTransizioni = 0;
+		for (List<Pair<Transizione, StatoRilevanzaRete>> value : getMappaStatoRilevanzaTransizioni().values()) {
+			numeroTransizioni += value.size();
+		}
+		return  getStatiRilevanza().size() + " stati " + numeroTransizioni + " transizioni";
 	}
 }
 

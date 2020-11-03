@@ -303,7 +303,7 @@ public class Stringhe {
     /**
      * Data, nome rete, compendio, tempo trascorso
      */
-    public static final String EVENTO_LOG = BelleStringhe.incornicia("%s, %s" + "\n" + "%s" + "\n" + "%s");
+    public static final String EVENTO_LOG = BelleStringhe.incornicia("%s\n%s\nProdotti: %s\nTempo di esecuzione: %s ns");
 
 
 }

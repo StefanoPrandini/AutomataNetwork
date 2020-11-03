@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static myLib.Utility.dataFormattata;
@@ -21,14 +22,13 @@ public class ProvaT  {
 
     public static void main(String[] args) {
 
-        long startTime = System.nanoTime();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        ArrayList<String> lol = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            lol.add(i + "");
         }
-        long stopTime = System.nanoTime();
-        System.out.println(stopTime - startTime);
+
+        System.out.println(lol.toString());
     }
 
 

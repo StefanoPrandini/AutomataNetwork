@@ -775,6 +775,7 @@ public class Main {
 			System.out.println(Stringhe.NESSUN_RISULTATO);
 		} else if (risultatoRicercaVuoto()){
 			System.out.println("WIP 753, risultato vuoto" + "\n" + osservazioneLineare + "\n" + decorazione);
+			//TODO CONTROLLARE ANCHE PER STAMPA LOG
 		}
 		else System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
 	}

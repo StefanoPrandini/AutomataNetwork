@@ -6,6 +6,8 @@ public abstract class Algoritmo implements Runnable {
     private boolean terminato = false;
     private boolean ricercaTerminata = false;
 
+    private long inizio;
+    private long fine;
 
     public void stop(){
         inInterruzione = true;
@@ -33,5 +35,25 @@ public abstract class Algoritmo implements Runnable {
 
     public boolean isRicercaTerminata(){
         return this.ricercaTerminata;
+    }
+
+    public long getInizio() {
+        return inizio;
+    }
+
+    public void setInizio(long inizio) {
+        this.inizio = inizio;
+    }
+
+    public long getFine() {
+        return fine;
+    }
+
+    public void setFine(long fine) {
+        this.fine = fine;
+    }
+
+    public long tempoEsecuzione(){
+        return getFine()-getInizio();
     }
 }

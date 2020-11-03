@@ -30,6 +30,7 @@ public class GestoreDizionari {
             thread.interrupt();
         }
         System.out.println(ed.buonFine());
+        GestoreFile.stampaLogAlgoritmoEstensione(inputOutput.getOsservazione().getNome(), ed.buonFine(), ed.tempoEsecuzione());
     }
 
     public void effettuaRicerca(GestoreInputOutput inputOutput, Dizionario dizionario){
@@ -50,7 +51,10 @@ public class GestoreDizionari {
             interrompiAlgoritmo(dizionario);
             thread.interrupt();
         }
+
         inputOutput.setRicerca(false);
+        GestoreFile.stampaLogAlgoritmoRicerca(inputOutput.getOsservazioneLineareRicerca(), dizionario.getDiagnosi(), dizionario.tempoEsecuzione());
+
     }
 
     public void effettuaMonitoraggioRevisione(GestoreInputOutput inputOutput, Dizionario dizionario){
@@ -74,6 +78,7 @@ public class GestoreDizionari {
             thread.interrupt();
         }
         inputOutput.setMonitoraggio(false);
+        GestoreFile.stampaLogAlgoritmoMonitoraggio(inputOutput.getOsservazioneLineareMonitoraggio(), inputOutput.getLogMonitoraggio(), dizionario.tempoEsecuzione());
     }
 
     public SpazioRilevanza calcolaSpazioRilevanza(GestoreInputOutput input) {
@@ -116,12 +121,14 @@ public class GestoreDizionari {
     public Dizionario ridenominaDizionario(Dizionario diz){
         diz.ridenominaStati();
         System.out.println(diz.compendio());
+        GestoreFile.stampaLogAlgoritmo(Stringhe.FILE_LOG_COSTRUZIONE_DIZIONARIO, diz.getInputOutput().getRete().getNome(), diz.logCostruzione(), diz.tempoEsecuzione());
         return diz;
     }
 
     public SpazioRilevanza ridenominaSpazio(SpazioRilevanza sr){
         sr.ridenominaStati();
         System.out.println(sr.compendio());
+        GestoreFile.stampaLogAlgoritmo(Stringhe.FILE_LOG_COSTRUZIONE_SPAZIO, sr.getNomeRete(), sr.log(), sr.tempoEsecuzione());
         return sr;
     }
 

@@ -1,10 +1,14 @@
 ---------------------------------------------------
-TITOLO, Mon Nov 02 22:54:11 CET 2020
-NOME_RETE
-COMPENDIO
+Data
+Nome osservazione usata
+Risultato
+Tempo di esecuzione
 ---------------------------------------------------
 ---------------------------------------------------
-TITOLO, Tue Nov 03 00:05:54 CET 2020
-NOME_RETE
-COMPENDIO
+mar, 3 nov 2020 01:42:53
+OsservazionePerEstensione
+Prodotti: Estensione andata a buon fine! (l'osservazione e' inerente a una o piu' traiettorie della rete)
+	Il dizionario ha 8 stati e 8 transizioni etichettate
+
+Tempo di esecuzione: 4929222 ns
 ---------------------------------------------------
