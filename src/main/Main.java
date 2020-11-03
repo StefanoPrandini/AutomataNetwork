@@ -45,7 +45,6 @@ public class Main {
 	}
 
 	private static void initCartelle() {
-		//log; json--> oss, rete ; sessioni
 		Utility.initCartella(Stringhe.LOG_PATH);
 		Utility.initCartella(Stringhe.JSON_PATH_RETI);
 		Utility.initCartella(Stringhe.JSON_PATH_OSSERVAZIONI);
