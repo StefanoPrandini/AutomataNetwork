@@ -785,9 +785,7 @@ public class Main {
 		if (decorazione.size() == 1){
 			Iterator<Set<String>> it = decorazione.iterator();
 			if (it.hasNext()){
-				if (it.next().isEmpty()){
-					return true;
-				}
+				return it.next().isEmpty();
 			}
 		}
 		return false;
@@ -913,9 +911,7 @@ public class Main {
 		File[] files = folder.listFiles();
 		boolean flag = false;
 		filesSessione = new ArrayList<>();
-		for (File file : files) {
-			filesSessione.add(file);
-		}
+		filesSessione.addAll(Arrays.asList(files));
 		if (filesSessione.size() > 0) flag = true;
 		return flag;
 	}
@@ -923,31 +919,34 @@ public class Main {
 	private static void caricaOggettoSerializzato(String estensioneFile, String filepath) throws Exception{
 		if (isNull(filepath)) throw new Exception(Stringhe.CARICAMENTO_ANNULLATO);
 		GestoreFile gf = new GestoreFile();
-		if (estensioneFile.equals(Stringhe.ESTENSIONE_RETE)){
-			System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
-			ra = (ReteAutomi) gf.caricaDaSessione(filepath);
+		switch (estensioneFile) {
+			case Stringhe.ESTENSIONE_RETE:
+				System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
+				ra = (ReteAutomi) gf.caricaDaSessione(filepath);
+				break;
+			case Stringhe.ESTENSIONE_SPAZIO:
+				System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
+				sr = (SpazioRilevanza) gf.caricaDaSessione(filepath);
+				break;
+			case Stringhe.ESTENSIONE_OSS_LIN_RIC:
+				System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
+				osservazioneLineareRicerca = (ArrayList<String>) gf.caricaDaSessione(filepath);
+				break;
+			case Stringhe.ESTENSIONE_OSS_LIN_MON:
+				System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
+				osservazioneLineareMonitoraggio = (ArrayList<String>) gf.caricaDaSessione(filepath);
+				break;
+			case Stringhe.ESTENSIONE_DIZ:
+				System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
+				diz = (Dizionario) gf.caricaDaSessione(filepath);
+				break;
+			case Stringhe.ESTENSIONE_AUTOMA_OSS:
+				System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
+				automaOss = (Automa) gf.caricaDaSessione(filepath);
+				break;
+			default:
+				throw new Exception(Stringhe.PROBLEMA_CARICAMENTO_ESTENSIONI);
 		}
-		else if (estensioneFile.equals(Stringhe.ESTENSIONE_SPAZIO)){
-			System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
-			sr = (SpazioRilevanza) gf.caricaDaSessione(filepath);
-		}
-		else if (estensioneFile.equals(Stringhe.ESTENSIONE_OSS_LIN_RIC)){
-			System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
-			osservazioneLineareRicerca = (ArrayList<String>) gf.caricaDaSessione(filepath);
-		}
-		else if (estensioneFile.equals(Stringhe.ESTENSIONE_OSS_LIN_MON)){
-			System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
-			osservazioneLineareMonitoraggio = (ArrayList<String>) gf.caricaDaSessione(filepath);
-		}
-		else if (estensioneFile.equals(Stringhe.ESTENSIONE_DIZ)){
-			System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
-			diz = (Dizionario) gf.caricaDaSessione(filepath);
-		}
-		else if (estensioneFile.equals(Stringhe.ESTENSIONE_AUTOMA_OSS)){
-			System.out.println(String.format(Stringhe.CARICAMENTO_IN_CORSO, filepath));
-			automaOss = (Automa) gf.caricaDaSessione(filepath);
-		}
-		else throw new Exception(Stringhe.PROBLEMA_CARICAMENTO_ESTENSIONI);
 	}
 
 	private static boolean caricaOsservazioneDaJSON() {
@@ -970,11 +969,6 @@ public class Main {
 		return true;
 	}
 
-	/**
-	 * metodo necessario solo per gestioneCaricamentoSpazioRilevanza(), di fatto consiste in una sezione di caricaFilesDaSessione
-	 * @return
-	 * @throws Exception
-	 */
 	private static SpazioRilevanza caricaSpazio() throws Exception {
 		String filepath = inserimentoFileSessione(Stringhe.ESTENSIONE_SPAZIO);
 		if (isNull(filepath)) throw new Exception(Stringhe.CARICAMENTO_ANNULLATO);
@@ -1015,9 +1009,6 @@ public class Main {
 	private static boolean rinominaFile(String path){
 		System.out.println(Stringhe.HAI_SCELTO + path);
 		String estensione = Utility.ottieniEstensione(path) + ".ser";
-		if (estensione.equals(Stringhe.STRINGA_VUOTA)){
-			return false;
-		}
 		String inputUtente = InputDati.leggiStringa(Stringhe.NUOVO_NOME);
 		if (inputUtente.trim().equals(Stringhe.STRINGA_VUOTA)){
 			return false;
@@ -1048,38 +1039,39 @@ public class Main {
 		String nome = baseFolder + dataFormattata() + estensioneFile;
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(nome)));
-			if (estensioneFile.equals(Stringhe.ESTENSIONE_RETE)){
-				oos.writeObject(ra);
-				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
-			}
-			else if (estensioneFile.equals(Stringhe.ESTENSIONE_SPAZIO)){
-				oos.writeObject(sr);
-				oos.close();
-				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
-			}
-			else if (estensioneFile.equals(Stringhe.ESTENSIONE_OSS_LIN_RIC)){
-				oos.writeObject(osservazioneLineareRicerca);
-				oos.close();
-				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
-			}
-			else if (estensioneFile.equals(Stringhe.ESTENSIONE_OSS_LIN_MON)){
-				oos.writeObject(osservazioneLineareMonitoraggio);
-				oos.close();
-				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
-			}
-			else if (estensioneFile.equals(Stringhe.ESTENSIONE_DIZ)){
-				oos.writeObject(diz);
-				oos.close();
-				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
-			}
-			else if (estensioneFile.equals(Stringhe.ESTENSIONE_AUTOMA_OSS)){
-				oos.writeObject(automaOss);
-				oos.close();
-				System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
-			}
-			else {
-				oos.close();
-				return false;
+			switch (estensioneFile) {
+				case Stringhe.ESTENSIONE_RETE:
+					oos.writeObject(ra);
+					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+					break;
+				case Stringhe.ESTENSIONE_SPAZIO:
+					oos.writeObject(sr);
+					oos.close();
+					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+					break;
+				case Stringhe.ESTENSIONE_OSS_LIN_RIC:
+					oos.writeObject(osservazioneLineareRicerca);
+					oos.close();
+					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+					break;
+				case Stringhe.ESTENSIONE_OSS_LIN_MON:
+					oos.writeObject(osservazioneLineareMonitoraggio);
+					oos.close();
+					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+					break;
+				case Stringhe.ESTENSIONE_DIZ:
+					oos.writeObject(diz);
+					oos.close();
+					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+					break;
+				case Stringhe.ESTENSIONE_AUTOMA_OSS:
+					oos.writeObject(automaOss);
+					oos.close();
+					System.out.println(String.format(Stringhe.SALVATAGGIO_OK, nome));
+					break;
+				default:
+					oos.close();
+					return false;
 			}
 		}
 		catch (Exception e){
@@ -1165,10 +1157,7 @@ public class Main {
 	}
 
 	private static boolean esistonoTerneRisultato() {
-		if (diz.getTerne().size() <= 1){
-			return false;
-		}
-		return true;
+		return diz.getTerne().size() > 1;
 	}
 
 	private static boolean gestioneCaricamentoSpazioRilevanzaDaSerializzazione() {
@@ -1203,11 +1192,8 @@ public class Main {
 		input.setDistanzaMax(dimensione);
 		if ( ! spazioRilevanzaCalcolato){
 			sr = gd.calcolaSpazioRilevanza(input);
-			input.setSr(sr);
 		}
-		else {
-			input.setSr(sr);
-		}
+		input.setSr(sr);
 		return gd.calcolaDizionario(input);
 	}
 
