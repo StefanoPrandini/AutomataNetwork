@@ -44,14 +44,6 @@ public class Main {
 		System.out.println(Stringhe.PROGRAMMA_TERMINATO);
 	}
 
-	private static void initCartelle() {
-		Utility.initCartella(Stringhe.LOG_PATH);
-		Utility.initCartella(Stringhe.JSON_PATH_RETI);
-		Utility.initCartella(Stringhe.JSON_PATH_OSSERVAZIONI);
-		Utility.initCartella(Stringhe.SESSIONI_INTERE_PATH);
-
-	}
-
 	private static void gestisciCaricamentoIniziale(int scelta) {
 
 		switch (scelta){
@@ -1236,6 +1228,13 @@ public class Main {
 		return gd.calcolaDizionario(input);
 	}
 
+	private static void initCartelle() {
+		Utility.initCartella(Stringhe.LOG_PATH);
+		Utility.initCartella(Stringhe.JSON_PATH_RETI);
+		Utility.initCartella(Stringhe.JSON_PATH_OSSERVAZIONI);
+		Utility.initCartella(Stringhe.SESSIONI_INTERE_PATH);
+
+	}
 
 
 
