@@ -1223,7 +1223,7 @@ public class Main {
 	}
 
 	private static boolean controllaSiaNomeValido(String ridenominazioneStato) {
-		if (ridenominazioneStato.matches("d[0-9]+") || ridenominazioneStato.matches("x[0-9]+")) return true;
+		if (ridenominazioneStato.matches("d|x[0-9]+")) return true;
 		return false;
 	}
 

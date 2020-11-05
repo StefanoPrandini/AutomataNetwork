@@ -22,9 +22,9 @@ public class ProvaT  {
 
     public static void main(String[] args) {
 
-        String s = "d0122111";
+        String s = "dx0122111";
 
-        if (s.matches("d[0-9]+")) System.out.println(true);
+        if (s.matches("d|x[0-9]+")) System.out.println(true);
 
         }
 
