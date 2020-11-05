@@ -46,3 +46,57 @@ Rete1
 Prodotti: 8 stati 8 transizioni
 Tempo di esecuzione: 3017139 ns
 ---------------------------------------------------
+---------------------------------------------------
+mer, 4 nov 2020 17:38:58
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 3848178 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 15:02:52
+Rete1
+Prodotti: 8 stati 8 transizioni
+Tempo di esecuzione: 3572989 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 15:16:59
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 4599764 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 15:28:03
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 2109873 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 15:59:01
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 3904370 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 16:01:07
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 4019474 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 16:02:52
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 4738279 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 16:14:27
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 4777686 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 16:16:35
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 5172565 ns
+---------------------------------------------------

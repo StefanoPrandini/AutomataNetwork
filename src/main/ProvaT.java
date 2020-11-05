@@ -22,18 +22,11 @@ public class ProvaT  {
 
     public static void main(String[] args) {
 
-        File f = new File(System.getProperty("user.dir") + "/src/main");
+        String s = "d0122111";
 
-        System.out.println(f.listFiles().length);
+        if (s.matches("d[0-9]+")) System.out.println(true);
 
-
-
-        File cartellaLog = new File(Stringhe.LOG_PATH);
-        if ( ! cartellaLog.exists()){
-            cartellaLog.mkdirs();
         }
-
-    }
 
 
 

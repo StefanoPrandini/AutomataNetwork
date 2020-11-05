@@ -689,16 +689,6 @@ public class Main {
 		}
 	}
 
-
-
-	/**
-	 *
-	 *
-	 *
-	 *
-	 *
-	 */
-
 	private static void gestisciInfoDizionario(int sceltaInfoDiz) {
 		//toString ridenominato, toString per info generiche
 		switch (sceltaInfoDiz){
@@ -728,7 +718,25 @@ public class Main {
 					System.out.println(String.format(Stringhe.INFO_COPPIE_I_O, s.getRidenominazione(), s.getIOtoString()));
 				}
 			}
+			case 4:{ // info su singolo stato
+				String ridenominazioneStato = InputDati.leggiStringa(Stringhe.INSERISCI_RIDENOMINAZIONE_STATO).trim();
+				if ( ! ridenominazioneStato.equals(Stringhe.STRINGA_VUOTA)){
+					if (controllaSiaNomeValido(ridenominazioneStato)){
+						System.out.println(diz.getInfoStatoDaRidenominazione(ridenominazioneStato));
+					}
+					else {
+						System.out.println(Stringhe.NON_VALIDO);
+						break;
+					}
+				}
+				break;
+			}
 		}
+	}
+
+	private static boolean controllaSiaNomeValido(String ridenominazioneStato) {
+		if (ridenominazioneStato.matches("d[0-9]+") || ridenominazioneStato.matches("x[0-9]+")) return true;
+		return false;
 	}
 
 	private static void gestisciInfoSpazioRilevanza(int sceltaInfoSpazioR) {

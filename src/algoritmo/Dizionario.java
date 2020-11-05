@@ -524,6 +524,38 @@ public class Dizionario extends Algoritmo implements Serializable {
 
 	}
 
+	public String getInfoStatoDaRidenominazione(String ridenominazione){
+		boolean esisteStato = false;
+		StringBuilder sb = new StringBuilder();
+		for (StatoDizionario statoDizionario : mappaDizionario.keySet()) {
+			if (statoDizionario.getRidenominazione().equals(ridenominazione)){
+
+				sb.append("\nStato del dizionario " + statoDizionario.getRidenominazione());
+				sb.append("\n\nChiusura silenziosa: {");
+				StringBuilder temp = new StringBuilder();
+				for (StatoRilevanzaRete statoRilevanzaRete : statoDizionario.getStatiRilevanza()) {
+					temp.append(statoRilevanzaRete.getRidenominazione() + ", ");
+				}
+				String s = temp.toString();
+				s = s.substring(0, s.length() -2);
+				sb.append(s + "}");
+				sb.append("\nDiagnosi stato: " + statoDizionario.getDiagnosi());
+				sb.append("\nTransizioni etichettate: {");
+				StringBuilder temp2 = new StringBuilder();
+				for (Pair<String, StatoDizionario> coppia : mappaDizionario.get(statoDizionario)) {
+					temp2.append(coppia.getKey() + " -> " + coppia.getValue().getRidenominazione() + ", ");
+				}
+				String s1 = temp2.toString();
+				s1 = s1.substring(0, s1.length() -2);
+				sb.append(s1 + "}");
+				esisteStato = true;
+			}
+		}
+		if (esisteStato) return sb.toString();
+		return String.format(Stringhe.NESSUNO_STATO, ridenominazione);
+	}
+
+
 	public String logCostruzione(){
 		int numeroTransizioni = 0;
 		for (Set<Pair<String, StatoDizionario>> value : getMappaDizionario().values()) {

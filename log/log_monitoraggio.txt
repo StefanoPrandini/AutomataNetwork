@@ -14,3 +14,65 @@ Prodotti: Prodotta terna alfa1: ({a1}, d1, [[]]) da o3
 		
 Tempo di esecuzione: 1869510 ns
 ---------------------------------------------------
+---------------------------------------------------
+mer, 4 nov 2020 17:40:59
+[o3]
+Prodotti: 
+Tempo di esecuzione: 862136 ns
+---------------------------------------------------
+---------------------------------------------------
+mer, 4 nov 2020 17:41:12
+[o3, o2]
+Prodotti: 
+Tempo di esecuzione: 62623 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 15:03:25
+[o3, o2]
+Prodotti: Prodotta terna alfa1: ({a1}, d1, [[]]) da o3
+		Prodotta terna alfa2: ({a2}, d2, [[r], [r, f], [f], []]) da o2
+		
+Tempo di esecuzione: 2480417 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 15:18:11
+[o1, o2]
+Prodotti: Prodotta terna alfa1: ({a23, a4, a7, a14, a2, a8}, d1, [[f1], [], [f3], [f1, f3]]) da o1
+		Prodotta terna alfa2: ({a48, a10, a26, a28, a38, a42, a41, a54, a27, a47, a61, a39, a18, a31}, d2, [[f1], [], [f3], [f1, f3]]) da o2
+		
+Tempo di esecuzione: 1579040 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 15:18:22
+[o1, o2, o1]
+Prodotti: Prodotta terna alfa1: ({a23, a4, a7, a14, a2, a8}, d1, [[f1], [], [f3], [f1, f3]]) da o1
+		Prodotta terna alfa2: ({a48, a10, a26, a28, a38, a42, a41, a54, a27, a47, a61, a39, a18, a31}, d2, [[f1], [], [f3], [f1, f3]]) da o2
+		Prodotta terna alfa3: ({a23, a57, a53, a51, a62}, d3, [[], [f1], [f3], [f1, f3]]) da o1
+		Terna alfa2 modificata dopo revisione: alfa2: ({a48, a10, a26, a28, a27, a47, a41, a54, a39, a18, a31, a38}, d2, [[], [f1], [f3]])
+		
+Tempo di esecuzione: 709397 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 15:18:33
+[o1, o2, o1, o2]
+Prodotti: Prodotta terna alfa1: ({a23, a4, a7, a14, a2, a8}, d1, [[f1], [], [f3], [f1, f3]]) da o1
+		Prodotta terna alfa2: ({a48, a10, a26, a28, a38, a42, a41, a54, a27, a47, a61, a39, a18, a31}, d2, [[f1], [], [f3], [f1, f3]]) da o2
+		Prodotta terna alfa3: ({a23, a57, a53, a51, a62}, d3, [[], [f1], [f3], [f1, f3]]) da o1
+		Terna alfa2 modificata dopo revisione: alfa2: ({a48, a10, a26, a28, a27, a47, a41, a54, a39, a18, a31, a38}, d2, [[], [f1], [f3]])
+		Prodotta terna alfa4: ({a61, a75, a73, a68, a72, a77}, d4, [[f1], [], [f3]]) da o2
+		
+Tempo di esecuzione: 749353 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 15:18:44
+[o1, o2, o1, o2, o1]
+Prodotti: Prodotta terna alfa1: ({a23, a4, a7, a14, a2, a8}, d1, [[f1], [], [f3], [f1, f3]]) da o1
+		Prodotta terna alfa2: ({a48, a10, a26, a28, a38, a42, a41, a54, a27, a47, a61, a39, a18, a31}, d2, [[f1], [], [f3], [f1, f3]]) da o2
+		Prodotta terna alfa3: ({a23, a57, a53, a51, a62}, d3, [[], [f1], [f3], [f1, f3]]) da o1
+		Terna alfa2 modificata dopo revisione: alfa2: ({a48, a10, a26, a28, a27, a47, a41, a54, a39, a18, a31, a38}, d2, [[], [f1], [f3]])
+		Prodotta terna alfa4: ({a61, a75, a73, a68, a72, a77}, d4, [[f1], [], [f3]]) da o2
+		Prodotta terna alfa5: ({a79}, d5, [[], [f1], [f3]]) da o1
+		Terna alfa4 modificata dopo revisione: alfa4: ({a75, a68, a72, a77}, d4, [[]])
+		
+Tempo di esecuzione: 749280 ns
+---------------------------------------------------

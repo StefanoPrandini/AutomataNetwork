@@ -68,6 +68,7 @@ public class Stringhe {
     public static final String MONITORAGGIO_IN_CORSO = "Monitoraggio e revisione nel dizionario in corso\n";
     public static final String ESTENSIONE_IN_CORSO = "Estensione del dizionario in corso\n";
     public static final String INSERISCI_PER_INTERROMPERE = "Inserisci '%s' per interrompere: ";
+    public static final String INSERISCI_RIDENOMINAZIONE_STATO = "\nInserisci il nome di uno stato del dizionario (es: d0), una stringa vuota per uscire:\n--> ";
     public static final String SEI_SICURO = "\nVuoi continuare comunque? s/n\n--> ";
     public static final String CARICAMENTO_ANNULLATO = "\nCaricamento annullato\n";
     public static final String CONTINUA_CALCOLO_DIZ = "\nContinua con il calcolo di un dizionario o il caricamento di un diverso spazio\n";
@@ -169,7 +170,8 @@ public class Stringhe {
     public static final String[] OPZIONI_INFO_DIZIONARIO = {
             "Vedi dettagli degli stati del dizionario",
             "Vedi ridenominazione del dizionario",
-            "Vedi informazioni su I/O"
+            "Vedi informazioni su I/O",
+            "Vedi dettagli di uno stato del dizionario"
     };
 
     public static final String[] OPZIONI_RICERCA_DIZIONARIO = {
@@ -263,6 +265,10 @@ public class Stringhe {
     public static final String ATTENZIONE_ELIMINARE = ATTENZIONE + "Procedendo non sara' possibile recuperare il file";
     public static final String NON_VALIDA = ATTENZIONE + "Non e' stata inserita una risposta valida\n";
     public static final String FILE_CORROTTO = ATTENZIONE + "Il file sembra essere corrotto";
+    public static final String NON_VALIDO = ATTENZIONE + "Input non valido!\n";
+    public static final String NESSUNO_STATO = "\nLo stato %s non e' presente nel dizionario\n";
+
+
 
 
     /**
