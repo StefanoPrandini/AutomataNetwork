@@ -734,11 +734,6 @@ public class Main {
 		}
 	}
 
-	private static boolean controllaSiaNomeValido(String ridenominazioneStato) {
-		if (ridenominazioneStato.matches("d[0-9]+") || ridenominazioneStato.matches("x[0-9]+")) return true;
-		return false;
-	}
-
 	private static void gestisciInfoSpazioRilevanza(int sceltaInfoSpazioR) {
 		switch (sceltaInfoSpazioR){
 			case 0: {//back
@@ -1226,6 +1221,12 @@ public class Main {
 		Utility.initCartella(Stringhe.SESSIONI_INTERE_PATH);
 
 	}
+
+	private static boolean controllaSiaNomeValido(String ridenominazioneStato) {
+		if (ridenominazioneStato.matches("d[0-9]+") || ridenominazioneStato.matches("x[0-9]+")) return true;
+		return false;
+	}
+
 
 
 
