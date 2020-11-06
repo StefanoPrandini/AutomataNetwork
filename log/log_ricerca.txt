@@ -58,3 +58,187 @@ gio, 5 nov 2020 15:28:15
 Prodotti: [[f1], []]
 Tempo di esecuzione: 52966 ns
 ---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:09:17
+[rewwerewr]
+Prodotti: [[f1], []]
+Tempo di esecuzione: 140482 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:15:52
+[12312312]
+Prodotti: 
+	L'osservazione lineare non corrisponde a nessuna traiettoria nella rete!
+Tempo di esecuzione: 118042 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:16:11
+[12312312, 111]
+Prodotti: 
+	L'osservazione lineare non corrisponde a nessuna traiettoria nella rete!
+Tempo di esecuzione: 179980 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:16:18
+[o1]
+Prodotti: [[f1], [f1, f3], [f3], []]
+Tempo di esecuzione: 85740 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:34:00
+[o1, o2, o1, o2, o1, o2]
+Prodotti: [[]]
+Tempo di esecuzione: 159889 (0 ore, 0minuti, 0secondi) ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:35:15
+[o1, o2, o1, o2, o1]
+Prodotti: [[], [f1], [f3]]
+Tempo di esecuzione: 249476 (0 ore, 0minuti, 0secondi) ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:36:05
+[o2]
+Prodotti: 
+	L'osservazione lineare non corrisponde a nessuna traiettoria nella rete!
+Tempo di esecuzione: 109205 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:36:24
+[o1, o2, o1, o2, o1, o2]
+Prodotti: [[]]
+Tempo di esecuzione: 144398 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:36:35
+[o1, o2, o1, o2, o1, o2, o1]
+Prodotti: [[]]
+Tempo di esecuzione: 128672 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:37:20
+[o1, o2, o1, o2, o1, o2, o1, o2]
+Prodotti: [[]]
+Tempo di esecuzione: 193778 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:38:40
+[o1, o2, o1, o2]
+Prodotti: [[], [f3], [f1]]
+Tempo di esecuzione: 188794 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:39:01
+[o1, o2, o1, o2, o1]
+Prodotti: [[], [f3], [f1]]
+Tempo di esecuzione: 221783 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:39:08
+[o1, o2, o1, o2, o1, o2]
+Prodotti: [[]]
+Tempo di esecuzione: 98872 ns
+---------------------------------------------------
+---------------------------------------------------
+gio, 5 nov 2020 17:39:18
+[o1, o2, o1, o2, o1, o2, o4]
+Prodotti: [[]]
+Tempo di esecuzione: 99331 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 18:14:00
+[o1, o2]
+Prodotti: [[f1], [f3], [f1, f3], []]
+Tempo di esecuzione: 521188532437 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 18:25:36
+[o1, o2, iuiuiuiu]
+Prodotti: [[f1], [f3], [f1, f3], []]
+Tempo di esecuzione: 675804883676 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 19:12:51
+[o1, o2]
+Prodotti: [[], [f1], [f3], [f1, f3]]
+Tempo di esecuzione: 1135602513887 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 19:14:28
+[o1, o2, uioiuoiuo]
+Prodotti: [[], [f1], [f3], [f1, f3]]
+Tempo di esecuzione: -31567487218 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 21:52:32
+[o1, o2]
+Prodotti: [[f3], [f1], [], [f1, f3]]
+Tempo di esecuzione: 78955542319 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 21:54:56
+[o1, o2, kjhrwerrw]
+Prodotti: [[f3], [f1], [], [f1, f3]]
+Tempo di esecuzione: 116596052397 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 22:14:40
+[o1, o2]
+Prodotti: [[f1], [], [f3], [f1, f3]]
+Tempo di esecuzione: 163833 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 22:14:47
+[o1, o2, sdaadsdsa]
+Prodotti: [[f1], [], [f3], [f1, f3]]
+Tempo di esecuzione: 185123 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 22:17:32
+[dsfs]
+Prodotti: 
+	L'osservazione lineare non corrisponde a nessuna traiettoria nella rete!
+Tempo di esecuzione: 205160 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 22:17:46
+[o1, o2, o1, o2]
+Prodotti: [[], [f1], [f3]]
+Tempo di esecuzione: 207955 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 22:17:57
+[o1, o2, o1, o2, fdssfdsf, fdsfdsfdsfds]
+Prodotti: [[], [f1], [f3]]
+Tempo di esecuzione: 114499 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 22:35:29
+[o1, o2]
+Prodotti: [[f1], [f3], [], [f1, f3]]
+Tempo di esecuzione: 168807 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 22:36:01
+[o1, o2, lol]
+Prodotti: 
+Attenzione!
+L'etichetta 'lol' dell'osservazione [o1, o2, lol] non e' presente nelle traiettorie del dizionario
+E' tuttavia presente un risultato parziale
+	Osservazione lineare parziale [o1, o2]
+	Etichetta non presente nelle traiettorie 'lol'
+	Ultima diagnosi rilevata [[f1], [f3], [], [f1, f3]]
+Tempo di esecuzione: 197559 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 22:36:41
+[o1, o2, lol, eee]
+Prodotti: 
+Attenzione!
+L'etichetta 'lol' dell'osservazione [o1, o2, lol, eee] non e' presente nelle traiettorie del dizionario
+E' tuttavia presente un risultato parziale
+	Osservazione lineare parziale [o1, o2]
+	Etichetta non presente nelle traiettorie 'lol'
+	Ultima diagnosi rilevata [[f1], [f3], [], [f1, f3]]
+Tempo di esecuzione: 102402 ns
+---------------------------------------------------

@@ -1,5 +1,6 @@
 package gestore;
 
+import algoritmo.Dizionario;
 import myLib.Stringhe;
 import parser.InputParser;
 import parser.OsservazioneParser;
@@ -9,7 +10,6 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 
 import static java.util.Objects.isNull;
 
@@ -22,8 +22,7 @@ public class GestoreFile {
 
     public ReteAutomi caricaReteDaJSON(String pathRete) throws Exception{
         InputParser ip = new InputParser(pathRete);
-        ReteAutomi ra = ip.parseRete();
-        return ra;
+        return ip.parseRete();
     }
 
     public Automa caricaOsservazioneDaJSON(String pathOss) throws Exception {
@@ -81,6 +80,8 @@ public class GestoreFile {
             try {
                 writer.close();
             } catch (Exception e) {
+                System.out.println(e.getMessage());
+
             }
         }
     }
@@ -106,17 +107,34 @@ public class GestoreFile {
             try {
                 writer.close();
             } catch (Exception e) {
+                System.out.println(e.getMessage());
+
             }
         }
     }
 
-    public static void stampaLogAlgoritmoRicerca(ArrayList<String> osservazioneLineare, Set<Set<String>> res, long tempoTrascorso){
+    public static void stampaLogAlgoritmoRicerca(Dizionario dizionario){
+        long tempoTrascorso = dizionario.tempoEsecuzione();
         BufferedWriter writer = null;
         String logDestinazione = Stringhe.FILE_LOG_RICERCA;
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
         Date ora = new Date();
+        String risultato;
 
-        String s = String.format(Stringhe.EVENTO_LOG, sdf.format(ora), osservazioneLineare.toString(), res.toString(), tempoTrascorso);
+
+        ArrayList<String> osservazioneLineare = dizionario.getInputOutput().getOsservazioneLineareRicerca();
+        //non ci sono risultati
+        if (isNull(dizionario.getDiagnosi()) && !dizionario.isRisultatoParziale()) {
+            risultato = Stringhe.NESSUN_RISULTATO;
+        } else if (dizionario.isRisultatoParziale()){
+            //c'e' un risultato parziale
+             risultato = String.format(Stringhe.RISULTATO_RICERCA_PARZIALE, dizionario.getOsservazioneLineareParziale(), dizionario.getEtichettaMancanteInRicerca(), dizionario.getDiagnosi());
+        }
+        else {
+
+            risultato = dizionario.getDiagnosi().toString();
+        }
+        String s = String.format(Stringhe.EVENTO_LOG, sdf.format(ora), osservazioneLineare.toString(), risultato, tempoTrascorso);
         try {
             writer = new BufferedWriter(new FileWriter(logDestinazione, esisteFileDaAppendere(logDestinazione)));
             writer.write(s);
@@ -126,6 +144,7 @@ public class GestoreFile {
             try {
                 writer.close();
             } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }

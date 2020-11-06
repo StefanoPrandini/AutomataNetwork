@@ -53,7 +53,7 @@ public class GestoreDizionari {
         }
 
         inputOutput.setRicerca(false);
-        GestoreFile.stampaLogAlgoritmoRicerca(inputOutput.getOsservazioneLineareRicerca(), dizionario.getDiagnosi(), dizionario.tempoEsecuzione());
+        GestoreFile.stampaLogAlgoritmoRicerca(dizionario);
 
     }
 

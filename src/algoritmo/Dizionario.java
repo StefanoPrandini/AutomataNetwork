@@ -27,7 +27,11 @@ public class Dizionario extends Algoritmo implements Serializable {
 	private LinkedList<Terna> terne;
 	private GestoreInputOutput inputOutput;
 	private Set<Set<String>> diagnosi;
-	
+	private String etichettaMancanteInRicerca;
+	private ArrayList<String> osservazioneLineareParziale;
+	private boolean risultatoParziale;
+
+
 	public Dizionario(GestoreInputOutput inputOutput) {
 		this.statiDizionario = new LinkedHashSet<>(); // insieme con elementi in ordine di inserimento
 		this.mappaDizionario = new LinkedHashMap<>(); // mappa con chiavi in ordine di inserimento
@@ -222,9 +226,12 @@ public class Dizionario extends Algoritmo implements Serializable {
 
 	public synchronized void ricerca(List<String> osservazioneLineare){
 		StatoDizionario statoCorrente = this.statoIniziale;
+		boolean found = false;
 		boolean trovatoQualcosa = false;
+		osservazioneLineareParziale = new ArrayList<>();
+
 		for(String etichetta : osservazioneLineare) {
-			boolean found = false;
+			found = false;
 			if (isInInterruzione()){
 				setRicercaTerminata(true);
 				break;
@@ -240,16 +247,19 @@ public class Dizionario extends Algoritmo implements Serializable {
 			for(Pair<String, StatoDizionario> transizioneOut : this.mappaDizionario.get(statoCorrente)) {
 				if(etichetta.equals(transizioneOut.getKey())) {
 					statoCorrente = transizioneOut.getValue();
+					if (! trovatoQualcosa) trovatoQualcosa = true;
 					diagnosi = statoCorrente.getDiagnosi();
-					if ( ! trovatoQualcosa) trovatoQualcosa = true;
 					found = true;
+					osservazioneLineareParziale.add(etichetta);
 					break;
 				}
+
 				if (isInInterruzione()){
 					this.setRicercaTerminata(true);
 					break;
 				}
 			}
+
 
 			/** PROVE INTERRUZIONE
 			try {
@@ -259,19 +269,32 @@ public class Dizionario extends Algoritmo implements Serializable {
 			}
 			 **/
 
-			//se non trovo qualcosa corrispondente all'etichetta
-			if(!found) {
+
+
+			//se non trovo qualcosa corrispondente all'etichetta, ma qualcosa ho trovato
+			if(!found && trovatoQualcosa) {
 				this.setRicercaTerminata(true);
-				System.out.println(Stringhe.RICERCA_COMPLETA);
+				etichettaMancanteInRicerca = etichetta;
 				break;
 			}
 		}
 
-		if ( ! isInInterruzione() && trovatoQualcosa){
+		if ( ! isInInterruzione()){
 			System.out.println(Stringhe.RICERCA_COMPLETA);
 		}
 		this.setRicercaTerminata(true);
-		diagnosi = statoCorrente.getDiagnosi();
+		//se ho trovato qualcosa, ma l'ultima iterazione sull'etichetta non è andata a buon fine
+		if (trovatoQualcosa && !found) {
+			risultatoParziale = true;
+		} else if(trovatoQualcosa && found){
+			// se ho trovato qualcosa ed ho terminato correttamente tutte le iterazioni
+			risultatoParziale = false; //nnon e' risultato parziale, ma completo
+		}
+		else {
+			//se non ho trovato nulla, mai
+			diagnosi = null;
+			risultatoParziale = false;
+		}
 	}
 	
 	
@@ -562,5 +585,17 @@ public class Dizionario extends Algoritmo implements Serializable {
 			numeroTransizioni += value.size();
 		}
 		return  getStatiDizionario().size() + " stati " + numeroTransizioni + " transizioni";
+	}
+
+	public String getEtichettaMancanteInRicerca() {
+		return etichettaMancanteInRicerca;
+	}
+
+	public ArrayList<String> getOsservazioneLineareParziale() {
+		return osservazioneLineareParziale;
+	}
+
+	public boolean isRisultatoParziale() {
+		return risultatoParziale;
 	}
 }

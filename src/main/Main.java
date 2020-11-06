@@ -775,11 +775,13 @@ public class Main {
 		gd.effettuaRicerca(inputOutput, diz);
 		decorazione = diz.getDiagnosi();
 		diz.setRicercaTerminata(false);
-		if (isNull(decorazione)){
+		if ( isNull(decorazione) && ! diz.isRisultatoParziale()){
+			//non è un risultato parziale e non c'è una diagnosi, quindi non ci sono risultati
 			System.out.println(Stringhe.NESSUN_RISULTATO);
-		} else if (risultatoRicercaVuoto()){
-			System.out.println("WIP 753, risultato vuoto" + "\n" + osservazioneLineare + "\n" + decorazione);
-			//TODO CONTROLLARE ANCHE PER STAMPA LOG
+		}else if ( diz.isRisultatoParziale() ){
+			// se ho trovato qualcosa, ma un'etichetta ad un certo punto è mancante
+			System.out.println(String.format(Stringhe.ATTENZIONE_RICERCA, diz.getEtichettaMancanteInRicerca(), osservazioneLineare));
+			System.out.println(String.format(Stringhe.RISULTATO_RICERCA_PARZIALE, diz.getOsservazioneLineareParziale(), diz.getEtichettaMancanteInRicerca(), decorazione));
 		}
 		else System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
 	}

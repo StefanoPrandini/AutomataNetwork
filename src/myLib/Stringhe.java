@@ -52,6 +52,7 @@ public class Stringhe {
     public static final String INSERIMENTO_OSSERVAZIONE = "Inserisci le etichette di un'osservazione lineare separandole con virgole " +
             "(es: o3, o4, act, cls), una stringa vuota per tornare indietro:\n-->";
     public static final String RISULTATO_RICERCA = "\n\tOsservazione lineare %s\n\tDiagnosi %s";
+    public static final String RISULTATO_RICERCA_PARZIALE = "\n\tOsservazione lineare parziale %s\n\tEtichetta non presente nelle traiettorie '%s'\n\tUltima diagnosi rilevata %s";
     public static final String NESSUN_RISULTATO = "\n\tL'osservazione lineare non corrisponde a nessuna traiettoria nella rete!";
     public static final String NESSUNO_SPAZIO_RILEVANZA = "Nessuno spazio di rilevanza rilevato, non e' possibile proseguire";
     public static final String INFO_I_O = "\tStato %s -> Input: %s, Output: %s";
@@ -267,6 +268,7 @@ public class Stringhe {
     public static final String FILE_CORROTTO = ATTENZIONE + "Il file sembra essere corrotto";
     public static final String NON_VALIDO = ATTENZIONE + "Input non valido!\n";
     public static final String NESSUNO_STATO = "\nLo stato %s non e' presente nel dizionario\n";
+    public static final String ATTENZIONE_RICERCA = ATTENZIONE + "L'etichetta '%s' dell'osservazione %s non e' presente nelle traiettorie del dizionario\nE' tuttavia presente un risultato parziale";
 
 
 
