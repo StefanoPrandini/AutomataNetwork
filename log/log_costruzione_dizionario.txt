@@ -167,3 +167,51 @@ Benchmark
 Prodotti: 7 stati 6 transizioni
 Tempo di esecuzione: 3786112 ns
 ---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 23:48:25
+Rete1
+Prodotti: 8 stati 8 transizioni
+Tempo di esecuzione: 4201684 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 23:48:57
+Rete1
+Prodotti: 8 stati 8 transizioni
+Tempo di esecuzione: 2737673 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:16:23
+AltraRete
+Prodotti: 24 stati 32 transizioni
+Tempo di esecuzione: 5892361 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:21:47
+AltraRete
+Prodotti: 24 stati 32 transizioni
+Tempo di esecuzione: 4766026 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:23:51
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 3847835 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:24:41
+Rete1
+Prodotti: 8 stati 8 transizioni
+Tempo di esecuzione: 3272141 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:26:44
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 3938207 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:29:37
+Interazione
+Prodotti: 0 stati 0 transizioni
+Tempo di esecuzione: -236555661737679 ns
+---------------------------------------------------

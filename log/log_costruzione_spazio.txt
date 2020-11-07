@@ -172,3 +172,69 @@ Benchmark
 Prodotti: 85 stati 154 transizioni
 Tempo di esecuzione: 505230810 ns
 ---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 23:48:11
+Rete1
+Prodotti: 28 stati 34 transizioni
+Tempo di esecuzione: 77926279 ns
+---------------------------------------------------
+---------------------------------------------------
+ven, 6 nov 2020 23:48:56
+Rete1
+Prodotti: 28 stati 34 transizioni
+Tempo di esecuzione: 79436216 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:16:21
+AltraRete
+Prodotti: 48 stati 60 transizioni
+Tempo di esecuzione: 72887348 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:21:46
+AltraRete
+Prodotti: 48 stati 60 transizioni
+Tempo di esecuzione: 69999393 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:23:29
+Benchmark
+Prodotti: 85 stati 154 transizioni
+Tempo di esecuzione: 447164677 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:24:31
+Rete1
+Prodotti: 28 stati 34 transizioni
+Tempo di esecuzione: 76070770 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:26:42
+Benchmark
+Prodotti: 85 stati 154 transizioni
+Tempo di esecuzione: 484131906 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:29:16
+Interazione
+Prodotti: 11 stati 15 transizioni
+Tempo di esecuzione: 64083205 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:31:23
+Interazione
+Prodotti: 11 stati 15 transizioni
+Tempo di esecuzione: 76410379 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:33:24
+Interazione
+Prodotti: 11 stati 15 transizioni
+Tempo di esecuzione: 71756759 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 7 nov 2020 00:39:51
+Interazione
+Prodotti: 11 stati 15 transizioni
+Tempo di esecuzione: 67619787 ns
+---------------------------------------------------

@@ -554,7 +554,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 			if (statoDizionario.getRidenominazione().equals(ridenominazione)){
 
 				sb.append("\nStato del dizionario " + statoDizionario.getRidenominazione());
-				sb.append("\n\nChiusura silenziosa: {");
+				sb.append("\n\nStati di rilevanza: {");
 				StringBuilder temp = new StringBuilder();
 				for (StatoRilevanzaRete statoRilevanzaRete : statoDizionario.getStatiRilevanza()) {
 					temp.append(statoRilevanzaRete.getRidenominazione() + ", ");
