@@ -18,7 +18,6 @@ public class StatoRilevanzaRete implements Serializable {
     private String ridenominazione;
     private int distanza;
     private Stato statoOsservazione;
-    private boolean inEccesso = false;
 
     /**
      * Crea uno stato partendo dalla rete di automi
@@ -64,15 +63,6 @@ public class StatoRilevanzaRete implements Serializable {
         for (Automa automa : automi) {
             statiCorrentiAutomi.add(new Pair<>(automa.getNome(), automa.getStatoCorrente().getNome()));
         }
-    }
-
-    /**
-     * decorazione e' un insieme (set): add aggiunge etichetta solo se non e' gia' presente
-     * @param  etichetta String
-     */
-    public void addEtichettaRilevanzaToDecorazione(String etichetta){
-        this.decorazione.add(etichetta);
-
     }
     
     
@@ -192,12 +182,4 @@ public class StatoRilevanzaRete implements Serializable {
 		this.statoOsservazione = statoOsservazione;
 	}
 
-
-    public boolean isInEccesso() {
-        return inEccesso;
-    }
-
-    public void setInEccesso(boolean inEccesso) {
-        this.inEccesso = inEccesso;
-    }
 }

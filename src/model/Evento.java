@@ -19,9 +19,6 @@ public class Evento implements Serializable {
 		this.link = link;
 	}
 
-	public int getId() {
-		return id;
-	}
 
 	public Link getLink() {
 		return link;
@@ -29,11 +26,6 @@ public class Evento implements Serializable {
 	
 	public String getNome() {
 		return nome;
-	}
-
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public void setLink(Link link) {

@@ -123,21 +123,6 @@ public class Automa implements Serializable {
 	}
 
 
-	/**
-	 * se non trova transizione ritorna null --> non sarebbe meglio lanciare eccezione ?
-	 * @param idTransizione
-	 * @return Transizione con id OR null
-	 */
-	public Transizione trovaTransizioneDaId(Integer idTransizione){
-		for (List<Transizione> transizioni : mappaStatoTransizioni.values()) {
-			for (Transizione transizione : transizioni) {
-				if (transizione.getId() == idTransizione) return transizione;
-			}
-		}
-		return null;
-	}
-
-
 	public String getNome() {
 		return nome;
 	}

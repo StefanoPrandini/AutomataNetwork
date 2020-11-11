@@ -140,10 +140,6 @@ public class ReteAutomi implements Serializable {
 	}
 
 
-	public void svolgiTransizioneDaId(int idAutoma, int idTransizione){
-		svolgiTransizione(trovaAutoma(idAutoma).trovaTransizioneDaId(idTransizione));
-	}
-
 	/**
 	 * porta automi della rete allo stato iniziale
 	 */
@@ -177,29 +173,12 @@ public class ReteAutomi implements Serializable {
 				.orElse(null);
 	}
 	
-	public Link trovaLink(int id) {
-		return links.stream()
-				.filter(link -> id == link.getId())
-				.findAny()
-				.orElse(null);
-	}
-	
 	public Link trovaLink(String nome) {
 		return links.stream()
 				.filter(link -> nome == link.getNome())
 				.findAny()
 				.orElse(null);
 	}
-
-	
-	public ArrayList<Transizione> transizioniAbilitateDaIdAutoma(int idAutoma){
-		ArrayList<Transizione> result = new ArrayList<>();
-		Automa a = trovaAutoma(idAutoma);
-		if (isNull(a)) return null;
-		result.addAll(mappaAutomiTransizioniAbilitate.get(a));
-		return result;
-	}
-	
 	
 	/**
 	 * Porta la rete di automi nella situazione descritta dallo stato di rilevanza (statiCorrenti degli automi ed eventi sui link)

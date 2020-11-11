@@ -37,7 +37,6 @@ public class Stato implements Serializable {
 	
 	@Override
 	public boolean equals(Object o) {
-		System.out.println("bbb");
         if (this == o) return true;
         if (!(o instanceof Stato)) return false;
         Stato that = (Stato) o;

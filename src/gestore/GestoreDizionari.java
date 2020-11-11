@@ -13,7 +13,6 @@ public class GestoreDizionari {
 
     public void estensioneDizionario(GestoreInputOutput inputOutput){
 
-        //TODO WIP, attendere risposte di ste su estensione
         EstendiDizionario ed = new EstendiDizionario(inputOutput);
 
         Thread thread = new Thread(ed);

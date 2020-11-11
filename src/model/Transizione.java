@@ -62,10 +62,6 @@ public class Transizione implements Serializable {
 	public ArrayList<Evento> getEventiUscita() {
 		return eventiUscita;
 	}
-
-	public int getId() {
-		return id;
-	}
 	
 	public String getNome() {
 		return nome;
@@ -136,19 +132,6 @@ public class Transizione implements Serializable {
 				", stato arrivo: " + statoArrivo.getNome() +
 				", evento in ingresso: null" +
 				")}";
-	}
-
-
-	public String toStringCompleto() {
-		return "Transizione{" +
-				"id=" + id +
-				", statoPartenza=" + statoPartenza +
-				", statoArrivo=" + statoArrivo +
-				", eventoIngresso=" + eventoIngresso +
-				", eventiUscita=" + eventiUscita +
-				", etichettaRilevanza='" + etichettaRilevanza + '\'' +
-				", etichettaOsservabilita='" + etichettaOsservabilita + '\'' +
-				'}';
 	}
 	
 	
