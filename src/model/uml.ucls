@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="model.StatoDizionario" project="ASD" file="/ASD/src/model/StatoDizionario.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="449" y="594"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="model.ReteAutomi" project="ASD" file="/ASD/src/model/ReteAutomi.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="721" y="53"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="model.StatoRilevanzaRete" project="ASD" 
+    file="/ASD/src/model/StatoRilevanzaRete.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="455" y="411"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="model.Stato" project="ASD" file="/ASD/src/model/Stato.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="814" y="409"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="model.Terna" project="ASD" file="/ASD/src/model/Terna.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="85" y="594"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="model.Indice" project="ASD" file="/ASD/src/model/Indice.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="814" y="596"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="model.Transizione" project="ASD" file="/ASD/src/model/Transizione.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1071" y="411"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="model.Automa" project="ASD" file="/ASD/src/model/Automa.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="515" y="198"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="model.Link" project="ASD" file="/ASD/src/model/Link.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="908" y="199"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="model.Evento" project="ASD" file="/ASD/src/model/Evento.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1078" y="203"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="false"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <association id="11">    
+    <bendpoint x="252" y="413"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="12" name="insiemeI">        
+        <position height="0" width="0" x="-20" y="-176"/>      
+      </attribute>      
+      <multiplicity id="13" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-20" y="-176"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="14">    
+    <bendpoint x="940" y="430"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="15" name="statoArrivo">        
+        <position height="18" width="62" x="902" y="433"/>      
+      </attribute>      
+      <multiplicity id="16" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-12" y="2"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="17">    
+    <bendpoint x="1042" y="293"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="18" name="eventoIngresso">        
+        <position height="18" width="83" x="971" y="282"/>      
+      </attribute>      
+      <multiplicity id="19" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="20">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="21" name="input">        
+        <position height="18" width="31" x="418" y="519"/>      
+      </attribute>      
+      <multiplicity id="22" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-20" y="-176"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="23">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="24" name="statoOsservazione">        
+        <position height="18" width="100" x="612" y="394"/>      
+      </attribute>      
+      <multiplicity id="25" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-12" y="2"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="26">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="27" name="statoDizionario">        
+        <position height="0" width="0" x="91" y="208"/>      
+      </attribute>      
+      <multiplicity id="28" minimum="0" maximum="1">        
+        <position height="0" width="0" x="91" y="208"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="29">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="30" name="stato">        
+        <position height="0" width="0" x="-12" y="2"/>      
+      </attribute>      
+      <multiplicity id="31" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-12" y="2"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="32">    
+    <bendpoint x="780" y="289"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="33" name="statoCorrente">        
+        <position height="18" width="74" x="738" y="289"/>      
+      </attribute>      
+      <multiplicity id="34" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-12" y="2"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="35">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="36" name="links">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="37" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="38">    
+    <bendpoint x="994" y="231"/>    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="39" name="link">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="40" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="41">    
+    <bendpoint x="842" y="272"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <association id="42">    
+    <bendpoint x="768" y="219"/>    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="43" name="automaArrivo">        
+        <position height="18" width="73" x="732" y="221"/>      
+      </attribute>      
+      <multiplicity id="44" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-36" y="-31"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="46" name="automi">        
+        <position height="0" width="0" x="-36" y="-31"/>      
+      </attribute>      
+      <multiplicity id="47" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-36" y="-31"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="48">    
+    <bendpoint x="988" y="177"/>    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="49" name="evento">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="50" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <bendpoint x="381" y="507"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="52" name="output">        
+        <position height="18" width="38" x="351" y="522"/>      
+      </attribute>      
+      <multiplicity id="53" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-20" y="-176"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="54">    
+    <bendpoint x="941" y="391"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="55" name="statoPartenza">        
+        <position height="18" width="75" x="899" y="370"/>      
+      </attribute>      
+      <multiplicity id="56" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-12" y="2"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="57">    
+    <bendpoint x="785" y="182"/>    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="58" name="automaPartenza">        
+        <position height="18" width="86" x="727" y="164"/>      
+      </attribute>      
+      <multiplicity id="59" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-36" y="-31"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="60">    
+    <bendpoint x="516" y="506"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="61" name="statiRilevanza">        
+        <position height="18" width="75" x="507" y="519"/>      
+      </attribute>      
+      <multiplicity id="62" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-20" y="-176"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="63">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="64" name="indici">        
+        <position height="0" width="0" x="209" y="233"/>      
+      </attribute>      
+      <multiplicity id="65" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="209" y="233"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="66">    
+    <bendpoint x="1110" y="302"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="67" name="eventiUscita">        
+        <position height="18" width="67" x="1107" y="285"/>      
+      </attribute>      
+      <multiplicity id="68" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="69">    
+    <bendpoint x="671" y="312"/>    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="70" name="statoIniziale">        
+        <position height="18" width="64" x="658" y="320"/>      
+      </attribute>      
+      <multiplicity id="71" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-12" y="2"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="false" initial-value="false" signature="false" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="false"/>    
+    <operations public="false" package="false" protected="false" private="false" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
