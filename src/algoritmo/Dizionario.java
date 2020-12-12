@@ -470,6 +470,9 @@ public class Dizionario extends Algoritmo implements Serializable {
  				sb.append("[" + transizione.getKey() + " -> " + transizione.getValue() + "], "); 
  				togliVirgola = true;
 			}
+			if (mappaDizionario.get(s).isEmpty()){
+				sb.append("stato finale");
+			}
  			if(togliVirgola) {
 				sb.setLength(sb.length() - 2); // togliere virgola
 			}
@@ -490,6 +493,9 @@ public class Dizionario extends Algoritmo implements Serializable {
 			for(Pair<String, StatoDizionario> transizione : mappaDizionario.get(s)) {
  				sb.append("[" + transizione.getKey() + " -> " + transizione.getValue().getRidenominazione() + "], "); 
  				togliVirgola = true;
+			}
+			if (mappaDizionario.get(s).isEmpty()){
+				sb.append("stato finale");
 			}
 //			sb.append(" | Diagnosi: " + s.getDiagnosi());
 			if(togliVirgola) {

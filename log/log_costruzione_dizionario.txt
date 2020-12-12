@@ -551,3 +551,45 @@ Interazione
 Prodotti: 5 stati 11 transizioni
 Tempo di esecuzione: 9477523 ns
 ---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 17:28:35
+Interazione
+Prodotti: 4 stati 7 transizioni
+Tempo di esecuzione: 3883134 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 17:31:30
+Rete1
+Prodotti: 8 stati 8 transizioni
+Tempo di esecuzione: 3168047 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 17:32:17
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 1992227 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 18:00:24
+Interazione
+Prodotti: 4 stati 7 transizioni
+Tempo di esecuzione: 748676 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 18:13:13
+Interazione
+Prodotti: 5 stati 8 transizioni
+Tempo di esecuzione: 4121141 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 18:18:08
+Interazione
+Prodotti: 5 stati 8 transizioni
+Tempo di esecuzione: 3708191 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 18:20:39
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 4058964 ns
+---------------------------------------------------

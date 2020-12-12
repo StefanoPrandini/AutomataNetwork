@@ -262,7 +262,7 @@
                     "statoPartenza": "ricerca",
                     "statoArrivo": "fine",
                     "etichettaRilevanza": "crash",
-                    "etichettaOsservabilita": "eps",
+                    "etichettaOsservabilita": "crash",
                     "eventoIngresso": {
                         "idEvento": "no_stop",
                         "link": "I"

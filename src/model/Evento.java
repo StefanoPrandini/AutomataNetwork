@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Evento implements Serializable {
@@ -41,10 +42,18 @@ public class Evento implements Serializable {
 	}
 
 
-	//overload
-	public boolean equals(Evento o) {
-		if(o == null) return false;
-		return this.nome.equals(o.getNome());
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Evento)) return false;
+		Evento evento = (Evento) o;
+		return getNome().equals(evento.getNome()) &&
+				getLink().equals(evento.getLink());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getNome(), getLink());
 	}
 
 	@Override

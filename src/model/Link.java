@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import static java.util.Objects.isNull;
 
@@ -71,15 +72,19 @@ public class Link implements Serializable {
 				'}';
 	}
 
-
-	//overload
-	public int getId() {
-		return id;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Link)) return false;
+		Link link = (Link) o;
+		return getNome().equals(link.getNome()) &&
+				getAutomaPartenza().equals(link.getAutomaPartenza()) &&
+				getAutomaArrivo().equals(link.getAutomaArrivo());
 	}
 
-
-	public boolean equals(Link link) {
-		return getId() == link.getId();
+	@Override
+	public int hashCode() {
+		return Objects.hash(getNome(), getAutomaPartenza(), getAutomaArrivo());
 	}
 
 	public Automa getAutomaPartenza() {
