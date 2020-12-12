@@ -242,3 +242,21 @@ E' tuttavia presente un risultato parziale
 	Ultima diagnosi rilevata [[f1], [f3], [], [f1, f3]]
 Tempo di esecuzione: 102402 ns
 ---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 15:31:18
+[inizio ricerca]
+Prodotti: [[], [problema ricerca]]
+Tempo di esecuzione: 209382 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 15:33:48
+[inizio ricerca, interruzione]
+Prodotti: [[]]
+Tempo di esecuzione: 347654 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 15:35:15
+[inizio ricerca, interruzione, inizio ricerca]
+Prodotti: [[], [problema ricerca]]
+Tempo di esecuzione: 95210 ns
+---------------------------------------------------

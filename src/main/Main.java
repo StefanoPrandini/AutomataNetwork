@@ -717,6 +717,7 @@ public class Main {
 				for(StatoDizionario s : diz.getMappaDizionario().keySet()) {
 					System.out.println(String.format(Stringhe.INFO_COPPIE_I_O, s.getRidenominazione(), s.getIOtoString()));
 				}
+				break;
 			}
 			case 4:{ // info su singolo stato
 				String ridenominazioneStato = InputDati.leggiStringa(Stringhe.INSERISCI_RIDENOMINAZIONE_STATO).trim();
@@ -1225,7 +1226,7 @@ public class Main {
 	}
 
 	private static boolean controllaSiaNomeValido(String ridenominazioneStato) {
-		if (ridenominazioneStato.matches("d|x[0-9]+")) return true;
+		if (ridenominazioneStato.matches("[dx][0-9]+")) return true;
 		return false;
 	}
 

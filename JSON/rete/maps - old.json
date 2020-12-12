@@ -134,19 +134,6 @@
                             "link": "I"
                         }
                     ]
-                },
-
-                {
-                    "idTransizione": "t7u",
-                    "statoPartenza": "attesa",
-                    "statoArrivo": "fine",
-                    "etichettaRilevanza": "eps",
-                    "etichettaOsservabilita": "eps",
-                    "eventoIngresso": {
-                        "idEvento": "crash",
-                        "link": "O"
-                    },
-                    "eventiUscita": []
                 }
             ]
         },
@@ -181,8 +168,8 @@
                     "idTransizione": "t1m",
                     "statoPartenza": "ricerca",
                     "statoArrivo": "attesa",
-                    "etichettaRilevanza": "eps",
-                    "etichettaOsservabilita": "nessun risultato",
+                    "etichettaRilevanza": "problema ricerca",
+                    "etichettaOsservabilita": "eps",
                     "eventoIngresso": {
                         "idEvento": "no_stop",
                         "link": "I"
@@ -255,24 +242,6 @@
                         "link": "I"
                     },
                     "eventiUscita": []
-                },
-
-                {
-                    "idTransizione": "t6m",
-                    "statoPartenza": "ricerca",
-                    "statoArrivo": "fine",
-                    "etichettaRilevanza": "crash",
-                    "etichettaOsservabilita": "eps",
-                    "eventoIngresso": {
-                        "idEvento": "no_stop",
-                        "link": "I"
-                    },
-                    "eventiUscita": [
-                        {
-                            "idEvento": "crash",
-                            "link": "O"
-                        }
-                    ]
                 }
             ]
         }

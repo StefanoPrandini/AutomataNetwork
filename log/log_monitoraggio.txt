@@ -82,3 +82,65 @@ gio, 5 nov 2020 17:16:31
 Prodotti: 
 Tempo di esecuzione: 977627 ns
 ---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 15:45:43
+[inizio ricerca]
+Prodotti: Prodotta terna alfa1: ({a2}, d1, [[], [problema ricerca]]) da inizio ricerca
+		Terna alfa0 modificata dopo revisione: alfa0: ({a0}, d0, [[]])
+		
+Tempo di esecuzione: 7315352 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 15:46:41
+[inizio ricerca, interruzione, inizio ricerca, ricerca..., ricerca..., interruzione, inizio ricerca]
+Prodotti: Prodotta terna alfa1: ({a2}, d1, [[], [problema ricerca]]) da inizio ricerca
+		Terna alfa0 modificata dopo revisione: alfa0: ({a0}, d0, [[]])
+		Prodotta terna alfa2: ({a0}, d0, [[]]) da interruzione
+		Prodotta terna alfa3: ({a2}, d1, [[], [problema ricerca]]) da inizio ricerca
+		Prodotta terna alfa4: ({a7}, d2, [[], [problema ricerca]]) da ricerca...
+		Prodotta terna alfa5: ({a7}, d2, [[], [problema ricerca]]) da ricerca...
+		Prodotta terna alfa6: ({a0}, d0, [[]]) da interruzione
+		Prodotta terna alfa7: ({a2}, d1, [[], [problema ricerca]]) da inizio ricerca
+		
+Tempo di esecuzione: 770765 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 15:47:11
+[inizio ricerca, interruzione, inizio ricerca, ricerca..., ricerca..., interruzione, inizio ricerca, conclusione ricerca]
+Prodotti: Prodotta terna alfa1: ({a2}, d1, [[], [problema ricerca]]) da inizio ricerca
+		Terna alfa0 modificata dopo revisione: alfa0: ({a0}, d0, [[]])
+		Prodotta terna alfa2: ({a0}, d0, [[]]) da interruzione
+		Prodotta terna alfa3: ({a2}, d1, [[], [problema ricerca]]) da inizio ricerca
+		Prodotta terna alfa4: ({a7}, d2, [[], [problema ricerca]]) da ricerca...
+		Prodotta terna alfa5: ({a7}, d2, [[], [problema ricerca]]) da ricerca...
+		Prodotta terna alfa6: ({a0}, d0, [[]]) da interruzione
+		Prodotta terna alfa7: ({a2}, d1, [[], [problema ricerca]]) da inizio ricerca
+		Prodotta terna alfa8: ({a6}, d4, [[]]) da conclusione ricerca
+		
+Tempo di esecuzione: 763259 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 15:47:44
+[inizio ricerca, conclusione]
+Prodotti: Prodotta terna alfa1: ({a2}, d1, [[], [problema ricerca]]) da inizio ricerca
+		Terna alfa0 modificata dopo revisione: alfa0: ({a0}, d0, [[]])
+		
+Tempo di esecuzione: 220049 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 15:48:09
+[inizio ricerca]
+Prodotti: Prodotta terna alfa1: ({a2}, d1, [[], [problema ricerca]]) da inizio ricerca
+		Terna alfa0 modificata dopo revisione: alfa0: ({a0}, d0, [[]])
+		
+Tempo di esecuzione: 203061 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 15:48:19
+[inizio ricerca, conclusione ricerca]
+Prodotti: Prodotta terna alfa1: ({a2}, d1, [[], [problema ricerca]]) da inizio ricerca
+		Terna alfa0 modificata dopo revisione: alfa0: ({a0}, d0, [[]])
+		Prodotta terna alfa2: ({a6}, d4, [[]]) da conclusione ricerca
+		
+Tempo di esecuzione: 291555 ns
+---------------------------------------------------

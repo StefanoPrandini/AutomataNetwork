@@ -526,3 +526,51 @@ AltraRete
 Prodotti: 48 stati 60 transizioni
 Tempo di esecuzione: 70648515 ns
 ---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 15:29:13
+Rete1
+Prodotti: 28 stati 34 transizioni
+Tempo di esecuzione: 254607996 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 15:30:00
+Interazione
+Prodotti: 21 stati 29 transizioni
+Tempo di esecuzione: 4907848 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 15:59:37
+Interazione
+Prodotti: 25 stati 33 transizioni
+Tempo di esecuzione: 8536487 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 16:02:31
+Interazione
+Prodotti: 13 stati 17 transizioni
+Tempo di esecuzione: 1296591 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 16:14:53
+Interazione
+Prodotti: 13 stati 17 transizioni
+Tempo di esecuzione: 113257787 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 16:20:45
+Interazione
+Prodotti: 13 stati 17 transizioni
+Tempo di esecuzione: 138434261 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 16:22:13
+Interazione
+Prodotti: 21 stati 29 transizioni
+Tempo di esecuzione: 7406611 ns
+---------------------------------------------------
+---------------------------------------------------
+sab, 12 dic 2020 16:24:16
+Interazione
+Prodotti: 13 stati 17 transizioni
+Tempo di esecuzione: 130019058 ns
+---------------------------------------------------
