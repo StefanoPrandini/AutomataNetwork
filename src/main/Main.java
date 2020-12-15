@@ -723,6 +723,7 @@ public class Main {
 				String ridenominazioneStato = InputDati.leggiStringa(Stringhe.INSERISCI_RIDENOMINAZIONE_STATO).trim();
 				if ( ! ridenominazioneStato.equals(Stringhe.STRINGA_VUOTA)){
 					if (controllaSiaNomeValido(ridenominazioneStato)){
+						System.out.println(ridenominazioneStato + " in analisi");
 						System.out.println(diz.getInfoStatoDaRidenominazione(ridenominazioneStato));
 					}
 					else {

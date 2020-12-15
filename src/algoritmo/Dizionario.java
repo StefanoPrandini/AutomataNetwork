@@ -570,13 +570,16 @@ public class Dizionario extends Algoritmo implements Serializable {
 				sb.append(s + "}");
 				sb.append("\nDiagnosi stato: " + statoDizionario.getDiagnosi());
 				sb.append("\nTransizioni etichettate: {");
-				StringBuilder temp2 = new StringBuilder();
-				for (Pair<String, StatoDizionario> coppia : mappaDizionario.get(statoDizionario)) {
-					temp2.append(coppia.getKey() + " -> " + coppia.getValue().getRidenominazione() + ", ");
+				if ( ! mappaDizionario.get(statoDizionario).isEmpty()) {
+					StringBuilder temp2 = new StringBuilder();
+					for (Pair<String, StatoDizionario> coppia : mappaDizionario.get(statoDizionario)) {
+						temp2.append(coppia.getKey() + " -> " + coppia.getValue().getRidenominazione() + ", ");
+					}
+					String s1 = temp2.toString();
+					s1 = s1.substring(0, s1.length() - 2);
+					sb.append(s1);
 				}
-				String s1 = temp2.toString();
-				s1 = s1.substring(0, s1.length() -2);
-				sb.append(s1 + "}");
+				sb.append("}");
 				esisteStato = true;
 			}
 		}

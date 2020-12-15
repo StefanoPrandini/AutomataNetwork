@@ -616,3 +616,39 @@ Benchmark
 Prodotti: 85 stati 154 transizioni
 Tempo di esecuzione: 461761061 ns
 ---------------------------------------------------
+---------------------------------------------------
+dom, 13 dic 2020 02:08:04
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 65741619 ns
+---------------------------------------------------
+---------------------------------------------------
+lun, 14 dic 2020 18:45:27
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 61770059 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 15 dic 2020 14:58:55
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 65969560 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 15 dic 2020 15:31:18
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 68161567 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 15 dic 2020 15:39:37
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 3604776 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 15 dic 2020 15:41:34
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 62002913 ns
+---------------------------------------------------
