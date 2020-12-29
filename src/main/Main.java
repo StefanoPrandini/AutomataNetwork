@@ -2,6 +2,8 @@ package main;
 
 import algoritmo.Dizionario;
 import algoritmo.SpazioRilevanza;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.MalformedJsonException;
 import gestore.GestoreDizionari;
 import gestore.GestoreFile;
 import gestore.GestoreInputOutput;
@@ -969,6 +971,9 @@ public class Main {
 		catch (Exception e){
 			if (e instanceof NullPointerException){
 				System.out.println(Stringhe.FILE_NON_VALIDO);
+			}
+			else if (e instanceof IllegalStateException || e instanceof MalformedJsonException || e instanceof JsonSyntaxException){
+				System.out.println(Stringhe.ERRORE_FORMATTAZIONE);
 			}
 			else System.out.println(Stringhe.ERRORE_FILEPATH);
 			return false;

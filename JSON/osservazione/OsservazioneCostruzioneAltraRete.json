@@ -1,0 +1,197 @@
+{
+  "idAutoma": "CostruzioneDizionarioAltraRete",
+
+  "stati": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ],
+
+  "statoIniziale": 0,
+
+  "transizioni": [
+    {
+      "statoPartenza": 0,
+      "statoArrivo": 1,
+      "etichettaOsservabilita": "act"
+    },
+
+    {
+      "statoPartenza": 1,
+      "statoArrivo": 2,
+      "etichettaOsservabilita": "opn"
+    },
+    {
+      "statoPartenza": 2,
+      "statoArrivo": 5,
+      "etichettaOsservabilita": "sby"
+    },
+    {
+      "statoPartenza": 5,
+      "statoArrivo": 0,
+      "etichettaOsservabilita": "cls"
+    },
+    {
+      "statoPartenza": 1,
+      "statoArrivo": 4,
+      "etichettaOsservabilita": "sby"
+    },
+    {
+      "statoPartenza": 4,
+      "statoArrivo": 3,
+      "etichettaOsservabilita": "opn"
+    },
+    {
+      "statoPartenza": 4,
+      "statoArrivo": 6,
+      "etichettaOsservabilita": "act"
+    },
+    {
+      "statoPartenza": 6,
+      "statoArrivo": 4,
+      "etichettaOsservabilita": "sby"
+    },
+    {
+      "statoPartenza": 5,
+      "statoArrivo": 7,
+      "etichettaOsservabilita": "act"
+    },
+    {
+      "statoPartenza": 7,
+      "statoArrivo": 8,
+      "etichettaOsservabilita": "cls"
+    },
+    {
+      "statoPartenza": 7,
+      "statoArrivo": 11,
+      "etichettaOsservabilita": "sby"
+    },
+    {
+      "statoPartenza": 11,
+      "statoArrivo": 7,
+      "etichettaOsservabilita": "act"
+    },
+    {
+      "statoPartenza": 11,
+      "statoArrivo": 14,
+      "etichettaOsservabilita": "cls"
+    },
+    {
+      "statoPartenza": 14,
+      "statoArrivo": 17,
+      "etichettaOsservabilita": "act"
+    },
+    {
+      "statoPartenza": 17,
+      "statoArrivo": 13,
+      "etichettaOsservabilita": "opn"
+    },
+    {
+      "statoPartenza": 13,
+      "statoArrivo": 11,
+      "etichettaOsservabilita": "sby"
+    },
+    {
+      "statoPartenza": 17,
+      "statoArrivo": 18,
+      "etichettaOsservabilita": "sby"
+    },
+    {
+      "statoPartenza": 18,
+      "statoArrivo": 19,
+      "etichettaOsservabilita": "opn"
+    },
+    {
+      "statoPartenza": 18,
+      "statoArrivo": 20,
+      "etichettaOsservabilita": "act"
+    },
+    {
+      "statoPartenza": 20,
+      "statoArrivo": 18,
+      "etichettaOsservabilita": "sby"
+    },
+    {
+      "statoPartenza": 20,
+      "statoArrivo": 21,
+      "etichettaOsservabilita": "opn"
+    },
+    {
+      "statoPartenza": 21,
+      "statoArrivo": 23,
+      "etichettaOsservabilita": "sby"
+    },
+    {
+      "statoPartenza": 23,
+      "statoArrivo": 22,
+      "etichettaOsservabilita": "cls"
+    },
+    {
+      "statoPartenza": 22,
+      "statoArrivo": 20,
+      "etichettaOsservabilita": "act"
+    },
+    {
+      "statoPartenza": 6,
+      "statoArrivo": 10,
+      "etichettaOsservabilita": "opn"
+    },
+    {
+      "statoPartenza": 10,
+      "statoArrivo": 12,
+      "etichettaOsservabilita": "sby"
+    },
+    {
+      "statoPartenza": 12,
+      "statoArrivo": 9,
+      "etichettaOsservabilita": "cls"
+    },
+    {
+      "statoPartenza": 9,
+      "statoArrivo": 6,
+      "etichettaOsservabilita": "act"
+    },
+    {
+      "statoPartenza": 12,
+      "statoArrivo": 16,
+      "etichettaOsservabilita": "act"
+    },
+    {
+      "statoPartenza": 16,
+      "statoArrivo": 15,
+      "etichettaOsservabilita": "cls"
+    },
+    {
+      "statoPartenza": 16,
+      "statoArrivo": 23,
+      "etichettaOsservabilita": "sby"
+    },
+    {
+      "statoPartenza": 23,
+      "statoArrivo": 16,
+      "etichettaOsservabilita": "act"
+    }
+  ]
+
+}

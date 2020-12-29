@@ -1,0 +1,61 @@
+{
+    "idAutoma": "CostruzioneDizionarioRete1",
+  
+    "stati": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+  
+    "statoIniziale": 0,
+  
+    "transizioni": [
+      {
+        "statoPartenza": 0,
+        "statoArrivo": 2,
+        "etichettaOsservabilita": "o3"
+      },
+  
+      {
+        "statoPartenza": 2,
+        "statoArrivo": 3,
+        "etichettaOsservabilita": "o2"
+      },
+      {
+        "statoPartenza": 3,
+        "statoArrivo": 4,
+        "etichettaOsservabilita": "o3"
+      },
+      {
+        "statoPartenza": 4,
+        "statoArrivo": 5,
+        "etichettaOsservabilita": "o2"
+      },
+      {
+        "statoPartenza": 5,
+        "statoArrivo": 6,
+        "etichettaOsservabilita": "o3"
+      },
+      {
+        "statoPartenza": 6,
+        "statoArrivo": 7,
+        "etichettaOsservabilita": "o2"
+      },
+      {
+        "statoPartenza": 7,
+        "statoArrivo": 8,
+        "etichettaOsservabilita": "o3"
+      },
+      {
+        "statoPartenza": 8,
+        "statoArrivo": 7,
+        "etichettaOsservabilita": "o2"
+      }
+    ]
+  
+  }

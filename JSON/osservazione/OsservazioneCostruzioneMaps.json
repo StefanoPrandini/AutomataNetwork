@@ -1,0 +1,58 @@
+{
+  "idAutoma": "CostruzioneDizionarioMaps",
+
+  "stati": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+
+  "statoIniziale": 0,
+
+  "transizioni": [
+    {
+      "statoPartenza": 0,
+      "statoArrivo": 1,
+      "etichettaOsservabilita": "inizio ricerca"
+    },
+
+    {
+      "statoPartenza": 1,
+      "statoArrivo": 1,
+      "etichettaOsservabilita": "ricerca..."
+    },
+    {
+      "statoPartenza": 1,
+      "statoArrivo": 2,
+      "etichettaOsservabilita": "nessun risultato"
+    },
+    {
+      "statoPartenza": 1,
+      "statoArrivo": 3,
+      "etichettaOsservabilita": "conclusione ricerca"
+    },
+    {
+      "statoPartenza": 1,
+      "statoArrivo": 0,
+      "etichettaOsservabilita": "interruzione"
+    },
+    {
+      "statoPartenza": 1,
+      "statoArrivo": 4,
+      "etichettaOsservabilita": "crash"
+    },
+    {
+      "statoPartenza": 2,
+      "statoArrivo": 1,
+      "etichettaOsservabilita": "inizio ricerca"
+    },
+    {
+      "statoPartenza": 3,
+      "statoArrivo": 1,
+      "etichettaOsservabilita": "inizio ricerca"
+    }
+  ]
+
+}
