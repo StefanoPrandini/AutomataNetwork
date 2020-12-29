@@ -790,17 +790,6 @@ public class Main {
 		else System.out.println(String.format(Stringhe.RISULTATO_RICERCA, osservazioneLineare, decorazione));
 	}
 
-	private static boolean risultatoRicercaVuoto() {
-		if (decorazione.size() == 1){
-			Iterator<Set<String>> it = decorazione.iterator();
-			if (it.hasNext()){
-				return it.next().isEmpty();
-			}
-		}
-		return false;
-
-	}
-
 	private static void effettuaMonitoraggio(){
 		GestoreDizionari gd = new GestoreDizionari();
 		GestoreInputOutput inputOutput = new GestoreInputOutput();
@@ -1232,8 +1221,7 @@ public class Main {
 	}
 
 	private static boolean controllaSiaNomeValido(String ridenominazioneStato) {
-		if (ridenominazioneStato.matches("[dx][0-9]+")) return true;
-		return false;
+		return ridenominazioneStato.matches("[dx][0-9]+");
 	}
 
 
