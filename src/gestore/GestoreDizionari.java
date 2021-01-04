@@ -39,7 +39,7 @@ public class GestoreDizionari {
         Thread thread = new Thread(dizionario);
         thread.start();
         String stop = InputDati.leggiStringa(Stringhe.RICERCA_IN_CORSO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
-        while ( ! stop.equalsIgnoreCase(Stringhe.STOP) ){ //&& thread.isAlive() && !dizionario.isInInterruzione()
+        while ( ! stop.equalsIgnoreCase(Stringhe.STOP) ){
             if (dizionario.isRicercaTerminata()){
                 break;
             }
@@ -65,7 +65,7 @@ public class GestoreDizionari {
         Thread thread = new Thread(dizionario);
         thread.start();
         String stop = InputDati.leggiStringa(Stringhe.MONITORAGGIO_IN_CORSO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
-        while ( ! stop.equalsIgnoreCase(Stringhe.STOP) ){ //&& thread.isAlive() && !diz.isInInterruzione()
+        while ( ! stop.equalsIgnoreCase(Stringhe.STOP) ){
             if (dizionario.isTerminato()){
                 break;
             }
@@ -85,7 +85,7 @@ public class GestoreDizionari {
         Thread thread = new Thread(algoritmo);
         thread.start();
         String stop = InputDati.leggiStringa(Stringhe.CALCOLO_SPAZIO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
-        while (! stop.equalsIgnoreCase(Stringhe.STOP) ){ //&& thread.isAlive() && !algoritmo.isInInterruzione()
+        while (! stop.equalsIgnoreCase(Stringhe.STOP) ){
             if (algoritmo.isTerminato() ) break;
             stop = InputDati.leggiStringa(Stringhe.CALCOLO_SPAZIO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
         }
@@ -103,7 +103,7 @@ public class GestoreDizionari {
         Thread thread = new Thread(algoritmo);
         thread.start();
         String stop = InputDati.leggiStringa(Stringhe.CALCOLO_DIZIONARIO + String.format(Stringhe.INSERISCI_PER_INTERROMPERE, Stringhe.STOP));
-        while (! stop.equalsIgnoreCase(Stringhe.STOP) ){ //&& thread.isAlive() && !algoritmo.isInInterruzione()
+        while (! stop.equalsIgnoreCase(Stringhe.STOP) ){
              if (algoritmo.isTerminato()){
                 break;
             }

@@ -58,16 +58,10 @@ public class StatoDizionario implements Serializable {
 	public Set<StatoRilevanzaRete> getStatiRilevanza() {
 		return statiRilevanza;
 	}
-	
-	public void setStatiRilevanza(Set<StatoRilevanzaRete> statiRilevanza) {
-		this.statiRilevanza = statiRilevanza;
-	}
-
 
 	public String getRidenominazione() {
 		return ridenominazione;
 	}
-
 
 	public void setRidenominazione(String ridenominazione) {
 		this.ridenominazione = ridenominazione;
@@ -78,11 +72,6 @@ public class StatoDizionario implements Serializable {
 		return diagnosi;
 	}
 
-
-	public void setDiagnosi(Set<Set<String>> diagnosi) {
-		this.diagnosi = diagnosi;
-	}
-	
 	public Set<StatoRilevanzaRete> getInput() {
 		return input;
 	}

@@ -244,6 +244,7 @@ public class Dizionario extends Algoritmo implements Serializable {
 				e.printStackTrace();
 			}
 			 **/
+
 			for(Pair<String, StatoDizionario> transizioneOut : this.mappaDizionario.get(statoCorrente)) {
 				if(etichetta.equals(transizioneOut.getKey())) {
 					statoCorrente = transizioneOut.getValue();
@@ -260,7 +261,6 @@ public class Dizionario extends Algoritmo implements Serializable {
 				}
 			}
 
-
 			/** PROVE INTERRUZIONE
 			try {
 				Thread.sleep(1000);
@@ -269,8 +269,6 @@ public class Dizionario extends Algoritmo implements Serializable {
 			}
 			 **/
 
-
-
 			//se non trovo qualcosa corrispondente all'etichetta, ma qualcosa ho trovato
 			if(!found && trovatoQualcosa) {
 				this.setRicercaTerminata(true);
@@ -278,7 +276,6 @@ public class Dizionario extends Algoritmo implements Serializable {
 				break;
 			}
 		}
-
 		if ( ! isInInterruzione()){
 			System.out.println(Stringhe.RICERCA_COMPLETA);
 		}
@@ -440,10 +437,10 @@ public class Dizionario extends Algoritmo implements Serializable {
 	}
 
 
-	//viene ricevuto un'etichetta osservabile
-	//cerca in dizionario lo stato successivo raggiungibile dallo stato corrente (della terna) attraverso transizione con etichetta oemga
-	//stato corrente diventa stato precendente e stato raggiunto diventa stato corrente nuovo
-	//produci in uscita la terna
+	//viene ricevuta un'etichetta osservabile
+	//cerca in dizionario lo stato successivo raggiungibile dallo stato corrente (della terna) attraverso transizione con etichetta
+	//stato corrente diventa stato precedente e stato raggiunto diventa stato corrente nuovo
+	//produce in uscita la terna
 	public Terna produciTerna(SpazioRilevanza sr, Terna ternaCorrente, String etichettaOss, String nome){
 		Terna result = null;
 		for (Pair<String, StatoDizionario> coppiaEtichettaStato : mappaDizionario.get(ternaCorrente.getStatoDizionario())) {
@@ -478,7 +475,6 @@ public class Dizionario extends Algoritmo implements Serializable {
 			}
  			sb.append("\n");
 		}
- 		//sb.append(this.isInInterruzione());
 		return sb.toString();
 	}
 
@@ -497,9 +493,8 @@ public class Dizionario extends Algoritmo implements Serializable {
 			if (mappaDizionario.get(s).isEmpty()){
 				sb.append("stato finale");
 			}
-//			sb.append(" | Diagnosi: " + s.getDiagnosi());
 			if(togliVirgola) {
-				sb.setLength(sb.length() - 2); // togliere virgola
+				sb.setLength(sb.length() - 2);
 			}
 			sb.append("\n");
 		}

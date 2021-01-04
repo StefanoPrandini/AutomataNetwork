@@ -154,3 +154,9 @@ Interazione
 Prodotti: 12 stati 15 transizioni
 Tempo di esecuzione: 62911582 ns
 ---------------------------------------------------
+---------------------------------------------------
+lun, 4 gen 2021 17:18:05
+Benchmark
+Prodotti: 85 stati 154 transizioni
+Tempo di esecuzione: 454983527 ns
+---------------------------------------------------

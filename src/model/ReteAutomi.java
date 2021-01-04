@@ -33,10 +33,7 @@ public class ReteAutomi implements Serializable {
 	}
 
 	/**
-	 *
 	 * aggiorno la hashmap usando come chiave id dell'automa e con contenuto la lista delle transizioni eseguibili
-	 *
-	 * @return
 	 */
 	public void aggiornaMappaAutomiTransizioniAbilitate(){
 		LinkedHashMap<Automa, List<Transizione>> result = new LinkedHashMap<>();
@@ -157,33 +154,23 @@ public class ReteAutomi implements Serializable {
 			link.aggiungiEvento(null);
 		}
 	}
-
-
-	public Automa trovaAutoma(int id){
-		return automi.stream()
-				.filter(automa -> id == automa.getId())
-				.findAny()
-				.orElse(null);
-	}
 	
 	public Automa trovaAutoma(String nome){
 		return automi.stream()
-				.filter(automa -> nome == automa.getNome())
+				.filter(automa -> nome.equals(automa.getNome()))
 				.findAny()
 				.orElse(null);
 	}
 	
 	public Link trovaLink(String nome) {
 		return links.stream()
-				.filter(link -> nome == link.getNome())
+				.filter(link -> nome.equals(link.getNome()))
 				.findAny()
 				.orElse(null);
 	}
 	
 	/**
 	 * Porta la rete di automi nella situazione descritta dallo stato di rilevanza (statiCorrenti degli automi ed eventi sui link)
-	 * @param statiCorrentiAutoma
-	 * @param contenutoLinks
 	 */
 	public void setReteAutomi(List<Pair<String, String>> statiCorrentiAutoma, List<Pair<String, Evento>> contenutoLinks ) {
 		for(Pair<String, String> statoCorrenteAutoma : statiCorrentiAutoma) {

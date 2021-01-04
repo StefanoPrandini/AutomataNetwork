@@ -31,7 +31,6 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 	
 	/**
 	 * se costruttore chiamato con distanzaMax e senza osservazione, lo spazio non deve essere creato a partire da un'osservazione
- 	 * @param input
 	 */
 	public SpazioRilevanza(GestoreInputOutput input) {
 		this.statiRilevanza = new LinkedHashSet<>(); //insieme con elementi in ordine di inserimento
@@ -130,23 +129,6 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 		this.setTerminato(true);
 
 	}
-
-
-	public int getMassimoValoreDistanza(){
-		int distanzaMax = 0;
-		for (StatoRilevanzaRete statoRilevanzaRete : statiRilevanza) {
-			if (statoRilevanzaRete.getDistanza() > distanzaMax)
-				distanzaMax = statoRilevanzaRete.getDistanza();
-		}
-		return distanzaMax;
-	}
-
-	public boolean distanzaMaxRaggiunta(){
-		if (this.getDistanzaMax() < input.getDistanzaMax() )
-			return true;
-		return false;
-	}
-
 
 //	spazioRilevanza puo' essere creato a partire da una osservazione (un automa)
 //	lascio comunque la distanza per non dover rifare il dizionario
@@ -340,26 +322,11 @@ public class SpazioRilevanza extends Algoritmo implements Serializable  {
 		}
 		
 	}
-/*
-	public ArrayList<Transizione> getTransizioni(){
-		ArrayList< Transizione> result  = new ArrayList<>();
 
-		for (List<Transizione> transiziones : mappaStatoRilevanzaTransizioni.values()) {
-			result.addAll(transiziones);
-		}
-		return result;
-	}*/
 
-	public int getDistanzaMax() {
-		return input.getDistanzaMax();
-	}
 
 	public String getNomeRete() {
 		return nomeRete;
-	}
-
-	public void setNomeRete(String nomeRete) {
-		this.nomeRete = nomeRete;
 	}
 
 	public String compendio() {

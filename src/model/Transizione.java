@@ -75,21 +75,8 @@ public class Transizione implements Serializable {
 		this.statoArrivo = statoArrivo;
 	}
 
-	public void setEventoIngresso(Evento eventoIngresso) {
-		this.eventoIngresso = eventoIngresso;
-	}
-
 	public void setEventiUscita(ArrayList<Evento> eventiUscita) {
 		this.eventiUscita = eventiUscita;
-	}
-
-	public void addEventoUscita(Evento e){
-		if (!this.eventiUscita.contains(e))
-			this.eventiUscita.add(e);
-	}
-
-	public void setEtichettaRilevanza(String etichettaRilevanza) {
-		this.etichettaRilevanza = etichettaRilevanza;
 	}
 
 	public void setEtichettaOsservabilita(String etichettaOsservabilita) {

@@ -71,9 +71,6 @@ public class Main {
 						sceltaGestioneRete = menuGestioneRete.scegli();
 					}
 				}
-//				catch (NullPointerException npe){
-//					System.out.println(Stringhe.ERRORE_CARICAMENTO);
-//				}
 				catch (Exception e){
 					System.out.println(Stringhe.ERRORE_CARICAMENTO);
 				}
@@ -283,7 +280,6 @@ public class Main {
 						sceltaEstensione = menuEstensione.scegli();
 					}
 					break;
-					//TODO check con Ste se estensione funziona
 				}
 
 				case 5:  {//salvataggi

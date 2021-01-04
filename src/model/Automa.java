@@ -44,8 +44,6 @@ public class Automa implements Serializable {
 
 	/**
 	 * precondizione: la transizione deve essere abilitata (automa nello stato corrente, evento in ingresso presente su link e link liberi per eventi in uscita)
-	 * @param transizione da svolgere
-	 * @return int result code
 	 */
 	public void eseguiTransizione(Transizione transizione){
 		this.statoCorrente = transizione.getStatoArrivo();
@@ -54,16 +52,6 @@ public class Automa implements Serializable {
 	public ArrayList<Transizione> getTransizioniUscenti(Stato s){
 		ArrayList<Transizione> result = new ArrayList<>();
 		result.addAll(mappaStatoTransizioni.get(s));
-		return result;
-	}
-	
-	public ArrayList<Transizione> getTransizioniUscenti(int idStato){
-		ArrayList<Transizione> result = new ArrayList<>();
-		for(Stato s : mappaStatoTransizioni.keySet()) {
-			if(s.getId() == idStato) {
-				result.addAll(mappaStatoTransizioni.get(s));
-			}
-		}
 		return result;
 	}
 
@@ -142,16 +130,6 @@ public class Automa implements Serializable {
 		sb.append(mappaStatoTransizioni.keySet());
 		sb.append( "\n	Transizioni: ");
 		sb.append(mappaStatoTransizioni.values());
-
-
-		/**
-		 * for (Stato stato : mappaStatoTransizioni.keySet()) {
-		 * 			sb.append("\n");
-		 * 			sb.append(stato.toString());
-		 * 			sb.append("    \n");
-		 * 			sb.append(mappaStatoTransizioni.get(stato));
-		 * 			}
-		 */
 
 		return s + sb.toString();
 	}

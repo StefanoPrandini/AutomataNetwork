@@ -165,20 +165,12 @@ public class InputParser {
 		for(Link link : this.links) {
 			JsonArray jLinks = json.getAsJsonArray("links");
 			for(int i=0; i<jLinks.size(); i++) {
-				if(jLinks.get(i).getAsJsonObject().get("idLink").getAsString() == link.getNome()) {
+				if(jLinks.get(i).getAsJsonObject().get("idLink").getAsString().equals(link.getNome())) {
 					link.setAutomaPartenza(findAutoma(jLinks.get(i).getAsJsonObject().get("automaIniziale").getAsString()));
 					link.setAutomaArrivo(findAutoma(jLinks.get(i).getAsJsonObject().get("automaFinale").getAsString()));
 				}
 			}
 		}
-	}
-
-	public ArrayList<Link> getLinks(){
-		return this.links;
-	}	
-	
-	public ArrayList<Automa> getAutomi(){
-		return this.automi;
 	}
 
 }

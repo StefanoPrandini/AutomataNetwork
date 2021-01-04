@@ -123,7 +123,6 @@ public class EstendiDizionario extends Algoritmo implements Runnable {
 				i++;
 			}
 		}
-		
 //		formare coppie I/O
 		for(StatoDizionario statoDizionario : dizionario.getMappaDizionario().keySet()) {
 			//collega I e O, ricerca BFS per vedere se esiste cammino
@@ -280,9 +279,5 @@ public class EstendiDizionario extends Algoritmo implements Runnable {
 			}
 		}
 		return sb.toString();
-	}
-
-	public GestoreInputOutput getInputOutput() {
-		return this.inputOutput;
 	}
 }

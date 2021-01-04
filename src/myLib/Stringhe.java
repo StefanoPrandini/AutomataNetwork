@@ -45,7 +45,6 @@ public class Stringhe {
     public static final String INSERISCI_SESSIONE = "Inserisci l'indice del file:\n-->";
     public static final String LUNGHEZZA_PREFISSO = "Inserisci la lunghezza del prefisso (un numero negativo per tornare indietro): ";
     public static final int VALORE_USCITA = 0;
-    public final static String INSERISCI_PERCORSO_OSSERVAZIONE = "Inserisci il percorso del file contenente l'osservazione (0 per uscire):\n-->";
     public final static String INFO_SPAZIO_RILEVANZA = "\tLo spazio di rilevanza ha %s stati e %s transizioni\n";
     public static final String INFO_RIDENOMINAZIONE_SPAZIO = "(StatoRilevanza) --> ridenominazione";
     public static final String INFO_MAPPA_SPAZIO = "[(StatoRilevanza partenza) -> Transizione -> (StatoRilevanza arrivo)]:";
@@ -74,7 +73,6 @@ public class Stringhe {
     public static final String CARICAMENTO_ANNULLATO = "\nCaricamento annullato\n";
     public static final String CONTINUA_CALCOLO_DIZ = "\nContinua con il calcolo di un dizionario o il caricamento di un diverso spazio\n";
     public static final String STOP = "stop";
-    public static final String OK = "ok";
     public static final String STRINGA_VUOTA = "";
     public static final String OSS_LIN_IN_MEMORIA = "E' presente in memoria questa osservazione lineare:\n%s";
     public static final String ESTENSIONE_OSSERVAZIONE = "Aggiungi una o piu' etichette alla sequenza (es. o2, o3), inserisci una stringa vuota per tornare indietro\n-->";
@@ -249,17 +247,12 @@ public class Stringhe {
     public static final String CARICAMENTO_RIUSCITO_CON_NOME = "\nCaricamento di %s riuscito\n";
     public static final String CARICAMENTO_IN_CORSO = "\nCaricamento di %s in corso";
     public static final String CARICAMENTO_OSS_LIN = "Osservazione lineare caricata: %s";
-    public static final String NESSUNA_RETE_CARICATA = ATTENZIONE + "Non e' stata caricata alcuna rete";
-    public static final String NESSUNA_OSSERVAZIONE = ATTENZIONE + "Non e' presente alcuna osservazione";
     public static final String NESSUNA_OSSERVAZIONE_INSERITA = ATTENZIONE + "Non e' stata ancora inserita un'osservazione per %s";
     public final static String ERRORE_CARICAMENTO = "Errore nel caricamento";
-    public static final String ESTENSIONE_NON_VALIDA = ATTENZIONE + "Fornire un file con estensione %s" ;
-    public static final String ERRORE_CLASSE = "Classe non valida";
     public static final String NOMI_RETE_DIVERSI = ATTENZIONE + "Lo spazio di rilevanza indicato potrebbe non essere relativo alla rete caricata!";
     public static final String INFO_NOMI_RETE = "La rete di automi fornita inizialmente e' chiamata %s, lo spazio di rilevanza e' relativo alla rete %s";
     public static final String NESSUN_FILE_ADATTO = "\nNessun file di salvataggio pertinente trovato!\n";
     public static final String PROBLEMA_CARICAMENTO_ESTENSIONI = "\nQualcosa e' andatao storto con il caricamento\n";
-    public static final String ERRORE_THREAD = "\nErrore nell'algoritmo";
     public static final String FILE_NON_VALIDO = "\nFile non valido\n";
     public static final String ERRORE_SALVATAGGIO = "C'e' stato un problema nel salvataggio";
     public static final String FILE_VUOTO = ATTENZIONE + "Il file indicato sembra essere vuoto";

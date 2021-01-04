@@ -15,11 +15,6 @@ public class Stato implements Serializable {
 		this.nome = nome;
 	}
 
-
-	public int getId(){
-		return this.id;
-	}
-	
 	public String getNome() {
 		return this.nome;
 	}
@@ -40,6 +35,6 @@ public class Stato implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Stato)) return false;
         Stato that = (Stato) o;
-        return this.nome == that.getNome();
+        return this.nome.equals(that.getNome());
     }
 }

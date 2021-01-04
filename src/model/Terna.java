@@ -54,10 +54,6 @@ public class Terna implements Serializable {
     }
 
 
-    /**
-     *
-     * @return
-     */
     private String toStringInsiemeI() {
         StringBuilder sb =new StringBuilder();
         sb.append("{");
@@ -86,14 +82,6 @@ public class Terna implements Serializable {
         return statoDizionario;
     }
 
-    public void setStatoDizionario(StatoDizionario statoCorrenteDizionario) {
-        this.statoDizionario = statoCorrenteDizionario;
-    }
-
-    public Set<Set<String>> getDiagnosi() {
-        return diagnosi;
-    }
-
     public void setDiagnosi(Set<Set<String>> diagnosi) {
         this.diagnosi = diagnosi;
     }
@@ -106,9 +94,4 @@ public class Terna implements Serializable {
         this.nome = nome;
     }
 
-    public void aggiornaTerna(Set<StatoRilevanzaRete> insiemeI, StatoDizionario statoCorrenteDizionario, Set<Set<String>> diagnosi){
-        this.setInsiemeI(insiemeI);
-        this.setStatoDizionario(statoCorrenteDizionario);
-        this.setDiagnosi(diagnosi);
-    }
 }
