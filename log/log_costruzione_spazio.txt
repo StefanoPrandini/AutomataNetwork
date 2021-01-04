@@ -5,830 +5,152 @@ Risultato
 Tempo di esecuzione
 ---------------------------------------------------
 ---------------------------------------------------
-mar, 3 nov 2020 01:19:27
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 73438747 ns
----------------------------------------------------
----------------------------------------------------
-mar, 3 nov 2020 01:23:23
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 71968561 ns
----------------------------------------------------
----------------------------------------------------
-mar, 3 nov 2020 01:26:38
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 72627889 ns
----------------------------------------------------
----------------------------------------------------
-mar, 3 nov 2020 01:32:31
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 71653723 ns
----------------------------------------------------
----------------------------------------------------
-mar, 3 nov 2020 01:33:17
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 76738041 ns
----------------------------------------------------
----------------------------------------------------
-mar, 3 nov 2020 01:40:49
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 72009126 ns
----------------------------------------------------
----------------------------------------------------
-mar, 3 nov 2020 01:42:41
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 71378562 ns
----------------------------------------------------
----------------------------------------------------
-mer, 4 nov 2020 17:38:55
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 409047027 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 15:02:52
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 75816395 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 15:16:59
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 444709377 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 15:28:02
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 153438697 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 15:59:01
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 426382521 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 16:01:06
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 419230134 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 16:02:51
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 424258494 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 16:14:27
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 428322060 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 16:16:34
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 429660185 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 16:21:21
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 435488481 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 17:09:09
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 447291099 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 17:15:44
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 432746655 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 17:25:30
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 451965747 (0 ore, 0minuti, 0secondi) ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 17:35:55
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 529194710 ns
----------------------------------------------------
----------------------------------------------------
-gio, 5 nov 2020 17:38:29
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 425956135 ns
----------------------------------------------------
----------------------------------------------------
-ven, 6 nov 2020 18:05:02
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 12237593933 ns
----------------------------------------------------
----------------------------------------------------
-ven, 6 nov 2020 18:53:41
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 546762081 ns
----------------------------------------------------
----------------------------------------------------
-ven, 6 nov 2020 21:51:00
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 544764789 ns
----------------------------------------------------
----------------------------------------------------
-ven, 6 nov 2020 22:14:32
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 487747587 ns
----------------------------------------------------
----------------------------------------------------
-ven, 6 nov 2020 22:17:27
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 469383937 ns
----------------------------------------------------
----------------------------------------------------
-ven, 6 nov 2020 22:35:19
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 505230810 ns
----------------------------------------------------
----------------------------------------------------
-ven, 6 nov 2020 23:48:11
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 77926279 ns
----------------------------------------------------
----------------------------------------------------
-ven, 6 nov 2020 23:48:56
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 79436216 ns
----------------------------------------------------
----------------------------------------------------
-sab, 7 nov 2020 00:16:21
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 72887348 ns
----------------------------------------------------
----------------------------------------------------
-sab, 7 nov 2020 00:21:46
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 69999393 ns
----------------------------------------------------
----------------------------------------------------
-sab, 7 nov 2020 00:23:29
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 447164677 ns
----------------------------------------------------
----------------------------------------------------
-sab, 7 nov 2020 00:24:31
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 76070770 ns
----------------------------------------------------
----------------------------------------------------
-sab, 7 nov 2020 00:26:42
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 484131906 ns
----------------------------------------------------
----------------------------------------------------
-sab, 7 nov 2020 00:29:16
-Interazione
-Prodotti: 11 stati 15 transizioni
-Tempo di esecuzione: 64083205 ns
----------------------------------------------------
----------------------------------------------------
-sab, 7 nov 2020 00:31:23
-Interazione
-Prodotti: 11 stati 15 transizioni
-Tempo di esecuzione: 76410379 ns
----------------------------------------------------
----------------------------------------------------
-sab, 7 nov 2020 00:33:24
-Interazione
-Prodotti: 11 stati 15 transizioni
-Tempo di esecuzione: 71756759 ns
----------------------------------------------------
----------------------------------------------------
-sab, 7 nov 2020 00:39:51
-Interazione
-Prodotti: 11 stati 15 transizioni
-Tempo di esecuzione: 67619787 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 21:57:31
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 66968753 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:04:29
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 64291893 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:16:51
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 76004250 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:17:16
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 73955519 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:17:36
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 75133504 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:17:53
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 75125695 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:18:05
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 73633875 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:48:35
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 69762030 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:48:48
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 69933849 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:49:04
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 70545604 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:49:14
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 70155423 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:49:27
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 76757521 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:55:01
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 500911553 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:55:17
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 479233802 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:55:30
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 498918474 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:55:43
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 478429166 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:56:13
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 524963009 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 22:59:57
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 66767590 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 23:00:30
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 64634772 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 23:00:37
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 63356550 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 23:00:44
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 64200764 ns
----------------------------------------------------
----------------------------------------------------
-dom, 8 nov 2020 23:00:51
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 64097015 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 17:11:29
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 75107605 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 17:16:22
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 502278387 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 17:17:00
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 65851939 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 17:17:44
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 70012873 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 17:18:11
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 69862206 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 17:28:33
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 74324932 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 17:31:59
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 75293144 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 17:32:26
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 73427371 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 17:32:51
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 72441812 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 17:33:09
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 74680244 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 17:33:35
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 74057908 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:33:47
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 470992735 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:34:15
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 430769025 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:42:35
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 512357741 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:42:59
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 492680589 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:43:21
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 476629300 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:44:48
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 66270167 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:45:15
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 63454156 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:45:37
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 63718025 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:45:58
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 64808399 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:46:27
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 65923469 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:46:50
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 70916487 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:47:30
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 70828430 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:47:49
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 68680237 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:48:35
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 67725003 ns
----------------------------------------------------
----------------------------------------------------
-lun, 9 nov 2020 18:48:56
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 70648515 ns
----------------------------------------------------
----------------------------------------------------
-sab, 12 dic 2020 15:29:13
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 254607996 ns
----------------------------------------------------
----------------------------------------------------
-sab, 12 dic 2020 15:30:00
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 4907848 ns
----------------------------------------------------
----------------------------------------------------
-sab, 12 dic 2020 15:59:37
-Interazione
-Prodotti: 25 stati 33 transizioni
-Tempo di esecuzione: 8536487 ns
----------------------------------------------------
----------------------------------------------------
-sab, 12 dic 2020 16:02:31
-Interazione
-Prodotti: 13 stati 17 transizioni
-Tempo di esecuzione: 1296591 ns
----------------------------------------------------
----------------------------------------------------
-sab, 12 dic 2020 16:14:53
-Interazione
-Prodotti: 13 stati 17 transizioni
-Tempo di esecuzione: 113257787 ns
----------------------------------------------------
----------------------------------------------------
-sab, 12 dic 2020 16:20:45
-Interazione
-Prodotti: 13 stati 17 transizioni
-Tempo di esecuzione: 138434261 ns
----------------------------------------------------
----------------------------------------------------
-sab, 12 dic 2020 16:22:13
-Interazione
-Prodotti: 21 stati 29 transizioni
-Tempo di esecuzione: 7406611 ns
----------------------------------------------------
----------------------------------------------------
-sab, 12 dic 2020 16:24:16
-Interazione
-Prodotti: 13 stati 17 transizioni
-Tempo di esecuzione: 130019058 ns
----------------------------------------------------
----------------------------------------------------
-sab, 12 dic 2020 17:28:34
+mar, 29 dic 2020 19:49:49
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 13788487788 ns
+Tempo di esecuzione: 58428036 ns
 ---------------------------------------------------
 ---------------------------------------------------
-sab, 12 dic 2020 17:31:29
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 72511018 ns
----------------------------------------------------
----------------------------------------------------
-sab, 12 dic 2020 17:32:16
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 372622925 ns
----------------------------------------------------
----------------------------------------------------
-sab, 12 dic 2020 18:00:22
+mar, 29 dic 2020 19:50:05
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 865413 ns
+Tempo di esecuzione: 59071835 ns
 ---------------------------------------------------
 ---------------------------------------------------
-sab, 12 dic 2020 18:13:12
+mar, 29 dic 2020 19:50:25
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 59711859 ns
+Tempo di esecuzione: 58841903 ns
 ---------------------------------------------------
 ---------------------------------------------------
-sab, 12 dic 2020 18:18:08
+mar, 29 dic 2020 19:50:50
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 59451868 ns
+Tempo di esecuzione: 57678346 ns
 ---------------------------------------------------
 ---------------------------------------------------
-sab, 12 dic 2020 18:20:38
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 461761061 ns
----------------------------------------------------
----------------------------------------------------
-dom, 13 dic 2020 02:08:04
+mar, 29 dic 2020 19:51:07
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 65741619 ns
+Tempo di esecuzione: 60443195 ns
 ---------------------------------------------------
 ---------------------------------------------------
-lun, 14 dic 2020 18:45:27
+mar, 29 dic 2020 19:51:20
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 61770059 ns
+Tempo di esecuzione: 54746011 ns
 ---------------------------------------------------
 ---------------------------------------------------
-mar, 15 dic 2020 14:58:55
+mar, 29 dic 2020 19:51:38
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 65969560 ns
+Tempo di esecuzione: 56931511 ns
 ---------------------------------------------------
 ---------------------------------------------------
-mar, 15 dic 2020 15:31:18
+mar, 29 dic 2020 19:51:49
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 68161567 ns
+Tempo di esecuzione: 55200583 ns
 ---------------------------------------------------
 ---------------------------------------------------
-mar, 15 dic 2020 15:39:37
+mar, 29 dic 2020 19:52:07
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 3604776 ns
+Tempo di esecuzione: 54740978 ns
 ---------------------------------------------------
 ---------------------------------------------------
-mar, 15 dic 2020 15:41:34
+mar, 29 dic 2020 19:52:23
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 62002913 ns
+Tempo di esecuzione: 55509178 ns
 ---------------------------------------------------
 ---------------------------------------------------
-mar, 15 dic 2020 16:06:28
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 75472925 ns
----------------------------------------------------
----------------------------------------------------
-mar, 15 dic 2020 16:07:50
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 72709608 ns
----------------------------------------------------
----------------------------------------------------
-mar, 15 dic 2020 16:09:26
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 487884760 ns
----------------------------------------------------
----------------------------------------------------
-mar, 15 dic 2020 17:49:13
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 76625772 ns
----------------------------------------------------
----------------------------------------------------
-mer, 16 dic 2020 14:42:56
+mar, 29 dic 2020 19:52:35
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 69123560 ns
+Tempo di esecuzione: 58778781 ns
 ---------------------------------------------------
 ---------------------------------------------------
-mer, 16 dic 2020 14:43:15
+mar, 29 dic 2020 19:52:45
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 62800522 ns
+Tempo di esecuzione: 55179227 ns
 ---------------------------------------------------
 ---------------------------------------------------
-mer, 16 dic 2020 14:43:24
+mar, 29 dic 2020 19:52:59
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 64569335 ns
+Tempo di esecuzione: 56712056 ns
 ---------------------------------------------------
 ---------------------------------------------------
-mer, 16 dic 2020 14:45:19
+mar, 29 dic 2020 19:53:12
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 60426844 ns
+Tempo di esecuzione: 63011307 ns
 ---------------------------------------------------
 ---------------------------------------------------
-mer, 16 dic 2020 14:45:30
+mar, 29 dic 2020 19:53:34
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 63522834 ns
+Tempo di esecuzione: 55282257 ns
 ---------------------------------------------------
 ---------------------------------------------------
-gio, 17 dic 2020 11:19:16
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 79051073 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:29:15
-Rete1
-Prodotti: 18 stati 23 transizioni
-Tempo di esecuzione: 70942246 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:31:47
-Rete1
-Prodotti: 1 stati 1 transizioni
-Tempo di esecuzione: 527257 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:38:29
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 4129248192 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:39:01
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 68109858 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:45:22
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 69270478 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:45:40 ------- NOOOOO
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 76918760 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:47:29
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 69582403 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:47:47
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 67332539 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:48:15
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 69862058 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:48:28
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 69301324 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:48:40
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 67145763 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:48:52
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 67198223 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:49:01
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 71759888 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:49:11
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 68901873 ns
----------------------------------------------------
----------------------------------------------------
-gio, 17 dic 2020 11:49:26
-Rete1
-Prodotti: 28 stati 34 transizioni
-Tempo di esecuzione: 67738501 ns
----------------------------------------------------
----------------------------------------------------
-mar, 29 dic 2020 02:18:42
-AltraRete
-Prodotti: 48 stati 60 transizioni
-Tempo di esecuzione: 71380325 ns
----------------------------------------------------
----------------------------------------------------
-mar, 29 dic 2020 02:20:54
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 537603063 ns
----------------------------------------------------
----------------------------------------------------
-mar, 29 dic 2020 02:26:23
-Benchmark
-Prodotti: 85 stati 154 transizioni
-Tempo di esecuzione: 467748076 ns
----------------------------------------------------
----------------------------------------------------
-mar, 29 dic 2020 02:29:34
+mar, 29 dic 2020 19:53:43
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 61819010 ns
+Tempo di esecuzione: 58986646 ns
 ---------------------------------------------------
 ---------------------------------------------------
-mar, 29 dic 2020 02:38:12
+mar, 29 dic 2020 19:53:54
 Interazione
 Prodotti: 12 stati 15 transizioni
-Tempo di esecuzione: 56406871 ns
+Tempo di esecuzione: 55350298 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 29 dic 2020 19:54:06
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 55573360 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 29 dic 2020 19:54:26
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 72550024 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 29 dic 2020 19:54:35
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 54932003 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 29 dic 2020 19:54:44
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 55942515 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 29 dic 2020 19:54:52
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 54987236 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 29 dic 2020 19:55:03
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 54670326 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 29 dic 2020 19:55:10
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 60632163 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 29 dic 2020 19:55:26
+Interazione
+Prodotti: 12 stati 15 transizioni
+Tempo di esecuzione: 62911582 ns
 ---------------------------------------------------

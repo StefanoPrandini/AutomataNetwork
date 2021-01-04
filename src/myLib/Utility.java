@@ -21,6 +21,7 @@ public class Utility {
 
     public static String inputNomeFileJSON(){
         String fileJSON = leggiStringa(Stringhe.INSERISCI_JSON);
+        if (fileJSON.trim().equals("")) return inputNomeFileJSON();
         return fileJSON;
     }
 
