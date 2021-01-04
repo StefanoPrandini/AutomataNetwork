@@ -1,4 +1,4 @@
-▷ LO SPAZIO DI RILEVANZA È UN AUTOMA -> RAPPRESENTATO TRAMITE UN GRAFO -> RAPPRESENTATO TRAMITE UNA MAPPA <STATORILEVANZARETEPARTENZA, PAIR<TRANSIZIONE, STATORILEVANZADESTINAZIONE>>
+﻿▷ LO SPAZIO DI RILEVANZA È UN AUTOMA -> RAPPRESENTATO TRAMITE UN GRAFO -> RAPPRESENTATO TRAMITE UNA MAPPA <STATORILEVANZARETEPARTENZA, PAIR<TRANSIZIONE, STATORILEVANZADESTINAZIONE>>
 
 creaSpazioRilevanza(reteAutomi){
     mappaStatoRilevenzaTransizioni <- new Map()
@@ -48,7 +48,7 @@ getTutteTransizioniAbilitate(reteAutomi){
 
 svolgiTransizione(reteAutomi, transizione){
     if eventoIngresso[transizione] is not null
-        then svolgiEvento(transizione.eventoIngresso)
+        then svolgiEvento(eventoIngresso[transizione])
     if eventiUscita[transizione] is not null
         then foreach evento in eventiUscita
                 do aggiungiEventoSuLink(evento)
