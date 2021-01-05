@@ -138,7 +138,7 @@ public class Stringhe {
     };
 
     public static final String[] OPZIONI_GESTIONE_DIZIONARIO_PARZIALE = {
-            "Calcolo da prefisso",
+            "Calcolo prefisso",
             "Calcolo da osservazione"
     };
 

@@ -12,3 +12,11 @@ Prodotti: Estensione andata a buon fine! (l'osservazione e' inerente a una o piu
 
 Tempo di esecuzione: 4929222 ns
 ---------------------------------------------------
+---------------------------------------------------
+mar, 5 gen 2021 18:38:37
+CostruzioneDizionarioRete1
+Prodotti: Estensione andata a buon fine! (l'osservazione e' inerente a una o piu' traiettorie della rete)
+	Il dizionario ha 8 stati e 8 transizioni etichettate
+
+Tempo di esecuzione: 3487361 ns
+---------------------------------------------------

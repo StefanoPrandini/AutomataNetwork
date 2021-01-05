@@ -5,8 +5,38 @@ Risultato
 Tempo di esecuzione in nano secondi
 ---------------------------------------------------
 ---------------------------------------------------
-mar, 29 dic 2020 19:49:49
+lun, 4 gen 2021 17:44:07
+Rete1
+Prodotti: 8 stati 8 transizioni
+Tempo di esecuzione: 3992076 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 5 gen 2021 16:33:28
 Interazione
 Prodotti: 5 stati 8 transizioni
-Tempo di esecuzione: 6065216 ns
+Tempo di esecuzione: 4257009 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 5 gen 2021 16:34:10
+Benchmark
+Prodotti: 7 stati 6 transizioni
+Tempo di esecuzione: 4302766 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 5 gen 2021 16:35:41
+AltraRete
+Prodotti: 24 stati 32 transizioni
+Tempo di esecuzione: 5415078 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 5 gen 2021 16:43:36
+Rete1
+Prodotti: 8 stati 8 transizioni
+Tempo di esecuzione: 3806054 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 5 gen 2021 17:32:50
+Rete1
+Prodotti: 8 stati 8 transizioni
+Tempo di esecuzione: 1788979 ns
 ---------------------------------------------------

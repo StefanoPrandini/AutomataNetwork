@@ -14,3 +14,20 @@ Prodotti: Prodotta terna alfa1: ({a1}, d1, [[]]) da o3
 
 Tempo di esecuzione: 1869510 ns
 ---------------------------------------------------
+---------------------------------------------------
+lun, 4 gen 2021 17:44:51
+[o3, o2]
+Prodotti: Prodotta terna alfa1: ({a1}, d1, [[]]) da o3
+		Prodotta terna alfa2: ({a2}, d2, [[r, f], [f], [r], []]) da o2
+		
+Tempo di esecuzione: 1195467 ns
+---------------------------------------------------
+---------------------------------------------------
+mar, 5 gen 2021 18:25:07
+[o3, o2, o3]
+Prodotti: Prodotta terna alfa1: ({a1}, d1, [[]]) da o3
+		Prodotta terna alfa2: ({a2}, d2, [[r, f], [f], [r], []]) da o2
+		Prodotta terna alfa3: ({a12, a8, a6}, d3, [[r, f], [r], []]) da o3
+		
+Tempo di esecuzione: 2395179 ns
+---------------------------------------------------
