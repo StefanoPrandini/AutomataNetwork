@@ -15,7 +15,6 @@ import static java.util.Objects.isNull;
 
 public class GestoreFile {
 
-
     /**
      *      CARICACAMENTO DA JSON
      */

@@ -34,7 +34,6 @@ public class Main {
 	private static ArrayList<File> sessioniIntere = new ArrayList<>();
 
 
-
 	public static void main(String[] args) {
 		initCartelle();
 		MyMenu m = new MyMenu(Stringhe.TITOLO_INIZIALE, Stringhe.OPZIONI_MENU_CARICAMENTO, true);

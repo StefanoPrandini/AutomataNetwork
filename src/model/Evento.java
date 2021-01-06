@@ -5,8 +5,8 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Evento implements Serializable {
-	private static final long serialVersionUID = 4223632259206990356L;
 	
+	private static final long serialVersionUID = 1L;
 	private static AtomicInteger ai = new AtomicInteger(0);
 	private int id;
 	private String nome;

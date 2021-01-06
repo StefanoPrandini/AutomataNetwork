@@ -60,10 +60,10 @@ public class Stringhe {
     public static final String CALCOLO_SPAZIO = "Calcolo dello spazio di rilevanza in corso\n";
     public static final String CALCOLO_SPAZIO_COMPLETO = "\nCalcolo completato, premi INVIO per proseguire ";
     public static final String CALCOLO_DIZIONARIO = "Costruzione del dizionario in corso\n";
-    public static final String COSTRUZIONE_DIZIONARIO_COMPLETA = "\nCostruzione completa, premi INVIO per proseguire: ";
-    public static final String RICERCA_COMPLETA = "\nRicerca completa, premi INVIO per proseguire: ";
-    public static final String MONITORAGGIO_COMPLETO = "\nMonitoraggio e revisione completi, premi INVIO per proseguire: ";
-    public static final String ESTENSIONE_COMPLETA = "\nEstensione del dizionario completa, premi INVIO per proseguire: ";
+    public static final String COSTRUZIONE_DIZIONARIO_COMPLETA = "\nCostruzione completa, premi INVIO per proseguire ";
+    public static final String RICERCA_COMPLETA = "\nRicerca completa, premi INVIO per proseguire ";
+    public static final String MONITORAGGIO_COMPLETO = "\nMonitoraggio e revisione completi, premi INVIO per proseguire ";
+    public static final String ESTENSIONE_COMPLETA = "\nEstensione del dizionario completa, premi INVIO per proseguire ";
     public static final String RICERCA_IN_CORSO = "Ricerca nel dizionario in corso\n";
     public static final String MONITORAGGIO_IN_CORSO = "Monitoraggio e revisione nel dizionario in corso\n";
     public static final String ESTENSIONE_IN_CORSO = "Estensione del dizionario in corso\n";

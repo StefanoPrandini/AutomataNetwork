@@ -18,7 +18,8 @@ import static java.util.Objects.isNull;
  *
  */
 public class Dizionario extends Algoritmo implements Serializable {
-	private static final long serialVersionUID = 6562299391009567691L;
+
+	private static final long serialVersionUID = 1L;
 	//tengo un insieme di tutti gli stati di rilevanza della rete determinizzata per evitare di riferirmi a stati uguali che sono oggetti diversi
 	private Set<StatoDizionario> statiDizionario;
 	//mappo stati Rilevanza del DFA con coppie<etichettaO, statoArrivo>

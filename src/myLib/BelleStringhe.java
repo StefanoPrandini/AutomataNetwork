@@ -7,8 +7,7 @@ public class BelleStringhe
  public final static String CORNICE = "---------------------------------------------------";
  public final static String ACAPO = "\n";
 
-
-
+ 
  public static String incornicia (String s)
 	{ 
 	 StringBuffer res = new StringBuffer();

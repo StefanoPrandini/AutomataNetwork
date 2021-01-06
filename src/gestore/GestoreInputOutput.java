@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class GestoreInputOutput implements Serializable {
 
-
     private ReteAutomi rete;
     private Automa osservazione;
     private ArrayList<String> osservazioneLineareRicerca;
