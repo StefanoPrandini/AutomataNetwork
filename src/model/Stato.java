@@ -11,7 +11,7 @@ public class Stato implements Serializable {
 	private String nome;
 	
 	public Stato(String nome) {
-		this.id = ai.incrementAndGet();
+		this.setId(ai.incrementAndGet());
 		this.nome = nome;
 	}
 
@@ -37,4 +37,12 @@ public class Stato implements Serializable {
         Stato that = (Stato) o;
         return this.nome.equals(that.getNome());
     }
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 }

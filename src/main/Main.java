@@ -910,6 +910,7 @@ public class Main {
 		return flag;
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void caricaOggettoSerializzato(String estensioneFile, String filepath) throws Exception{
 		if (isNull(filepath)) throw new Exception(Stringhe.CARICAMENTO_ANNULLATO);
 		GestoreFile gf = new GestoreFile();

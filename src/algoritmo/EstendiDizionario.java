@@ -25,11 +25,8 @@ public class EstendiDizionario extends Algoritmo implements Runnable {
 	// quando si fa estensione del dizionario non si puo' usare spazio rilevanza, tengo gli stati di rilevanza per non ripeterli
 	private Set<StatoRilevanzaRete> statiRilevanza;
 	private Set<Transizione> transizioniNonInTraiettoria;
-	private GestoreInputOutput inputOutput;
 	
 	public EstendiDizionario(GestoreInputOutput inputOutput) {
-
-		this.inputOutput = inputOutput;
 		this.osservazione = inputOutput.getOsservazione();
 		this.rete = inputOutput.getRete();
 		this.dizionario = inputOutput.getDizionario();
